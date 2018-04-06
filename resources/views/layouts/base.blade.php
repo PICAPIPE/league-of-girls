@@ -13,12 +13,14 @@
         <link rel="manifest"   href="/manifest.json">
         <link rel="stylesheet" href="css/app.css">
 
-        <script src="js/app.js"></script>
+        <script src="/js/manifest.js"></script>
+        <script src="/js/vendor.js"></script>
+        <script src="/js/app.js"></script>
 
         @yield('header')
 
     </head>
-    <body>
+    <body ng-controller="SiteCtrl as c">
         @yield('content')
         @yield('scripts')
     </body>

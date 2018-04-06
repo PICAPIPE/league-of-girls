@@ -12,5 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('welcome',[]);
+})->name('start');
+
+Route::get('views/{module}/{name}', ['uses'=>'Web\System\ComponentController@get']);

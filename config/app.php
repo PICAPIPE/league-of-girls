@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | GZIP ON RESPONSE
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the console to properly generate URLs when using
+    | the Artisan command line tool. You should set this to the root of
+    | your application so that it is used when running Artisan tasks.
+    |
+    */
+
+    'gzip' => env('APP_GZIP', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -151,7 +164,7 @@ return [
          * Package Service Providers...
          */
 
-         
+        Zarlach\TwitchApi\Providers\TwitchApiServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -210,6 +223,9 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // VENDOR
+        'TwitchApi' => Zarlach\TwitchApi\Facades\TwitchApiServiceFacade::class,
 
     ],
 

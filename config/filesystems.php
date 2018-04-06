@@ -55,6 +55,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'spa' => [
+            'driver'     => 'local',
+            'root'       => resource_path('/assets/js/app/modules'),
+            'url'        => env('APP_URL').resource_path('/assets/js/app/modules'),
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];

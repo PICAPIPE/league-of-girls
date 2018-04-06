@@ -11,5 +11,30 @@ let mix = require('laravel-mix');
  |
  */
 
+var jsFiles = [
+  'resources/assets/js/app/config.js',
+  'resources/assets/js/app/*.js',
+  'resources/assets/js/app/modules/**/*.module.js',
+  'resources/assets/js/app/modules/**/*.config.js',
+  'resources/assets/js/app/modules/**/*.routes.js',
+  'resources/assets/js/app/modules/**/filter/*.js',
+  'resources/assets/js/app/modules/**/components/*.js',
+  'resources/assets/js/app/modules/**/services/*.js',
+  'resources/assets/js/app/modules/**/controller/*.js',
+  'resources/assets/js/app/modules/**/templates/*.js'
+];
+
+var jsVendor = [
+  'api-check',
+  'angular',
+  'angular-gettext',
+  '@uirouter/angularjs',
+  '@fortawesome/fontawesome',
+  'angular-formly',
+  'ambersive-dbsrv'
+];
+
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+   .extract(jsVendor).sass('resources/assets/sass/app.scss', 'public/css');
+
+mix.scripts(jsFiles, 'public/js/app.js');

@@ -4,5 +4,27 @@ $body-bg: #f5f8fa;
 
 // Typography
 $font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 0.9rem;
+$font-size-base: 1rem;
 $line-height-base: 1.6;
+
+// CORPORATE COLORS
+
+$CI-COLOR1: #333333;  // Black
+$CI-COLOR2: #606060;  // Dark grey
+$CI-COLOR3: #123122;  // Red
+$CI-COLOR4: #979797;  // Grey darker
+$CI-COLOR5: #123122;  // Violet
+$CI-COLOR6: #123122;  // Blue
+$CI-COLOR7: #123122;  // Green
+$CI-COLOR8: #dcdcdc;  // Light grey
+$CI-COLOR9: #ececec;  // Ultra light grey
+$CI-COLOR10: #f8f8f8; // Ultra Ultra light grey
+
+// GRID
+
+$grid-columns:                14 !default;
+$grid-gutter-width:           4px !default;
+
+// Headline Sizes
+
+$h1-font-size:                2.2rem;
