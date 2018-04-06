@@ -9,7 +9,5 @@ angular.module('core').controller('CoreLayoutCtrl',[
           var layout = this;
           angular.extend(layout, $controller('BaseCtrl', {$scope: $scope}));
 
-          layout.name = 'League of girls';
-
      }
 ]);

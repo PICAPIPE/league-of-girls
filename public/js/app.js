@@ -114,13 +114,14 @@ angular.module('core').component('imprint.core', {
 })
 
 angular.module('core').component('layout', {
-  template:  '<h3>LAYOUT GOES HERE</h3><ui-view></ui-view>'
+  template:     '<ui-view></ui-view>',
+  controller:   'CoreLayoutCtrl as layout'
 })
 
 angular.module('core').component('start.core', {
   templateUrl:  'views/core/start.html',
-  controller:   'CoreLayoutCtrl as layout'
-})
+  controller:   'CoreStartCtrl as ctrl'
+});
 
 angular.module('core').controller('BaseCtrl',[
      '$scope',
@@ -166,8 +167,6 @@ angular.module('core').controller('CoreLayoutCtrl',[
           var layout = this;
           angular.extend(layout, $controller('BaseCtrl', {$scope: $scope}));
 
-          layout.name = 'League of girls';
-
      }
 ]);
 
@@ -196,7 +195,7 @@ angular.module('core').controller('CoreStartCtrl',[
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
 
-          console.log(ctrl);
+          ctrl.name = 'League of girls';
 
      }
 ]);

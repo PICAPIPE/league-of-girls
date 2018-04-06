@@ -9,7 +9,7 @@ angular.module('core').controller('CoreStartCtrl',[
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
 
-          console.log(ctrl);
+          ctrl.name = 'League of girls';
 
      }
 ]);
