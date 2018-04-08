@@ -7,6 +7,8 @@ $font-family-sans-serif: "Raleway", sans-serif;
 $font-size-base: 1rem;
 $line-height-base: 1.6;
 
+$fasa-font-path: 'fonts';
+
 // CORPORATE COLORS
 
 $CI-COLOR1: #333333;  // Black
@@ -20,11 +22,40 @@ $CI-COLOR8: #dcdcdc;  // Light grey
 $CI-COLOR9: #ececec;  // Ultra light grey
 $CI-COLOR10: #f8f8f8; // Ultra Ultra light grey
 
+$blue:    $CI-COLOR6;
+$indigo:  #6610f2 !default;
+$purple:  $CI-COLOR5;
+$pink:    #e83e8c !default;
+$red:     $CI-COLOR3;
+$orange:  #fd7e14 !default;
+$yellow:  #ffc107 !default;
+$green:   $CI-COLOR7;
+$teal:    #20c997 !default;
+$cyan:    #17a2b8 !default;
+
+$text-muted:                  $CI-COLOR8;
+
 // GRID
 
 $grid-columns:                12 !default;
 $grid-gutter-width:           4px !default;
 
+// BORDER-RADIUS
+
+$border-radius:               5.25rem !default;
+$border-radius-lg:            5.3rem !default;
+$border-radius-sm:            5.2rem !default;
+
 // Headline Sizes
 
 $h1-font-size:                2.2rem;
+
+// Forms
+
+$input-group-addon-bg:        none;
+$input-border-color:          $CI-COLOR2;
+
+$input-focus-width:           0;
+$input-focus-border-color:    $input-border-color;
+
+$input-btn-focus-box-shadow:  0;

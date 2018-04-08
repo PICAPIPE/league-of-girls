@@ -9,15 +9,14 @@ angular.module('chat').config([
 
         var states = [
             {
-              name:      'chat',
-              component: 'layout'
+              name:      'app.chat'
             },
             {
-              name:      'chat.overview',
+              name:      'app.chat.overview',
               url:       '/chat',
               views:     {
-                  'content':{
-                    component: 'chatOverview'
+                  '!$default.content':{
+                      component: 'chatOverview'
                   }
               }
             },

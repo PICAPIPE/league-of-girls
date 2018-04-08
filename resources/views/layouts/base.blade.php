@@ -11,7 +11,6 @@
         <title>@yield('title')</title>
 
         <link rel="manifest"   href="/manifest.json">
-
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
         <script src="/js/manifest.js"></script>

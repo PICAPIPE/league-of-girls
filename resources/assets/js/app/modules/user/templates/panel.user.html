@@ -5,6 +5,7 @@
       </li>
     </ul>
     <div class="user-panel-name">
-        <a class="navigation_list_item_inner"  ui-sref="user.myaccount" ui-sref-active="active">{{userpanel.username}}</a>
+        <a class="user-panel-username"  ui-sref="app.user.myaccount" ui-sref-active="active" ng-if="userpanel.user !== null">{{userpanel.username}}</a>
+        <a class="user-panel-login"     ui-sref="app.user.login"     ui-sref-active="active" ng-if="userpanel.user === null">{{ 'Login' | translate }}</a>
     </div>
 </div>

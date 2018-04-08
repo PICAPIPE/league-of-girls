@@ -21,12 +21,22 @@ angular.module('core').config([
             {
               name:      'app.start',
               url:       '/start',
-              component: 'start.core'
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/start.html',
+                      'controller':  'CoreStartCtrl as ctrl'
+                  }
+              }
             },
             {
               name:      'app.imprint',
               url:       '/imprint',
-              component: 'imprint.core'
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/imprint.html',
+                      'controller':  'CoreImprintCtrl as imprint'
+                  }
+              }
             }
         ];
 
@@ -48,7 +58,7 @@ angular.module('core').config([
 angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$log','$urlRouter','$window','gettextCatalog','DB',
     function($state,$timeout,$stateParams,$rootScope,$log,$urlRouter,$window,gettextCatalog,DB){
 
-              
+
 
         }
     ]);

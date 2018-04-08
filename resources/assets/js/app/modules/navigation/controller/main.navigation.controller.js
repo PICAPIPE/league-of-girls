@@ -12,20 +12,20 @@ angular.module('navigation').controller('NavigationMainCtrl',[
           mainnavigation.links = [
             {
                 label:                mainnavigation.LANG.getString("Chat"),
-                state:                'chat.overview',
+                state:                'app.chat.overview',
                 useFirstLetterAsIcon: true
             },
             {
                 label:                mainnavigation.LANG.getString("News"),
-                state:                'news.overview',
+                state:                'app.news.overview',
                 useFirstLetterAsIcon: true
             },
             {
                 label:                mainnavigation.LANG.getString("Meet"),
-                state:                'meet.overview',
+                state:                'app.meet.overview',
                 useFirstLetterAsIcon: true
             }
           ];
- 
+
      }
 ]);

@@ -5,7 +5,9 @@ var appConfig = (function() {
     var appModuleVendorDependencies = [
       'ui.router',
       'formly',
-      'gettext'
+      'formlyBootstrap',
+      'gettext',
+      'angular-storage'
     ];
 
     // Add a new vertical module
@@ -47,7 +49,9 @@ var appConfig = (function() {
     var appModuleVendorDependencies = [
       'ui.router',
       'formly',
-      'gettext'
+      'formlyBootstrap',
+      'gettext',
+      'angular-storage'
     ];
 
     // Add a new vertical module
@@ -113,7 +117,52 @@ var DB_SERVICES = [
            }
        ]
 
+    },
+
+    // Current User
+
+    {
+       'name' : 'Auth',
+       'url'  : 'api/auth',
+       'except': ['all','get','show','store','update','destroy'],
+       'custom': [
+           {
+               type:       'post',
+               name:       'login',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/login'
+               }
+           },
+           {
+               type:       'post',
+               name:       'register',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/register'
+               }
+           },
+           {
+               type:       'post',
+               name:       'reset',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/reset'
+               }
+           }
+       ]
+
     }
+
 ];
 
 appConfig.registerModule('chat');
@@ -127,15 +176,14 @@ angular.module('chat').config([
 
         var states = [
             {
-              name:      'chat',
-              component: 'layout'
+              name:      'app.chat'
             },
             {
-              name:      'chat.overview',
+              name:      'app.chat.overview',
               url:       '/chat',
               views:     {
-                  'content':{
-                    component: 'chatOverview'
+                  '!$default.content':{
+                      component: 'chatOverview'
                   }
               }
             },
@@ -172,12 +220,22 @@ angular.module('core').config([
             {
               name:      'app.start',
               url:       '/start',
-              component: 'start.core'
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/start.html',
+                      'controller':  'CoreStartCtrl as ctrl'
+                  }
+              }
             },
             {
               name:      'app.imprint',
               url:       '/imprint',
-              component: 'imprint.core'
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/imprint.html',
+                      'controller':  'CoreImprintCtrl as imprint'
+                  }
+              }
             }
         ];
 
@@ -199,7 +257,7 @@ angular.module('core').config([
 angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$log','$urlRouter','$window','gettextCatalog','DB',
     function($state,$timeout,$stateParams,$rootScope,$log,$urlRouter,$window,gettextCatalog,DB){
 
-              
+
 
         }
     ]);
@@ -259,18 +317,17 @@ angular.module('meet').config([
 
         var states = [
             {
-              name:      'meet',
-              component: 'layout'
+              name:      'app.meet'
             },
             {
-              name:      'meet.overview',
+              name:      'app.meet.overview',
               url:       '/meet',
               views:     {
-                  'content':{
+                  '!$default.content':{
                     component: 'meetOverview'
                   }
               }
-            },
+            }
         ];
 
         // Loop over the state definitions and register them
@@ -314,14 +371,13 @@ angular.module('news').config([
 
         var states = [
             {
-              name:      'news',
-              component: 'layout'
+              name:      'app.news'
             },
             {
-              name:      'news.overview',
+              name:      'app.news.overview',
               url:       '/news',
               views:     {
-                  'content':{
+                  '!$default.content':{
                     component: 'newsOverview'
                   }
               }
@@ -347,14 +403,27 @@ angular.module('user').config([
 
         var states = [
             {
-              name:      'user',
-              component: 'layout'
+              name:      'app.user'
             },
             {
-              name:      'user.account',
+              name:      'app.user.account',
               url:       '/my-account',
-              component: 'start.core'
+              views:     {
+                  '!$default.content':{
+                    component: 'myAccount'
+                  }
+              }
             },
+            {
+              name:      'app.user.login',
+              url:       '/login',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/login.site.html',
+                    'controller':  'UserLoginSiteCtrl as loginsite'
+                  }
+              }
+            }
         ];
 
         // Loop over the state definitions and register them
@@ -379,11 +448,6 @@ angular.module('core').component('layout', {
   templateUrl:  'views/core/layout.html',
   controller:   'CoreLayoutCtrl as layout'
 })
-
-angular.module('core').component('start.core', {
-  templateUrl:  'views/core/start.html',
-  controller:   'CoreStartCtrl as ctrl'
-});
 
 angular.module('meet').component('meetOverview', {
   templateUrl:  'views/meet/overview.meet.html',
@@ -410,6 +474,11 @@ angular.module('news').component('newsOverview', {
   controller:   'NewsOverviewCtrl as ctrl'
 });
 
+angular.module('user').component('userLogin', {
+  templateUrl:  'views/user/login.user.html',
+  controller:   'UserLoginCtrl as login'
+});
+
 angular.module('user').component('myAccount', {
   templateUrl:  'views/user/myaccount.user.html',
   controller:   'UserMyAccountCtrl as myaccount'
@@ -423,27 +492,27 @@ angular.module('user').component('userPanel', {
 
 angular.module('db').service('APIInterceptor',[
     '$rootScope',
-    function($rootScope)
+    'UserService',
+    function($rootScope,UserService)
     {
         var service = this;
 
         service.request = function(config)
         {
 
-            /*
-            var currentUser = UserService.getCurrentUser(),
-                access_token = currentUser ? currentUser.access_token : null;
-            if (access_token) {
-                config.headers.authorization = access_token;
-            }
-            */
+            var currentUser            = UserService.getCurrentUser();
+            var currentUserAccessToken = currentUser ? currentUser.access_token : null;
+
+            if(currentUserAccessToken)
+              {
+                  config.headers.authorization = 'Bearer ' + currentUserAccessToken;
+              }
 
             return config;
         };
 
         service.responseError = function(response)
         {
-
 
             if(response.status === 500)
               {
@@ -453,6 +522,9 @@ angular.module('db').service('APIInterceptor',[
 
             if(response.status === 401)
               {
+
+                  UserService.setCurrentUser(null);
+
                   $rootScope.$broadcast('$abort');
                   $rootScope.$broadcast('AuthorizationFailed');
               }
@@ -789,6 +861,45 @@ angular.module('db').factory('DB',[
   }
 ]);
 
+angular.module('user').service('UserService', [
+    function(store) {
+
+        var service     = this;
+        var currentUser = null;
+
+        // Set the current user
+
+        service.setCurrentUser = function(user)
+        {
+            currentUser = user;
+
+            if(angular.isDefined(store) === true)
+              {
+                  store.set('user', user);
+              }
+
+            return currentUser;
+        };
+
+        // Get the current data
+
+        service.getCurrentUser = function()
+        {
+            if(!currentUser &&
+               angular.isDefined(store) === true)
+              {
+                  currentUser = store.get('user');
+              }
+
+            return currentUser;
+
+        };
+
+        return service;
+
+    }
+]);
+
 angular.module('chat').controller('ChatOverviewCtrl',[
      '$scope',
      '$rootScope',
@@ -814,8 +925,10 @@ angular.module('core').controller('BaseCtrl',[
 
           var ctrl = this;
 
-          ctrl.DB   = DB;
-          ctrl.LANG = gettextCatalog;
+          ctrl.DB      = DB;
+          ctrl.LANG    = gettextCatalog;
+
+          ctrl.loading = false;
 
      }
 ]);
@@ -866,11 +979,12 @@ angular.module('core').controller('SiteCtrl',[
 
           $rootScope.$on('$abort', function (event, next, current) {
 
-              $http.pendingRequests.forEach(function(request) {
-                  console.log(request);
-                  if (request.cancel) {
-                      request.cancel.resolve();
-                  }
+              $http.pendingRequests.forEach(function(request)
+              {
+                  if(request.cancel)
+                    {
+                        request.cancel.resolve();
+                    }
               });
 
               console.warn('Every further request was canceled');
@@ -971,21 +1085,21 @@ angular.module('navigation').controller('NavigationMainCtrl',[
           mainnavigation.links = [
             {
                 label:                mainnavigation.LANG.getString("Chat"),
-                state:                'chat.overview',
+                state:                'app.chat.overview',
                 useFirstLetterAsIcon: true
             },
             {
                 label:                mainnavigation.LANG.getString("News"),
-                state:                'news.overview',
+                state:                'app.news.overview',
                 useFirstLetterAsIcon: true
             },
             {
                 label:                mainnavigation.LANG.getString("Meet"),
-                state:                'meet.overview',
+                state:                'app.meet.overview',
                 useFirstLetterAsIcon: true
             }
           ];
- 
+
      }
 ]);
 
@@ -1003,14 +1117,14 @@ angular.module('navigation').controller('NavigationMoreCtrl',[
           morenavigation.links = [
             {
                 label:                morenavigation.LANG.getString("Chat"),
-                state:                'chat.overview',
+                state:                'app.chat.overview',
                 useFirstLetterAsIcon: true
             },
           ];
 
           morenavigation.load  = function(){
 
-              
+
 
           };
 
@@ -1040,6 +1154,143 @@ angular.module('news').controller('NewsOverviewCtrl',[
      }
 ]);
 
+angular.module('user').controller('UserLoginCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     '$timeout',
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller, $timeout,UserService) {
+
+          var login = this;
+          angular.extend(login, $controller('BaseCtrl', {$scope: $scope}));
+
+          // Variables
+
+          login.isReset   = false;
+
+          login.fieldData = {};
+
+          login.fields    = [
+             {
+                "type": "input",
+                "key":  "email",
+                "templateOptions":
+                {
+                    "type":      "email",
+                    "required":  true,
+                    "label":     login.LANG.getString('E-Mail'),
+                    "addonLeft": {
+                      "class": "far fa-user"
+                    },
+                }
+             },
+             {
+                "type": "input",
+                "key":  "password",
+                "templateOptions":
+                {
+                    "type":      "password",
+                    "required":  true,
+                    "label":     login.LANG.getString('Passwort'),
+                    "addonLeft" :{
+                      "class": "fas fa-key"
+                    }
+                },
+                "hideExpression": 'login.isReset'
+             }
+          ];
+
+          login.fieldsReset    = [
+             login.fields[0]
+          ];
+
+          // Submit form
+
+          login.submit = function()
+          {
+
+              login.loading = true;
+
+              if   (login.isReset === false)
+                   {
+
+                      // Standard login
+
+                      login.DB.call('Auth','login',null,login.fieldData).then(
+                          function(result)
+                          {
+                              login.loading = false;
+                          },
+                          function(errorResult)
+                          {
+                              login.loading = false;
+                          }
+                      );
+
+                   }
+              else {
+
+                      // Reset password
+
+                      login.DB.call('Auth','reset',null,login.fieldData).then(
+                          function(result)
+                          {
+                              login.loading     = false;
+                              login.fieldsReset = false;
+                          },
+                          function(errorResult)
+                          {
+                              login.loading = false;
+                          }
+                      );
+                   }
+
+
+          };
+
+          // Reset the users password
+
+          login.resetPassword = function(e)
+          {
+              e.preventDefault();
+              login.isReset = !login.isReset;
+          };
+
+          // Init function
+
+          login.init = function()
+          {
+
+                login.isReset = false;
+                login.loading = false;
+
+          };
+
+          // Init
+
+          login.init();
+
+     }
+]);
+
+angular.module('user').controller('UserLoginSiteCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller,UserService) {
+
+          var loginsite = this;
+          angular.extend(loginsite, $controller('BaseCtrl', {$scope: $scope}));
+
+     }
+]);
+
 angular.module('user').controller('UserMyAccountCtrl',[
      '$scope',
      '$rootScope',
@@ -1060,13 +1311,16 @@ angular.module('user').controller('UserPanelCtrl',[
      '$state',
      '$window',
      '$controller',
-     function($scope, $rootScope, $state, $window, $controller) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller,UserService) {
 
           var userpanel = this;
           angular.extend(userpanel, $controller('BaseCtrl', {$scope: $scope}));
 
           // Variables
 
+
+          userpanel.user     = null;
           userpanel.username = null;
 
           // Init function
@@ -1074,7 +1328,8 @@ angular.module('user').controller('UserPanelCtrl',[
           userpanel.init = function()
           {
 
-                
+                // Get the user information
+                userpanel.user = UserService.getCurrentUser();
 
           };
 

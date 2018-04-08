@@ -9,14 +9,27 @@ angular.module('user').config([
 
         var states = [
             {
-              name:      'user',
-              component: 'layout'
+              name:      'app.user'
             },
             {
-              name:      'user.account',
+              name:      'app.user.account',
               url:       '/my-account',
-              component: 'start.core'
+              views:     {
+                  '!$default.content':{
+                    component: 'myAccount'
+                  }
+              }
             },
+            {
+              name:      'app.user.login',
+              url:       '/login',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/login.site.html',
+                    'controller':  'UserLoginSiteCtrl as loginsite'
+                  }
+              }
+            }
         ];
 
         // Loop over the state definitions and register them

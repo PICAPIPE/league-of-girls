@@ -1,7 +1,9 @@
 //load angular
+
 require('api-check');
 require('angular');
 require('@uirouter/angularjs');
-require('@fortawesome/fontawesome');
 require('angular-formly');
+require('angular-formly-templates-bootstrap');
 require('angular-gettext');
+require('angular-storage');

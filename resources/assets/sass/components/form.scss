@@ -1,0 +1,58 @@
+$form-border-error:        $CI-COLOR3;
+$form-color-error:         $CI-COLOR3;
+
+$input-border-color-error: $CI-COLOR3;
+
+.form-group {
+
+    .control-label {
+
+        padding:      0 20px;
+        margin-bottom:0;
+        font-size:    80%;
+        font-weight:  bold;
+
+    }
+
+    &.has-error {
+
+        color:$form-color-error;
+
+        .input-group {
+
+            border:   $input-border-width solid $input-border-color-error;
+
+        }
+
+    }
+
+}
+
+.input-group {
+
+     border:   $input-border-width solid $input-border-color;
+     overflow: hidden;
+
+     .input-group-addon {
+        position:    relative;
+        width:       60px;
+        display:     grid;
+        align-items: center;
+        text-align:  center;
+        font-size:   80%;
+     }
+
+     @if $enable-rounded {
+       // Manually use the if/else instead of the mixin to account for iOS override
+       border-radius: $input-border-radius;
+     } @else {
+       // Otherwise undo the iOS default
+       border-radius: 0;
+     }
+
+    .form-control {
+
+        border:0;
+
+    }
+}

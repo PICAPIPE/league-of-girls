@@ -9,8 +9,10 @@ angular.module('core').controller('BaseCtrl',[
 
           var ctrl = this;
 
-          ctrl.DB   = DB;
-          ctrl.LANG = gettextCatalog;
+          ctrl.DB      = DB;
+          ctrl.LANG    = gettextCatalog;
+
+          ctrl.loading = false;
 
      }
 ]);

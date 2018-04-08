@@ -12,14 +12,14 @@ angular.module('navigation').controller('NavigationMoreCtrl',[
           morenavigation.links = [
             {
                 label:                morenavigation.LANG.getString("Chat"),
-                state:                'chat.overview',
+                state:                'app.chat.overview',
                 useFirstLetterAsIcon: true
             },
           ];
 
           morenavigation.load  = function(){
 
-              
+
 
           };
 

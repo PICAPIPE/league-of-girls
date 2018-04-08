@@ -10,10 +10,10 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome": "^1.1.5",
         "@uirouter/angularjs": "^1.0.15",
         "angular": "^1.6.9",
         "angular-formly": "^8.4.1",
+        "angular-formly-templates-bootstrap": "^6.5.1",
         "angular-gettext": "^2.3.10",
         "api-check": "^7.5.5",
         "axios": "^0.18",
@@ -23,5 +23,8 @@
         "laravel-mix": "^2.0",
         "lodash": "^4.17.4",
         "popper.js": "^1.12"
+    },
+    "dependencies": {
+        "angular-storage": "0.0.15"
     }
 }

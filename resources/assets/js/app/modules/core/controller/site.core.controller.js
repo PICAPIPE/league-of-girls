@@ -14,11 +14,12 @@ angular.module('core').controller('SiteCtrl',[
 
           $rootScope.$on('$abort', function (event, next, current) {
 
-              $http.pendingRequests.forEach(function(request) {
-                  console.log(request);
-                  if (request.cancel) {
-                      request.cancel.resolve();
-                  }
+              $http.pendingRequests.forEach(function(request)
+              {
+                  if(request.cancel)
+                    {
+                        request.cancel.resolve();
+                    }
               });
 
               console.warn('Every further request was canceled');

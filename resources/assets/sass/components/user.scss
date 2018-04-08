@@ -1,0 +1,21 @@
+.user-panel {
+
+    align-items: flex-start;
+
+    @include media-breakpoint-down(lg) {
+
+        text-align: center;
+
+    }
+
+}
+
+.user-panel-name {
+
+    @include media-breakpoint-down(lg) {
+
+        text-align: center;
+
+    }
+
+}

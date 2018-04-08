@@ -5,7 +5,9 @@ var appConfig = (function() {
     var appModuleVendorDependencies = [
       'ui.router',
       'formly',
-      'gettext'
+      'formlyBootstrap',
+      'gettext',
+      'angular-storage'
     ];
 
     // Add a new vertical module

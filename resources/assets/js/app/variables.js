@@ -47,5 +47,50 @@ var DB_SERVICES = [
            }
        ]
 
+    },
+
+    // Current User
+
+    {
+       'name' : 'Auth',
+       'url'  : 'api/auth',
+       'except': ['all','get','show','store','update','destroy'],
+       'custom': [
+           {
+               type:       'post',
+               name:       'login',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/login'
+               }
+           },
+           {
+               type:       'post',
+               name:       'register',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/register'
+               }
+           },
+           {
+               type:       'post',
+               name:       'reset',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/reset'
+               }
+           }
+       ]
+
     }
+
 ];

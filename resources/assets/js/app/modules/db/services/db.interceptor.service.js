@@ -8,20 +8,19 @@ angular.module('db').service('APIInterceptor',[
         service.request = function(config)
         {
 
-            /*
-            var currentUser = UserService.getCurrentUser(),
-                access_token = currentUser ? currentUser.access_token : null;
-            if (access_token) {
-                config.headers.authorization = access_token;
-            }
-            */
+            var currentUser            = UserService.getCurrentUser();
+            var currentUserAccessToken = currentUser ? currentUser.access_token : null;
+
+            if(currentUserAccessToken)
+              {
+                  config.headers.authorization = 'Bearer ' + currentUserAccessToken;
+              }
 
             return config;
         };
 
         service.responseError = function(response)
         {
-
 
             if(response.status === 500)
               {

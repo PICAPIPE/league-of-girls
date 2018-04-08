@@ -9,14 +9,13 @@ angular.module('news').config([
 
         var states = [
             {
-              name:      'news',
-              component: 'layout'
+              name:      'app.news'
             },
             {
-              name:      'news.overview',
+              name:      'app.news.overview',
               url:       '/news',
               views:     {
-                  'content':{
+                  '!$default.content':{
                     component: 'newsOverview'
                   }
               }

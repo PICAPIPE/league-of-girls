@@ -29,8 +29,9 @@ var jsVendor = [
   'angular',
   'angular-gettext',
   '@uirouter/angularjs',
-  '@fortawesome/fontawesome',
-  'angular-formly'
+  'angular-formly',
+  'angular-formly-templates-bootstrap',
+  'angular-storage'
 ];
 
 mix.js('resources/assets/js/app.js', 'public/js')
@@ -39,6 +40,8 @@ mix.js('resources/assets/js/app.js', 'public/js')
 mix.scripts(jsFiles, 'public/js/app.js').sourceMaps();
 
 mix.copyDirectory('resources/assets/images', 'public/img');
+
+mix.copyDirectory('resources/assets/vendor/fontawesome/web-fonts-with-css/webfonts', 'public/webfonts');
 
 if (mix.inProduction()) {
     mix.version();

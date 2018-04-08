@@ -9,18 +9,17 @@ angular.module('meet').config([
 
         var states = [
             {
-              name:      'meet',
-              component: 'layout'
+              name:      'app.meet'
             },
             {
-              name:      'meet.overview',
+              name:      'app.meet.overview',
               url:       '/meet',
               views:     {
-                  'content':{
+                  '!$default.content':{
                     component: 'meetOverview'
                   }
               }
-            },
+            }
         ];
 
         // Loop over the state definitions and register them
