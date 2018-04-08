@@ -5,8 +5,7 @@ var appConfig = (function() {
     var appModuleVendorDependencies = [
       'ui.router',
       'formly',
-      'gettext',
-      'ambersive.db',
+      'gettext'
     ];
 
     // Add a new vertical module

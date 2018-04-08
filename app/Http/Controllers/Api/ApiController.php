@@ -24,11 +24,17 @@ class ApiController extends Controller
 
     public function __construct(Request $request){
 
-        $this->setReturnFormat($request->header('Accept'));
+        $this->setReturnFormat(optional($request)->header('Accept'));
 
-        $this->download     = ($request->input('download') === 'true');
-        $this->fingerprint  = $request->fingerprint();
-        $this->user         = $request->user;
+
+        $this->download     = (optional($request)->input('download') === 'true');
+        $this->fingerprint  = null;
+        $this->user         = optional($request)->user;
+
+        if(method_exists($this,'fingerprint') === true)
+          {
+                $this->fingerprint  = optional($request)->fingerprint();
+          }
 
     }
 

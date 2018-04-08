@@ -5,7 +5,7 @@ angular.module('core').controller('BaseCtrl',[
      '$window',
      'gettextCatalog',
      'DB',
-     function($scope, $rootScope, $state, $window, gettextCatalog, DB) {
+     function($scope, $rootScope, $state, $window, gettextCatalog,DB) {
 
           var ctrl = this;
 

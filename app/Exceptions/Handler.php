@@ -228,7 +228,7 @@ class Handler extends ExceptionHandler
 
         // SPA
 
-        if($instanceOf === 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException')
+        if($instanceOf === 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException' && starts_with($path,'/api') === false)
         {
 
             if(starts_with('/files/',$path) === false)

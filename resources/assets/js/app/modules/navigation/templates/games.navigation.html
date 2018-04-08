@@ -1,0 +1,7 @@
+<div class="navigation navigation_games">
+   <ul class="navigation_games_list">
+      <li class="navigation_list_item" ng-repeat="link in gamesnavigation.links track by $index" ui-sref="{{link.state}}" ui-sref-active="active">
+          {{link}}
+      </li>
+   </ul>
+</div>

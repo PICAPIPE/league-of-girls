@@ -30,11 +30,16 @@ var jsVendor = [
   'angular-gettext',
   '@uirouter/angularjs',
   '@fortawesome/fontawesome',
-  'angular-formly',
-  'ambersive-dbsrv'
+  'angular-formly'
 ];
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .extract(jsVendor).sass('resources/assets/sass/app.scss', 'public/css');
+   .extract(jsVendor).sass('resources/assets/sass/app.scss', 'public/css').sourceMaps();;
 
-mix.scripts(jsFiles, 'public/js/app.js');
+mix.scripts(jsFiles, 'public/js/app.js').sourceMaps();
+
+mix.copyDirectory('resources/assets/images', 'public/img');
+
+if (mix.inProduction()) {
+    mix.version();
+}

@@ -5,7 +5,9 @@ angular.module('core').config([
     '$stateProvider',
     '$urlRouterProvider',
     '$locationProvider',
-    function ($rootScopeProvider,$stateProvider, $urlRouterProvider,$locationProvider,DBProvider,gettext) {
+    'gettext',
+    '$httpProvider',
+    function ($rootScopeProvider,$stateProvider, $urlRouterProvider,$locationProvider,gettext,$httpProvider) {
 
         var fallbackUrl = '/start';
 
@@ -36,5 +38,17 @@ angular.module('core').config([
         $urlRouterProvider.when('', fallbackUrl);
         $urlRouterProvider.when('/', fallbackUrl);
 
+        // HTTP interceptor
+
+        $httpProvider.interceptors.push('APIInterceptor');
+
 
     }]);
+
+angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$log','$urlRouter','$window','gettextCatalog','DB',
+    function($state,$timeout,$stateParams,$rootScope,$log,$urlRouter,$window,gettextCatalog,DB){
+
+              
+
+        }
+    ]);

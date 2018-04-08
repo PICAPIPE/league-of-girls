@@ -12,7 +12,6 @@
     "devDependencies": {
         "@fortawesome/fontawesome": "^1.1.5",
         "@uirouter/angularjs": "^1.0.15",
-        "ambersive-dbsrv": "^1.0.9",
         "angular": "^1.6.9",
         "angular-formly": "^8.4.1",
         "angular-gettext": "^2.3.10",

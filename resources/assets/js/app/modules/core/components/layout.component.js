@@ -1,4 +1,4 @@
 angular.module('core').component('layout', {
-  template:     '<ui-view></ui-view>',
+  templateUrl:  'views/core/layout.html',
   controller:   'CoreLayoutCtrl as layout'
 })

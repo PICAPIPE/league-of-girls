@@ -1,0 +1,10 @@
+<div class="user-panel">
+    <ul class="user-panel-list">
+      <li class="user-panel-list-item" ng-repeat="link in userpanel.links track by $index">
+          {{link}}
+      </li>
+    </ul>
+    <div class="user-panel-name">
+        <a class="navigation_list_item_inner"  ui-sref="user.myaccount" ui-sref-active="active">{{userpanel.username}}</a>
+    </div>
+</div>

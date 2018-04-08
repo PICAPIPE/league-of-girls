@@ -4,10 +4,26 @@ angular.module('core').controller('SiteCtrl',[
      '$state',
      '$window',
      '$controller',
-     function($scope, $rootScope, $state, $window, $controller) {
+     '$http',
+     function($scope, $rootScope, $state, $window, $controller,$http) {
 
-          var ctrl = this;
-          angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
+          var site = this;
+          angular.extend(site, $controller('BaseCtrl', {$scope: $scope}));
+
+          // Listen to Request abortion
+
+          $rootScope.$on('$abort', function (event, next, current) {
+
+              $http.pendingRequests.forEach(function(request) {
+                  console.log(request);
+                  if (request.cancel) {
+                      request.cancel.resolve();
+                  }
+              });
+
+              console.warn('Every further request was canceled');
+
+          });
 
      }
 ]);

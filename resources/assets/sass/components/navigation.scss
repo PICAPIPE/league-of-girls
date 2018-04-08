@@ -1,0 +1,109 @@
+$navigation-first-letter-size:          29px;
+$navigation-first-letter-border-color:  $CI-COLOR4;
+$navigation-first-letter-border:        1px solid $navigation-first-letter-border-color;
+
+$navigation-item-padding:               10px 0 0 0;
+$navigation-item-color:                 $CI-COLOR4;
+$navigation-item-color-active:          $CI-COLOR3;
+$navigation-item-color-hover:           $CI-COLOR3;
+
+.navigation {
+    text-align: center;
+}
+
+.navigation_main_list {
+  padding:    0;
+  margin:     0;
+  list-style: none;
+}
+
+.navigation_list_item {
+
+  margin:         0 20px;
+  list-style:     none;
+  text-align:     center;
+  display:        inline-block;
+  text-transform: uppercase;
+  font-size:      1.15em;
+  font-weight:    bold;
+  color:          $navigation-item-color;
+
+  @include media-breakpoint-down(lg) {
+
+      margin-bottom: 20px;
+
+  }
+
+  a {
+
+      text-decoration: none;
+      color:           $navigation-item-color;
+
+      &:hover {
+
+          text-decoration: none;
+
+      }
+
+  }
+
+  &:hover {
+
+      color:           $navigation-item-color-hover;
+
+      a {
+            color:$navigation-item-color-hover;
+      }
+
+      .navigation_list_item_first_letter {
+
+          border-color: $navigation-item-color-hover;
+
+      }
+
+  }
+
+  &.active {
+
+      .navigation_list_item_inner {
+
+        border-bottom: 2px solid $navigation-item-color-hover;
+        color:         $navigation-item-color-active;
+
+      }
+
+      .navigation_list_item_first_letter {
+
+          border-color: $navigation-item-color-active;
+
+      }
+
+  }
+
+  .navigation_list_item_inner {
+
+      padding:$navigation-item-padding;
+
+  }
+
+}
+
+.navigation_list_item_first_letter {
+
+  display:          grid;
+  border:           $navigation-first-letter-border;
+  border-radius:    ($navigation-first-letter-size*100);
+  width:            $navigation-first-letter-size;
+  height:           $navigation-first-letter-size;
+  align-items:      center;
+  margin:           0 auto 10px;
+  font-weight:      lighter;
+
+}
+
+.navigation_list_item_first_letter_inner {
+
+  position: relative;
+  top:      -1px;
+
+}
