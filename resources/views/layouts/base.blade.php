@@ -22,6 +22,9 @@
     </head>
     <body ng-controller="SiteCtrl as site">
         @yield('content')
+
+        <site-modal></site-modal>
+
         @yield('scripts')
     </body>
 </html>

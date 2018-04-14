@@ -4,6 +4,8 @@ angular.module('user').service('UserService', [
         var service     = this;
         var currentUser = null;
 
+        
+
         // Set the current user
 
         service.setCurrentUser = function(user)

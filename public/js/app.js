@@ -7,7 +7,8 @@ var appConfig = (function() {
       'formly',
       'formlyBootstrap',
       'gettext',
-      'angular-storage'
+      'angular-storage',
+      'ngSanitize'
     ];
 
     // Add a new vertical module
@@ -51,7 +52,8 @@ var appConfig = (function() {
       'formly',
       'formlyBootstrap',
       'gettext',
-      'angular-storage'
+      'angular-storage',
+      'ngSanitize'
     ];
 
     // Add a new vertical module
@@ -262,6 +264,54 @@ angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$lo
         }
     ]);
 
+
+angular.module('core').directive('compile',['$compile',
+        function($compile){
+            return function(scope,element,attrs){
+                scope.$watch(
+                    function(scope){
+                        return scope.$eval(attrs.compile);
+                    },
+                    function(value){
+                        element.html(value);
+                        $compile(element.contents())(scope);
+                    }
+                );
+            };
+    }]);
+
+appConfig.registerModule('dashboard');
+
+angular.module('dashboard').config([
+    '$rootScopeProvider',
+    '$stateProvider',
+    '$urlRouterProvider',
+    '$locationProvider',
+    function ($rootScopeProvider,$stateProvider, $urlRouterProvider,$locationProvider,gettext) {
+
+        var states = [
+            {
+              name:      'app.dashboard'
+            },
+            {
+              name:      'app.dashboard.overview',
+              url:       '/dashboard',
+              views:     {
+                  '!$default.content':{
+                    component: 'dashboard'
+                  }
+              }
+            }
+        ];
+
+        // Loop over the state definitions and register them
+        states.forEach(function(state) {
+          $stateProvider.state(state);
+        });
+
+
+    }]);
+
 appConfig.registerModule('db');
 
 angular.module('db').run([
@@ -415,12 +465,26 @@ angular.module('user').config([
               }
             },
             {
-              name:      'app.user.login',
+              name:      'login',
+              component: 'loginLayout'
+            },
+            {
+              name:      'login.login',
               url:       '/login',
               views:     {
                   '!$default.content':{
                     'templateUrl': 'views/user/login.site.html',
                     'controller':  'UserLoginSiteCtrl as loginsite'
+                  }
+              }
+            },
+            {
+              name:      'login.register',
+              url:       '/register',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/register.site.html',
+                    'controller':  'UserRegisterSiteCtrl as registersite'
                   }
               }
             }
@@ -442,12 +506,22 @@ angular.module('chat').component('chatOverview', {
 angular.module('core').component('imprint.core', {
   templateUrl:  'views/core/imprint.html',
   controller:   'CoreImprintCtrl as imprint'
-})
+});
 
 angular.module('core').component('layout', {
   templateUrl:  'views/core/layout.html',
   controller:   'CoreLayoutCtrl as layout'
-})
+});
+
+angular.module('core').component('siteModal', {
+  templateUrl:  'views/core/site.modal.html',
+  controller:   'CoreSiteModalCtrl as modal'
+});
+
+angular.module('dashboard').component('dashboard', {
+  templateUrl:  'views/dashboard/dashboard.html',
+  controller:   'DashboardCtrl as dashboard'
+});
 
 angular.module('meet').component('meetOverview', {
   templateUrl:  'views/meet/overview.meet.html',
@@ -474,6 +548,20 @@ angular.module('news').component('newsOverview', {
   controller:   'NewsOverviewCtrl as ctrl'
 });
 
+angular.module('user').component('loginLayout', {
+  templateUrl:  'views/user/login.layout.html',
+  controller:   'LoginLayoutCtrl as layout'
+});
+
+angular.module('user').directive('loginLayoutView', function() {
+  return { template: '<login-layout></login-layout>'};
+});
+
+angular.module('user').component('loginModal', {
+  templateUrl:  'views/user/login.layout.modal.html',
+  controller:   'LoginModalCtrl as modal'
+});
+
 angular.module('user').component('userLogin', {
   templateUrl:  'views/user/login.user.html',
   controller:   'UserLoginCtrl as login'
@@ -489,6 +577,11 @@ angular.module('user').component('userPanel', {
   controller:   'UserPanelCtrl as userpanel'
 });
  
+
+angular.module('user').component('userRegister', {
+  templateUrl:  'views/user/register.user.html',
+  controller:   'UserRegisterCtrl as register'
+});
 
 angular.module('db').service('APIInterceptor',[
     '$rootScope',
@@ -834,7 +927,14 @@ angular.module('db').factory('DB',[
                               function(response){
 
                                   DBBroadcast(response.data,callBroadcasts);
-                                  deferred.resolve({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+
+                                  if(response.status !== 200)
+                                        {
+                                            deferred.reject({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+                                        }
+                                  else  {
+                                            deferred.resolve({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+                                        }
 
                               },
                               // Error
@@ -866,6 +966,8 @@ angular.module('user').service('UserService', [
 
         var service     = this;
         var currentUser = null;
+
+        
 
         // Set the current user
 
@@ -929,6 +1031,20 @@ angular.module('core').controller('BaseCtrl',[
           ctrl.LANG    = gettextCatalog;
 
           ctrl.loading = false;
+
+          // Open modal
+
+          ctrl.createModal = function(settings,callback)
+          {
+
+              // Open the modal
+
+              $rootScope.$broadcast('$modalCreate',{
+                settings:settings,
+                callback:callback !== undefined ? callback : null
+              });
+
+          };
 
      }
 ]);
@@ -994,6 +1110,92 @@ angular.module('core').controller('SiteCtrl',[
      }
 ]);
 
+angular.module('core').controller('CoreSiteModalCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     '$timeout',
+     '$http',
+     '$sce',
+     function($scope, $rootScope, $state, $window, $controller,$timeout,$http,$sce) {
+
+          var modal = this;
+          angular.extend(modal, $controller('BaseCtrl', {$scope: $scope}));
+
+          modal.content = '';
+          modal.classes = [];
+          modal.styles  = {};
+
+          modal.getStyle = function()
+          {
+
+              return modal.styles;
+
+          };
+
+          modal.getClass = function()
+          {
+              return modal.classes.join(' ');
+          };
+
+          modal.close = function(e)
+          {
+              e.preventDefault();
+
+              modal.classes = [];
+
+              $timeout(function()
+              {
+
+                  modal.content = '';
+
+              },300);
+
+          };
+
+          // Listen to Request abortion
+
+          $rootScope.$on('$modalCreate', function (event,args) {
+
+              if(modal.content !== '')
+                {
+                     modal.classes = [];
+                }
+
+              $timeout(function()
+              {
+
+                  modal.content                       = args.settings.content;
+                  modal.classes[modal.classes.length] = 'open';
+
+                  modal.styles                        = {
+                      background: args.settings.background !== undefined ? args.settings.background : '#f4f4f4'
+                  };
+
+                  $scope.$apply();
+
+              },300);
+
+          });
+
+          $rootScope.$on('$modalClose', function (event,args)
+          {
+                modal.close(event);
+          });
+
+     }
+]);
+
+angular.module('core').filter('compile',['$sce',
+    function($sce){
+         return function(input) {
+                return $sce.trustAsHtml(input);
+          };
+    }
+]);
+
 angular.module('core').controller('CoreStartCtrl',[
      '$scope',
      '$rootScope',
@@ -1004,6 +1206,20 @@ angular.module('core').controller('CoreStartCtrl',[
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
+
+     }
+]);
+
+angular.module('dashboard').controller('DashboardCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     function($scope, $rootScope, $state, $window, $controller) {
+
+          var dashboard = this;
+          angular.extend(dashboard, $controller('BaseCtrl', {$scope: $scope}));
 
      }
 ]);
@@ -1154,6 +1370,20 @@ angular.module('news').controller('NewsOverviewCtrl',[
      }
 ]);
 
+angular.module('user').controller('LoginLayoutCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     function($scope, $rootScope, $state, $window, $controller) {
+
+          var layout = this;
+          angular.extend(layout, $controller('BaseCtrl', {$scope: $scope}));
+
+     }
+]);
+
 angular.module('user').controller('UserLoginCtrl',[
      '$scope',
      '$rootScope',
@@ -1179,12 +1409,13 @@ angular.module('user').controller('UserLoginCtrl',[
                 "key":  "email",
                 "templateOptions":
                 {
-                    "type":      "email",
-                    "required":  true,
-                    "label":     login.LANG.getString('E-Mail'),
+                    "type":            "email",
+                    "required":        true,
+                    "label":           login.LANG.getString('E-Mail'),
+                    "placeholder":     login.LANG.getString('E-Mail'),
                     "addonLeft": {
                       "class": "far fa-user"
-                    },
+                    }
                 }
              },
              {
@@ -1192,9 +1423,10 @@ angular.module('user').controller('UserLoginCtrl',[
                 "key":  "password",
                 "templateOptions":
                 {
-                    "type":      "password",
-                    "required":  true,
-                    "label":     login.LANG.getString('Passwort'),
+                    "type":            "password",
+                    "required":        true,
+                    "label":           login.LANG.getString('Passwort'),
+                    "placeholder":     login.LANG.getString('Passwort'),
                     "addonLeft" :{
                       "class": "fas fa-key"
                     }
@@ -1207,12 +1439,15 @@ angular.module('user').controller('UserLoginCtrl',[
              login.fields[0]
           ];
 
+          login.errors =  [];
+
           // Submit form
 
           login.submit = function()
           {
 
               login.loading = true;
+              login.errors  = [];
 
               if   (login.isReset === false)
                    {
@@ -1222,11 +1457,51 @@ angular.module('user').controller('UserLoginCtrl',[
                       login.DB.call('Auth','login',null,login.fieldData).then(
                           function(result)
                           {
+
+                              // Login was successful
+
                               login.loading = false;
+
+                              login.DB.call('CurrentUser','check',null,null).then(
+                                function(result){
+
+                                  // Successful getting the user data
+
+                                  UserService.setCurrentUser(result.data);
+
+                                  // Close modal and then redirect to dashboard
+
+                                  $rootScope.$broadcast('$modalClose');
+                                  $state.go('app.dashboard.overview');
+
+                                },
+                                function(errorResultGetUserData)
+                                {
+
+                                    // Error while getting the current user logged user data
+
+                                    login.loading = false;
+                                    login.errors  = [errorResultGetUserData.data !== undefined && errorResultGetUserData.data.message !== undefined ? errorResultGetUserData.data.errors : []];
+
+                                    if(login.errors.length === 0 || angular.isUndefined(login.errors[0]) === true)
+                                      {
+                                            login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
+                                      }
+
+                                }
+                              );
+
                           },
                           function(errorResult)
                           {
                               login.loading = false;
+                              login.errors  = [errorResult.data.message];
+
+                              if(login.errors.length === 0 || angular.isUndefined(login.errors[0]) === true)
+                                {
+                                      login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
+                                }
+
                           }
                       );
 
@@ -1244,6 +1519,7 @@ angular.module('user').controller('UserLoginCtrl',[
                           function(errorResult)
                           {
                               login.loading = false;
+                              login.errors  = [errorResult.data.message];
                           }
                       );
                    }
@@ -1291,6 +1567,37 @@ angular.module('user').controller('UserLoginSiteCtrl',[
      }
 ]);
 
+angular.module('user').controller('LoginModalCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     function($scope, $rootScope, $state, $window, $controller) {
+
+          var modal = this;
+          angular.extend(modal, $controller('BaseCtrl', {$scope: $scope}));
+
+          modal.state = 0;
+
+          // Change state
+
+          modal.changeState = function($event,state)
+          {
+              $event.preventDefault();
+              modal.state = state;
+          };
+
+          // Get class for the element
+
+          modal.getClass    = function(stateToCheck)
+          {
+              return (modal.state === stateToCheck) ? 'active':'';
+          };
+
+     }
+]);
+
 angular.module('user').controller('UserMyAccountCtrl',[
      '$scope',
      '$rootScope',
@@ -1333,9 +1640,225 @@ angular.module('user').controller('UserPanelCtrl',[
 
           };
 
+          userpanel.openLogin = function(e)
+          {
+
+                userpanel.createModal({
+                    'background' : 'rgba(0,0,0,0.5)',
+                    'content':     '<login-modal>...</login-modal>'
+                },function(){
+
+                });
+
+          };
+
           // Init
 
           userpanel.init();
+
+     }
+]);
+
+angular.module('user').controller('UserRegisterCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     '$timeout',
+     '$compile',
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller, $timeout,$compile,UserService) {
+
+          var register = this;
+          angular.extend(register, $controller('BaseCtrl', {$scope: $scope}));
+
+          // Variables
+
+          register.fieldData = {};
+
+          register.fields    = [
+             {
+                 "type": "input",
+                 "key":  "username",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        true,
+                     "label":           register.LANG.getString('Benutzername'),
+                     "placeholder":     register.LANG.getString('Benutzername'),
+                     "addonLeft": {
+                       "class": ""
+                     }
+                 }
+             },
+             {
+                 "type": "input",
+                 "key":  "firstname",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        true,
+                     "label":           register.LANG.getString('Vorname'),
+                     "placeholder":     register.LANG.getString('Vorname'),
+                     "addonLeft": {
+                       "class": ""
+                     }
+                 }
+             },
+             {
+                 "type": "input",
+                 "key":  "lastname",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        true,
+                     "label":           register.LANG.getString('Nachname'),
+                     "placeholder":     register.LANG.getString('Nachname'),
+                     "addonLeft": {
+                       "class": ""
+                     }
+                 }
+             },
+             {
+                "type": "input",
+                "key":  "email",
+                "templateOptions":
+                {
+                    "type":            "email",
+                    "required":        true,
+                    "label":           register.LANG.getString('E-Mail'),
+                    "placeholder":     register.LANG.getString('E-Mail'),
+                    "addonLeft": {
+                      "class": "far fa-user"
+                    }
+                }
+             },
+             {
+                "type": "input",
+                "key":  "password",
+                "templateOptions":
+                {
+                    "type":            "password",
+                    "required":        true,
+                    "label":           register.LANG.getString('Passwort'),
+                    "placeholder":     register.LANG.getString('Passwort'),
+                    "addonLeft" :{
+                      "class": "fas fa-key"
+                    }
+                }
+             },
+             {
+                "type": "input",
+                "key":  "password2",
+                "templateOptions":
+                {
+                    "type":            "password",
+                    "required":        true,
+                    "label":           register.LANG.getString('Passwort wiederholen'),
+                    "placeholder":     register.LANG.getString('Passwort wiederholen'),
+                    "addonLeft" :{
+                      "class": "fas fa-key"
+                    }
+                }
+             },
+             {
+                "type": "checkbox",
+                "key":  "terms",
+                "templateOptions":
+                {
+                    "required":        true,
+                    "label":           register.LANG.getString('Hiermit akzeptiere ich die {{agb}} und die {{rules}}', {agb : register.LANG.getString('Allgemeine Geschäftsbedingungen'), rules: register.LANG.getString('Verhaltensregeln')})
+                }
+             },
+             {
+                "type": "checkbox",
+                "key":  "gdpr",
+                "templateOptions":
+                {
+                    "required":        true,
+                    "label":           register.LANG.getString('Hiermit akzeptiere ich die {{gdpr}}', {gdpr : register.LANG.getString('Datenschutz-Erklärungen')})
+                }
+             },
+             {
+                "type": "checkbox",
+                "key":  "newsletter",
+                "templateOptions":
+                {
+                    "required":        false,
+                    "label":           register.LANG.getString('Ich möchte den Newsletter abonieren')
+                }
+             }
+          ];
+
+          register.errors =  [];
+
+          // Submit form
+
+          register.submit = function()
+          {
+
+              register.loading = true;
+              register.errors  = [];
+
+              // Reset password
+
+              register.DB.call('Auth','register',null,register.fieldData).then(
+                  function(result)
+                  {
+                      register.loading     = false;
+                      register.fieldsReset = false;
+                      register.errors      = [];
+
+                      // Success - close modal and redirect
+
+                      $rootScope.$broadcast('$modalClose');
+                      $state.go('login.login');
+
+                  },
+                  function(errorResult)
+                  {
+
+                      // errors at the api/db
+
+                      register.loading = false;
+                      register.errors  = [errorResult.data.message];
+                      register.errors  = register.errors.concat(errorResult.data.errors !== undefined ? errorResult.data.errors : []);
+
+                      if(register.errors.length === 0  || angular.isUndefined(register.errors[0]) === true)
+                        {
+                              register.errors[register.errors.length] = register.LANG.getString('Unbekannter Fehler aufgetreten.');
+                        }
+                  }
+              );
+
+
+          };
+          // Init function
+
+          register.init = function()
+          {
+                register.loading = false;
+          };
+
+          // Init
+
+          register.init();
+
+     }
+]);
+
+angular.module('user').controller('UserRegisterSiteCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller,UserService) {
+
+          var registersite = this;
+          angular.extend(registersite, $controller('BaseCtrl', {$scope: $scope}));
 
      }
 ]);

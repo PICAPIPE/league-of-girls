@@ -31,7 +31,8 @@ var jsVendor = [
   '@uirouter/angularjs',
   'angular-formly',
   'angular-formly-templates-bootstrap',
-  'angular-storage'
+  'angular-storage',
+  'angular-sanitize'
 ];
 
 mix.js('resources/assets/js/app.js', 'public/js')

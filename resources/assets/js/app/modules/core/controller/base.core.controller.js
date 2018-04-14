@@ -14,5 +14,19 @@ angular.module('core').controller('BaseCtrl',[
 
           ctrl.loading = false;
 
+          // Open modal
+
+          ctrl.createModal = function(settings,callback)
+          {
+
+              // Open the modal
+
+              $rootScope.$broadcast('$modalCreate',{
+                settings:settings,
+                callback:callback !== undefined ? callback : null
+              });
+
+          };
+
      }
 ]);

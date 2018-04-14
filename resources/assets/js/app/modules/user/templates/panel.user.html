@@ -5,7 +5,7 @@
       </li>
     </ul>
     <div class="user-panel-name">
-        <a class="user-panel-username"  ui-sref="app.user.myaccount" ui-sref-active="active" ng-if="userpanel.user !== null">{{userpanel.username}}</a>
-        <a class="user-panel-login"     ui-sref="app.user.login"     ui-sref-active="active" ng-if="userpanel.user === null">{{ 'Login' | translate }}</a>
+        <a class="user-panel-username"  ui-sref="app.user.myaccount"  ui-sref-active="active" ng-if="userpanel.user !== null">{{userpanel.username}}</a>
+        <span class="user-panel-login"     ng-click="userpanel.openLogin($event)" ng-if="userpanel.user === null">{{ 'Login' | translate }}</span>
     </div>
 </div>

@@ -21,12 +21,26 @@ angular.module('user').config([
               }
             },
             {
-              name:      'app.user.login',
+              name:      'login',
+              component: 'loginLayout'
+            },
+            {
+              name:      'login.login',
               url:       '/login',
               views:     {
                   '!$default.content':{
                     'templateUrl': 'views/user/login.site.html',
                     'controller':  'UserLoginSiteCtrl as loginsite'
+                  }
+              }
+            },
+            {
+              name:      'login.register',
+              url:       '/register',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/register.site.html',
+                    'controller':  'UserRegisterSiteCtrl as registersite'
                   }
               }
             }

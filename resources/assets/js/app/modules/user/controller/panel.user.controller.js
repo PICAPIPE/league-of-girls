@@ -26,6 +26,18 @@ angular.module('user').controller('UserPanelCtrl',[
 
           };
 
+          userpanel.openLogin = function(e)
+          {
+
+                userpanel.createModal({
+                    'background' : 'rgba(0,0,0,0.5)',
+                    'content':     '<login-modal>...</login-modal>'
+                },function(){
+
+                });
+
+          };
+
           // Init
 
           userpanel.init();

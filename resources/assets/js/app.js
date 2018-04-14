@@ -7,3 +7,4 @@ require('angular-formly');
 require('angular-formly-templates-bootstrap');
 require('angular-gettext');
 require('angular-storage');
+require('angular-sanitize');

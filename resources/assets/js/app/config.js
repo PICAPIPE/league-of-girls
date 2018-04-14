@@ -7,7 +7,8 @@ var appConfig = (function() {
       'formly',
       'formlyBootstrap',
       'gettext',
-      'angular-storage'
+      'angular-storage',
+      'ngSanitize'
     ];
 
     // Add a new vertical module

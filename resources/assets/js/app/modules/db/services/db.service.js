@@ -293,7 +293,14 @@ angular.module('db').factory('DB',[
                               function(response){
 
                                   DBBroadcast(response.data,callBroadcasts);
-                                  deferred.resolve({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+
+                                  if(response.status !== 200)
+                                        {
+                                            deferred.reject({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+                                        }
+                                  else  {
+                                            deferred.resolve({code:200,statusCode:response.status,data:response.data,headers:response.headers});
+                                        }
 
                               },
                               // Error

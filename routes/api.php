@@ -14,3 +14,8 @@ use Illuminate\Http\Request;
 */
 
 Route::get('/status',                                 'Api\System\StatusController@status');
+
+// Authentication
+
+Route::post('/auth/register',                         'Api\Security\AuthController@register');
+Route::post('/auth/login',                            'Api\Security\AuthController@login');

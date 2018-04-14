@@ -2,16 +2,41 @@
     <!-- LOGIN FORM -->
     <form class="user-login-form" ng-submit="login.submit(login.fieldData)" name="login.form">
       <formly-form model="login.fieldData" fields="login.fields" ng-if="login.isReset === false">
+
+          <!-- ERRORS -->
+
+          <div class="errors error-list-container" ng-if="login.errors.length > 0">
+            <ul class="error-list">
+              <li class="error-list-item" ng-repeat="error in login.errors">{{error}}</li>
+            </ul>
+          </div>
+
+          <!-- SUBMIT CONTAINER -->
+
           <div class="submit_container">
               <span class="text-muted" ng-click="login.resetPassword($event)">{{ 'Passwort zurücksetzen' | translate}}</span>
               <button type="submit" class="btn btn-outline-success float-right" ng-disable="login.loading">{{ 'Anmelden' | translate }}</button>
           </div>
+
       </formly-form>
       <formly-form model="login.fieldData" fields="login.fieldsReset" ng-if="login.isReset === true">
+
+          <!-- ERRORS -->
+
+          <div class="errors error-list-container" ng-if="login.errors.length > 0">
+            <ul class="error-list">
+              <li class="error-list-item" ng-repeat="error in login.errors">{{error}}</li>
+            </ul>
+          </div>
+
+          <!-- SUBMIT CONTAINER -->
+
           <div class="submit_container">
               <span class="text-muted" ng-click="login.resetPassword($event)">{{ 'Anmelden' | translate}}</span>
               <button type="submit" class="btn btn-outline-success float-right" ng-disable="login.loading">{{ 'Passwort zurücksetzen' | translate }}</button>
+              <div class="clearfix"></div>
           </div>
+
       </formly-form>
     </form>
 </div>

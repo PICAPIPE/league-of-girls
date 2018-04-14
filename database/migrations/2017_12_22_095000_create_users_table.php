@@ -21,6 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->unique('email');
 
+            $table->string('username');
+
             $table->string('firstname');
             $table->string('lastname');
 
@@ -28,14 +30,15 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
 
             $table->date('birthdate');
-            $table->integer('gender');
-            $table->integer('avatar_id');
+            $table->integer('gender')->default(0);
+            $table->integer('avatar_id')->default(0);
 
-            $table->boolean('locked');
+            $table->boolean('locked')->default(false);
             $table->boolean('active');
+            $table->boolean('newsletter')->default(false);
 
             $table->timestamp('loginAttempTimestamp');
-            $table->integer('loginAttemps');
+            $table->integer('loginAttemps')->default(0);
 
             $table->softDeletes();
             $table->timestamps();

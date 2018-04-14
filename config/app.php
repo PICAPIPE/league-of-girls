@@ -164,7 +164,8 @@ return [
          * Package Service Providers...
          */
 
-        Zarlach\TwitchApi\Providers\TwitchApiServiceProvider::class,
+        Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
+        Xinax\LaravelGettext\LaravelGettextServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -224,8 +225,18 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        // System Helper
+
+        'ValidationHelper'      => \App\Helper\ValidationHelper::class,
+        'SecurityHelper'        => \App\Helper\SecurityHelper::class,
+
         // VENDOR
         'TwitchApi' => Zarlach\TwitchApi\Facades\TwitchApiServiceFacade::class,
+
+        // Authentication
+
+        'JWTAuth'               => \Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory'            => \Tymon\JWTAuth\Facades\JWTFactory::class
 
     ],
 

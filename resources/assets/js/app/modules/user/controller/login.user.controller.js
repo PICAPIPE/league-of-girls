@@ -23,12 +23,13 @@ angular.module('user').controller('UserLoginCtrl',[
                 "key":  "email",
                 "templateOptions":
                 {
-                    "type":      "email",
-                    "required":  true,
-                    "label":     login.LANG.getString('E-Mail'),
+                    "type":            "email",
+                    "required":        true,
+                    "label":           login.LANG.getString('E-Mail'),
+                    "placeholder":     login.LANG.getString('E-Mail'),
                     "addonLeft": {
                       "class": "far fa-user"
-                    },
+                    }
                 }
              },
              {
@@ -36,9 +37,10 @@ angular.module('user').controller('UserLoginCtrl',[
                 "key":  "password",
                 "templateOptions":
                 {
-                    "type":      "password",
-                    "required":  true,
-                    "label":     login.LANG.getString('Passwort'),
+                    "type":            "password",
+                    "required":        true,
+                    "label":           login.LANG.getString('Passwort'),
+                    "placeholder":     login.LANG.getString('Passwort'),
                     "addonLeft" :{
                       "class": "fas fa-key"
                     }
@@ -51,12 +53,15 @@ angular.module('user').controller('UserLoginCtrl',[
              login.fields[0]
           ];
 
+          login.errors =  [];
+
           // Submit form
 
           login.submit = function()
           {
 
               login.loading = true;
+              login.errors  = [];
 
               if   (login.isReset === false)
                    {
@@ -66,11 +71,51 @@ angular.module('user').controller('UserLoginCtrl',[
                       login.DB.call('Auth','login',null,login.fieldData).then(
                           function(result)
                           {
+
+                              // Login was successful
+
                               login.loading = false;
+
+                              login.DB.call('CurrentUser','check',null,null).then(
+                                function(result){
+
+                                  // Successful getting the user data
+
+                                  UserService.setCurrentUser(result.data);
+
+                                  // Close modal and then redirect to dashboard
+
+                                  $rootScope.$broadcast('$modalClose');
+                                  $state.go('app.dashboard.overview');
+
+                                },
+                                function(errorResultGetUserData)
+                                {
+
+                                    // Error while getting the current user logged user data
+
+                                    login.loading = false;
+                                    login.errors  = [errorResultGetUserData.data !== undefined && errorResultGetUserData.data.message !== undefined ? errorResultGetUserData.data.errors : []];
+
+                                    if(login.errors.length === 0 || angular.isUndefined(login.errors[0]) === true)
+                                      {
+                                            login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
+                                      }
+
+                                }
+                              );
+
                           },
                           function(errorResult)
                           {
                               login.loading = false;
+                              login.errors  = [errorResult.data.message];
+
+                              if(login.errors.length === 0 || angular.isUndefined(login.errors[0]) === true)
+                                {
+                                      login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
+                                }
+
                           }
                       );
 
@@ -88,6 +133,7 @@ angular.module('user').controller('UserLoginCtrl',[
                           function(errorResult)
                           {
                               login.loading = false;
+                              login.errors  = [errorResult.data.message];
                           }
                       );
                    }
