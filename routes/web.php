@@ -15,4 +15,5 @@ Route::get('/', function () {
     return view('welcome',[]);
 })->name('start');
 
+Route::get('logout-now', ['uses'=>'Api\Security\AuthController@logout'])->name('logout');
 Route::get('views/{module}/{name}', ['uses'=>'Web\System\ComponentController@get']);

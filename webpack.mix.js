@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 
 var jsFiles = [
   'resources/assets/js/app/config.js',
+  'resources/assets/js/app/variables.js',
   'resources/assets/js/app/*.js',
   'resources/assets/js/app/modules/**/*.module.js',
   'resources/assets/js/app/modules/**/*.config.js',

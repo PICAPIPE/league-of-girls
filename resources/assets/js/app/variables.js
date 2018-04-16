@@ -1,4 +1,6 @@
-var DB_SERVICES = [
+var ROLES_STANDARD = ['User'];
+
+var DB_SERVICES    = [
 
     // Status
 

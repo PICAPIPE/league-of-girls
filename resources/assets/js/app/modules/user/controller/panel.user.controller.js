@@ -12,7 +12,6 @@ angular.module('user').controller('UserPanelCtrl',[
 
           // Variables
 
-
           userpanel.user     = null;
           userpanel.username = null;
 
@@ -41,6 +40,20 @@ angular.module('user').controller('UserPanelCtrl',[
           // Init
 
           userpanel.init();
+
+          // Watchers
+
+          $scope.$on('userLogged',function(event,args){
+
+              if(angular.isDefined(args) === true &&
+                 args.success            === true)
+                {
+                      UserService.setCurrentUser(args.user);
+                }
+
+              userpanel.init();  
+
+          });
 
      }
 ]);

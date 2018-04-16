@@ -55,13 +55,90 @@ angular.module('core').config([
 
     }]);
 
-angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$log','$urlRouter','$window','gettextCatalog','DB',
-    function($state,$timeout,$stateParams,$rootScope,$log,$urlRouter,$window,gettextCatalog,DB){
+angular.module('core').run([
+    '$state',
+    '$timeout',
+    '$stateParams',
+    '$rootScope',
+    '$urlRouter',
+    '$window',
+    '$transitions',
+    'gettextCatalog',
+    'DB',
+    'UserService',
+    function($state,$timeout,$stateParams,$rootScope,$urlRouter,$window,$transitions,gettextCatalog,DB,UserService){
 
+        var checkAuthentication = function(trans)
+        {
 
+              var usersrv           = trans.injector().get('UserService');
+              var user              = usersrv.getCurrentUser();
+              var roles             = trans.to().roles !== undefined ? trans.to().roles : [];
+              var redirectOnLoggged = trans.to().redirectOnLoggged !== undefined ? trans.to().redirectOnLoggged : false;
 
-        }
-    ]);
+              var hasPermission     = false;
+
+              if(roles.length > 0 || redirectOnLoggged === true)
+                {
+
+                    hasRole = usersrv.hasRole(roles);
+
+                    if(user            === null &&
+                       trans.to().name !== 'login.login')
+                      {
+                          // User is not authenticated
+                          $state.go('login.login');
+                          return trans.router.stateService.target('login.login');
+                      }
+
+                    if(redirectOnLoggged        === true &&
+                       user                     !== null)
+                      {
+                            $state.go('app.dashboard.overview');
+                            return false;
+                      }
+
+                    if(hasRole      === false &&
+                       roles.length   >  0)
+                      {
+                          // User does not have the permission
+                          return trans.router.stateService.target('app.error403');
+                      }
+
+              }
+
+        };
+
+      $transitions.onStart({ to: '**' }, function(trans) {
+
+          var usersrv           = trans.injector().get('UserService');
+          var user              = usersrv.getCurrentUser();
+
+          if    (user === null)
+                {
+                    // Check current user data
+
+                    DB.call('CurrentUser','check').then(
+                      function(result)
+                      {
+                          UserService.setCurrentUser(result.data.data);
+                          checkAuthentication(trans);
+                      },
+                      function(errorResult)
+                      {
+                          UserService.setCurrentUser(null);
+                          checkAuthentication(trans);
+                      }
+                    );
+                }
+          else  {
+                    checkAuthentication(trans);
+                }
+
+      });
+
+    }
+]);
 
 
 angular.module('core').directive('compile',['$compile',

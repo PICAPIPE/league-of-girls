@@ -12,13 +12,14 @@ angular.module('user').config([
               name:      'app.user'
             },
             {
-              name:      'app.user.account',
+              name:      'app.user.myaccount',
               url:       '/my-account',
               views:     {
                   '!$default.content':{
                     component: 'myAccount'
                   }
-              }
+              },
+              roles: window.GetStandardRoles()
             },
             {
               name:      'login',
@@ -32,7 +33,8 @@ angular.module('user').config([
                     'templateUrl': 'views/user/login.site.html',
                     'controller':  'UserLoginSiteCtrl as loginsite'
                   }
-              }
+              },
+              redirectOnLoggged: true
             },
             {
               name:      'login.register',
@@ -42,8 +44,20 @@ angular.module('user').config([
                     'templateUrl': 'views/user/register.site.html',
                     'controller':  'UserRegisterSiteCtrl as registersite'
                   }
-              }
-            }
+              },
+              redirectOnLoggged: true
+            },
+            {
+              name:      'login.logout',
+              url:       '/logout',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/logout.site.html',
+                    'controller':  'UserLogoutSiteCtrl as logoutsite'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
         ];
 
         // Loop over the state definitions and register them

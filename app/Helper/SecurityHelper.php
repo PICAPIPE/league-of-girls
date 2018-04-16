@@ -175,7 +175,7 @@ class SecurityHelper
                 return true;
             }
 
-          // Check by permission type  
+          // Check by permission type
 
           switch($permission->type)
           {

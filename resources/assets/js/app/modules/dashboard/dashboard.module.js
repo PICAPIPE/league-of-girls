@@ -18,7 +18,8 @@ angular.module('dashboard').config([
                   '!$default.content':{
                     component: 'dashboard'
                   }
-              }
+              },
+              roles: window.GetStandardRoles()
             }
         ];
 

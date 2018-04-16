@@ -1,0 +1,35 @@
+<div class="user-account">
+
+       <div class="user-headline">
+          <div class="row">
+            <div class="col-xs-12 col-lg-8 user-headline-name">
+                {{account.username}}
+            </div>
+            <div class="col-xs-12 col-lg-4 user-headline-connect">
+                <user-connect user-id="{{account.userId}}"></user-connect>
+            </div>
+          </div>
+       </div>
+
+       <div class="user-account-header">
+          <div class="user-account-avatar">
+              <img src="" alt="Useravatar" />
+          </div>
+          <div class="user-account-about">
+              {{account.about}}
+          </div>
+       </div>
+
+       <div class="user-content">
+
+          <h2>{{ 'Spiele' | translate }}</h2>
+
+          <h2>{{ 'Kommunikation' | translate }}</h2>
+
+          <h2>{{ 'Plattformen' | translate }}</h2>
+
+          <h2>{{ 'Links und Profile' | translate }}</h2>
+
+       </div>
+
+</div>

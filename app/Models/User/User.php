@@ -124,6 +124,13 @@ class User extends Authenticatable implements JWTSubject
 
     $rolesReturn = $roles->pluck('role.id');
 
+    // Add Standard role to the user roles
+
+    if($rolesReturn->contains(config('user.standardRole')) === false)
+      {
+          $rolesReturn->push(config('user.standardRole'));
+      }
+
     return $rolesReturn;
 
   }

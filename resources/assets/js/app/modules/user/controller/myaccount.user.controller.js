@@ -9,5 +9,7 @@ angular.module('user').controller('UserMyAccountCtrl',[
           var myaccount = this;
           angular.extend(myaccount, $controller('BaseCtrl', {$scope: $scope}));
 
+          
+
      }
 ]);

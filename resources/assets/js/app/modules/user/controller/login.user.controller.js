@@ -88,6 +88,8 @@ angular.module('user').controller('UserLoginCtrl',[
                                   $rootScope.$broadcast('$modalClose');
                                   $state.go('app.dashboard.overview');
 
+                                  $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+
                                 },
                                 function(errorResultGetUserData)
                                 {
@@ -101,6 +103,8 @@ angular.module('user').controller('UserLoginCtrl',[
                                       {
                                             login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
                                       }
+
+                                    $rootScope.$broadcast('userLogged',{success:false});
 
                                 }
                               );

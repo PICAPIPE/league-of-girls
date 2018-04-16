@@ -25,6 +25,105 @@ var appConfig = (function() {
 
 })();
 
+var ROLES_STANDARD = ['User'];
+
+var DB_SERVICES    = [
+
+    // Status
+
+    {
+       'name' : 'Status',
+       'url'  : 'api/status',
+       'except': ['all','get','show','store','update','destroy'],
+       'custom': [
+           {
+               type:       'get',
+               name:       'check',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url
+               }
+           }
+       ]
+
+    },
+
+    // Users
+
+    {
+       'name' : 'Users',
+       'url'  : 'api/users'
+    },
+
+    // Current User
+
+    {
+       'name' : 'CurrentUser',
+       'url'  : 'api/users',
+       'except': ['all','get','show','store','update','destroy'],
+       'custom': [
+           {
+               type:       'get',
+               name:       'check',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current'
+               }
+           }
+       ]
+
+    },
+
+    // Current User
+
+    {
+       'name' : 'Auth',
+       'url'  : 'api/auth',
+       'except': ['all','get','show','store','update','destroy'],
+       'custom': [
+           {
+               type:       'post',
+               name:       'login',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/login'
+               }
+           },
+           {
+               type:       'post',
+               name:       'register',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/register'
+               }
+           },
+           {
+               type:       'post',
+               name:       'reset',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       false,
+               getUrl: function(url)
+               {
+                   return url + '/reset'
+               }
+           }
+       ]
+
+    }
+
+];
+
 angular.module(appConfig.appModuleName, appConfig.appModuleVendorDependencies);
 
 angular.module(appConfig.appModuleName).config([
@@ -70,7 +169,14 @@ var appConfig = (function() {
 
 })();
 
-var DB_SERVICES = [
+function GetStandardRoles()
+{
+   return ROLES_STANDARD;
+}
+
+var ROLES_STANDARD = ['User'];
+
+var DB_SERVICES    = [
 
     // Status
 
@@ -256,13 +362,92 @@ angular.module('core').config([
 
     }]);
 
-angular.module('core').run(['$state','$timeout','$stateParams','$rootScope','$log','$urlRouter','$window','gettextCatalog','DB',
-    function($state,$timeout,$stateParams,$rootScope,$log,$urlRouter,$window,gettextCatalog,DB){
+angular.module('core').run([
+    '$state',
+    '$timeout',
+    '$stateParams',
+    '$rootScope',
+    '$urlRouter',
+    '$window',
+    '$transitions',
+    'gettextCatalog',
+    'DB',
+    'UserService',
+    function($state,$timeout,$stateParams,$rootScope,$urlRouter,$window,$transitions,gettextCatalog,DB,UserService){
 
+        var checkAuthentication = function(trans)
+        {
 
+              var usersrv           = trans.injector().get('UserService');
+              var user              = usersrv.getCurrentUser();
+              var roles             = trans.to().roles !== undefined ? trans.to().roles : [];
+              var redirectOnLoggged = trans.to().redirectOnLoggged !== undefined ? trans.to().redirectOnLoggged : false;
 
-        }
-    ]);
+              var hasPermission     = false;
+
+              if(roles.length > 0 || redirectOnLoggged === true)
+                {
+
+                    hasRole = usersrv.hasRole(roles);
+
+                    if(user            === null &&
+                       trans.to().name !== 'login.login')
+                      {
+                          // User is not authenticated
+                          $state.go('login.login');
+                          return trans.router.stateService.target('login.login');
+                      }
+
+                    if(redirectOnLoggged        === true &&
+                       user                     !== null)
+                      {
+                            $state.go('app.dashboard.overview');
+                            return false;
+                      }
+
+                    if(hasRole      === false &&
+                       roles.length   >  0)
+                      {
+                          // User does not have the permission
+                          return trans.router.stateService.target('app.error403');
+                      }
+
+              }
+
+        };
+
+      $transitions.onStart({ to: '**' }, function(trans) {
+
+          var usersrv           = trans.injector().get('UserService');
+          var user              = usersrv.getCurrentUser();
+
+          if    (user === null)
+                {
+                    // Check current user data
+
+                    DB.call('CurrentUser','check').then(
+                      function(result)
+                      {
+                          UserService.setCurrentUser(result.data.data);
+                          checkAuthentication(trans);
+                      },
+                      function(errorResult)
+                      {
+
+                          console.log(errorResult)
+                          UserService.setCurrentUser(null);
+                          checkAuthentication(trans);
+                      }
+                    );
+                }
+          else  {
+                    checkAuthentication(trans);
+                }
+
+      });
+
+    }
+]);
 
 
 angular.module('core').directive('compile',['$compile',
@@ -300,7 +485,8 @@ angular.module('dashboard').config([
                   '!$default.content':{
                     component: 'dashboard'
                   }
-              }
+              },
+              roles: window.GetStandardRoles()
             }
         ];
 
@@ -316,7 +502,8 @@ appConfig.registerModule('db');
 
 angular.module('db').run([
     'DB',
-    function(DB){
+    'UserService',
+    function(DB,UserService){
 
               // Register the DB-Services
 
@@ -331,7 +518,7 @@ angular.module('db').run([
                         continue;
                      }
 
-                   console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');   
+                   console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');
 
                    DB.register(DB_SERVICES[dbi].name,DB_SERVICES[dbi].url,{
                        'except':DB_SERVICES[dbi].except !== undefined ? DB_SERVICES[dbi].except : [],
@@ -456,13 +643,14 @@ angular.module('user').config([
               name:      'app.user'
             },
             {
-              name:      'app.user.account',
+              name:      'app.user.myaccount',
               url:       '/my-account',
               views:     {
                   '!$default.content':{
                     component: 'myAccount'
                   }
-              }
+              },
+              roles: window.GetStandardRoles()
             },
             {
               name:      'login',
@@ -476,7 +664,8 @@ angular.module('user').config([
                     'templateUrl': 'views/user/login.site.html',
                     'controller':  'UserLoginSiteCtrl as loginsite'
                   }
-              }
+              },
+              redirectOnLoggged: true
             },
             {
               name:      'login.register',
@@ -486,8 +675,20 @@ angular.module('user').config([
                     'templateUrl': 'views/user/register.site.html',
                     'controller':  'UserRegisterSiteCtrl as registersite'
                   }
-              }
-            }
+              },
+              redirectOnLoggged: true
+            },
+            {
+              name:      'login.logout',
+              url:       '/logout',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/logout.site.html',
+                    'controller':  'UserLogoutSiteCtrl as logoutsite'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
         ];
 
         // Loop over the state definitions and register them
@@ -546,6 +747,14 @@ angular.module('navigation').component('moreNavigation', {
 angular.module('news').component('newsOverview', {
   templateUrl:  'views/news/overview.news.html',
   controller:   'NewsOverviewCtrl as ctrl'
+});
+
+angular.module('user').component('account', {
+  templateUrl:  'views/user/account.user.html',
+  controller:   'UserAccountCtrl as account',
+  bindings:     {
+                    userId: '='
+                }
 });
 
 angular.module('user').component('loginLayout', {
@@ -961,13 +1170,11 @@ angular.module('db').factory('DB',[
   }
 ]);
 
-angular.module('user').service('UserService', [
+angular.module('user').factory('UserService', [
     function(store) {
 
         var service     = this;
         var currentUser = null;
-
-        
 
         // Set the current user
 
@@ -994,6 +1201,40 @@ angular.module('user').service('UserService', [
               }
 
             return currentUser;
+
+        };
+
+        // Check if the user has a role
+
+        service.hasRole   = function(roles)
+        {
+
+            var user  = service.getCurrentUser();
+            var found = false;
+            var rolei = 0;
+
+            if(user                            === null ||
+               angular.isUndefined(user.roles) === false)
+              {
+                 return false;
+              }
+
+            for (rolei = 0; rolei < roles.length; rolei++)
+                {
+
+                    if(angular.isUndefined(user.roles) === true)
+                      {
+                         break;
+                      }
+
+                    if(user.roles.indexOf(roles[rolei]) > -1)
+                      {
+                         found = true;
+                         break;
+                      }
+                }
+
+            return found;
 
         };
 
@@ -1086,7 +1327,8 @@ angular.module('core').controller('SiteCtrl',[
      '$window',
      '$controller',
      '$http',
-     function($scope, $rootScope, $state, $window, $controller,$http) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller,$http,UserService) {
 
           var site = this;
           angular.extend(site, $controller('BaseCtrl', {$scope: $scope}));
@@ -1102,8 +1344,6 @@ angular.module('core').controller('SiteCtrl',[
                         request.cancel.resolve();
                     }
               });
-
-              console.warn('Every further request was canceled');
 
           });
 
@@ -1370,6 +1610,22 @@ angular.module('news').controller('NewsOverviewCtrl',[
      }
 ]);
 
+angular.module('user').controller('UserAccountCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     function($scope, $rootScope, $state, $window, $controller) {
+
+          var account = this;
+          angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
+
+          console.error(account);
+
+     }
+]);
+
 angular.module('user').controller('LoginLayoutCtrl',[
      '$scope',
      '$rootScope',
@@ -1474,6 +1730,8 @@ angular.module('user').controller('UserLoginCtrl',[
                                   $rootScope.$broadcast('$modalClose');
                                   $state.go('app.dashboard.overview');
 
+                                  $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+
                                 },
                                 function(errorResultGetUserData)
                                 {
@@ -1487,6 +1745,8 @@ angular.module('user').controller('UserLoginCtrl',[
                                       {
                                             login.errors[login.errors.length] = login.LANG.getString('Unbekannter Fehler aufgetreten.');
                                       }
+
+                                    $rootScope.$broadcast('userLogged',{success:false});
 
                                 }
                               );
@@ -1567,6 +1827,44 @@ angular.module('user').controller('UserLoginSiteCtrl',[
      }
 ]);
 
+angular.module('user').controller('UserLogoutSiteCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$timeout',
+     '$controller',
+     function($scope, $rootScope, $state, $window,$timeout, $controller) {
+
+          var logoutsite = this;
+          angular.extend(logoutsite, $controller('BaseCtrl', {$scope: $scope}));
+
+          logoutsite.seconds = 3;
+
+          logoutsite.init    = function()
+          {
+               if    (logoutsite.seconds === 1)
+                     {
+                         $timeout(function(){
+                            window.location.href = '/logout-now'
+                         },1000);
+                     }
+                else {
+
+                          logoutsite.seconds--;
+
+                          $timeout(function(){
+                             logoutsite.init();
+                          },1000);
+
+                     }
+          };
+
+          logoutsite.init();
+
+     }
+]);
+
 angular.module('user').controller('LoginModalCtrl',[
      '$scope',
      '$rootScope',
@@ -1609,6 +1907,8 @@ angular.module('user').controller('UserMyAccountCtrl',[
           var myaccount = this;
           angular.extend(myaccount, $controller('BaseCtrl', {$scope: $scope}));
 
+          
+
      }
 ]);
 
@@ -1625,7 +1925,6 @@ angular.module('user').controller('UserPanelCtrl',[
           angular.extend(userpanel, $controller('BaseCtrl', {$scope: $scope}));
 
           // Variables
-
 
           userpanel.user     = null;
           userpanel.username = null;
@@ -1655,6 +1954,20 @@ angular.module('user').controller('UserPanelCtrl',[
           // Init
 
           userpanel.init();
+
+          // Watchers
+
+          $scope.$on('userLogged',function(event,args){
+
+              if(angular.isDefined(args) === true &&
+                 args.success            === true)
+                {
+                      UserService.setCurrentUser(args.user);
+                }
+
+              userpanel.init();  
+
+          });
 
      }
 ]);

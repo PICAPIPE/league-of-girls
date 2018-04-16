@@ -2,7 +2,8 @@ appConfig.registerModule('db');
 
 angular.module('db').run([
     'DB',
-    function(DB){
+    'UserService',
+    function(DB,UserService){
 
               // Register the DB-Services
 
@@ -17,7 +18,7 @@ angular.module('db').run([
                         continue;
                      }
 
-                   console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');   
+                   console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');
 
                    DB.register(DB_SERVICES[dbi].name,DB_SERVICES[dbi].url,{
                        'except':DB_SERVICES[dbi].except !== undefined ? DB_SERVICES[dbi].except : [],

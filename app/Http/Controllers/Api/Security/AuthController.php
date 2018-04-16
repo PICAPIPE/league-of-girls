@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Security;
 
+use Cookie;
 use DB;
 use Hash;
 use Route;
@@ -226,6 +227,13 @@ class AuthController extends ApiController
 
       return \Response::json(['status' => 200],200,$headers)->cookie($cookieName, $cookieVal, 5, '/',config('app.domain'), false, true);
 
+    }
+
+    public function logout(Request $request)
+    {
+        $cookieName = strtolower(str_slug(config('app.name'),'_').'_auth');
+        Cookie::queue(Cookie::forget($cookieName));
+        return redirect()->route('start', []);
     }
 
 }

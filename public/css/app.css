@@ -14140,3 +14140,36 @@ a {
   color: #ed4949;
 }
 
+.user-panel {
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+@media (max-width: 1199.98px) {
+  .user-panel {
+    text-align: center;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .user-panel-name {
+    text-align: center;
+  }
+}
+
+.user-panel-notifications > span {
+  position: absolute;
+  left: 10px;
+  top: 25px;
+}
+
+.user-panel-notifications > i {
+  margin-right: 20px;
+}
+
+.user-account {
+  max-width: 768px;
+  margin: 0 auto;
+}
+

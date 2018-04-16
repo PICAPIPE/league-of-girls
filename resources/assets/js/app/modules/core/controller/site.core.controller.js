@@ -5,7 +5,8 @@ angular.module('core').controller('SiteCtrl',[
      '$window',
      '$controller',
      '$http',
-     function($scope, $rootScope, $state, $window, $controller,$http) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller,$http,UserService) {
 
           var site = this;
           angular.extend(site, $controller('BaseCtrl', {$scope: $scope}));
@@ -21,8 +22,6 @@ angular.module('core').controller('SiteCtrl',[
                         request.cancel.resolve();
                     }
               });
-
-              console.warn('Every further request was canceled');
 
           });
 

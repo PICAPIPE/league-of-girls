@@ -19,3 +19,9 @@ Route::get('/status',                                 'Api\System\StatusControll
 
 Route::post('/auth/register',                         'Api\Security\AuthController@register');
 Route::post('/auth/login',                            'Api\Security\AuthController@login');
+
+Route::group(['middleware' => ['auth.api']], function(){
+
+    Route::get('/users/current',                                 'Api\User\UserController@current');
+
+});
