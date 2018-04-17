@@ -1,0 +1,120 @@
+$alerts-element-bg:      $CI-COLOR8;
+$alerts-element-color:   #000;
+$alerts-element-padding: 20px;
+
+$alerts-success-bg:      $CI-COLOR7;
+$alerts-success-color:   #FFF;
+
+$alerts-error-bg:        $CI-COLOR3;
+$alerts-error-color:     #FFF;
+
+$alerts-warning-bg:      $CI-COLOR3;
+$alerts-warning-color:   #FFF;
+
+$alerts-info-bg:         $CI-COLOR6;
+$alerts-info-color:      #FFF;
+
+@mixin alerts-style($bg,$color) {
+    background: $bg;
+    color:      $color;
+
+    button
+    {
+        color:      $color;
+        cursor:     pointer;
+    }
+}
+
+.alerts-area
+{
+  width:    100%;
+  position: absolute;
+  top:      0;
+  left:     0;
+  z-index:  9999;
+}
+
+.alerts-container
+{
+  max-width: 768px;
+  display:   block;
+  margin:    0 auto;
+  position:  relative;
+}
+
+.alerts-element
+{
+    background:$alerts-element-bg;
+    color:     $alerts-element-color;
+    padding:   $alerts-element-padding;
+    position:  absolute;
+    width:     100%;
+    top:       -500px;
+
+    -webkit-transition: top 0.5s ease-out;
+    -moz-transition:    top 0.5s ease-out;
+    -o-transition:      top 0.5s ease-out;
+    transition:         top 0.5s ease-out;
+
+    &.alerts-success
+    {
+        @include alerts-style($alerts-success-bg,$alerts-success-color);
+    }
+
+    &.alerts-error
+    {
+        @include alerts-style($alerts-error-bg,$alerts-error-color);
+    }
+
+    &.alerts-warning
+    {
+        @include alerts-style($alerts-warning-bg,$alerts-warning-color);
+    }
+
+    &.alerts-info
+    {
+        @include alerts-style($alerts-info-bg,$alerts-info-color);
+    }
+
+
+}
+
+.alerts-inner
+{
+    padding-right: 60px;
+}
+
+.alerts-closing
+{
+
+    position: absolute;
+    right:    20px;
+
+    button
+    {
+       background: none;
+       border:     0;
+    }
+
+}
+
+.alerts-footer
+{
+
+    padding-top:  40px;
+    text-align:   right;
+    position:     relative;
+    margin-right: -60px;
+
+    .alerts-button
+    {
+       display: inline-block;
+    }
+
+    .alerts-btn
+    {
+        background: none;
+        border:     0;
+    }
+
+}

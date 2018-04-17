@@ -133,6 +133,19 @@ angular.module('user').controller('UserLoginCtrl',[
                           {
                               login.loading     = false;
                               login.fieldsReset = false;
+
+                              // Success
+
+                              $state.go('app.start');
+
+                              login.closeModal();
+
+                              login.ALERT.add({
+                                  'title':     login.LANG.getString(''),
+                                  'message':   login.LANG.getString('An die anggebene E-Mailadresse wurde ein Link zum Zurücksetzen des Kontos geschickt.'),
+                                  'autoClose': true
+                              });
+
                           },
                           function(errorResult)
                           {

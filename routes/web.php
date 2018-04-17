@@ -15,5 +15,18 @@ Route::get('/', function () {
     return view('welcome',[]);
 })->name('start');
 
-Route::get('logout-now', ['uses'=>'Api\Security\AuthController@logout'])->name('logout');
-Route::get('views/{module}/{name}', ['uses'=>'Web\System\ComponentController@get']);
+// Auth
+
+Route::get('/auth/reset-password',      ['uses'=>'Web\Security\AuthController@resetPassword','middleware' => ['signed']])->name('resetPassword');
+Route::get('/auth/logout-now',          ['uses'=>'Web\Security\AuthController@logout'])->name('logout');
+
+// Templates
+
+Route::get('views/{module}/{name}',     ['uses'=>'Web\System\ComponentController@get']);
+
+if(env('APP_DEBUG') === true)
+  {
+      Route::get('test/email',    function () {
+          return view('layouts.email',[]);
+      });
+  }

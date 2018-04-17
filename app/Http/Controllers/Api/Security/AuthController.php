@@ -7,6 +7,7 @@ use DB;
 use Hash;
 use Route;
 use Image;
+use Mail;
 use LaravelGettext;
 use JWTAuth;
 use Validator;
@@ -15,8 +16,9 @@ use Carbon\Carbon;
 
 use App\Models\User\User;
 use App\Models\User\UserRole;
-
 use App\Models\Permissions\Role;
+
+use App\Mail\Auth\ResetPassword;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -25,6 +27,8 @@ use App\Http\Controllers\Api\ApiController;
 
 class AuthController extends ApiController
 {
+
+    // Register method
 
     public function register(Request $request){
 
@@ -98,6 +102,8 @@ class AuthController extends ApiController
         return $result;
 
     }
+
+    // Login method
 
     public function login(Request $request){
 
@@ -229,11 +235,29 @@ class AuthController extends ApiController
 
     }
 
+    // Logout
+
     public function logout(Request $request)
     {
         $cookieName = strtolower(str_slug(config('app.name'),'_').'_auth');
         Cookie::queue(Cookie::forget($cookieName));
         return redirect()->route('start', []);
+    }
+
+    // Reset password
+
+    public function requestResetLink(Request $request)
+    {
+
+          $user = User::where('email',$request->input('email'))->first();
+
+          if($user !== null)
+            {
+                  Mail::to($user->email)->send(new ResetPassword($user));
+            }
+
+          return $this->respondSuccess(['data' => ['message' => _i('Sofern die E-Mail-Adresse in unserem System verwendet wird, wird an die angegebene Adresse ein Zurücksetzen-Link geschickt.')]]);
+
     }
 
 }

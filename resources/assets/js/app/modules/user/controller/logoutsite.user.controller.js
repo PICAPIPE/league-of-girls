@@ -17,7 +17,7 @@ angular.module('user').controller('UserLogoutSiteCtrl',[
                if    (logoutsite.seconds === 1)
                      {
                          $timeout(function(){
-                            window.location.href = '/logout-now'
+                            window.location.href = '/auth/logout-now';
                          },1000);
                      }
                 else {

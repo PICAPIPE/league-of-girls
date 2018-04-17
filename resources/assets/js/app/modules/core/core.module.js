@@ -52,7 +52,6 @@ angular.module('core').config([
 
         $httpProvider.interceptors.push('APIInterceptor');
 
-
     }]);
 
 angular.module('core').run([
@@ -139,7 +138,6 @@ angular.module('core').run([
 
     }
 ]);
-
 
 angular.module('core').directive('compile',['$compile',
         function($compile){

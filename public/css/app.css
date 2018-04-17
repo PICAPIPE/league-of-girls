@@ -13798,6 +13798,102 @@ readers do not read off random characters that represent icons */
   font-weight: 900;
 }
 
+.alerts-area {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.alerts-container {
+  max-width: 768px;
+  display: block;
+  margin: 0 auto;
+  position: relative;
+}
+
+.alerts-element {
+  background: #dcdcdc;
+  color: #000;
+  padding: 20px;
+  position: absolute;
+  width: 100%;
+  top: -500px;
+  -webkit-transition: top 0.5s ease-out;
+  transition: top 0.5s ease-out;
+}
+
+.alerts-element.alerts-success {
+  background: #22b573;
+  color: #FFF;
+}
+
+.alerts-element.alerts-success button {
+  color: #FFF;
+  cursor: pointer;
+}
+
+.alerts-element.alerts-error {
+  background: #ed4949;
+  color: #FFF;
+}
+
+.alerts-element.alerts-error button {
+  color: #FFF;
+  cursor: pointer;
+}
+
+.alerts-element.alerts-warning {
+  background: #ed4949;
+  color: #FFF;
+}
+
+.alerts-element.alerts-warning button {
+  color: #FFF;
+  cursor: pointer;
+}
+
+.alerts-element.alerts-info {
+  background: #0071bc;
+  color: #FFF;
+}
+
+.alerts-element.alerts-info button {
+  color: #FFF;
+  cursor: pointer;
+}
+
+.alerts-inner {
+  padding-right: 60px;
+}
+
+.alerts-closing {
+  position: absolute;
+  right: 20px;
+}
+
+.alerts-closing button {
+  background: none;
+  border: 0;
+}
+
+.alerts-footer {
+  padding-top: 40px;
+  text-align: right;
+  position: relative;
+  margin-right: -60px;
+}
+
+.alerts-footer .alerts-button {
+  display: inline-block;
+}
+
+.alerts-footer .alerts-btn {
+  background: none;
+  border: 0;
+}
+
 #header {
   padding-top: 50px;
   font-family: 'Roboto', sans-serif;

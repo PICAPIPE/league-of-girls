@@ -19,6 +19,7 @@ Route::get('/status',                                 'Api\System\StatusControll
 
 Route::post('/auth/register',                         'Api\Security\AuthController@register');
 Route::post('/auth/login',                            'Api\Security\AuthController@login');
+Route::post('/auth/reset',                            'Api\Security\AuthController@requestResetLink');
 
 Route::group(['middleware' => ['auth.api']], function(){
 
