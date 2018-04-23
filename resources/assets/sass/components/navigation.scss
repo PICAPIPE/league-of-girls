@@ -107,3 +107,56 @@ $navigation-item-color-hover:           $CI-COLOR3;
   top:      1px;
 
 }
+
+.navigation_games
+{
+    @media all and (min-width: 1400px) {
+     position: absolute;
+     width: 150px;
+     left: -150px;
+     font-size: 1.4em;
+    }
+}
+
+.navigation_games_list
+{
+    display:     block;
+    padding:     0;
+    margin:      0;
+    font-family: 'Roboto';
+
+    > .navigation_list_item
+    {
+
+       cursor: pointer;
+
+       @media all and (min-width: 1400px) {
+         display:       block;
+         text-align:    right;
+         padding-right: 15px;
+         border-right:  2px solid $CI-COLOR4;
+         margin-bottom: 15px;
+
+         &.active,
+         &:hover
+         {
+            border-right:  4px solid $CI-COLOR4;
+            padding-right: 13px;
+            border-color:  $CI-COLOR3;
+            color:         $CI-COLOR3;
+         }
+
+       }
+
+       @include media-breakpoint-down(lg) {
+          text-align:  center;
+       }
+
+    }
+
+}
+
+.user-panel-account
+{
+   margin-right:10px;
+}

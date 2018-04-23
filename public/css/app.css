@@ -13899,6 +13899,10 @@ readers do not read off random characters that represent icons */
   font-family: 'Roboto', sans-serif;
 }
 
+.container {
+  position: relative;
+}
+
 .user-panel-login {
   cursor: pointer;
 }
@@ -14123,6 +14127,54 @@ readers do not read off random characters that represent icons */
   top: 1px;
 }
 
+@media all and (min-width: 1400px) {
+  .navigation_games {
+    position: absolute;
+    width: 150px;
+    left: -150px;
+    font-size: 1.4em;
+  }
+}
+
+.navigation_games_list {
+  display: block;
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto';
+}
+
+.navigation_games_list > .navigation_list_item {
+  cursor: pointer;
+}
+
+@media all and (min-width: 1400px) {
+  .navigation_games_list > .navigation_list_item {
+    display: block;
+    text-align: right;
+    padding-right: 15px;
+    border-right: 2px solid #979797;
+    margin-bottom: 15px;
+  }
+
+  .navigation_games_list > .navigation_list_item.active,
+  .navigation_games_list > .navigation_list_item:hover {
+    border-right: 4px solid #979797;
+    padding-right: 13px;
+    border-color: #ed4949;
+    color: #ed4949;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .navigation_games_list > .navigation_list_item {
+    text-align: center;
+  }
+}
+
+.user-panel-account {
+  margin-right: 10px;
+}
+
 .row-margin-bottom {
   margin-bottom: 50px;
 }
@@ -14267,5 +14319,52 @@ a {
 .user-account {
   max-width: 768px;
   margin: 0 auto;
+  background: #FFF;
+}
+
+.user-headline {
+  color: #22b573;
+  font-size: 2.2em;
+  font-family: 'Roboto';
+  font-weight: lighter;
+  margin-bottom: 40px;
+}
+
+.user-headline .user-headline-name-element {
+  font-weight: bold;
+}
+
+.user-account-header {
+  background: #22b573;
+  height: 200px;
+  padding-left: 260px;
+  padding-top: 40px;
+  padding-right: 40px;
+  padding-bottom: 40px;
+  position: relative;
+  color: #FFFFFF;
+}
+
+.user-account-header .user-account-avatar {
+  height: 220px;
+  width: 220px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: -10px;
+  background: #125f3c;
+  overflow: hidden;
+}
+
+.user-content {
+  padding: 80px 60px;
+  background: #FFF;
+}
+
+.user-content h2,
+.user-content h3,
+.user-content h4 {
+  font-size: 1.2em;
+  font-weight: bold;
 }
 

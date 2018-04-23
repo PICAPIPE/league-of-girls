@@ -1,23 +1,3 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-
-        <base href="/"></base>
-        <meta charset="UTF-8">
-        <meta name="fragment" content="!" />
-        <meta name="viewport" content="width=device-width,user-scalable=no">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-
-        <title>@yield('title')</title>
-
-        @yield('header')
-
-    </head>
-    <body>
-        @yield('content')
-    </body>
-</html>
-
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -25,10 +5,10 @@
     <meta name="viewport" content="width=device-width"> <!-- Forcing initial-scale shouldn't be necessary -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge"> <!-- Use the latest (edge) version of IE rendering engine -->
     <meta name="x-apple-disable-message-reformatting">  <!-- Disable auto-scale in iOS 10 Mail entirely -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title')</title> <!-- The title tag shows in email notifications, like Android 4.4. -->
 
     <!-- Web Font / @font-face : BEGIN -->
-    <!-- NOTE: If web fonts are not required, lines 10 - 27 can be safely removed. -->
 
     <!-- Desktop Outlook chokes on web font references and defaults to Times New Roman, so we force a safe fallback font. -->
     <!--[if mso]>
@@ -286,6 +266,14 @@
                   {{config('site.imprint_name')}}<br>
                 @endif
                 {{config('site.imprint_street')}}, {{config('site.imprint_postal')}} {{config('site.imprint_city')}}, {{config('site.imprint_country')}}
+
+                @if (config('app.debug') === true)
+                  <!-- WEBVERSION LINK OF THE EMAIL ONLY FOR DEBUGGING -->
+                  <br>
+                  <br>
+                  <a href="{{ $more['uniqueUrl'] }}" target="_blank">{{_i('Webversion der Mail ansehen.')}}</a>
+                @endif
+
 	            </td>
 	        </tr>
 	    </table>

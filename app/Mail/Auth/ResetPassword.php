@@ -4,6 +4,8 @@ namespace App\Mail\Auth;
 
 use URL;
 
+use App\Mail\BaseMail;
+
 use App\Models\User\User;
 
 use Illuminate\Bus\Queueable;
@@ -11,7 +13,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResetPassword extends Mailable
+class ResetPassword extends BaseMail
 {
     use Queueable, SerializesModels;
 
@@ -22,9 +24,10 @@ class ResetPassword extends Mailable
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $user,$debug = [])
     {
-        $this->user = $user;
+        $this->debug = $debug;
+        $this->user  = $user;
     }
 
     /**
@@ -32,7 +35,7 @@ class ResetPassword extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function preBuild()
     {
 
         $url =  URL::temporarySignedRoute(
@@ -41,7 +44,10 @@ class ResetPassword extends Mailable
 
         return $this->view('emails.auth.reset',[
            'user' => $this->user,
-           'url'  => $url
+           'url'  => $url,
+           'from' => config('mail.from.name'),
+           'more' => $this->more
         ]);
+
     }
 }

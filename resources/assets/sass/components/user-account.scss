@@ -1,5 +1,73 @@
+$user-account-headline-color:     $CI-COLOR7;
+$user-account-headline-size:      2.2em;
+
+$user-account-header-space:       40px;
+$user-account-header-bg:          $CI-COLOR7;
+$user-account-header-avatar-size: 220px;
+$user-account-header-color:       #FFFFFF;
+
 .user-account
 {
-  max-width: 768px;
-  margin: 0 auto;
+  max-width:  768px;
+  margin:     0 auto;
+  background: #FFF;
+
+}
+
+.user-headline
+{
+
+    color:        $user-account-headline-color;
+    font-size:    $user-account-headline-size;
+    font-family:  'Roboto';
+    font-weight:  lighter;
+    margin-bottom: 40px;
+
+    .user-headline-name-element
+    {
+        font-weight: bold;
+    }
+}
+
+.user-account-header
+{
+
+    background:      $user-account-header-bg;
+    height:          200px;
+    padding-left:    ($user-account-header-avatar-size + $user-account-header-space);
+    padding-top:     $user-account-header-space;
+    padding-right:   $user-account-header-space;
+    padding-bottom:  $user-account-header-space;
+    position:        relative;
+    color:           $user-account-header-color;
+
+    .user-account-avatar
+    {
+        height:     $user-account-header-avatar-size;
+        width:      $user-account-header-avatar-size;
+        position:   absolute;
+        top:        0;
+        left:       0;
+        margin:     -10px;
+        background: darken($user-account-header-bg,20);
+        overflow:   hidden;
+    }
+    .user-account-about
+    {
+
+    }
+}
+
+.user-content
+{
+    padding:    80px 60px;
+    background: #FFF;
+
+
+    h2,h3,h4
+    {
+       font-size:   1.2em;
+       font-weight: bold;
+    }
+
 }

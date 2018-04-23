@@ -12,6 +12,7 @@ use LaravelGettext;
 use JWTAuth;
 use Validator;
 use ValidationHelper;
+use DebugHelper;
 use Carbon\Carbon;
 
 use App\Models\User\User;
@@ -253,7 +254,12 @@ class AuthController extends ApiController
 
           if($user !== null)
             {
-                  Mail::to($user->email)->send(new ResetPassword($user));
+
+                  $debug    = DebugHelper::getData();
+                  $mailable = new ResetPassword($user,$debug);
+
+                  DebugHelper::logMail($mailable,$debug);
+                  Mail::to($user->email)->send($mailable);
             }
 
           return $this->respondSuccess(['data' => ['message' => _i('Sofern die E-Mail-Adresse in unserem System verwendet wird, wird an die angegebene Adresse ein Zurücksetzen-Link geschickt.')]]);

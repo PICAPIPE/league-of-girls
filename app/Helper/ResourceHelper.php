@@ -6,12 +6,11 @@ use File;
 use CacheHelper;
 use LaravelGettext;
 
-class Resources
+class ResourceHelper
 {
 
     protected static $exceptModelFiles = [
-        'BaseModel',
-        'DynamicModel'
+        'BaseModel'
     ];
 
     protected static function getNamespace($file = null){

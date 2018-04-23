@@ -3,7 +3,7 @@
        <div class="user-headline">
           <div class="row">
             <div class="col-xs-12 col-lg-8 user-headline-name">
-                {{account.username}}
+                <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.level" translate-plural="Level {{$count}}">Level 1</span>
             </div>
             <div class="col-xs-12 col-lg-4 user-headline-connect">
                 <user-connect user-id="{{account.userId}}"></user-connect>
@@ -16,6 +16,8 @@
               <img src="" alt="Useravatar" />
           </div>
           <div class="user-account-about">
+              For characters with weaknesses that force them
+              to travel to distant locations (e.g. Searching for Izzie or Smite the Wicked), this card could.
               {{account.about}}
           </div>
        </div>

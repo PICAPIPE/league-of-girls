@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Security;
 
 use Cookie;
 use DB;
+use Form;
 use Hash;
 use Route;
 use Image;
@@ -18,6 +19,8 @@ use App\Models\User\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
+use App\Http\Requests\Auth\ResetPassword;
 
 class AuthController extends Controller
 {
@@ -36,7 +39,24 @@ class AuthController extends Controller
     public function resetPassword(Request $request)
     {
 
-        dd('Reset password now');
+        return view('sites.resetpw',['user' => $request->input('user')]);
+
+    }
+
+    // Save the reset password information
+
+    public function resetPasswordStore(ResetPassword $request)
+    {
+
+        $user = User::where('id', $request->input('user'))->first();
+
+        if($user !== null)
+          {
+              $user->password = bcrypt($request->input('password1'));
+              $user->save();
+          }
+
+        return redirect('login')->with('success', _i('Neues Passwort wurde gesetzt. Du kannst dich nun mit dem neuen Passwort anmelden.'));
 
     }
 

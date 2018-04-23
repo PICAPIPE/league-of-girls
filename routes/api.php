@@ -26,3 +26,12 @@ Route::group(['middleware' => ['auth.api']], function(){
     Route::get('/users/current',                                 'Api\User\UserController@current');
 
 });
+
+// E-Sport
+
+Route::api('games', 'Api\Esport\GameController',[],false);
+
+// CHAT
+
+Route::get('/chat/private/{channel}', 'Api\Chat\ChatController@channelPrivate');
+Route::get('/chat/{channel}',         'Api\Chat\ChatController@channel');

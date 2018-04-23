@@ -62,6 +62,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'debug' => [
+            'driver'     => 'local',
+            'root'       => storage_path('debug'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];

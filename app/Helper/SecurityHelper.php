@@ -113,13 +113,6 @@ class SecurityHelper
 
     }
 
-    // Check the client policy
-
-    public static function checkClientPolicy($user = null,$client = null,$role = null)
-    {
-        return self::checkPolicy('clients-checkRole',$user,[$client,$role]);
-    }
-
     // Check the policy for a user
 
     public static function checkPolicy($policyName = null, $user = null, $more = array()){
@@ -148,10 +141,10 @@ class SecurityHelper
 
     // Check a permission object (file/folder) for a user and method
 
-    public static function checkPermission(User $user,$permission = null,$method = 'read')
+    public static function checkPermission(User $user,$permisssions = [])
     {
 
-          $allow = null;
+          $allow = false;
 
           // Check if total security testing is active
 
@@ -161,13 +154,6 @@ class SecurityHelper
                   return $allow;
             }
 
-          // If no permission to check is available
-
-          if($permission === null)
-            {
-               return $allow;
-            }
-
           // Check if the user is super admin - than permissioncheck is always true
 
           if(config('security.superadminpermission') === true && $user->is(['Admin']) === true)
@@ -175,41 +161,7 @@ class SecurityHelper
                 return true;
             }
 
-          // Check by permission type
-
-          switch($permission->type)
-          {
-
-              case 'user':
-
-                if(optional($permission)->$method === true && $user->id === $permission->pid)
-                  {
-                      $allow = true;
-                  }
-
-                break;
-
-              case 'role':
-
-                $roles = $user->roles()->pluck('id')->toArray();
-
-                if(in_array($permission->pid,$roles) === true && optional($permission)->$method === true)
-                  {
-                     $allow = true;
-                  }
-
-                break;
-
-              case 'client_role':
-
-                if($user->hasClientPermissionByRoleId($permission->pid) === true)
-                  {
-                     $allow = true;
-                  }
-
-                break;
-
-          }
+          $allow = $user->hasPermission($permissions);
 
           return $allow;
 

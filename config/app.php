@@ -166,6 +166,7 @@ return [
 
         Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
         Xinax\LaravelGettext\LaravelGettextServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -175,6 +176,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\MacroServiceProvider::class,
 
     ],
 
@@ -227,11 +229,16 @@ return [
 
         // System Helper
 
+        'CacheHelper'           => \App\Helper\CacheHelper::class,
+        'DebugHelper'           => \App\Helper\DebugHelper::class,
         'ValidationHelper'      => \App\Helper\ValidationHelper::class,
+        'ResourceHelper'        => \App\Helper\ResourceHelper::class,
         'SecurityHelper'        => \App\Helper\SecurityHelper::class,
 
         // VENDOR
         'TwitchApi' => Zarlach\TwitchApi\Facades\TwitchApiServiceFacade::class,
+        'Form'      => Collective\Html\FormFacade::class,
+        'Html'      => Collective\Html\HtmlFacade::class,
 
         // Authentication
 
