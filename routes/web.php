@@ -25,6 +25,10 @@ Route::get('/auth/logout-now',          ['uses'=>'Web\Security\AuthController@lo
 
 Route::get('views/{module}/{name}',     ['uses'=>'Web\System\ComponentController@get']);
 
+// Files
+
+Route::get('files/avatars/{user}',     ['uses'=>'Web\Files\FileController@avatar']);
+
 if(env('APP_DEBUG') === true)
   {
       Route::get('test/email-layout',    function () {

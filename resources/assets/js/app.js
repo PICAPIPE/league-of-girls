@@ -8,3 +8,5 @@ require('angular-formly-templates-bootstrap');
 require('angular-gettext');
 require('angular-storage');
 require('angular-sanitize');
+require('angular-upload');
+require('jquery');

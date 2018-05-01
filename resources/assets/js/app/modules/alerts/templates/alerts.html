@@ -8,9 +8,7 @@
             <div class="alerts-header" ng-if="alertElement.title !== ''">
                 <strong>{{alertElement.title}}</strong>
             </div>
-            <div class="alerts-body">
-                {{alertElement.message}}
-            </div>
+            <div class="alerts-body" compile="alertElement.message"></div>
             <div class="alerts-footer" ng-if="alertElement.buttons.length > 0">
 
                 <div class="alerts-button" ng-init="alerts.initBtn(btn,alertElement.index)" ng-repeat="btn in alertElement.buttons">

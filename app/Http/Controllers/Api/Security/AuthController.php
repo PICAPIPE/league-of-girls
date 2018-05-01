@@ -71,6 +71,12 @@ class AuthController extends ApiController
                 $data['birthdate'] =  Carbon::parse(Carbon::now(), config('app.timezone'))->addDay(1);
             }
 
+            // Gender
+
+            if(isset($data['gender'])){
+                $data['gender'] =  config('user.standardGender');
+            }
+
             $data['active']       = config('register.autoactive');
             $data['locked']       = false;
             $data['deleted']      = false;

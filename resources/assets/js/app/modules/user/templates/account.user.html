@@ -2,10 +2,10 @@
 
        <div class="user-headline">
           <div class="row">
-            <div class="col-xs-12 col-lg-8 user-headline-name">
+            <div class="col-xs-12 col-sm-6 col-lg-8 user-headline-name">
                 <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.level" translate-plural="Level {{$count}}">Level 1</span>
             </div>
-            <div class="col-xs-12 col-lg-4 user-headline-connect">
+            <div class="col-xs-12 col-sm-6 col-lg-4 user-headline-connect">
                 <user-connect user-id="{{account.userId}}"></user-connect>
             </div>
           </div>
@@ -13,18 +13,23 @@
 
        <div class="user-account-header">
           <div class="user-account-avatar">
-              <img src="" alt="Useravatar" />
+              <img ng-src="{{account.imagePath}}" alt="Useravatar" />
           </div>
           <div class="user-account-about">
-              For characters with weaknesses that force them
-              to travel to distant locations (e.g. Searching for Izzie or Smite the Wicked), this card could.
-              {{account.about}}
+              <div class="user-account-about-txt" compile="account.user.about"></div>
+              <div class="user-account-edit">
+                  <a  ui-sref="app.user.myaccount.edit" ui-sref-active="active"><i class="fas fa-pencil-alt"></i></a>
+              </div>
           </div>
        </div>
 
        <div class="user-content">
 
           <h2>{{ 'Spiele' | translate }}</h2>
+
+          <ul class="games">
+             <li class="game-item" ng-class="account.getClass(game.id)" ng-repeat="game in account.games">{{game.name}}</li>
+          </ul>
 
           <h2>{{ 'Kommunikation' | translate }}</h2>
 

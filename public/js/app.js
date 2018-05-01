@@ -8,7 +8,8 @@ var appConfig = (function() {
       'formlyBootstrap',
       'gettext',
       'angular-storage',
-      'ngSanitize'
+      'ngSanitize',
+      'lr.upload'
     ];
 
     // Add a new vertical module
@@ -72,6 +73,28 @@ var DB_SERVICES    = [
                getUrl: function(url)
                {
                    return url + '/current'
+               }
+           },
+           {
+               type:       'put',
+               name:       'save',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current'
+               }
+           },
+           {
+               type:       'post',
+               name:       'addGame',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/games'
                }
            }
        ]
@@ -152,7 +175,8 @@ var appConfig = (function() {
       'formlyBootstrap',
       'gettext',
       'angular-storage',
-      'ngSanitize'
+      'ngSanitize',
+      'lr.upload'
     ];
 
     // Add a new vertical module
@@ -221,6 +245,28 @@ var DB_SERVICES    = [
                getUrl: function(url)
                {
                    return url + '/current'
+               }
+           },
+           {
+               type:       'put',
+               name:       'save',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current'
+               }
+           },
+           {
+               type:       'post',
+               name:       'addGame',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/games'
                }
            }
        ]
@@ -427,8 +473,10 @@ angular.module('core').run([
 
                     hasRole = usersrv.hasRole(roles);
 
-                    if(user            === null &&
-                       trans.to().name !== 'login.login')
+                    if(user            === null          &&
+                       trans.to().name !== 'login.login' &&
+                       trans.to().name !== 'login.register' &&
+                       roles.length      > 0)
                       {
                           // User is not authenticated
                           $state.go('login.login');
@@ -497,6 +545,67 @@ angular.module('core').directive('compile',['$compile',
                     }
                 );
             };
+    }]);
+
+
+angular.module('core').directive('contenteditable',  ['$sce', function($sce) {
+      return {
+      restrict: 'A', // only activate on element attribute
+      require: '?ngModel', // get a hold of NgModelController
+      link: function(scope, element, attrs, ngModel) {
+
+          if (!ngModel) return; // do nothing if no ng-model
+
+          // Specify how UI should be updated
+          ngModel.$render = function() {
+            element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
+            read(); // initialize
+          };
+
+          // Listen for change events to enable binding
+          element.on('blur keydown change', function(e) {
+
+            var stop = false;
+
+            if(angular.isDefined(attrs.stripBr) === true && attrs.stripBr === 'true')
+              {
+
+                switch(e.keyCode)
+                {
+                   case 13:
+                    e.preventDefault();
+                    stop = true;
+                    break;
+                }
+
+              }
+
+            if(stop === true)
+              {
+
+                 return;
+              }
+
+             scope.$evalAsync(read);
+          });
+
+          // Write data to the model
+          function read() {
+
+            var html = element.html();
+            var tmp  = document.createElement("DIV");
+
+            if(angular.isDefined(attrs.stripBr) === true && attrs.stripBr === 'true')
+              {
+                tmp.innerHTML = html;
+                html          = tmp.textContent || tmp.innerText || "";
+              }
+
+            ngModel.$setViewValue(html);
+
+          }
+        }
+      };
     }]);
 
 appConfig.registerModule('dashboard');
@@ -687,6 +796,17 @@ angular.module('user').config([
               roles: window.GetStandardRoles()
             },
             {
+              name:      'app.user.myaccount.edit',
+              url:       '/my-account/edit',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/account.user.edit.html',
+                    'controller':  'UserMyAccountEditCtrl as myaccountEdit'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
+            {
               name:      'login',
               component: 'loginLayout'
             },
@@ -797,7 +917,8 @@ angular.module('user').component('account', {
   templateUrl:  'views/user/account.user.html',
   controller:   'UserAccountCtrl as account',
   bindings:     {
-                    userId: '='
+                    userId:   '=',
+                    editable: '='
                 }
 });
 
@@ -2036,11 +2157,60 @@ angular.module('user').controller('UserAccountCtrl',[
      function($scope, $rootScope, $state, $window, $controller,UserService) {
 
           var account = this;
+          var date    = new Date();
           angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
 
-          console.error(account);
+          account.user           = UserService.getCurrentUser();
+          account.imagePath      = '/files/avatars/' + account.user.uuid + '?time='+ date.getTime();
 
-          account.user = UserService.getCurrentUser()
+          account.games          = [];
+
+          // Init the account information
+
+          account.init           = function()
+          {
+
+              account.DB.call('Games','all').then(
+                function(result)
+                {
+                    account.games = result.data.data;
+                },
+                function(errorResult)
+                {
+                    account.ALERT.add({
+                        'title':     account.LANG.getString('Fehler beim Laden der Spiele'),
+                        'message':   account.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Spiele aufgetreten.'),
+                        'autoClose': true
+                    });
+                }
+              );
+
+          };
+
+          // Get the class for a game
+
+          account.getClass        = function(gameId)
+          {
+              var i = 0;
+
+              if(angular.isDefined(account.user) === false)
+                {
+                   return '';
+                }
+
+              for(i = 0; i < account.user.games.length; i++)
+              {
+                  if(gameId === account.user.games[i].game_id && account.user.games[i].active === true)
+                    {
+                       return 'active';
+                    }
+              }
+
+              return '';
+
+          };
+
+          account.init();
 
      }
 ]);
@@ -2149,7 +2319,10 @@ angular.module('user').controller('UserLoginCtrl',[
                                   $rootScope.$broadcast('$modalClose');
                                   $state.go('app.dashboard.overview');
 
-                                  $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+                                  $timeout(function()
+                                  {
+                                      $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+                                  });
 
                                 },
                                 function(errorResultGetUserData)
@@ -2340,6 +2513,218 @@ angular.module('user').controller('UserMyAccountCtrl',[
           angular.extend(myaccount, $controller('BaseCtrl', {$scope: $scope}));
 
           
+
+     }
+]);
+
+angular.module('user').controller('UserMyAccountEditCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$timeout',
+     '$controller',
+     'UserService',
+     function($scope, $rootScope, $state, $window, $timeout, $controller,UserService) {
+
+          var myaccountEdit = this;
+          var date          = new Date();
+          angular.extend(myaccountEdit, $controller('BaseCtrl', {$scope: $scope}));
+
+          myaccountEdit.user           = Object.assign({},UserService.getCurrentUser());
+          myaccountEdit.changeDetected = false;
+          myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid + '?time='+ date.getTime();
+          myaccountEdit.games          = [];
+
+          myaccountEdit.acceptTypes    = 'image/*,application/pdf';
+
+          myaccountEdit.watch = function(newValue, oldValue, scope)
+          {
+                if(angular.isDefined(newValue)  === true &&
+                   newValue                     !== null &&
+                   angular.isDefined(oldValue)  === true &&
+                   oldValue                     !== null &&
+                   myaccountEdit.changeDetected !== true)
+                  {
+                    myaccountEdit.changeDetected = !angular.equals(myaccountEdit.user, UserService.getCurrentUser());
+                  }
+          };
+
+          // Save profile information
+
+          myaccountEdit.save = function(event,data)
+          {
+              event.preventDefault();
+
+              myaccountEdit.DB.call('CurrentUser','save',null,data).then(
+                  function(result)
+                  {
+
+                        UserService.setCurrentUser(result.data.data);
+                        $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+
+                        myaccountEdit.ALERT.add({
+                            'title':     myaccountEdit.LANG.getString('Profil aktualisiert'),
+                            'message':   myaccountEdit.LANG.getString('Dein Profil wurde erfolgreich aktualisiert.'),
+                            'autoClose': true
+                        });
+
+                        $state.go('app.user.myaccount');
+
+                  },
+                  function(errorResult)
+                  {
+                      myaccountEdit.ALERT.add({
+                          'title':     myaccountEdit.LANG.getString('Fehler beim Speichern'),
+                          'message':   errorResult.data.errors !== undefined ? errorResult.data.errors.join('<br/>') : myaccountEdit.LANG.getString('Bitte probiere es erneut. Sollte es weiterhin nicht funktionieren, kontaktiere bitte den Support.'),
+                          'autoClose': true
+                      });
+                  }
+              );
+
+          };
+
+          myaccountEdit.avatarUpdated = function(response)
+          {
+
+              myaccountEdit.imagePath      = '';
+
+              myaccountEdit.ALERT.add({
+                  'title':     myaccountEdit.LANG.getString('Avatar aktualisiert'),
+                  'message':   myaccountEdit.LANG.getString('Du hast dein Profilbild erfolgreich aktualisiert.'),
+                  'autoClose': true
+              });
+
+              date          = new Date();
+
+              $timeout(function()
+              {
+                  myaccountEdit.imagePath      = '';
+                  $scope.$apply();
+
+                  $timeout(function()
+                  {
+                      myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid+'?time='+ date.getTime();
+                      $scope.$apply();
+                  },200);
+
+              },0);
+          };
+
+          // Init the account information
+
+          myaccountEdit.init           = function()
+          {
+
+              myaccountEdit.DB.call('Games','all').then(
+                function(result)
+                {
+                    myaccountEdit.games = result.data.data;
+                },
+                function(errorResult)
+                {
+                  myaccountEdit.ALERT.add({
+                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Spiele'),
+                      'message':   myaccountEdit.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Spiele aufgetreten.'),
+                      'autoClose': true
+                  });
+                }
+              );
+
+          };
+
+          // Get the class for a game
+
+          myaccountEdit.getClass        = function(gameId)
+          {
+              var i = 0;
+
+              if(angular.isUndefined(myaccountEdit.user) === true)
+                {
+                   return;
+                }
+
+              for(i = 0; i < myaccountEdit.user.games.length; i++)
+              {
+                  if(gameId === myaccountEdit.user.games[i].game_id && myaccountEdit.user.games[i].active === true)
+                    {
+                       return 'active';
+                    }
+              }
+
+              return '';
+
+          };
+
+          // Toogle game status
+
+          myaccountEdit.toggleGame      = function(gameId)
+          {
+            var i         = 0;
+            var f         = false;
+            var found2Add = false;
+
+            myaccountEdit.changeDetected = true;
+
+            for(i = 0; i < myaccountEdit.user.games.length; i++)
+            {
+
+                if(gameId === myaccountEdit.user.games[i].game_id)
+                  {
+                     myaccountEdit.user.games[i].active = !myaccountEdit.user.games[i].active;
+                     f                                  = true;
+                     break;
+                  }
+            }
+
+            if(f === false)
+              {
+
+                  myaccountEdit.DB.call('CurrentUser','addGame',null,{game:gameId}).then(
+                      function(result)
+                      {
+
+                            for(i = 0; i < myaccountEdit.user.games.length; i++)
+                            {
+                                if(myaccountEdit.user.games[i] === result.data.data.game_id)
+                                  {
+                                     found2Add = true;
+                                     break;
+                                  }
+                            }
+
+                            if(found2Add === false)
+                              {
+                                  result.data.data.active                                   = true;
+                                  myaccountEdit.user.games[myaccountEdit.user.games.length] = result.data.data;
+                              }
+
+                            $timeout(function()
+                            {
+                              $scope.$apply();
+                              myaccountEdit.init();
+                            });
+
+                      },
+                      function(errorResult)
+                      {
+                          myaccountEdit.ALERT.add({
+                              'title':     myaccountEdit.LANG.getString('Fehler beim Hinzufügen des Spiels'),
+                              'message':   errorResult.data.errors !== undefined ? errorResult.data.errors.join('<br/>') : myaccountEdit.LANG.getString('Bitte probiere es erneut. Sollte es weiterhin nicht funktionieren, kontaktiere bitte den Support.'),
+                              'autoClose': true
+                          });
+                      }
+                  );
+
+              }
+
+          };
+
+          myaccountEdit.init();
+
+          // Watchers
+
+          $scope.$watch('myaccountEdit.user', myaccountEdit.watch, true);
 
      }
 ]);

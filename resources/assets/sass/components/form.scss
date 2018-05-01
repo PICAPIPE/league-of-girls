@@ -56,3 +56,8 @@ $input-border-color-error: $CI-COLOR3;
 
     }
 }
+
+*[contenteditable]
+{
+   border-bottom:1px dashed $input-border-color;
+}

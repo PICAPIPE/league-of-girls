@@ -20,6 +20,17 @@
 
 }
 
+.user-panel-username
+{
+  display:       inline-block;
+  overflow:      hidden;
+  white-space:   nowrap;
+  text-overflow: ellipsis;
+  width:         40px;
+  position:      relative;
+  top:           5px;
+}
+
 .user-panel-notifications
 {
 
@@ -35,4 +46,15 @@
        margin-right: 20px;
     }
 
+}
+
+.user-account-about-txt
+{
+  height:    120px;
+  overflow:  hidden;
+}
+
+.user-account-about-txt[contenteditable="true"]
+{
+  border-color:#FFFFFF;
 }

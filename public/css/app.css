@@ -14222,6 +14222,10 @@ readers do not read off random characters that represent icons */
   border: 0;
 }
 
+*[contenteditable] {
+  border-bottom: 1px dashed #606060;
+}
+
 body {
   color: #333333;
 }
@@ -14306,6 +14310,16 @@ a {
   }
 }
 
+.user-panel-username {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 40px;
+  position: relative;
+  top: 5px;
+}
+
 .user-panel-notifications > span {
   position: absolute;
   left: 10px;
@@ -14314,6 +14328,15 @@ a {
 
 .user-panel-notifications > i {
   margin-right: 20px;
+}
+
+.user-account-about-txt {
+  height: 120px;
+  overflow: hidden;
+}
+
+.user-account-about-txt[contenteditable="true"] {
+  border-color: #FFFFFF;
 }
 
 .user-account {
@@ -14332,6 +14355,9 @@ a {
 
 .user-headline .user-headline-name-element {
   font-weight: bold;
+  min-width: 10px;
+  max-width: 80%;
+  display: inline-block;
 }
 
 .user-account-header {
@@ -14356,6 +14382,19 @@ a {
   overflow: hidden;
 }
 
+.user-account-header .user-account-avatar img {
+  width: 100%;
+  height: auto;
+}
+
+.user-account-header .user-account-avatar input[type="file"] {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 10px;
+  width: 80%;
+}
+
 .user-content {
   padding: 80px 60px;
   background: #FFF;
@@ -14366,5 +14405,37 @@ a {
 .user-content h4 {
   font-size: 1.2em;
   font-weight: bold;
+}
+
+.user-account-edit {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #FFF;
+  font-size: 24px;
+}
+
+.user-account-edit a {
+  color: #FFF;
+}
+
+.games {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.game-item {
+  list-style: none;
+  padding: 5px 10px;
+  margin: 0 10px 10px 0;
+  border: 1px solid #606060;
+  display: inline-block;
+  border-radius: 5.25rem;
+  opacity: 0.2;
+}
+
+.game-item.active {
+  opacity: 1;
 }
 

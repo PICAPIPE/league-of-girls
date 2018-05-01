@@ -33,7 +33,9 @@ var jsVendor = [
   'angular-formly',
   'angular-formly-templates-bootstrap',
   'angular-storage',
-  'angular-sanitize'
+  'angular-sanitize',
+  'angular-upload',
+  'jquery'
 ];
 
 mix.js('resources/assets/js/app.js', 'public/js')

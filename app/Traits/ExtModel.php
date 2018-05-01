@@ -17,12 +17,16 @@ trait ExtModel
     ** Get validations settings
     **/
 
-    public function getValidationFields($add = []){
+    public function getValidationFields($add = [],$mode = 'create'){
 
         $validations = [];
 
-        if(isset($this->validations) === true){
+        if(isset($this->validations) === true && $mode === 'create'){
            $validations =  $this->validations;
+        }
+
+        if(isset($this->validationsUpdate) === true && $mode === 'update'){
+           $validations =  $this->validationsUpdate;
         }
 
         $validations = array_merge($validations,$add);
@@ -35,14 +39,14 @@ trait ExtModel
     ** Do the standard validations
     **/
 
-    public function validate($data,$add = []){
+    public function validate($data,$add = [],$mode = 'create'){
 
-        $validations = $this->getValidationFields($add);
+        $validations = $this->getValidationFields($add,$mode);
 
         return Validator::make($data, $validations,ValidationHelper::getMessages());
 
     }
-    
+
     /**
     ** Extract from the header fields which can be accessed
     **/

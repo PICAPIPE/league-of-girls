@@ -22,6 +22,17 @@ angular.module('user').config([
               roles: window.GetStandardRoles()
             },
             {
+              name:      'app.user.myaccount.edit',
+              url:       '/my-account/edit',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/account.user.edit.html',
+                    'controller':  'UserMyAccountEditCtrl as myaccountEdit'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
+            {
               name:      'login',
               component: 'loginLayout'
             },

@@ -29,8 +29,10 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->rememberToken();
 
+            $table->longText('about');
+
             $table->date('birthdate');
-            $table->integer('gender')->default(0);
+            $table->enum('gender',  config('user.enums.types'));
             $table->integer('avatar_id')->default(0);
 
             $table->boolean('locked')->default(false);

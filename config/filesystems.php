@@ -69,6 +69,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'avatars' => [
+            'driver'     => 'local',
+            'root'       => storage_path('avatars'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];

@@ -26,6 +26,9 @@ $user-account-header-color:       #FFFFFF;
     .user-headline-name-element
     {
         font-weight: bold;
+        min-width:   10px;
+        max-width:   80%;
+        display:     inline-block;
     }
 }
 
@@ -51,11 +54,24 @@ $user-account-header-color:       #FFFFFF;
         margin:     -10px;
         background: darken($user-account-header-bg,20);
         overflow:   hidden;
-    }
-    .user-account-about
-    {
+
+        img
+        {
+          width:  100%;
+          height: auto;
+        }
+
+        input[type="file"]
+        {
+          position:  absolute;
+          left:      0;
+          bottom:    0;
+          margin:    10px;
+          width:     80%;
+        }
 
     }
+
 }
 
 .user-content
@@ -69,5 +85,20 @@ $user-account-header-color:       #FFFFFF;
        font-size:   1.2em;
        font-weight: bold;
     }
+
+}
+
+.user-account-edit
+{
+  position:  absolute;
+  right:     10px;
+  top:       10px;
+  color:     #FFF;
+  font-size: 24px;
+
+  a
+  {
+     color:#FFF;
+  }
 
 }

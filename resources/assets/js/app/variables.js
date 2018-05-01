@@ -46,6 +46,28 @@ var DB_SERVICES    = [
                {
                    return url + '/current'
                }
+           },
+           {
+               type:       'put',
+               name:       'save',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current'
+               }
+           },
+           {
+               type:       'post',
+               name:       'addGame',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/games'
+               }
            }
        ]
 

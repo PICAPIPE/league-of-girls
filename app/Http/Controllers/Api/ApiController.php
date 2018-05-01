@@ -6,7 +6,7 @@ use App;
 use File;
 use Image;
 use LaravelGettext;
-
+use JWTAuth;
 use SecurityHelper;
 
 use App\Http\Controllers\Controller;
@@ -120,7 +120,7 @@ class ApiController extends Controller
 
         if($cookieName !== null && $cookieValue !== null){
 
-            $result              = \Response::$macroname($data,$this->getStatusCode(),$headers)->cookie($cookieName, $cookieValue, 5, '/',config('app.domain'), false, true);
+            $result              = \Response::$macroname($data,$this->getStatusCode(),$headers)->cookie($cookieName, $cookieValue, 360, '/',config('app.domain'), false, true);
 
         }
         else {

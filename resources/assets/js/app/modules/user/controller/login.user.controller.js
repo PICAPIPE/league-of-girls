@@ -88,7 +88,10 @@ angular.module('user').controller('UserLoginCtrl',[
                                   $rootScope.$broadcast('$modalClose');
                                   $state.go('app.dashboard.overview');
 
-                                  $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+                                  $timeout(function()
+                                  {
+                                      $rootScope.$broadcast('userLogged',{success:true,user:result.data.data});
+                                  });
 
                                 },
                                 function(errorResultGetUserData)

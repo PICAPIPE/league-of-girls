@@ -53,7 +53,8 @@ class User extends Authenticatable implements JWTSubject
       'locked',
       'active',
       'password',
-      'newsletter'
+      'newsletter',
+      'about'
   ];
 
   protected $validations = [
@@ -63,6 +64,10 @@ class User extends Authenticatable implements JWTSubject
       'password2'     => 'required|min:8|same:password',
       'terms'         => 'required|accepted',
       'avatar_id'     => 'integer'
+  ];
+
+  protected $validationsUpdate = [
+      'username'      => 'required|min:3'
   ];
 
   /**
@@ -106,6 +111,13 @@ class User extends Authenticatable implements JWTSubject
    * @var array
    */
   protected $dates = ['deleted_at'];
+
+  // Games
+
+  public function games()
+  {
+      return $this->hasMany('App\Models\User\UserGame');
+  }
 
   // Roles
 

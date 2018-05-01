@@ -24,6 +24,9 @@ Route::post('/auth/reset',                            'Api\Security\AuthControll
 Route::group(['middleware' => ['auth.api']], function(){
 
     Route::get('/users/current',                                 'Api\User\UserController@current');
+    Route::put('/users/current',                                 'Api\User\UserController@currentUpdate');
+    Route::post('/users/current/avatars',                        'Api\User\UserController@currentUploadAvatar');
+    Route::post('/users/current/games',                          'Api\User\UserController@currentAddGame');
 
 });
 

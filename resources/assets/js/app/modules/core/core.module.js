@@ -82,8 +82,10 @@ angular.module('core').run([
 
                     hasRole = usersrv.hasRole(roles);
 
-                    if(user            === null &&
-                       trans.to().name !== 'login.login')
+                    if(user            === null          &&
+                       trans.to().name !== 'login.login' &&
+                       trans.to().name !== 'login.register' &&
+                       roles.length      > 0)
                       {
                           // User is not authenticated
                           $state.go('login.login');
@@ -152,4 +154,65 @@ angular.module('core').directive('compile',['$compile',
                     }
                 );
             };
+    }]);
+
+
+angular.module('core').directive('contenteditable',  ['$sce', function($sce) {
+      return {
+      restrict: 'A', // only activate on element attribute
+      require: '?ngModel', // get a hold of NgModelController
+      link: function(scope, element, attrs, ngModel) {
+
+          if (!ngModel) return; // do nothing if no ng-model
+
+          // Specify how UI should be updated
+          ngModel.$render = function() {
+            element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
+            read(); // initialize
+          };
+
+          // Listen for change events to enable binding
+          element.on('blur keydown change', function(e) {
+
+            var stop = false;
+
+            if(angular.isDefined(attrs.stripBr) === true && attrs.stripBr === 'true')
+              {
+
+                switch(e.keyCode)
+                {
+                   case 13:
+                    e.preventDefault();
+                    stop = true;
+                    break;
+                }
+
+              }
+
+            if(stop === true)
+              {
+
+                 return;
+              }
+
+             scope.$evalAsync(read);
+          });
+
+          // Write data to the model
+          function read() {
+
+            var html = element.html();
+            var tmp  = document.createElement("DIV");
+
+            if(angular.isDefined(attrs.stripBr) === true && attrs.stripBr === 'true')
+              {
+                tmp.innerHTML = html;
+                html          = tmp.textContent || tmp.innerText || "";
+              }
+
+            ngModel.$setViewValue(html);
+
+          }
+        }
+      };
     }]);

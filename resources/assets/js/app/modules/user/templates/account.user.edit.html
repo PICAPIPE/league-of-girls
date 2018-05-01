@@ -1,0 +1,42 @@
+<div class="user-account">
+
+       <div class="user-headline">
+          <div class="row">
+            <div class="col-xs-12 col-sm-6 col-lg-8 user-headline-name">
+                <span class="user-headline-name-element" contenteditable="true" strip-br="true" ng-model="myaccountEdit.user.username">{{myaccountEdit.user.username}}</span> - <span translate translate-n="account.user.level" translate-plural="Level {{$count}}">Level 1</span>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-4 user-headline-connect">
+                <button ng-disabled="myaccountEdit.changeDetected !== true" ng-click="myaccountEdit.save($event,myaccountEdit.user)" class="btn btn-outline-success float-right">{{'Speichern'|translate}}</button>
+            </div>
+
+          </div>
+       </div>
+
+       <div class="user-account-header">
+          <div class="user-account-avatar">
+              <upload-button url="/api/users/current/avatars" accept="myaccountEdit.acceptTypes" on-success="myaccountEdit.avatarUpdated(response)" param="file" id="user-avatar-upload"><img ng-if="myaccountEdit.imagePath !== ''" ng-src="{{myaccountEdit.imagePath}}" alt="Useravatar" /></upload-button>
+          </div>
+          <div class="user-account-about">
+              <div class="user-account-about-txt" contenteditable="true" ng-model="myaccountEdit.user.about"></div>
+          </div>
+       </div>
+
+       <div class="user-content">
+
+          <h2>{{ 'Spiele' | translate }}</h2>
+
+          <ul class="games">
+             <li class="game-item" ng-class="myaccountEdit.getClass(game.id)" ng-repeat="game in myaccountEdit.games" ng-click="myaccountEdit.toggleGame(game.id)">
+               {{game.name}}
+             </li>
+          </ul>
+
+          <h2>{{ 'Kommunikation' | translate }}</h2>
+
+          <h2>{{ 'Plattformen' | translate }}</h2>
+
+          <h2>{{ 'Links und Profile' | translate }}</h2>
+
+       </div>
+
+</div>

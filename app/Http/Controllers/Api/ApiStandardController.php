@@ -121,6 +121,11 @@ class ApiStandardController extends ApiController
                     $modelData = $md::where('id','>',0);
                 }
 
+          if(in_array('published',$mdClass->getFillable()) === true)
+            {
+                $modelData = $modelData->where('published',true);
+            }
+
           $modelData = $modelData->select($fields);
 
           $modelData = $modelData->orderBy($this->validateSortByField($sortBy,$mdClass),$sortDirection);
