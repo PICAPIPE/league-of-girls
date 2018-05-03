@@ -15,6 +15,7 @@ angular.module('user').controller('UserAccountCtrl',[
           account.imagePath      = '/files/avatars/' + account.user.uuid + '?time='+ date.getTime();
 
           account.games          = [];
+          account.plattforms     = [];
 
           // Init the account information
 
@@ -36,6 +37,21 @@ angular.module('user').controller('UserAccountCtrl',[
                 }
               );
 
+              account.DB.call('Plattforms','all').then(
+                function(result)
+                {
+                    account.plattforms = result.data.data;
+                },
+                function(errorResult)
+                {
+                    account.ALERT.add({
+                        'title':     account.LANG.getString('Fehler beim Laden der Plattformen'),
+                        'message':   account.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Plattformen aufgetreten.'),
+                        'autoClose': true
+                    });
+                }
+              );
+
           };
 
           // Get the class for a game
@@ -52,6 +68,29 @@ angular.module('user').controller('UserAccountCtrl',[
               for(i = 0; i < account.user.games.length; i++)
               {
                   if(gameId === account.user.games[i].game_id && account.user.games[i].active === true)
+                    {
+                       return 'active';
+                    }
+              }
+
+              return '';
+
+          };
+
+          // Get the class for a plattform
+
+          account.getPlattformClass        = function(plattformId)
+          {
+              var i = 0;
+
+              if(angular.isDefined(account.user) === false)
+                {
+                   return '';
+                }
+
+              for(i = 0; i < account.user.plattforms.length; i++)
+              {
+                  if(plattformId === account.user.plattforms[i].plattform_id && account.user.plattforms[i].active === true)
                     {
                        return 'active';
                     }

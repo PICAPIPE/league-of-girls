@@ -33,7 +33,17 @@
 
           <h2>{{ 'Kommunikation' | translate }}</h2>
 
+
           <h2>{{ 'Plattformen' | translate }}</h2>
+
+          <ul class="plattforms">
+             <li class="plattform-item form" ng-class="myaccountEdit.getPlattformClass(plattform.id)" ng-repeat="plattform in myaccountEdit.plattforms" ng-init="myaccountEdit.togglePlattform(plattform.id,true)">
+               <div class="input-group">
+                  <div class="input-group-addon" ng-click="myaccountEdit.togglePlattform(plattform.id)"> <i class="{{plattform.icon}}" title="{{plattform.name}}"></i></div>
+                  <input type="text" class="form-control" ng-model="plattform.value" placeholder="{{ 'Benutzername' | translate }}">
+                </div>
+             </li>
+          </ul>
 
           <h2>{{ 'Links und Profile' | translate }}</h2>
 

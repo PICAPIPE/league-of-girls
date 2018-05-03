@@ -33,7 +33,12 @@
 
           <h2>{{ 'Kommunikation' | translate }}</h2>
 
+
           <h2>{{ 'Plattformen' | translate }}</h2>
+
+          <ul class="plattforms">
+             <li class="plattform-item" ng-class="account.getPlattformClass(plattform.id)" ng-repeat="plattform in account.plattforms"><i class="{{plattform.icon}}" title="{{plattform.name}}"></i></li>
+          </ul>
 
           <h2>{{ 'Links und Profile' | translate }}</h2>
 

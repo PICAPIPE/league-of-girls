@@ -68,12 +68,23 @@ var DB_SERVICES    = [
                {
                    return url + '/current/games'
                }
+           },
+           {
+               type:       'post',
+               name:       'addPlattform',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/plattforms'
+               }
            }
        ]
 
     },
 
-    // Current User
+    // Authentication
 
     {
        'name' : 'Auth',
@@ -115,6 +126,13 @@ var DB_SERVICES    = [
            }
        ]
 
+    },
+
+    // Plattforms
+
+    {
+       'name' : 'Plattforms',
+       'url'  : 'api/plattforms'
     }
 
 ];

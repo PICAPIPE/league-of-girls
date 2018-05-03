@@ -119,6 +119,13 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserGame');
   }
 
+  // Plattforms
+
+  public function plattforms()
+  {
+      return $this->hasMany('App\Models\User\UserPlattform');
+  }
+
   // Roles
 
   public function roles()

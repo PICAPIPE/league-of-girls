@@ -33,7 +33,7 @@ class UserController extends ApiController
       //$request->user->settings = $request->user->getSettings();
       $data                    = $request->all();
 
-      $result                  = User::where('uuid',$request->user->uuid)->with('games');
+      $result                  = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms');
 
       $fields                  = $request->user->getRequestFields($request);
 
@@ -98,7 +98,27 @@ class UserController extends ApiController
 
       }
 
-      $user = User::where('uuid',$request->user->uuid)->with('games')->first();
+      if(isset($data['plattforms']))
+      {
+
+        $plattforms = $user->plattforms()->get();
+
+        $plattforms->each(function($plattformEntry) use ($data){
+
+            $plattformData = collect($data['plattforms'])->where('plattform_id',$plattformEntry->plattform_id)->first();;
+
+            if($plattformData !== null)
+            {
+              $plattformEntry->value  = $plattformData['value'];
+              $plattformEntry->active = $plattformData['active'];
+              $plattformEntry->save();
+            }
+
+        });
+
+      }
+
+      $user = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms')->first();
 
       return $this->respondSuccess(['data' => $user->toArray()]);
   }
@@ -146,6 +166,37 @@ class UserController extends ApiController
           'game_id' => $request->input('game'),
           'user_id' => $user->id,
           'active'  => false
+      ]);
+
+      return $this->respondSuccess(['data' => $entry->toArray()]);
+
+  }
+
+  /***
+  ** Add a plattform relation to a user
+  ***/
+
+  public function currentAddPlattform(Request $request)
+  {
+
+      $user = User::where('id',$request->user->id)->first();
+
+      if($user === null)
+        {
+           return $this->respondBadRequest();
+        }
+
+      if($user->plattforms()->where('plattform_id',$request->input('plattform'))->count() > 0)
+        {
+            return $this->respondSuccess(['data' => $user->plattforms()->where('plattform_id',$request->input('plattform'))->first()->toArray()]);
+        }
+
+
+      $entry = $user->plattforms()->create([
+          'plattform_id' => $request->input('plattform'),
+          'user_id'      => $user->id,
+          'value'        => '',
+          'active'       => false
       ]);
 
       return $this->respondSuccess(['data' => $entry->toArray()]);

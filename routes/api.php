@@ -27,12 +27,14 @@ Route::group(['middleware' => ['auth.api']], function(){
     Route::put('/users/current',                                 'Api\User\UserController@currentUpdate');
     Route::post('/users/current/avatars',                        'Api\User\UserController@currentUploadAvatar');
     Route::post('/users/current/games',                          'Api\User\UserController@currentAddGame');
+    Route::post('/users/current/plattforms',                     'Api\User\UserController@currentAddPlattform');
 
 });
 
 // E-Sport
 
-Route::api('games', 'Api\Esport\GameController',[],false);
+Route::api('games',      'Api\Esport\GameController',     [],false);
+Route::api('plattforms', 'Api\Esport\PlattformController',[],false);
 
 // CHAT
 
