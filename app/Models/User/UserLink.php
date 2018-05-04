@@ -5,7 +5,7 @@ namespace App\Models\User;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class UserCommunication extends BaseModel
+class UserLink extends BaseModel
 {
 
   /**
@@ -13,7 +13,7 @@ class UserCommunication extends BaseModel
    *
    * @var string
    */
-  protected $table = 'users_communications';
+  protected $table = 'users_links';
 
   /**
    * Log model interactions
@@ -30,7 +30,7 @@ class UserCommunication extends BaseModel
   protected $fillable = [
       'uuid',
       'user_id',
-      'communication_id',
+      'link_id',
       'value'
   ];
 
@@ -59,16 +59,16 @@ class UserCommunication extends BaseModel
    * @var array
    */
   protected $casts = [
-      'communication_id' => 'integer',
+      'link_id'          => 'integer',
       'user_id'          => 'integer',
       'active'           => 'boolean'
   ];
 
-  public function communication(){
+  public function link(){
 
       // Get permissions
 
-      return $this->hasOne('App\Models\Esport\Communication','id','communication_id');
+      return $this->hasOne('App\Models\Esport\Link','id','link_id');
 
   }
 

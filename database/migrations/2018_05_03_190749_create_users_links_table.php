@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersCommunicationsTable extends Migration
+class CreateUsersLinksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,40 +13,42 @@ class CreateUsersCommunicationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_communications', function (Blueprint $table) {
+        Schema::create('users_links', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
             $table->integer('user_id')->unsigned();
-            $table->integer('communication_id')->unsigned();
-            $table->longText('value');
+            $table->integer('link_id')->unsigned();
+            $table->string('value');
             $table->boolean('active');
             $table->timestamps();
         });
 
-        if (Schema::hasTable('users_communications')) {
+        // Setup the Relations
 
-            Schema::table('users_communications', function ($table) {
+        if (Schema::hasTable('users_links')) {
+
+            Schema::table('users_links', function ($table) {
 
                 // Relations
 
-                $table->foreign('user_id')
+                $table->foreign('link_id')
                     ->references('id')
-                    ->on('users')
+                    ->on('links')
                     ->onDelete('cascade');
 
             });
 
         }
 
-        if (Schema::hasTable('users_communications')) {
+        if (Schema::hasTable('users_links')) {
 
-            Schema::table('users_communications', function ($table) {
+            Schema::table('users_links', function ($table) {
 
                 // Relations
 
-                $table->foreign('communication_id')
+                $table->foreign('user_id')
                     ->references('id')
-                    ->on('communications')
+                    ->on('users')
                     ->onDelete('cascade');
 
             });
@@ -62,6 +64,6 @@ class CreateUsersCommunicationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_communications');
+        Schema::dropIfExists('users_links');
     }
 }

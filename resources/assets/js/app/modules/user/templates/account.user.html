@@ -33,6 +33,9 @@
 
           <h2>{{ 'Kommunikation' | translate }}</h2>
 
+          <ul class="commnunications">
+             <li class="communication-item" ng-class="account.getCommunicationClass(communication.id)" ng-repeat="communication in account.commnunications"><i class="{{communication.icon}}" title="{{communication.name}}"></i></li>
+          </ul>
 
           <h2>{{ 'Plattformen' | translate }}</h2>
 
@@ -41,6 +44,10 @@
           </ul>
 
           <h2>{{ 'Links und Profile' | translate }}</h2>
+
+          <ul class="links">
+             <li class="link-item active" ng-if="account.checkVisiblilty('links','link_id',link.id)" ng-repeat="link in account.links"><i class="{{link.icon}}" title="{{link.name}}"></i> <span compile="account.renderLink('links','link_id',link.id,link)"></span></li>
+          </ul>
 
        </div>
 

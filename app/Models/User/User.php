@@ -126,6 +126,20 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserPlattform');
   }
 
+  // Communications
+
+  public function communications()
+  {
+      return $this->hasMany('App\Models\User\UserCommunication');
+  }
+
+  // Communications
+
+  public function links()
+  {
+      return $this->hasMany('App\Models\User\UserLink');
+  }
+
   // Roles
 
   public function roles()

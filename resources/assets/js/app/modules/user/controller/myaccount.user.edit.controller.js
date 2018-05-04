@@ -12,13 +12,119 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           var date          = new Date();
           angular.extend(myaccountEdit, $controller('BaseCtrl', {$scope: $scope}));
 
-          myaccountEdit.user           = Object.assign({},UserService.getCurrentUser());
-          myaccountEdit.changeDetected = false;
-          myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid + '?time='+ date.getTime();
-          myaccountEdit.games          = [];
-          myaccountEdit.plattforms     = [];
+          myaccountEdit.user             = Object.assign({},UserService.getCurrentUser());
+          myaccountEdit.changeDetected   = false;
+          myaccountEdit.imagePath        = '/files/avatars/' + myaccountEdit.user.uuid + '?time='+ date.getTime();
+          myaccountEdit.games            = [];
+          myaccountEdit.plattforms       = [];
+          myaccountEdit.communications   = [];
+          myaccountEdit.links            = [];
+
+          myaccountEdit.fields           = [
+            {
+                "type": "input",
+                "key":  "firstname",
+                "templateOptions":
+                {
+                    "type":            "text",
+                    "required":        true,
+                    "label":           myaccountEdit.LANG.getString('Vorname'),
+                    "placeholder":     myaccountEdit.LANG.getString('Vorname'),
+                    "addonLeft": {
+                      "class": ""
+                    }
+                }
+            },
+            {
+                "type": "input",
+                "key":  "lastname",
+                "templateOptions":
+                {
+                    "type":            "text",
+                    "required":        true,
+                    "label":           myaccountEdit.LANG.getString('Nachname'),
+                    "placeholder":     myaccountEdit.LANG.getString('Nachname'),
+                    "addonLeft": {
+                      "class": ""
+                    }
+                }
+            },
+            {
+               "type": "input",
+               "key":  "email",
+               "templateOptions":
+               {
+                   "type":            "email",
+                   "required":        true,
+                   "label":           myaccountEdit.LANG.getString('E-Mail'),
+                   "placeholder":     myaccountEdit.LANG.getString('E-Mail'),
+                   "addonLeft": {
+                     "class": "far fa-user"
+                   }
+               }
+            },
+            {
+               "type": "input",
+               "key":  "password",
+               "templateOptions":
+               {
+                   "type":            "password",
+                   "required":        false,
+                   "label":           myaccountEdit.LANG.getString('Passwort'),
+                   "placeholder":     myaccountEdit.LANG.getString('Passwort'),
+                   "addonLeft" :{
+                     "class": "fas fa-key"
+                   }
+               }
+            },
+            {
+               "type": "input",
+               "key":  "password2",
+               "templateOptions":
+               {
+                   "type":            "password",
+                   "required":        false,
+                   "label":           myaccountEdit.LANG.getString('Passwort wiederholen'),
+                   "placeholder":     myaccountEdit.LANG.getString('Passwort wiederholen'),
+                   "addonLeft" :{
+                     "class": "fas fa-key"
+                   }
+               }
+            }
+          ];
+
+          myaccountEdit.fieldsNewsletter = [
+              {
+                 "type": "checkbox",
+                 "key":  "newsletter",
+                 "templateOptions":
+                 {
+                     "required":        false,
+                     "label":           myaccountEdit.LANG.getString('Newsletter abonieren')
+                 }
+              }
+          ];
 
           myaccountEdit.acceptTypes    = 'image/*,application/pdf';
+
+          myaccountEdit.watchCheck     = function(newValue,attr)
+          {
+
+              var i = 0;
+
+              for(i = 0; i < newValue[attr].length; i++)
+              {
+                  if(newValue[attr][i].value.length > 0)
+                        {
+                            newValue[attr][i].active = true;
+                        }
+                  else  {
+                           newValue[attr][i].active = false;
+                        }
+              }
+          };
+
+          // Watch the user attributes
 
           myaccountEdit.watch = function(newValue, oldValue, scope)
           {
@@ -33,25 +139,26 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                     myaccountEdit.changeDetected = !angular.equals(myaccountEdit.user, UserService.getCurrentUser());
                   }
 
-                if(angular.isUndefined(newValue.plattforms) === true)
+                if(angular.isUndefined(newValue.plattforms) === false)
                   {
-                     return;
+                       myaccountEdit.watchCheck(newValue,'plattforms');
                   }
 
-                for(i = 0; i < newValue.plattforms.length; i++)
-                {
-                    if(newValue.plattforms[i].value.length > 0)
-                          {
-                              newValue.plattforms[i].active = true;
-                          }
-                    else  {
-                             newValue.plattforms[i].active = false;
-                          }
-                }
+                if(angular.isUndefined(newValue.communications) === false)
+                  {
+                      myaccountEdit.watchCheck(newValue,'communications');
+                  }
+
+                if(angular.isUndefined(newValue.links) === false)
+                  {
+                      myaccountEdit.watchCheck(newValue,'links');
+                  }
 
           };
 
-          myaccountEdit.watchPlattforms       = function(newValue, oldValue, scope)
+          // Helper method to watch specfiic elements of the user
+
+          myaccountEdit.watchAttribute        = function(newValue,attr,pid)
           {
                 var i = 0;
                 var j = 0;
@@ -61,19 +168,39 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                 for(i = 0; i < newValue.length; i++)
                 {
 
-                    for(j = 0; j < myaccountEdit.user.plattforms.length; j++)
+                    for(j = 0; j < myaccountEdit.user[attr].length; j++)
                     {
 
-                        if(myaccountEdit.user.plattforms[j].plattform_id === newValue[i].id)
+                        if(myaccountEdit.user[attr][j][pid] === newValue[i].id)
                         {
-                              myaccountEdit.user.plattforms[j].value = newValue[i].value;
+                              myaccountEdit.user[attr][j].value = newValue[i].value;
                               break;
                         }
 
                     }
 
                 }
+          };
 
+          // Watcher for plattforms
+
+          myaccountEdit.watchPlattforms       = function(newValue, oldValue, scope)
+          {
+              myaccountEdit.watchAttribute(newValue,'plattforms','plattform_id');
+          };
+
+          // Watcher for communications
+
+          myaccountEdit.watchCommunications   = function(newValue, oldValue, scope)
+          {
+              myaccountEdit.watchAttribute(newValue,'communications','communication_id');
+          };
+
+          // Watcher for links
+
+          myaccountEdit.watchLinks   = function(newValue, oldValue, scope)
+          {
+              myaccountEdit.watchAttribute(newValue,'links','link_id');
           };
 
           // Save profile information
@@ -112,23 +239,25 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           // Setup the value field
 
-          myaccountEdit.setUpValue    = function()
+          myaccountEdit.setUpValue    = function(attr,pid)
           {
               var i = 0;
               var j = 0;
 
-              for(j = 0; j < myaccountEdit.user.plattforms.length; j++)
+              for(j = 0; j < myaccountEdit.user[attr].length; j++)
               {
-                  for(i = 0; i < myaccountEdit.plattforms.length; i++)
+                  for(i = 0; i < myaccountEdit[attr].length; i++)
                   {
-                      if(myaccountEdit.plattforms[i].id === myaccountEdit.user.plattforms[j].plattform_id)
+                      if(myaccountEdit[attr][i].id === myaccountEdit.user[attr][j][pid])
                       {
-                          myaccountEdit.plattforms[i].value = myaccountEdit.user.plattforms[j].value;
+                          myaccountEdit[attr][i].value = myaccountEdit.user[attr][j].value;
                           break;
                       }
                   }
               }
           };
+
+          // Response if avatar got updated
 
           myaccountEdit.avatarUpdated = function(response)
           {
@@ -188,7 +317,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                     myaccountEdit.plattforms = result.data.data;
 
-                    myaccountEdit.setUpValue();
+                    myaccountEdit.setUpValue('plattforms','plattform_id');
 
                     $timeout(function(){
                       $scope.$apply();
@@ -198,8 +327,54 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                 function(errorResult)
                 {
                   myaccountEdit.ALERT.add({
-                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Platformen'),
+                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Plattformen'),
                       'message':   myaccountEdit.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Plattformen aufgetreten.'),
+                      'autoClose': true
+                  });
+                }
+              );
+
+              myaccountEdit.DB.call('Communications','all').then(
+                function(result)
+                {
+
+                    myaccountEdit.communications = result.data.data;
+
+                    myaccountEdit.setUpValue('communications','communication_id');
+
+                    $timeout(function(){
+                      $scope.$apply();
+                    });
+
+                },
+                function(errorResult)
+                {
+                  myaccountEdit.ALERT.add({
+                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Kommunikationsmethoden'),
+                      'message':   myaccountEdit.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Kommunikationsmethoden aufgetreten.'),
+                      'autoClose': true
+                  });
+                }
+              );
+
+              myaccountEdit.DB.call('Links','all').then(
+                function(result)
+                {
+
+                    myaccountEdit.links = result.data.data;
+
+                    myaccountEdit.setUpValue('links','link_id');
+
+                    $timeout(function(){
+                      $scope.$apply();
+                    });
+
+                },
+                function(errorResult)
+                {
+                  myaccountEdit.ALERT.add({
+                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Linktypen'),
+                      'message':   myaccountEdit.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Linktypen aufgetreten.'),
                       'autoClose': true
                   });
                 }
@@ -211,40 +386,44 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           myaccountEdit.getClass        = function(gameId)
           {
-              var i = 0;
-
-              if(angular.isUndefined(myaccountEdit.user) === true)
-                {
-                   return;
-                }
-
-              for(i = 0; i < myaccountEdit.user.games.length; i++)
-              {
-                  if(gameId === myaccountEdit.user.games[i].game_id && myaccountEdit.user.games[i].active === true)
-                    {
-                       return 'active';
-                    }
-              }
-
-              return '';
-
+              return myaccountEdit.getHelperClass('games','game_id',gameId);
           };
 
           // Get the class for a plattform
 
           myaccountEdit.getPlattformClass        = function(plattformId)
           {
+              return myaccountEdit.getHelperClass('plattforms','plattform_id',plattformId);
+          };
+
+          // Get the class for a plattform
+
+          myaccountEdit.getCommuniationClass        = function(communicationId)
+          {
+              return myaccountEdit.getHelperClass('communications','communication_id',communicationId);
+          };
+
+          // Get the class for a link
+
+          myaccountEdit.getLinkClass        = function(linkId)
+          {
+              return myaccountEdit.getHelperClass('links','link_id',linkId);
+          };
+
+          // Helper method for css
+
+          myaccountEdit.getHelperClass        = function(attr,pid,value)
+          {
               var i = 0;
 
-              if(angular.isUndefined(myaccountEdit.user) === true)
+              if(angular.isDefined(myaccountEdit.user) === false)
                 {
-                   return;
+                   return '';
                 }
 
-              for(i = 0; i < myaccountEdit.user.plattforms.length; i++)
+              for(i = 0; i < myaccountEdit.user[attr].length; i++)
               {
-
-                  if(plattformId === myaccountEdit.user.plattforms[i].plattform_id && myaccountEdit.user.plattforms[i].active === true)
+                  if(value === myaccountEdit.user[attr][i][pid] && myaccountEdit.user[attr][i].active === true)
                     {
                        return 'active';
                     }
@@ -256,76 +435,44 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           // Toogle game status
 
-          myaccountEdit.toggleGame      = function(gameId)
+          myaccountEdit.toggleGame      = function(gameId,noSet)
           {
-            var i         = 0;
-            var f         = false;
-            var found2Add = false;
-
-            myaccountEdit.changeDetected = true;
-
-            for(i = 0; i < myaccountEdit.user.games.length; i++)
-            {
-
-                if(gameId === myaccountEdit.user.games[i].game_id)
-                  {
-                     myaccountEdit.user.games[i].active = !myaccountEdit.user.games[i].active;
-                     f                                  = true;
-                     break;
-                  }
-            }
-
-            if(f === false)
-              {
-
-                  myaccountEdit.DB.call('CurrentUser','addGame',null,{game:gameId}).then(
-                      function(result)
-                      {
-
-                            for(i = 0; i < myaccountEdit.user.games.length; i++)
-                            {
-                                if(myaccountEdit.user.games[i] === result.data.data.game_id)
-                                  {
-                                     found2Add = true;
-                                     break;
-                                  }
-                            }
-
-                            if(found2Add === false)
-                              {
-                                  result.data.data.active                                   = true;
-                                  myaccountEdit.user.games[myaccountEdit.user.games.length] = result.data.data;
-                              }
-
-                            $timeout(function()
-                            {
-                              $scope.$apply();
-                              myaccountEdit.init();
-                            });
-
-                      },
-                      function(errorResult)
-                      {
-                          myaccountEdit.ALERT.add({
-                              'title':     myaccountEdit.LANG.getString('Fehler beim Hinzufügen des Spiels'),
-                              'message':   errorResult.data.errors !== undefined ? errorResult.data.errors.join('<br/>') : myaccountEdit.LANG.getString('Bitte probiere es erneut. Sollte es weiterhin nicht funktionieren, kontaktiere bitte den Support.'),
-                              'autoClose': true
-                          });
-                      }
-                  );
-
-              }
-
+              myaccountEdit.toggleItemData('games','game_id','addGame','game',gameId,noSet);
           };
 
-          // Toogle game status
+          // Toogle plattform status
 
           myaccountEdit.togglePlattform      = function(plattformId,noSet)
+          {
+              myaccountEdit.toggleItemData('plattforms','plattform_id','addPlattform','plattform',plattformId,noSet);
+          };
+
+          // Toogle communication status
+
+          myaccountEdit.toggleCommunication      = function(communicationId,noSet)
+          {
+              myaccountEdit.toggleItemData('communications','communication_id','addCommunication','communication',communicationId,noSet);
+          };
+
+          // Toogle link status
+
+          myaccountEdit.toggleLink      = function(linkId,noSet)
+          {
+              myaccountEdit.toggleItemData('links','link_id','addLink','link',linkId,noSet);
+          };
+
+          // Helper method to toggle item data
+
+          myaccountEdit.toggleItemData = function(attr,pid,method,id,value,noSet)
           {
             var i         = 0;
             var iF        = -1;
             var f         = false;
             var found2Add = false;
+
+            var obj       = Object.assign({},{});
+
+            obj[id] = value;
 
             if(angular.isUndefined(noSet) === true)
             {
@@ -334,14 +481,14 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
             myaccountEdit.changeDetected = true;
 
-            for(i = 0; i < myaccountEdit.user.plattforms.length; i++)
+            for(i = 0; i < myaccountEdit.user[attr].length; i++)
             {
 
-                if(plattformId === myaccountEdit.user.plattforms[i].plattform_id)
+                if(value === myaccountEdit.user[attr][i][pid])
                   {
                      if(noSet === false)
                      {
-                     myaccountEdit.user.plattforms[i].active = !myaccountEdit.user.plattforms[i].active;
+                     myaccountEdit.user[attr][i].active = !myaccountEdit.user[attr][i].active;
                      }
                      f                                  = true;
                      iF                                 = i;
@@ -352,13 +499,13 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
             if(f === false)
               {
 
-                  myaccountEdit.DB.call('CurrentUser','addPlattform',null,{plattform:plattformId}).then(
+                  myaccountEdit.DB.call('CurrentUser',method ,null,obj).then(
                       function(result)
                       {
 
-                            for(i = 0; i < myaccountEdit.user.plattforms.length; i++)
+                            for(i = 0; i < myaccountEdit.user[attr].length; i++)
                             {
-                                if(myaccountEdit.user.plattforms[i] === result.data.data.plattform_id)
+                                if(myaccountEdit.user[attr][i] === result.data.data[pid])
                                   {
                                      found2Add = true;
                                      break;
@@ -367,20 +514,19 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                             if(found2Add === false)
                               {
-                                  myaccountEdit.user.plattforms[myaccountEdit.user.plattforms.length] = result.data.data;
+                                  myaccountEdit.user[attr][myaccountEdit.user[attr].length] = result.data.data;
                               }
 
                             $timeout(function()
                             {
-                              $scope.$apply();
-                              myaccountEdit.init();
+                                $scope.$apply();
                             });
 
                       },
                       function(errorResult)
                       {
                           myaccountEdit.ALERT.add({
-                              'title':     myaccountEdit.LANG.getString('Fehler beim Hinzufügen der Plattform'),
+                              'title':     myaccountEdit.LANG.getString('Fehler beim Hinzufügen des Eintrages'),
                               'message':   errorResult.data.errors !== undefined ? errorResult.data.errors.join('<br/>') : myaccountEdit.LANG.getString('Bitte probiere es erneut. Sollte es weiterhin nicht funktionieren, kontaktiere bitte den Support.'),
                               'autoClose': true
                           });
@@ -388,15 +534,16 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                   );
 
               }
-
           };
 
           myaccountEdit.init();
 
           // Watchers
 
-          $scope.$watch('myaccountEdit.user',       myaccountEdit.watch,           true);
-          $scope.$watch('myaccountEdit.plattforms', myaccountEdit.watchPlattforms, true);
+          $scope.$watch('myaccountEdit.user',           myaccountEdit.watch,               true);
+          $scope.$watch('myaccountEdit.plattforms',     myaccountEdit.watchPlattforms,     true);
+          $scope.$watch('myaccountEdit.communications', myaccountEdit.watchCommunications, true);
+          $scope.$watch('myaccountEdit.links',          myaccountEdit.watchLinks,          true);
 
      }
 ]);

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePlattformsTable extends Migration
+class CreateCommunicationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePlattformsTable extends Migration
      */
     public function up()
     {
-      Schema::create('plattforms', function (Blueprint $table) {
+      Schema::create('communications', function (Blueprint $table) {
 
           $table->increments('id');
           $table->uuid('uuid');
@@ -38,6 +38,6 @@ class CreatePlattformsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plattforms');
+        Schema::dropIfExists('communications');
     }
 }

@@ -59,14 +59,16 @@ class UserPlattform extends BaseModel
    * @var array
    */
   protected $casts = [
-      'active' => 'boolean'
+      'plattform_id' => 'integer',
+      'user_id'      => 'integer',
+      'active'       => 'boolean'
   ];
 
-  public function role(){
+  public function plattform(){
 
       // Get permissions
 
-      return $this->hasOne('App\Models\Esport\PLattform','id','plattform_id');
+      return $this->hasOne('App\Models\Esport\Plattform','id','plattform_id');
 
   }
 

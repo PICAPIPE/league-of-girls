@@ -23,29 +23,65 @@
 
        <div class="user-content">
 
-          <h2>{{ 'Spiele' | translate }}</h2>
+           <h2>{{ 'Zugangsdaten' | translate }}</h2>
 
-          <ul class="games">
-             <li class="game-item" ng-class="myaccountEdit.getClass(game.id)" ng-repeat="game in myaccountEdit.games" ng-click="myaccountEdit.toggleGame(game.id)">
-               {{game.name}}
-             </li>
-          </ul>
+           <formly-form model="myaccountEdit.user" fields="myaccountEdit.fields">
 
-          <h2>{{ 'Kommunikation' | translate }}</h2>
+           <formly>
 
+           <hr>
 
-          <h2>{{ 'Plattformen' | translate }}</h2>
+           <h2>{{ 'Newsletter' | translate }}</h2>
 
-          <ul class="plattforms">
-             <li class="plattform-item form" ng-class="myaccountEdit.getPlattformClass(plattform.id)" ng-repeat="plattform in myaccountEdit.plattforms" ng-init="myaccountEdit.togglePlattform(plattform.id,true)">
-               <div class="input-group">
-                  <div class="input-group-addon" ng-click="myaccountEdit.togglePlattform(plattform.id)"> <i class="{{plattform.icon}}" title="{{plattform.name}}"></i></div>
-                  <input type="text" class="form-control" ng-model="plattform.value" placeholder="{{ 'Benutzername' | translate }}">
-                </div>
-             </li>
-          </ul>
+           <formly-form model="myaccountEdit.user" fields="myaccountEdit.fieldsNewsletter">
 
-          <h2>{{ 'Links und Profile' | translate }}</h2>
+           <formly>
+
+           <hr>
+
+           <h2>{{ 'Spiele' | translate }}</h2>
+
+           <ul class="games">
+              <li class="game-item" ng-class="myaccountEdit.getClass(game.id)" ng-repeat="game in myaccountEdit.games" ng-init="myaccountEdit.toggleGame(game.id,true)" ng-click="myaccountEdit.toggleGame(game.id)">
+                {{game.name}}
+              </li>
+           </ul>
+
+           <h2>{{ 'Kommunikation' | translate }}</h2>
+
+           <ul class="commnunications">
+              <li class="communication-item form" ng-class="myaccountEdit.getCommuniationClass(communication.id)" ng-repeat="communication in myaccountEdit.communications" ng-init="myaccountEdit.toggleCommunication(communication.id,true)">
+                <div class="input-group">
+                   <div class="input-group-addon" ng-click="myaccountEdit.toggleCommunication(communication.id)"> <i class="{{communication.icon}}" title="{{communication.name}}"></i></div>
+                   <input type="text" class="form-control" ng-model="communication.value" placeholder="{{communication.placeholder}}">
+                 </div>
+                 <small ng-if="communication.plattform !== undefined" class="text-muted">{{communication.help}}</small>
+              </li>
+           </ul>
+
+           <h2>{{ 'Plattformen' | translate }}</h2>
+
+           <ul class="plattforms">
+              <li class="plattform-item form" ng-class="myaccountEdit.getPlattformClass(plattform.id)" ng-repeat="plattform in myaccountEdit.plattforms" ng-init="myaccountEdit.togglePlattform(plattform.id,true)">
+                <div class="input-group">
+                   <div class="input-group-addon" ng-click="myaccountEdit.togglePlattform(plattform.id)"> <i class="{{plattform.icon}}" title="{{plattform.name}}"></i></div>
+                   <input type="text" class="form-control" ng-model="plattform.value" placeholder="{{plattform.placeholder}}">
+                 </div>
+                 <small ng-if="link.plattform !== undefined" class="text-muted">{{plattform.help}}</small>
+              </li>
+           </ul>
+
+           <h2>{{ 'Links und Profile' | translate }}</h2>
+
+           <ul class="links">
+              <li class="link-item form" ng-class="myaccountEdit.getLinkClass(link.id)" ng-repeat="link in myaccountEdit.links" ng-init="myaccountEdit.toggleLink(link.id,true)">
+                <div class="input-group">
+                   <div class="input-group-addon" ng-click="myaccountEdit.toggleLink(link.id)"> <i class="{{link.icon}}" title="{{link.name}}"></i></div>
+                   <input type="text" class="form-control" ng-model="link.value" placeholder="{{link.placeholder}}">
+                 </div>
+                 <small ng-if="link.help !== undefined" class="text-muted">{{link.help}}</small>
+              </li>
+           </ul>
 
        </div>
 

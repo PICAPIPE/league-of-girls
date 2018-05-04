@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Esport;
 
 use App\Models\BaseModel;
+
 use Illuminate\Database\Eloquent\Model;
 
-class UserCommunication extends BaseModel
+class Link extends BaseModel
 {
 
   /**
@@ -13,14 +14,7 @@ class UserCommunication extends BaseModel
    *
    * @var string
    */
-  protected $table = 'users_communications';
-
-  /**
-   * Log model interactions
-   *
-   * @var string
-   */
-  protected $logable = true;
+  protected $table = 'links';
 
   /**
    * The attributes that are mass assignable.
@@ -28,10 +22,16 @@ class UserCommunication extends BaseModel
    * @var array
    */
   protected $fillable = [
+      'id',
       'uuid',
-      'user_id',
-      'communication_id',
-      'value'
+      'type',
+      'name',
+      'icon',
+      'published'
+  ];
+
+  protected $validations = [
+
   ];
 
   /**
@@ -59,17 +59,14 @@ class UserCommunication extends BaseModel
    * @var array
    */
   protected $casts = [
-      'communication_id' => 'integer',
-      'user_id'          => 'integer',
-      'active'           => 'boolean'
+      'published' => 'boolean'
   ];
 
-  public function communication(){
-
-      // Get permissions
-
-      return $this->hasOne('App\Models\Esport\Communication','id','communication_id');
-
-  }
+  /**
+   * The attributes that should be mutated to dates.
+   *
+   * @var array
+   */
+  protected $dates = [];
 
 }

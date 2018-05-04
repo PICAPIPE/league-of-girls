@@ -26,6 +26,8 @@ class Plattform extends BaseModel
       'uuid',
       'name',
       'icon',
+      'placeholder',
+      'help',
       'published'
   ];
 

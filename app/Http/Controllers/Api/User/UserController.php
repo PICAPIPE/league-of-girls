@@ -33,7 +33,7 @@ class UserController extends ApiController
       //$request->user->settings = $request->user->getSettings();
       $data                    = $request->all();
 
-      $result                  = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms');
+      $result                  = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms')->with('communications')->with('links');
 
       $fields                  = $request->user->getRequestFields($request);
 
@@ -62,7 +62,7 @@ class UserController extends ApiController
   {
 
       $data = $request->all();
-      $user = User::where('uuid',$request->user->uuid)->with('games')->first();
+      $user = User::where('uuid',$request->user->uuid)->first();
 
       if($user === null)
         {
@@ -77,7 +77,29 @@ class UserController extends ApiController
           return $this->respondValidationFails($validation);
       }
 
+      if(isset($data['password']) || isset($data['password2'])){
+
+        $validation = Validator::make($data, [
+          'password'      => 'required|min:8',
+          'password2'     => 'required|min:8|same:password',
+        ],ValidationHelper::getMessages());
+
+        if($validation->fails()){
+            return $this->respondValidationFails($validation);
+        }
+
+        $data['password'] = bcrypt($data['password']);
+        unset($data['password2']);
+      }
+      else
+      {
+        unset($data['password']);
+        unset($data['password2']);
+      }
+
       $user->update($data);
+
+      // Update games
 
       if(isset($data['games']))
       {
@@ -97,6 +119,52 @@ class UserController extends ApiController
         });
 
       }
+
+      // Update communications
+
+      if(isset($data['communications']))
+      {
+
+        $communications = $user->communications()->get();
+
+        $communications->each(function($communicationEntry) use ($data){
+
+            $communicationData = collect($data['communications'])->where('communication_id',$communicationEntry->communication_id)->first();
+
+            if($communicationData !== null)
+            {
+              $communicationEntry->active = $communicationData['active'];
+              $communicationEntry->value  = $communicationData['value'];
+              $communicationEntry->save();
+            }
+
+        });
+
+      }
+
+      // Update links
+
+      if(isset($data['links']))
+      {
+
+        $links = $user->links()->get();
+
+        $links->each(function($linkEntry) use ($data){
+
+            $linkData = collect($data['links'])->where('link_id',$linkEntry->link_id)->first();
+
+            if($linkData !== null)
+            {
+              $linkEntry->active = $linkData['active'];
+              $linkEntry->value  = $linkData['value'];
+              $linkEntry->save();
+            }
+
+        });
+
+      }
+
+      // Plattforms
 
       if(isset($data['plattforms']))
       {
@@ -118,7 +186,7 @@ class UserController extends ApiController
 
       }
 
-      $user = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms')->first();
+      $user = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms')->with('communications')->with('links')->first();
 
       return $this->respondSuccess(['data' => $user->toArray()]);
   }
@@ -148,28 +216,7 @@ class UserController extends ApiController
 
   public function currentAddGame(Request $request)
   {
-
-      $user = User::where('id',$request->user->id)->first();
-
-      if($user === null)
-        {
-           return $this->respondBadRequest();
-        }
-
-      if($user->games()->where('game_id',$request->input('game'))->count() > 0)
-        {
-            return $this->respondSuccess(['data' => $user->games()->where('game_id',$request->input('game'))->first()->toArray()]);
-        }
-
-
-      $entry = $user->games()->create([
-          'game_id' => $request->input('game'),
-          'user_id' => $user->id,
-          'active'  => false
-      ]);
-
-      return $this->respondSuccess(['data' => $entry->toArray()]);
-
+      return $this->addRelationEntries($request,'games','game_id','game');
   }
 
   /***
@@ -178,7 +225,31 @@ class UserController extends ApiController
 
   public function currentAddPlattform(Request $request)
   {
+      return $this->addRelationEntries($request,'plattforms','plattform_id','plattform');
+  }
 
+  /***
+  ** Add a communication relation to a user
+  ***/
+
+  public function currentAddCommunication(Request $request)
+  {
+      return $this->addRelationEntries($request,'communications','communication_id','communication');
+  }
+
+  /***
+  ** Add a link relation to a user
+  ***/
+
+  public function currentAddLink(Request $request)
+  {
+      return $this->addRelationEntries($request,'links','link_id','link');
+  }
+
+  // Helper function to create a relation entry
+
+  protected function addRelationEntries(Request $request,$methodName,$pid,$input)
+  {
       $user = User::where('id',$request->user->id)->first();
 
       if($user === null)
@@ -186,21 +257,19 @@ class UserController extends ApiController
            return $this->respondBadRequest();
         }
 
-      if($user->plattforms()->where('plattform_id',$request->input('plattform'))->count() > 0)
+      if($user->$methodName()->where($pid,$request->input($input))->count() > 0)
         {
-            return $this->respondSuccess(['data' => $user->plattforms()->where('plattform_id',$request->input('plattform'))->first()->toArray()]);
+            return $this->respondSuccess(['data' => $user->$methodName()->where($pid,$request->input($input))->first()->toArray()]);
         }
 
-
-      $entry = $user->plattforms()->create([
-          'plattform_id' => $request->input('plattform'),
+      $entry = $user->$methodName()->create([
+          $pid           => $request->input($input),
           'user_id'      => $user->id,
           'value'        => '',
           'active'       => false
       ]);
 
       return $this->respondSuccess(['data' => $entry->toArray()]);
-
   }
 
 }

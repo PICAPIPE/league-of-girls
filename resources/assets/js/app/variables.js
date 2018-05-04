@@ -79,6 +79,28 @@ var DB_SERVICES    = [
                {
                    return url + '/current/plattforms'
                }
+           },
+           {
+               type:       'post',
+               name:       'addCommunication',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/communications'
+               }
+           },
+           {
+               type:       'post',
+               name:       'addLink',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/links'
+               }
            }
        ]
 
@@ -133,6 +155,20 @@ var DB_SERVICES    = [
     {
        'name' : 'Plattforms',
        'url'  : 'api/plattforms'
+    },
+
+    // Communications
+
+    {
+       'name' : 'Communications',
+       'url'  : 'api/communications'
+    },
+
+    // Links
+
+    {
+       'name' : 'Links',
+       'url'  : 'api/links'
     }
 
 ];
