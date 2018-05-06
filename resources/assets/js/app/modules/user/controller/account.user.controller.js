@@ -19,10 +19,14 @@ angular.module('user').controller('UserAccountCtrl',[
           account.commnunications= [];
           account.link           = [];
 
+          account.linksAmount    = 0;
+
           // Init the account information
 
           account.init           = function()
           {
+
+              account.linksAmount = 0;
 
               account.DB.call('Games','all').then(
                 function(result)
@@ -201,6 +205,11 @@ angular.module('user').controller('UserAccountCtrl',[
                        break;
                     }
               }
+
+              if(linkHtml != 'n/a')
+                {
+                   account.linksAmount++;
+                }
 
               return linkHtml;
 

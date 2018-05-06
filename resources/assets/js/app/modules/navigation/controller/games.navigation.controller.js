@@ -60,7 +60,7 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
                       for(i = 0; i < entries.length; i++)
                          {
                               gamesnavigation.links[gamesnavigation.links.length] = {
-                                  label: entries[i].name,
+                                  label: entries[i].short,
                                   id:    entries[i].uuid,
                                   active:(storageValue === entries[i].uuid)
                               };

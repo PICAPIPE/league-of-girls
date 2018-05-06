@@ -18,14 +18,14 @@ class GameController extends ApiStandardController
 
       'all' => [
         'except'        => false,
-        'fields'        => ['name','uuid','id'],
+        'fields'        => ['name','uuid','id','short'],
         'sortBy'        => 'name',
         'sortDirection' => 'ASC'
       ],
 
       'index' => [
         'except'        => false,
-        'fields'        => ['name','uuid','id'],
+        'fields'        => ['name','uuid','id','short'],
         'sortBy'        => 'name',
         'sortDirection' => 'ASC',
         'pagination'    => true

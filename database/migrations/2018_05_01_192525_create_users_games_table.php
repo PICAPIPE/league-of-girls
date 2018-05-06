@@ -20,6 +20,7 @@ class CreateUsersGamesTable extends Migration
 
           $table->integer('user_id')->unsigned();
           $table->integer('game_id')->unsigned();
+          $table->enum('skill',['beginner','advanced','amateur','pro']);
           $table->boolean('active');
 
           $table->timestamps();

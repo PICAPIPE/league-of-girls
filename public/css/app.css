@@ -27,6 +27,7 @@
   --danger: #ed4949;
   --light: #f8f9fa;
   --dark: #343a40;
+  --log: #ed4949;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
   --breakpoint-md: 768px;
@@ -2100,6 +2101,21 @@ pre code {
   background-color: #b9bbbe;
 }
 
+.table-log,
+.table-log > th,
+.table-log > td {
+  background-color: #facccc;
+}
+
+.table-hover .table-log:hover {
+  background-color: #f8b5b5;
+}
+
+.table-hover .table-log:hover > td,
+.table-hover .table-log:hover > th {
+  background-color: #f8b5b5;
+}
+
 .table-active,
 .table-active > th,
 .table-active > td {
@@ -3148,6 +3164,46 @@ fieldset:disabled a.btn {
           box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
 }
 
+.btn-log {
+  color: #fff;
+  background-color: #ed4949;
+  border-color: #ed4949;
+}
+
+.btn-log:hover {
+  color: #fff;
+  background-color: #ea2626;
+  border-color: #e81b1b;
+}
+
+.btn-log:focus,
+.btn-log.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+}
+
+.btn-log.disabled,
+.btn-log:disabled {
+  color: #fff;
+  background-color: #ed4949;
+  border-color: #ed4949;
+}
+
+.btn-log:not(:disabled):not(.disabled):active,
+.btn-log:not(:disabled):not(.disabled).active,
+.show > .btn-log.dropdown-toggle {
+  color: #fff;
+  background-color: #e81b1b;
+  border-color: #e01616;
+}
+
+.btn-log:not(:disabled):not(.disabled):active:focus,
+.btn-log:not(:disabled):not(.disabled).active:focus,
+.show > .btn-log.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+}
+
 .btn-outline-primary {
   color: #0071bc;
   background-color: transparent;
@@ -3466,6 +3522,46 @@ fieldset:disabled a.btn {
 .show > .btn-outline-dark.dropdown-toggle:focus {
   -webkit-box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
           box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+}
+
+.btn-outline-log {
+  color: #ed4949;
+  background-color: transparent;
+  background-image: none;
+  border-color: #ed4949;
+}
+
+.btn-outline-log:hover {
+  color: #fff;
+  background-color: #ed4949;
+  border-color: #ed4949;
+}
+
+.btn-outline-log:focus,
+.btn-outline-log.focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+}
+
+.btn-outline-log.disabled,
+.btn-outline-log:disabled {
+  color: #ed4949;
+  background-color: transparent;
+}
+
+.btn-outline-log:not(:disabled):not(.disabled):active,
+.btn-outline-log:not(:disabled):not(.disabled).active,
+.show > .btn-outline-log.dropdown-toggle {
+  color: #fff;
+  background-color: #ed4949;
+  border-color: #ed4949;
+}
+
+.btn-outline-log:not(:disabled):not(.disabled):active:focus,
+.btn-outline-log:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-log.dropdown-toggle:focus {
+  -webkit-box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
+          box-shadow: 0 0 0 0.2rem rgba(237, 73, 73, 0.5);
 }
 
 .btn-link {
@@ -5434,6 +5530,18 @@ tbody.collapse.show {
   background-color: #1d2124;
 }
 
+.badge-log {
+  color: #fff;
+  background-color: #ed4949;
+}
+
+.badge-log[href]:hover,
+.badge-log[href]:focus {
+  color: #fff;
+  text-decoration: none;
+  background-color: #e81b1b;
+}
+
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
@@ -5591,6 +5699,20 @@ tbody.collapse.show {
 
 .alert-dark .alert-link {
   color: #040505;
+}
+
+.alert-log {
+  color: #7b2626;
+  background-color: #fbdbdb;
+  border-color: #facccc;
+}
+
+.alert-log hr {
+  border-top-color: #f8b5b5;
+}
+
+.alert-log .alert-link {
+  color: #541a1a;
 }
 
 @-webkit-keyframes progress-bar-stripes {
@@ -5884,6 +6006,23 @@ tbody.collapse.show {
   color: #fff;
   background-color: #1b1e21;
   border-color: #1b1e21;
+}
+
+.list-group-item-log {
+  color: #7b2626;
+  background-color: #facccc;
+}
+
+.list-group-item-log.list-group-item-action:hover,
+.list-group-item-log.list-group-item-action:focus {
+  color: #7b2626;
+  background-color: #f8b5b5;
+}
+
+.list-group-item-log.list-group-item-action.active {
+  color: #fff;
+  background-color: #7b2626;
+  border-color: #7b2626;
 }
 
 .close {
@@ -6725,6 +6864,17 @@ button.bg-dark:focus {
   background-color: #1d2124 !important;
 }
 
+.bg-log {
+  background-color: #ed4949 !important;
+}
+
+a.bg-log:hover,
+a.bg-log:focus,
+button.bg-log:hover,
+button.bg-log:focus {
+  background-color: #e81b1b !important;
+}
+
 .bg-white {
   background-color: #fff !important;
 }
@@ -6803,6 +6953,10 @@ button.bg-dark:focus {
 
 .border-dark {
   border-color: #343a40 !important;
+}
+
+.border-log {
+  border-color: #ed4949 !important;
 }
 
 .border-white {
@@ -9889,6 +10043,15 @@ a.text-light:focus {
 a.text-dark:hover,
 a.text-dark:focus {
   color: #1d2124 !important;
+}
+
+.text-log {
+  color: #ed4949 !important;
+}
+
+a.text-log:hover,
+a.text-log:focus {
+  color: #e81b1b !important;
 }
 
 .text-muted {
@@ -14515,5 +14678,96 @@ a {
 
 .link-item .input-group-addon i {
   font-size: 130%;
+}
+
+.meet-item {
+  padding: 1px;
+}
+
+.meet-inside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #ed4949;
+}
+
+.meet-name {
+  font-family: 'Bitter';
+  font-size: 1.2em;
+}
+
+.meet-request {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
+.meet-info {
+  padding: 10px 10px 50px 0;
+  width: 100%;
+}
+
+.meet-avatar {
+  background: #fafafa;
+  margin-right: 15px;
+}
+
+.meet-avatar img {
+  width: 150px;
+  height: 150px;
+}
+
+.meet-load-more {
+  position: relative;
+  margin: 0 auto;
+  max-width: 50%;
+  text-align: center;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.meet-load-more button {
+  position: relative;
+  background: #FFF;
+  padding: 0 10px;
+  top: 12px;
+  color: #979797;
+}
+
+.meet-load-more button:hover {
+  background: #FFF;
+  color: #ed4949;
+}
+
+.meet-filter {
+  border: 1px solid #000;
+  padding: 10px 40px;
+  max-width: 80%;
+  margin: 15px auto 15px;
+}
+
+.meet-filter-label {
+  color: #979797;
+}
+
+.meet-filter-value {
+  margin-right: 5px;
+  color: #979797;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.meet-filter-value > i {
+  font-weight: normal !important;
+}
+
+.meet-filter-value.active {
+  color: #ed4949;
+}
+
+.meet-filter-select {
+  -webkit-appearance: none;
+  background: none;
+  border: 0;
+  color: #ed4949;
 }
 

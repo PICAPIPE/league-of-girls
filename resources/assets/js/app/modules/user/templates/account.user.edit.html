@@ -42,8 +42,12 @@
            <h2>{{ 'Spiele' | translate }}</h2>
 
            <ul class="games">
-              <li class="game-item" ng-class="myaccountEdit.getClass(game.id)" ng-repeat="game in myaccountEdit.games" ng-init="myaccountEdit.toggleGame(game.id,true)" ng-click="myaccountEdit.toggleGame(game.id)">
+              <li class="game-item" ng-class="myaccountEdit.getClass(game.id)" ng-repeat="game in myaccountEdit.games" ng-init="myaccountEdit.toggleGame(game.id,true)">
+                <input type="checkbox" ng-model="game.active" ng-click="myaccountEdit.toggleGame(game.id)">
                 {{game.name}}
+                (<select ng-if="myaccountEdit.skillOptions.length > 0 && game.skill !== undefined" ng-model="game.skill" class="meet-filter-select" ng-options="obj as obj.label for obj in myaccountEdit.skillOptions track by obj.skill">
+
+                </select>)
               </li>
            </ul>
 

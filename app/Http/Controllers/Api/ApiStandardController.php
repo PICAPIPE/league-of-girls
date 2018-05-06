@@ -52,6 +52,7 @@ class ApiStandardController extends ApiController
           $map             = $this->getMap($this->getName($request));
           $md              = $this->getModel($map);
 
+          $with            = data_get($map,'with',[]);
           $fields          = data_get($map,'fields',['uuid']);
           $getModelData    = data_get($map,'getData', null);
           $pagination      = false;
@@ -64,6 +65,7 @@ class ApiStandardController extends ApiController
 
           $allowQueries    = data_get($map,'allowQueries', true);
           $roles           = data_get($map,'roles',        null);
+          $wheres          = data_get($map,'wheres',       []);
 
           if($roles !== null)
             {
@@ -115,7 +117,7 @@ class ApiStandardController extends ApiController
 
           if    ($getModelData !== null && method_exists($this,$getModelData))
                 {
-                    $modelData = $this->$getModelData($md,$request,$uuid);
+                    $modelData = $this->$getModelData($md,$request);
                 }
           else  {
                     $modelData = $md::where('id','>',0);
@@ -129,6 +131,24 @@ class ApiStandardController extends ApiController
           $modelData = $modelData->select($fields);
 
           $modelData = $modelData->orderBy($this->validateSortByField($sortBy,$mdClass),$sortDirection);
+
+          if(empty($with) === false)
+          {
+             foreach ($with as $kW => $value) {
+                $modelData = $modelData->with($value);
+             }
+          }
+
+          // Additional WHERE-Statement
+
+          if(empty($wheres) === false)
+          {
+
+              foreach ($wheres as $k => $where) {
+                 $modelData = $this->$where($request,$modelData);
+              }
+
+          }
 
           // Check if the mode required a pagination
 

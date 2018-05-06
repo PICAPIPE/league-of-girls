@@ -33,6 +33,10 @@ Route::group(['middleware' => ['auth.api']], function(){
 
 });
 
+// Users
+
+Route::api('users',           'Api\User\UserController',           [],false);
+
 // E-Sport
 
 Route::api('games',           'Api\Esport\GameController',         [],false);

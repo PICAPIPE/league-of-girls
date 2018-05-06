@@ -31,6 +31,7 @@ class UserGame extends BaseModel
       'uuid',
       'user_id',
       'game_id',
+      'skill',
       'active'
   ];
 
@@ -51,7 +52,8 @@ class UserGame extends BaseModel
    */
 
   protected $appends = [
-
+    'created_at',
+    'updated_at'
   ];
 
   /**

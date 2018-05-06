@@ -9,14 +9,73 @@ use StorageHelper;
 use Validator;
 use ValidationHelper;
 
-use Carbon\Carbon;
 use App\Models\User\User;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Api\ApiController;
 
-class UserController extends ApiController
+use App\Models\Esport\Game;
+use App\Models\Esport\Communication;
+use App\Models\Esport\Plattform;
+
+use App\Models\User\UserGame;
+use App\Models\User\UserPlattform;
+use App\Models\User\UserCommunication;
+
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Api\ApiStandardController;
+
+class UserController extends ApiStandardController
 {
 
+  // Define the model class used in this controller
+  protected $cl_model = \App\Models\User\User::class;
+
+  // Define the controller map - auto resolve the http requests
+  protected $cl_map   = [
+
+      'all' => [
+        'except'        => false,
+        'fields'        => ['username','uuid','id'],
+        'sortBy'        => 'username',
+        'sortDirection' => 'ASC',
+        'with'          => [],
+        'wheres'        => [
+           'filterGame'
+        ],
+        'wheresAreOr'   => true,
+        'getData'       => 'getUserData'
+      ],
+
+      'index' => [
+        'except'        => false,
+        'fields'        => ['username','uuid','id'],
+        'sortBy'        => 'username',
+        'sortDirection' => 'ASC',
+        'pagination'    => true,
+        'with'          => ['games','communications','links'],
+        'wheres'        => [
+            'filterGame'
+        ],
+        'wheresAreOr'   => true,
+        'getData'       => 'getUserData'
+      ],
+
+      'show' => [
+        'except'        => false,
+      ],
+
+      'store' => [
+        'except'        => false,
+      ],
+
+      'update' => [
+        'except'        => false,
+      ],
+
+      'destroy' => [
+        'except'        => false,
+      ],
+
+  ];
 
   /***
   ** Get the current user data
@@ -113,6 +172,7 @@ class UserController extends ApiController
             if($gameData !== null)
             {
               $gameEntry->active = $gameData['active'];
+              $gameEntry->skill  = $gameData['skill']['skill'];
               $gameEntry->save();
             }
 
@@ -270,6 +330,115 @@ class UserController extends ApiController
       ]);
 
       return $this->respondSuccess(['data' => $entry->toArray()]);
+  }
+
+  // Filter
+
+  protected function filterGame(Request $request,$model)
+  {
+
+      $game  = $request->input('game');
+      $skill = $request->input('skill');
+
+      if($game !== null && $game !== 'ALL')
+        {
+            $model = $model->where(function($query) use ($game,$skill) {
+
+                $userIds = UserGame::where(function($queryGame) use ($game){
+                    $games = Game::where('uuid',$game)->pluck('id');
+                    $queryGame->whereIn('game_id',$games);
+                })->where('active',true);
+
+                if($skill !== null)
+                  {
+                      $userIds = $userIds->where('skill',$skill);
+                  }
+
+                $userIds = $userIds->pluck('user_id');
+
+                $query->whereIn('id',$userIds);
+
+            });
+        }
+
+      return $model;
+  }
+
+  public function getUserData($md, Request $request)
+  {
+        $input   = $request->input('communications');
+        $input2  = $request->input('plattforms');
+
+        $values  = [];
+        $values2 = [];
+
+        $modelData = null;
+
+        if($input !== null)
+          {
+
+              $values = collect(explode(',',$input))->map(function($item){
+                  $item = intval($item);
+                  return $item;
+              });
+
+              $modelData = $md::where(function($query) use ($values) {
+
+                $userIds = UserCommunication::where(function($queryGame) use ($values){
+                    $communications = Communication::whereIn('id',$values)->pluck('id');
+                    $queryGame->whereIn('communication_id',$communications);
+                })->where('active',true)->pluck('user_id');
+
+                $query->whereIn('id',$userIds);
+
+              });
+
+          }
+
+        if($input2 !== null)
+          {
+
+              $values2 = collect(explode(',',$input2))->map(function($item){
+                  $item = intval($item);
+                  return $item;
+              });
+
+              if($input === null)
+              {
+                  $modelData = $md::where(function($query) use ($values2) {
+
+                    $userIds = UserPlattform::where(function($queryGame) use ($values2){
+                        $communications = Plattform::whereIn('id',$values2)->pluck('id');
+                        $queryGame->whereIn('plattform_id',$communications);
+                    })->where('active',true)->pluck('user_id');
+
+                    $query->whereIn('id',$userIds);
+
+                  });
+              }
+              else
+              {
+                  $modelData = $modelData->orWhere(function($query) use ($values2) {
+
+                    $userIds = UserPlattform::where(function($queryGame) use ($values2){
+                        $communications = Plattform::whereIn('id',$values2)->pluck('id');
+                        $queryGame->whereIn('plattform_id',$communications);
+                    })->where('active',true)->pluck('user_id');
+
+                    $query->whereIn('id',$userIds);
+
+                  });
+              }
+
+          }
+
+      if($modelData === null)
+        {
+           $modelData = $md::where('id','>',0);
+        }
+
+      return $modelData;
+
   }
 
 }

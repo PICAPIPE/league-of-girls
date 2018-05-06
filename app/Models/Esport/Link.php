@@ -27,6 +27,8 @@ class Link extends BaseModel
       'type',
       'name',
       'icon',
+      'placeholder',
+      'help',
       'published'
   ];
 

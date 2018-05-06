@@ -59,3 +59,11 @@ $input-focus-width:           0;
 $input-focus-border-color:    $input-border-color;
 
 $input-btn-focus-box-shadow:  0;
+
+// Buttons
+
+$theme-colors: () !default;
+
+$theme-colors: map-merge((
+  "log":    $CI-COLOR3,
+), $theme-colors);

@@ -26,6 +26,8 @@ class Communication extends BaseModel
       'uuid',
       'name',
       'icon',
+      'placeholder',
+      'help',
       'published'
   ];
 

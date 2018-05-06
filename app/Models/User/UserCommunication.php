@@ -40,7 +40,8 @@ class UserCommunication extends BaseModel
    * @var array
    */
   protected $hidden = [
-
+    'created_at',
+    'updated_at'
   ];
 
   /**
@@ -50,7 +51,7 @@ class UserCommunication extends BaseModel
    */
 
   protected $appends = [
-
+    'icon'
   ];
 
   /**
@@ -69,6 +70,14 @@ class UserCommunication extends BaseModel
       // Get permissions
 
       return $this->hasOne('App\Models\Esport\Communication','id','communication_id');
+
+  }
+
+  public function getIconAttribute()
+  {
+
+      $icon = optional($this->hasOne('App\Models\Esport\Communication','id','communication_id')->first())->icon;
+      return $icon;
 
   }
 

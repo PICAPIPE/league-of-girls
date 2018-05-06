@@ -17,6 +17,7 @@ class CreateGamesTable extends Migration
             $table->increments('id');
             $table->uuid('uuid');
             $table->string('name');
+            $table->string('short');
             $table->string('icon');
             $table->string('color');
             $table->string('background');

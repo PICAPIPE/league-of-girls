@@ -105,6 +105,25 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               }
           ];
 
+          myaccountEdit.skillOptions    = [
+              {
+                 skill: 'beginner',
+                 label: myaccountEdit.LANG.getString('Anfänger')
+              },
+              {
+                 skill: 'amateur',
+                 label: myaccountEdit.LANG.getString('Amateur')
+              },
+              {
+                 skill: 'advanced',
+                 label: myaccountEdit.LANG.getString('Fortgeschriten')
+              },
+              {
+                 skill: 'pro',
+                 label: myaccountEdit.LANG.getString('Profi')
+              }
+          ];
+
           myaccountEdit.acceptTypes    = 'image/*,application/pdf';
 
           myaccountEdit.watchCheck     = function(newValue,attr)
@@ -154,6 +173,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                       myaccountEdit.watchCheck(newValue,'links');
                   }
 
+                if(angular.isUndefined(newValue.games) === false)
+                  {
+                        myaccountEdit.watchCheck(newValue,'games');
+                  }
+
           };
 
           // Helper method to watch specfiic elements of the user
@@ -173,7 +197,13 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                         if(myaccountEdit.user[attr][j][pid] === newValue[i].id)
                         {
-                              myaccountEdit.user[attr][j].value = newValue[i].value;
+                              if(attr === 'games')
+                                   {
+                                     myaccountEdit.user[attr][j].skill = newValue[i].skill;
+                                   }
+                              else {
+                                    myaccountEdit.user[attr][j].value = newValue[i].value;
+                                   }
                               break;
                         }
 
@@ -201,6 +231,13 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           myaccountEdit.watchLinks   = function(newValue, oldValue, scope)
           {
               myaccountEdit.watchAttribute(newValue,'links','link_id');
+          };
+
+          // Watcher for games
+
+          myaccountEdit.watchGames  = function(newValue, oldValue, scope)
+          {
+              myaccountEdit.watchAttribute(newValue,'games','game_id');
           };
 
           // Save profile information
@@ -243,6 +280,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           {
               var i = 0;
               var j = 0;
+              var k = 0;
 
               for(j = 0; j < myaccountEdit.user[attr].length; j++)
               {
@@ -250,7 +288,24 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                   {
                       if(myaccountEdit[attr][i].id === myaccountEdit.user[attr][j][pid])
                       {
-                          myaccountEdit[attr][i].value = myaccountEdit.user[attr][j].value;
+
+                          if(attr === 'games')
+                               {
+
+                                  myaccountEdit[attr][i].active = myaccountEdit.user[attr][j].active;
+
+                                  for(k = 0; k < myaccountEdit.skillOptions.length; k++)
+                                  {
+                                      if(myaccountEdit.user[attr][j].skill ===  myaccountEdit.skillOptions[k].skill)
+                                      {
+                                          myaccountEdit[attr][i].skill = myaccountEdit.skillOptions[k];
+                                      }
+                                  }
+
+                               }
+                          else {
+                                  myaccountEdit[attr][i].value = myaccountEdit.user[attr][j].value;
+                               }
                           break;
                       }
                   }
@@ -299,6 +354,8 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                     $timeout(function(){
                       $scope.$apply();
                     });
+
+                    myaccountEdit.setUpValue('games','game_id');
 
                 },
                 function(errorResult)
@@ -544,6 +601,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           $scope.$watch('myaccountEdit.plattforms',     myaccountEdit.watchPlattforms,     true);
           $scope.$watch('myaccountEdit.communications', myaccountEdit.watchCommunications, true);
           $scope.$watch('myaccountEdit.links',          myaccountEdit.watchLinks,          true);
+          $scope.$watch('myaccountEdit.games',          myaccountEdit.watchGames,          true);
 
      }
 ]);
