@@ -27,7 +27,19 @@ var DB_SERVICES    = [
 
     {
        'name' : 'Users',
-       'url'  : 'api/users'
+       'url'  : 'api/users',
+       'custom': [
+           {
+               type:       'post',
+               name:       'request',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/request'
+               }
+           }
+       ]
     },
 
     // Current User

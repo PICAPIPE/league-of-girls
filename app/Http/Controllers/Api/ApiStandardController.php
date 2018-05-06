@@ -178,8 +178,15 @@ class ApiStandardController extends ApiController
 
           $mdClass         = new $md();
           $fields          = data_get($map,'fields', $mdClass->getFillable());
+          $with            = data_get($map,'with', []);
 
-          $modelData       = $md::where('uuid',$uuid)->select($fields)->first();
+          $modelData       = $md::where('uuid',$uuid)->select($fields);
+
+          foreach ($with as $key => $value) {
+              $modelData = $modelData->with($value);
+          }
+
+          $modelData       = $modelData->first();
 
           if($modelData !== null)
             {

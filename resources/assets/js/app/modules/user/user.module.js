@@ -33,6 +33,17 @@ angular.module('user').config([
               roles: window.GetStandardRoles()
             },
             {
+              name:      'app.user.account',
+              url:       '/account/:uuid',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/account.user.profile.html',
+                    'controller':  'UserAccountProfileCtrl as account'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
+            {
               name:      'login',
               component: 'loginLayout'
             },

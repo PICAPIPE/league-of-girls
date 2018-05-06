@@ -9,15 +9,16 @@ use StorageHelper;
 use Validator;
 use ValidationHelper;
 
-use App\Models\User\User;
-
 use App\Models\Esport\Game;
 use App\Models\Esport\Communication;
 use App\Models\Esport\Plattform;
 
+use App\Models\User\User;
 use App\Models\User\UserGame;
 use App\Models\User\UserPlattform;
 use App\Models\User\UserCommunication;
+use App\Models\User\UserFriend;
+use App\Models\User\UserRequest;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -39,7 +40,8 @@ class UserController extends ApiStandardController
         'sortDirection' => 'ASC',
         'with'          => [],
         'wheres'        => [
-           'filterGame'
+           'filterGame',
+           'filterConnection'
         ],
         'wheresAreOr'   => true,
         'getData'       => 'getUserData'
@@ -53,7 +55,8 @@ class UserController extends ApiStandardController
         'pagination'    => true,
         'with'          => ['games','communications','links'],
         'wheres'        => [
-            'filterGame'
+            'filterGame',
+            'filterConnection'
         ],
         'wheresAreOr'   => true,
         'getData'       => 'getUserData'
@@ -61,6 +64,7 @@ class UserController extends ApiStandardController
 
       'show' => [
         'except'        => false,
+        'with'          => ['games','communications','plattforms']
       ],
 
       'store' => [
@@ -364,6 +368,40 @@ class UserController extends ApiStandardController
       return $model;
   }
 
+  // Filter user (friends or not)
+
+  protected function filterConnection(Request $request, $model)
+  {
+
+      // TODO: Fertig stellen
+
+      $connected = $request->input('connected') === 'true';
+
+      if($request->user === null)
+        {
+           return $model;
+        }
+
+      $model =  $model->where(function($query) use ($connected,$request)
+      {
+
+          $userIds = User::where('id',$request->user->id)->first()->friends()->pluck('id');
+
+          if($connected === true)
+                {
+                  $query->whereIn('id',$userIds);
+                }
+          else  {
+                    $query->whereNotIn('id',$userIds);
+                }
+
+      });
+
+      return $model;
+  }
+
+  // Get data
+
   public function getUserData($md, Request $request)
   {
         $input   = $request->input('communications');
@@ -438,6 +476,46 @@ class UserController extends ApiStandardController
         }
 
       return $modelData;
+
+  }
+
+  // Create a friend request
+
+  public function requestConnection(Request $request, $uuid)
+  {
+
+        $user = User::where('uuid',$uuid)->first();
+
+        if($user === null)
+          {
+              return $this->respondBadRequest();
+          }
+
+        if($user->uuid === $request->user->uuid)
+          {
+              return $tihs->respondBadRequest(_i('Anfrage an sich selbst ist nicht möglich.'));
+          }
+
+        $friend = UserFriend::where('user_id',$user->id)->where('from_id',$request->user->id)->first();
+
+        if($friend !== null)
+          {
+              return $this->respondBadRequest(_i('Es besteht bereits eine Verknüpfung.'));
+          }
+
+        $connectionRequest = UserRequest::where('user_id',$user->id)->where('from_id',$request->user->id)->first();
+
+        if($connectionRequest !== null)
+          {
+              return $this->respondBadRequest(_i('Es besteht bereits eine Anfrage.'));
+          }
+
+        UserRequest::create([
+            'user_id' => $user->id,
+            'from_id' => $request->user->id
+        ]);
+
+        return $this->respondSuccess();
 
   }
 

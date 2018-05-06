@@ -5,14 +5,15 @@ angular.module('user').controller('UserAccountCtrl',[
      '$window',
      '$controller',
      'UserService',
-     function($scope, $rootScope, $state, $window, $controller,UserService) {
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,UserService,$timeout) {
 
           var account = this;
           var date    = new Date();
           angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
 
           account.user           = UserService.getCurrentUser();
-          account.imagePath      = '/files/avatars/' + account.user.uuid + '?time='+ date.getTime();
+          account.imagePath      = '';
 
           account.games          = [];
           account.plattforms     = [];
@@ -27,6 +28,29 @@ angular.module('user').controller('UserAccountCtrl',[
           {
 
               account.linksAmount = 0;
+
+              if(account.user === null)
+                {
+
+                    $timeout(function(){
+                      if(account.userId !== '-1' && account.userId !== undefined)
+                        {
+                            account.DB.call('Users','show',account.userId).then(
+                                function(result)
+                                {
+                                    account.user = result.data.data;
+                                    account.init();
+                                },
+                                function(errorResult)
+                                {
+                                    account.closeModal();
+                                }
+                            );
+                        }
+                    });
+
+                    return;
+                }
 
               account.DB.call('Games','all').then(
                 function(result)
@@ -88,6 +112,8 @@ angular.module('user').controller('UserAccountCtrl',[
                 }
               );
 
+              account.imagePath      = '/files/avatars/' + (account.user !== null && account.user !== undefined && account.user.uuid !== undefined ? account.user.uuid : '') + '?time='+ date.getTime();
+
           };
 
           // Get the class for a game
@@ -124,7 +150,7 @@ angular.module('user').controller('UserAccountCtrl',[
           {
               var i = 0;
 
-              if(angular.isDefined(account.user) === false)
+              if(angular.isDefined(account.user) === false || angular.isDefined(account.user[attr]) === false)
                 {
                    return '';
                 }
@@ -146,6 +172,11 @@ angular.module('user').controller('UserAccountCtrl',[
           account.checkVisiblilty     = function(attr,pid,id)
           {
                 var visible = false;
+
+                if(angular.isDefined(account.user) === false || angular.isDefined(account.user[attr]) === false)
+                  {
+                     return visible;
+                  }
 
                 for(i = 0; i < account.user[attr].length; i++)
                 {

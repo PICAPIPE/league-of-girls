@@ -17,7 +17,7 @@
           </div>
           <div class="user-account-about">
               <div class="user-account-about-txt" compile="account.user.about"></div>
-              <div class="user-account-edit">
+              <div class="user-account-edit" ng-if="account.editable === true">
                   <a  ui-sref="app.user.myaccount.edit" ui-sref-active="active"><i class="fas fa-pencil-alt"></i></a>
               </div>
           </div>

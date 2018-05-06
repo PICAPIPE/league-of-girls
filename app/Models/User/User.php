@@ -147,6 +147,11 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserRole');
   }
 
+  public function friends()
+  {
+      return $this->hasMany('App\Models\User\UserFriend');
+  }
+
   // Get Roles as id array
 
   public function getRoles()

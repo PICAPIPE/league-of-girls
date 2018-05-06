@@ -71,10 +71,26 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           };
 
+          // Get class for an element
+
           ctrl.getActiveClass = function(active)
           {
               return active === true ? 'active' : '';
           };
+
+          // Open user profile
+
+          ctrl.openProfile      = function(userId)
+          {
+              ctrl.createModal({
+                  'background' : 'rgba(0,0,0,0.5)',
+                  'content':     '<account user-id="' + userId + '" editable="false"></account>'
+              },function(){
+
+              });
+          };
+
+          // Init method
 
           ctrl.init      = function()
           {
@@ -112,10 +128,12 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               ctrl.loadUsers();
           };
 
+          // Get skill level
+
           ctrl.skillLevel = function(user)
           {
 
-              var k = 0;
+              var k    = 0;
 
               var game = user.games.filter(function(gameItem){
                   if(gameItem.game_id === ctrl.currentGameData.id)
@@ -139,6 +157,30 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
               }
 
+          };
+
+          // Create a friendship / connection request
+
+          ctrl.createFriendRequest = function(user)
+          {
+              ctrl.DB.call('Users','request',{uuid:user.uuid},null).then(
+                  function(result)
+                  {
+                      ctrl.ALERT.add({
+                          'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
+                          'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
+                          'autoClose': true
+                      });
+                  },
+                  function(errorResult)
+                  {
+                      ctrl.ALERT.add({
+                          'title':     ctrl.LANG.getString('Fehler bei de Freundschaftsanfrage'),
+                          'message':   errorResult.data.message,
+                          'autoClose': true
+                      });
+                  }
+              );
           };
 
           // Load users

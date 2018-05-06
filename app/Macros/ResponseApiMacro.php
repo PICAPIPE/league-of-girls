@@ -12,10 +12,8 @@ class ResponseApiMacro extends MacroAbstract
 
     public function register(){
 
-      Route::macro('api', function($url,$controller,$except = [],$withAuthentication = true)
+      Route::macro('api', function($url,$controller,$except = [],$withAuthentication = true,$middleware = ['auth.api'])
       {
-
-        $middleware = ['auth.api'];
 
         if($withAuthentication === false)
           {

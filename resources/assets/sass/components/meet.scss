@@ -24,6 +24,7 @@ $meet-filter-value-color: $CI-COLOR3;
 {
    font-family: 'Bitter';
    font-size:   1.2em;
+   cursor:      pointer;
 }
 
 .meet-request
@@ -44,6 +45,7 @@ $meet-filter-value-color: $CI-COLOR3;
 
     background:    #fafafa;
     margin-right:  15px;
+    cursor:        pointer;
 
     img
     {

@@ -65,6 +65,8 @@ $navigation-item-color-hover:           $CI-COLOR3;
 
   &.active {
 
+      color:         $navigation-item-color-active;
+
       .navigation_list_item_inner {
 
         border-bottom: 2px solid $navigation-item-color-hover;

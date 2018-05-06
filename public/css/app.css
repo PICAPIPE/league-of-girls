@@ -14259,6 +14259,10 @@ readers do not read off random characters that represent icons */
   border-color: #ed4949;
 }
 
+.navigation_list_item.active {
+  color: #ed4949;
+}
+
 .navigation_list_item.active .navigation_list_item_inner {
   border-bottom: 2px solid #ed4949;
   color: #ed4949;
@@ -14506,6 +14510,8 @@ a {
   max-width: 768px;
   margin: 0 auto;
   background: #FFF;
+  position: relative;
+  margin-top: 100px;
 }
 
 .user-headline {
@@ -14514,6 +14520,9 @@ a {
   font-family: 'Roboto';
   font-weight: lighter;
   margin-bottom: 40px;
+  position: absolute;
+  top: -65px;
+  width: 100%;
 }
 
 .user-headline .user-headline-name-element {
@@ -14580,6 +14589,11 @@ a {
 
 .user-account-edit a {
   color: #FFF;
+}
+
+.modalArea-content .user-account {
+  -webkit-box-shadow: 9px 10px 5px -8px rgba(0, 0, 0, 0.19);
+  box-shadow: 9px 10px 5px -8px rgba(0, 0, 0, 0.19);
 }
 
 .games {
@@ -14694,6 +14708,7 @@ a {
 .meet-name {
   font-family: 'Bitter';
   font-size: 1.2em;
+  cursor: pointer;
 }
 
 .meet-request {
@@ -14710,6 +14725,7 @@ a {
 .meet-avatar {
   background: #fafafa;
   margin-right: 15px;
+  cursor: pointer;
 }
 
 .meet-avatar img {

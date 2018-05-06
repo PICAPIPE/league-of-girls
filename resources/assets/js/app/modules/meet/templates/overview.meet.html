@@ -30,10 +30,10 @@
       <div class="meet-item col-xs-12 col-md-4" ng-repeat="user in ctrl.users">
           <div class="meet-inside">
             <div class="meet-avatar">
-                <img ng-src="/files/avatars/{{user.uuid}}">
+                <img ng-src="/files/avatars/{{user.uuid}}" ng-click="ctrl.openProfile(user.uuid)">
             </div>
             <div class="meet-info">
-                <div class="meet-name">{{user.username}}</div>
+                <div class="meet-name" ng-click="ctrl.openProfile(user.uuid)">{{user.username}}</div>
                 <div class="meet-game">
                     <span class="meet-skilllevel" ng-if="ctrl.currentGameData !== null">{{ctrl.currentGameData.name}}: <span compile="ctrl.skillLevel(user)"></span></span>
                 </div>
@@ -43,7 +43,7 @@
                     </ul>
                 </div>
                 <div class="meet-request" ng-if="ctrl.user.uuid !== user.uuid && ctrl.user !== null">
-                    <button class="btn btn-outline-log">{{ 'Anfrage' | translate }}</button>
+                    <button class="btn btn-outline-log" ng-click="ctrl.createFriendRequest(user)">{{ 'Anfrage' | translate }}</button>
                 </div>
             </div>
           </div>

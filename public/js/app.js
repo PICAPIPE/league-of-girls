@@ -55,7 +55,19 @@ var DB_SERVICES    = [
 
     {
        'name' : 'Users',
-       'url'  : 'api/users'
+       'url'  : 'api/users',
+       'custom': [
+           {
+               type:       'post',
+               name:       'request',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/request'
+               }
+           }
+       ]
     },
 
     // Current User
@@ -281,7 +293,19 @@ var DB_SERVICES    = [
 
     {
        'name' : 'Users',
-       'url'  : 'api/users'
+       'url'  : 'api/users',
+       'custom': [
+           {
+               type:       'post',
+               name:       'request',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/request'
+               }
+           }
+       ]
     },
 
     // Current User
@@ -915,6 +939,17 @@ angular.module('user').config([
               roles: window.GetStandardRoles()
             },
             {
+              name:      'app.user.account',
+              url:       '/account/:uuid',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/user/account.user.profile.html',
+                    'controller':  'UserAccountProfileCtrl as account'
+                  }
+              },
+              roles: window.GetStandardRoles()
+            },
+            {
               name:      'login',
               component: 'loginLayout'
             },
@@ -1025,7 +1060,7 @@ angular.module('user').component('account', {
   templateUrl:  'views/user/account.user.html',
   controller:   'UserAccountCtrl as account',
   bindings:     {
-                    userId:   '=',
+                    userId:   '@',
                     editable: '='
                 }
 });
@@ -2139,10 +2174,26 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           };
 
+          // Get class for an element
+
           ctrl.getActiveClass = function(active)
           {
               return active === true ? 'active' : '';
           };
+
+          // Open user profile
+
+          ctrl.openProfile      = function(userId)
+          {
+              ctrl.createModal({
+                  'background' : 'rgba(0,0,0,0.5)',
+                  'content':     '<account user-id="' + userId + '" editable="false"></account>'
+              },function(){
+
+              });
+          };
+
+          // Init method
 
           ctrl.init      = function()
           {
@@ -2180,10 +2231,12 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               ctrl.loadUsers();
           };
 
+          // Get skill level
+
           ctrl.skillLevel = function(user)
           {
 
-              var k = 0;
+              var k    = 0;
 
               var game = user.games.filter(function(gameItem){
                   if(gameItem.game_id === ctrl.currentGameData.id)
@@ -2207,6 +2260,30 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
               }
 
+          };
+
+          // Create a friendship / connection request
+
+          ctrl.createFriendRequest = function(user)
+          {
+              ctrl.DB.call('Users','request',{uuid:user.uuid},null).then(
+                  function(result)
+                  {
+                      ctrl.ALERT.add({
+                          'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
+                          'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
+                          'autoClose': true
+                      });
+                  },
+                  function(errorResult)
+                  {
+                      ctrl.ALERT.add({
+                          'title':     ctrl.LANG.getString('Fehler bei de Freundschaftsanfrage'),
+                          'message':   errorResult.data.message,
+                          'autoClose': true
+                      });
+                  }
+              );
           };
 
           // Load users
@@ -2570,14 +2647,15 @@ angular.module('user').controller('UserAccountCtrl',[
      '$window',
      '$controller',
      'UserService',
-     function($scope, $rootScope, $state, $window, $controller,UserService) {
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,UserService,$timeout) {
 
           var account = this;
           var date    = new Date();
           angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
 
           account.user           = UserService.getCurrentUser();
-          account.imagePath      = '/files/avatars/' + account.user.uuid + '?time='+ date.getTime();
+          account.imagePath      = '';
 
           account.games          = [];
           account.plattforms     = [];
@@ -2592,6 +2670,29 @@ angular.module('user').controller('UserAccountCtrl',[
           {
 
               account.linksAmount = 0;
+
+              if(account.user === null)
+                {
+
+                    $timeout(function(){
+                      if(account.userId !== '-1' && account.userId !== undefined)
+                        {
+                            account.DB.call('Users','show',account.userId).then(
+                                function(result)
+                                {
+                                    account.user = result.data.data;
+                                    account.init();
+                                },
+                                function(errorResult)
+                                {
+                                    account.closeModal();
+                                }
+                            );
+                        }
+                    });
+
+                    return;
+                }
 
               account.DB.call('Games','all').then(
                 function(result)
@@ -2653,6 +2754,8 @@ angular.module('user').controller('UserAccountCtrl',[
                 }
               );
 
+              account.imagePath      = '/files/avatars/' + (account.user !== null && account.user !== undefined && account.user.uuid !== undefined ? account.user.uuid : '') + '?time='+ date.getTime();
+
           };
 
           // Get the class for a game
@@ -2689,7 +2792,7 @@ angular.module('user').controller('UserAccountCtrl',[
           {
               var i = 0;
 
-              if(angular.isDefined(account.user) === false)
+              if(angular.isDefined(account.user) === false || angular.isDefined(account.user[attr]) === false)
                 {
                    return '';
                 }
@@ -2711,6 +2814,11 @@ angular.module('user').controller('UserAccountCtrl',[
           account.checkVisiblilty     = function(attr,pid,id)
           {
                 var visible = false;
+
+                if(angular.isDefined(account.user) === false || angular.isDefined(account.user[attr]) === false)
+                  {
+                     return visible;
+                  }
 
                 for(i = 0; i < account.user[attr].length; i++)
                 {
@@ -2778,6 +2886,34 @@ angular.module('user').controller('UserAccountCtrl',[
 
               return linkHtml;
 
+          };
+
+          account.init();
+
+     }
+]);
+
+angular.module('user').controller('UserAccountProfileCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     'UserService',
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,UserService,$timeout) {
+
+          var account = this;
+          var date    = new Date();
+          angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
+
+          // Account link
+
+          account.profile = '';
+
+          account.init = function()
+          {
+              account.profile = '<account user-id="' + $state.current.uuid + '" editable="false"></account>';
           };
 
           account.init();
