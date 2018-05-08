@@ -46,8 +46,9 @@ angular.module('db').factory('DB',[
           }
         },
         {
-          type:  'put',
-          name:  'update',
+          type:       'put',
+          name:       'update',
+          dataIndex:  3,
           getUrl: function(url)
           {
               return url + '/:id';
@@ -265,6 +266,7 @@ angular.module('db').factory('DB',[
 
                       case 'PUT':
                       case 'POST':
+
                           callParams.method   = callType;
                           callParams.url      = DBResolveUrl(callUrl,arguments,callQueryIndex,callKeep);
                           callParams.params   = arguments[callQueryIndex] !== undefined && arguments[callQueryIndex] !== null ? arguments[callQueryIndex] : {};

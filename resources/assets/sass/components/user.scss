@@ -20,6 +20,11 @@
 
 }
 
+.user-panel-account
+{
+  cursor: pointer;
+}
+
 .user-panel-username
 {
   display:       inline-block;
@@ -31,14 +36,17 @@
   top:           5px;
 }
 
+.user-panel-account,
 .user-panel-notifications
 {
+
+    position: relative;
 
     > span
     {
       position: absolute;
-      left:     10px;
-      top:      25px;
+      left:     7px;
+      top:      7px;
     }
 
     > i

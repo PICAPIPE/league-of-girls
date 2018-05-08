@@ -37,6 +37,16 @@ angular.module('user').controller('UserPanelCtrl',[
 
           };
 
+          userpanel.openRequests = function(e)
+          {
+              userpanel.createModal({
+                  'background' : 'rgba(34,181,115,0.8)',
+                  'content':     '<friends-requests-modal>...</friends-requests-modal>'
+              },function(){
+
+              });
+          };
+
           // Init
 
           userpanel.init();
@@ -51,7 +61,7 @@ angular.module('user').controller('UserPanelCtrl',[
                       UserService.setCurrentUser(args.user);
                 }
 
-              userpanel.init();  
+              userpanel.init();
 
           });
 

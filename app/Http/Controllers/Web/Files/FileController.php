@@ -18,7 +18,7 @@ class FileController extends Controller
     public function avatar(Request $request,$user){
 
         $fileExists         = Storage::disk('avatars')->exists($user.'.png');
-        $filePathFallback   = public_path('img/avatars/female.png');
+        $filePathFallback   = public_path('img/avatars/avatar.png');
 
         if($user === null)
           {

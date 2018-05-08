@@ -20,10 +20,6 @@ class AuthenticationSafe
     public function handle($request, Closure $next)
     {
 
-        $token        = null;
-        $token_value  = null;
-        $token_name   = null;
-
         $authorized   = SecurityHelper::authorizedSafe($request);
 
         return $next($request);

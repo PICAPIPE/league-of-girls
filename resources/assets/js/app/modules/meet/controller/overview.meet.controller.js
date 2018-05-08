@@ -327,6 +327,16 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
               var filter = ctrl.filters[attr];
 
+              if(attr === 'connected' &&  ctrl.user === null)
+                {
+                    ctrl.ALERT.add({
+                        'title':     ctrl.LANG.getString('Bitte melden Sie sich an!'),
+                        'message':   ctrl.LANG.getString('Um dies Funktion nutzen zu können, melde dich bitte an!'),
+                        'autoClose': true
+                    });
+                    return;
+                }
+
               if(angular.isDefined(filter) === true)
                 {
 

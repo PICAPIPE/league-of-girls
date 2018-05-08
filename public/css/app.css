@@ -14477,6 +14477,10 @@ a {
   }
 }
 
+.user-panel-account {
+  cursor: pointer;
+}
+
 .user-panel-username {
   display: inline-block;
   overflow: hidden;
@@ -14487,12 +14491,19 @@ a {
   top: 5px;
 }
 
-.user-panel-notifications > span {
-  position: absolute;
-  left: 10px;
-  top: 25px;
+.user-panel-account,
+.user-panel-notifications {
+  position: relative;
 }
 
+.user-panel-account > span,
+.user-panel-notifications > span {
+  position: absolute;
+  left: 7px;
+  top: 7px;
+}
+
+.user-panel-account > i,
 .user-panel-notifications > i {
   margin-right: 20px;
 }
@@ -14694,6 +14705,18 @@ a {
   font-size: 130%;
 }
 
+.meet-triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0px;
+  height: 0px;
+  -webkit-transform: rotate(360deg);
+  border-style: solid;
+  border-width: 30px 30px 0 0;
+  border-color: #ed4949 transparent transparent transparent;
+}
+
 .meet-item {
   padding: 1px;
 }
@@ -14723,6 +14746,7 @@ a {
 }
 
 .meet-avatar {
+  position: relative;
   background: #fafafa;
   margin-right: 15px;
   cursor: pointer;
@@ -14785,5 +14809,85 @@ a {
   background: none;
   border: 0;
   color: #ed4949;
+}
+
+.friends-requests-headline {
+  color: #FFF;
+}
+
+.friends-requests-list-container {
+  width: 100%;
+  max-width: 680px;
+  margin: auto;
+}
+
+.friends-request-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friends-request-item {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friends-request-item-inner {
+  border: 1px solid #FFF;
+  margin: 0 0 5px 0;
+  color: #FFF;
+  padding: 10px 100px 10px 100px;
+  position: relative;
+  min-height: 100px;
+}
+
+.friends-request-actions {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.friends-request-actions button {
+  border: 0;
+  background: none;
+  color: #FFF;
+}
+
+.friends-request-avatar {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+
+.friends-request-avatar > img {
+  width: 100%;
+  height: auto;
+}
+
+.friends-request-communications,
+.friends-request-games {
+  margin-bottom: 10px;
+}
+
+.friends-request-communications h6,
+.friends-request-games h6 {
+  text-decoration: underline;
+}
+
+.friends-request-communications ul,
+.friends-request-communications li,
+.friends-request-games ul,
+.friends-request-games li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.friends-request-communications ul li {
+  display: inline-block;
+  margin-right: 5px;
 }
 

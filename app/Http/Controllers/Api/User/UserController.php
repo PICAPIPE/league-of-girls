@@ -106,7 +106,10 @@ class UserController extends ApiStandardController
 
       }
 
-      $result = $result->first();
+      $result                 = $result->first();
+      $result->count          = [
+        'friendrequests' => $result->friendRequests()->count()
+      ];
 
       if($result !== null)
         {
@@ -326,12 +329,25 @@ class UserController extends ApiStandardController
             return $this->respondSuccess(['data' => $user->$methodName()->where($pid,$request->input($input))->first()->toArray()]);
         }
 
-      $entry = $user->$methodName()->create([
-          $pid           => $request->input($input),
-          'user_id'      => $user->id,
-          'value'        => '',
-          'active'       => false
-      ]);
+
+      if($methodName === 'games')
+        {
+            $entry = $user->$methodName()->create([
+                $pid           => $request->input($input),
+                'user_id'      => $user->id,
+                'skill'        => 'beginner',
+                'active'       => false
+            ]);
+        }
+      else
+        {
+            $entry = $user->$methodName()->create([
+                $pid           => $request->input($input),
+                'user_id'      => $user->id,
+                'value'        => '',
+                'active'       => false
+            ]);
+        }
 
       return $this->respondSuccess(['data' => $entry->toArray()]);
   }
@@ -373,8 +389,6 @@ class UserController extends ApiStandardController
   protected function filterConnection(Request $request, $model)
   {
 
-      // TODO: Fertig stellen
-
       $connected = $request->input('connected') === 'true';
 
       if($request->user === null)
@@ -385,14 +399,11 @@ class UserController extends ApiStandardController
       $model =  $model->where(function($query) use ($connected,$request)
       {
 
-          $userIds = User::where('id',$request->user->id)->first()->friends()->pluck('id');
+          $userIds = User::where('id',$request->user->id)->first()->friends()->pluck('from_id')->toArray();
 
           if($connected === true)
                 {
-                  $query->whereIn('id',$userIds);
-                }
-          else  {
-                    $query->whereNotIn('id',$userIds);
+                    $query->whereIn('id',array_unique($userIds));
                 }
 
       });
@@ -516,6 +527,16 @@ class UserController extends ApiStandardController
         ]);
 
         return $this->respondSuccess();
+
+  }
+
+  // Get my friend requests
+
+  public function currentConnectionRequest(Request $request)
+  {
+      $connectionRequests = UserRequest::where('user_id',$request->user->id)->where('declined',false)->where('accepted',false)->with('from')->with('from.games')->with('from.communications')->get();
+
+      return $this->respondSuccess(['data' => $connectionRequests->toArray()]);
 
   }
 

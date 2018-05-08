@@ -131,8 +131,19 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
               var i = 0;
 
+              if(angular.isUndefined(newValue[attr]) === true)
+              {
+                 return;
+              }
+
               for(i = 0; i < newValue[attr].length; i++)
               {
+
+                  if(angular.isUndefined(newValue[attr][i].value) === true)
+                    {
+                       continue;
+                    }
+
                   if(newValue[attr][i].value.length > 0)
                         {
                             newValue[attr][i].active = true;
@@ -572,6 +583,12 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                             if(found2Add === false)
                               {
                                   myaccountEdit.user[attr][myaccountEdit.user[attr].length] = result.data.data;
+
+                                  if(attr === 'games')
+                                    {
+                                      myaccountEdit.setUpValue('games','game_id');
+                                    }
+
                               }
 
                             $timeout(function()
@@ -588,10 +605,24 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                               'autoClose': true
                           });
                       }
+
                   );
 
               }
           };
+
+          myaccountEdit.updateUser = function()
+          {
+            myaccountEdit.DB.call('CurrentUser','check',null,null).then(
+              function(result){
+
+                // Successful getting the user data
+                UserService.setCurrentUser(result.data);
+
+              }
+            );
+
+        };
 
           myaccountEdit.init();
 

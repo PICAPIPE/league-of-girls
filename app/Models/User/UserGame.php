@@ -52,8 +52,9 @@ class UserGame extends BaseModel
    */
 
   protected $appends = [
-    'created_at',
-    'updated_at'
+      'gameIcon',
+      'gameName',
+      'gameShort'
   ];
 
   /**
@@ -67,7 +68,7 @@ class UserGame extends BaseModel
       'game_id' => 'integer'
   ];
 
-  public function role(){
+  public function game(){
 
       // Get permissions
 
@@ -81,6 +82,24 @@ class UserGame extends BaseModel
 
       return $this->hasOne('App\Models\User\User','id','user_id');
 
+  }
+
+  public function getGameIconAttribute()
+  {
+      $icon = optional($this->hasOne('App\Models\Esport\Game','id','game_id')->first())->icon;
+      return $icon;
+  }
+
+  public function getGameNameAttribute()
+  {
+      $icon = optional($this->hasOne('App\Models\Esport\Game','id','game_id')->first())->name;
+      return $icon;
+  }
+
+  public function getGameShortAttribute()
+  {
+      $icon = optional($this->hasOne('App\Models\Esport\Game','id','game_id')->first())->short;
+      return $icon;
   }
 
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models\User;
 
+use App\Models\User\UserFriend;
+
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
@@ -71,12 +73,29 @@ class UserRequest extends BaseModel
 
   public function user()
   {
-      return $this->hasOne('App\Models\User\User','id','user_id');
+      return $this->hasOne('App\Models\User\User','id','user_id')->select('uuid','username','id')->with('games');
   }
 
   public function from()
   {
-      return $this->hasOne('App\Models\User\User','id','from_id');
+      return $this->hasOne('App\Models\User\User','id','from_id')->select('uuid','username','id')->with('games');
+  }
+
+  public function accept()
+  {
+
+      UserFriend::create([
+        'user_id' => $this->user_id,
+        'from_id' => $this->from_id
+      ]);
+
+      UserFriend::create([
+        'user_id' => $this->from_id,
+        'from_id' => $this->user_id
+      ]);
+
+      return true;
+
   }
 
 }

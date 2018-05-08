@@ -19,6 +19,8 @@ angular.module('core').controller('CoreSiteModalCtrl',[
           modal.getStyle = function()
           {
 
+
+
               return modal.styles;
 
           };
@@ -59,7 +61,9 @@ angular.module('core').controller('CoreSiteModalCtrl',[
                   modal.classes[modal.classes.length] = 'open';
 
                   modal.styles                        = {
-                      background: args.settings.background !== undefined ? args.settings.background : '#f4f4f4'
+                      background:   args.settings.background !== undefined ? args.settings.background : '#f4f4f4',
+                      height:       document.getElementsByTagName('body')[0].offsetHeight + 'px',
+                      'min-height': '100vh'
                   };
 
                   $scope.$apply();

@@ -141,7 +141,18 @@ var DB_SERVICES    = [
                {
                    return url + '/current/links'
                }
-           }
+           },
+           {
+               type:       'get',
+               name:       'friendRequests',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/requests'
+               }
+           },
        ]
 
     },
@@ -188,6 +199,14 @@ var DB_SERVICES    = [
            }
        ]
 
+    },
+
+    // Friend requests
+
+    {
+       'name' : 'FriendRequests',
+       'url'  : 'api/friends-requests',
+       'except': ['all','get','show','store','destroy']
     },
 
     // Plattforms
@@ -379,7 +398,18 @@ var DB_SERVICES    = [
                {
                    return url + '/current/links'
                }
-           }
+           },
+           {
+               type:       'get',
+               name:       'friendRequests',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/requests'
+               }
+           },
        ]
 
     },
@@ -426,6 +456,14 @@ var DB_SERVICES    = [
            }
        ]
 
+    },
+
+    // Friend requests
+
+    {
+       'name' : 'FriendRequests',
+       'url'  : 'api/friends-requests',
+       'except': ['all','get','show','store','destroy']
     },
 
     // Plattforms
@@ -1065,6 +1103,11 @@ angular.module('user').component('account', {
                 }
 });
 
+angular.module('user').component('friendsRequestsModal', {
+  templateUrl:  'views/user/friends.requests.modal.html',
+  controller:   'FriendsRequestsModalCtrl as modal'
+});
+
 angular.module('user').component('loginLayout', {
   templateUrl:  'views/user/login.layout.html',
   controller:   'LoginLayoutCtrl as layout'
@@ -1213,8 +1256,9 @@ angular.module('db').factory('DB',[
           }
         },
         {
-          type:  'put',
-          name:  'update',
+          type:       'put',
+          name:       'update',
+          dataIndex:  3,
           getUrl: function(url)
           {
               return url + '/:id';
@@ -1432,6 +1476,7 @@ angular.module('db').factory('DB',[
 
                       case 'PUT':
                       case 'POST':
+
                           callParams.method   = callType;
                           callParams.url      = DBResolveUrl(callUrl,arguments,callQueryIndex,callKeep);
                           callParams.params   = arguments[callQueryIndex] !== undefined && arguments[callQueryIndex] !== null ? arguments[callQueryIndex] : {};
@@ -2008,6 +2053,8 @@ angular.module('core').controller('CoreSiteModalCtrl',[
           modal.getStyle = function()
           {
 
+
+
               return modal.styles;
 
           };
@@ -2048,7 +2095,9 @@ angular.module('core').controller('CoreSiteModalCtrl',[
                   modal.classes[modal.classes.length] = 'open';
 
                   modal.styles                        = {
-                      background: args.settings.background !== undefined ? args.settings.background : '#f4f4f4'
+                      background:   args.settings.background !== undefined ? args.settings.background : '#f4f4f4',
+                      height:       document.getElementsByTagName('body')[0].offsetHeight + 'px',
+                      'min-height': '100vh'
                   };
 
                   $scope.$apply();
@@ -2429,6 +2478,16 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           {
 
               var filter = ctrl.filters[attr];
+
+              if(attr === 'connected' &&  ctrl.user === null)
+                {
+                    ctrl.ALERT.add({
+                        'title':     ctrl.LANG.getString('Bitte melden Sie sich an!'),
+                        'message':   ctrl.LANG.getString('Um dies Funktion nutzen zu können, melde dich bitte an!'),
+                        'autoClose': true
+                    });
+                    return;
+                }
 
               if(angular.isDefined(filter) === true)
                 {
@@ -3176,6 +3235,162 @@ angular.module('user').controller('UserLogoutSiteCtrl',[
      }
 ]);
 
+angular.module('user').controller('FriendsRequestsModalCtrl',[
+     '$scope',
+     '$rootScope',
+     '$state',
+     '$window',
+     '$controller',
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,$timeout) {
+
+          var modal = this;
+          angular.extend(modal, $controller('BaseCtrl', {$scope: $scope}));
+
+          // List of requests
+
+          modal.requests = [];
+          modal.headline = '';
+
+          modal.skillOptions    = [
+              {
+                 skill: 'beginner',
+                 label: modal.LANG.getString('Anfänger')
+              },
+              {
+                 skill: 'amateur',
+                 label: modal.LANG.getString('Amateur')
+              },
+              {
+                 skill: 'advanced',
+                 label: modal.LANG.getString('Fortgeschriten')
+              },
+              {
+                 skill: 'pro',
+                 label: modal.LANG.getString('Profi')
+              }
+          ];
+
+          // Init function
+
+          modal.init = function()
+          {
+              modal.DB.call('CurrentUser','friendRequests').then(
+                  function(result)
+                  {
+
+                      modal.requests = result.data.data;
+                      modal.headline = modal.LANG.getPlural(modal.requests.length, '{{count}} offene Anfrage', '{{count}} offene Anfragen', {count:modal.requests.length});
+
+                      $timeout(function(){
+                        $scope.$apply();
+                      });
+
+                  },
+                  function(errorResult)
+                  {
+                      modal.requests = [];
+                  }
+              );
+          };
+
+          // Get headline for a single request
+
+          modal.getItemHeadline = function(request)
+          {
+              return modal.LANG.getString('Neue Freundschaftsanfrage von {{username}}',{username:request.from.username});
+          };
+
+          // Accept request
+
+          modal.acceptRequest = function(event,request)
+          {
+              event.preventDefault();
+              modal.setRequestStatus(request.uuid,true);
+          };
+
+          // Decline the request
+
+          modal.declineRequest = function(event,request)
+          {
+              event.preventDefault();
+              modal.setRequestStatus(request.uuid,false);
+          };
+
+          // Update the request status
+
+          modal.setRequestStatus = function(uuid,status)
+          {
+
+            var obj = {};
+
+            if(status === true)
+              {
+                  obj.accepted = true;
+                  obj.declined = false;
+                  obj.read     = true;
+              }
+            else
+              {
+                  obj.accepted = false;
+                  obj.declined = true;
+                  obj.read     = true;
+              }
+
+            modal.DB.call('FriendRequests','update',uuid,obj).then(
+                function(result)
+                {
+
+                    modal.init();
+
+                },
+                function(errorResult)
+                {
+                    modal.ALERT.add({
+                        'title':     modal.LANG.getString('Fehler beim Bearbeiten der Freundschaftsanfrage'),
+                        'message':   modal.LANG.getString('Es ist ein Fehler beim Bearbeiten der Freundschaftsanfrage aufgetreten. Bitte probiere es erneut oder kontaktiere den Support.'),
+                        'autoClose': true
+                    });
+                }
+            );
+          };
+
+          // Get the game class
+
+          modal.getClass = function(element)
+          {
+
+              if(angular.isDefined(element.icon) === true)
+                {
+                   return element.icon;
+                }
+
+              return element.gameIcon;
+          };
+
+          // Get the lang label for the skill
+
+          modal.getGameSkill = function(game)
+          {
+              var i = 0;
+
+              for(i = 0; i < modal.skillOptions.length; i++)
+              {
+                  if(game.skill === modal.skillOptions[i].skill)
+                  {
+                      return modal.skillOptions[i].label;
+                  }
+              }
+
+              return '';
+
+          };
+
+          modal.init();
+
+     }
+]);
+
 angular.module('user').controller('LoginModalCtrl',[
      '$scope',
      '$rootScope',
@@ -3356,8 +3571,19 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
               var i = 0;
 
+              if(angular.isUndefined(newValue[attr]) === true)
+              {
+                 return;
+              }
+
               for(i = 0; i < newValue[attr].length; i++)
               {
+
+                  if(angular.isUndefined(newValue[attr][i].value) === true)
+                    {
+                       continue;
+                    }
+
                   if(newValue[attr][i].value.length > 0)
                         {
                             newValue[attr][i].active = true;
@@ -3797,6 +4023,12 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                             if(found2Add === false)
                               {
                                   myaccountEdit.user[attr][myaccountEdit.user[attr].length] = result.data.data;
+
+                                  if(attr === 'games')
+                                    {
+                                      myaccountEdit.setUpValue('games','game_id');
+                                    }
+
                               }
 
                             $timeout(function()
@@ -3813,10 +4045,24 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                               'autoClose': true
                           });
                       }
+
                   );
 
               }
           };
+
+          myaccountEdit.updateUser = function()
+          {
+            myaccountEdit.DB.call('CurrentUser','check',null,null).then(
+              function(result){
+
+                // Successful getting the user data
+                UserService.setCurrentUser(result.data);
+
+              }
+            );
+
+        };
 
           myaccountEdit.init();
 
@@ -3870,6 +4116,16 @@ angular.module('user').controller('UserPanelCtrl',[
 
           };
 
+          userpanel.openRequests = function(e)
+          {
+              userpanel.createModal({
+                  'background' : 'rgba(34,181,115,0.8)',
+                  'content':     '<friends-requests-modal>...</friends-requests-modal>'
+              },function(){
+
+              });
+          };
+
           // Init
 
           userpanel.init();
@@ -3884,7 +4140,7 @@ angular.module('user').controller('UserPanelCtrl',[
                       UserService.setCurrentUser(args.user);
                 }
 
-              userpanel.init();  
+              userpanel.init();
 
           });
 

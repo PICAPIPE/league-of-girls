@@ -31,12 +31,14 @@ Route::group(['middleware' => ['auth.api']], function(){
     Route::post('/users/current/plattforms',                     'Api\User\UserController@currentAddPlattform');
     Route::post('/users/current/communications',                 'Api\User\UserController@currentAddCommunication');
     Route::post('/users/current/links',                          'Api\User\UserController@currentAddLink');
+    Route::get('/users/current/requests',                        'Api\User\UserController@currentConnectionRequest');
 
 });
 
 // Users
 
-Route::api('users',           'Api\User\UserController',           [],false);
+Route::api('users',           'Api\User\UserController',           [],true,['auth.safe']);
+Route::api('friends-requests','Api\User\FriendRequestController',  [],true);
 
 // E-Sport
 

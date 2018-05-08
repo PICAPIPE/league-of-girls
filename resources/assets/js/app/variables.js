@@ -113,7 +113,18 @@ var DB_SERVICES    = [
                {
                    return url + '/current/links'
                }
-           }
+           },
+           {
+               type:       'get',
+               name:       'friendRequests',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/requests'
+               }
+           },
        ]
 
     },
@@ -160,6 +171,14 @@ var DB_SERVICES    = [
            }
        ]
 
+    },
+
+    // Friend requests
+
+    {
+       'name' : 'FriendRequests',
+       'url'  : 'api/friends-requests',
+       'except': ['all','get','show','store','destroy']
     },
 
     // Plattforms
