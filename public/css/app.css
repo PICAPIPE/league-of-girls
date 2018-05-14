@@ -13961,6 +13961,87 @@ readers do not read off random characters that represent icons */
   font-weight: 900;
 }
 
+@font-face {
+  font-family: "icons-standard";
+  src: url(/fonts/icons-standard.eot?99b7adf3889b87cdbf026909e8d2afad?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?3c959961906e935a564c8e2054685f9c) format("woff2"), url(/fonts/icons-standard.woff?b65ba49dbaa4b4eb555632172092a6f0) format("woff"), url(/fonts/icons-standard.ttf?d1804dca1d2d583035b54de9f63f2ff2) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+}
+
+.log-icon {
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.log-icon:before {
+  font-family: icons-standard !important;
+  font-style: normal;
+  font-weight: normal !important;
+  vertical-align: top;
+}
+
+.log-icon-burgermenu:before {
+  content: "\F101";
+}
+
+.log-icon-check:before {
+  content: "\F102";
+}
+
+.log-icon-close:before {
+  content: "\F103";
+}
+
+.log-icon-edit:before {
+  content: "\F104";
+}
+
+.log-icon-fav_off:before {
+  content: "\F105";
+}
+
+.log-icon-fav_on:before {
+  content: "\F106";
+}
+
+.log-icon-game:before {
+  content: "\F107";
+}
+
+.log-icon-info:before {
+  content: "\F108";
+}
+
+.log-icon-link-open:before {
+  content: "\F109";
+}
+
+.log-icon-message:before {
+  content: "\F10A";
+}
+
+.log-icon-no:before {
+  content: "\F10B";
+}
+
+.log-icon-offline:before {
+  content: "\F10C";
+}
+
+.log-icon-online:before {
+  content: "\F10D";
+}
+
+.log-icon-person:before {
+  content: "\F10E";
+}
+
+.log-icon-speak:before {
+  content: "\F10F";
+}
+
 .alerts-area {
   width: 100%;
   position: absolute;

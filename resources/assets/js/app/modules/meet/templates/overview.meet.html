@@ -52,7 +52,7 @@
 
   </div>
 
-  <div class="meet-load-more">
+  <div class="meet-load-more" ng-if="ctrl.total !== ctrl.users.length">
       <button class="btn btn-link" ng-click="ctrl.loadMore()">{{ 'Mehr Inhalte laden' | translate}}</button>
   </div>
 

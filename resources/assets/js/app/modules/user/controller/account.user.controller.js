@@ -12,7 +12,8 @@ angular.module('user').controller('UserAccountCtrl',[
           var date    = new Date();
           angular.extend(account, $controller('BaseCtrl', {$scope: $scope}));
 
-          account.user           = UserService.getCurrentUser();
+          account.currentUser    = UserService.getCurrentUser();
+          account.user           = null;
           account.imagePath      = '';
 
           account.games          = [];
@@ -22,32 +23,49 @@ angular.module('user').controller('UserAccountCtrl',[
 
           account.linksAmount    = 0;
 
+          account.$onInit = function () {
+
+              account.user = account.userId === undefined || account.userId === '-1' || account.userId === -1 ? UserService.getCurrentUser():null;
+              account.init();
+
+          };
+
           // Init the account information
 
-          account.init           = function()
+          account.init           = function(ignore)
           {
 
+              if(angular.isUndefined(ignore) === true)
+                {
+                   ignore = false;
+                }
+
               account.linksAmount = 0;
+
+              // Remove the current user data
+
+              if(ignore === false && account.userId !== undefined && account.userId !== '-1')
+                {
+                    account.user = null;
+                }
 
               if(account.user === null)
                 {
 
-                    $timeout(function(){
-                      if(account.userId !== '-1' && account.userId !== undefined)
-                        {
-                            account.DB.call('Users','show',account.userId).then(
-                                function(result)
-                                {
-                                    account.user = result.data.data;
-                                    account.init();
-                                },
-                                function(errorResult)
-                                {
-                                    account.closeModal();
-                                }
-                            );
-                        }
-                    });
+                    if(account.userId !== '-1' && account.userId !== undefined)
+                      {
+                          account.DB.call('Users','show',account.userId).then(
+                              function(result)
+                              {
+                                  account.user = result.data.data;
+                                  account.init(true);
+                              },
+                              function(errorResult)
+                              {
+                                  account.closeModal();
+                              }
+                          );
+                      }
 
                     return;
                 }
@@ -210,7 +228,7 @@ angular.module('user').controller('UserAccountCtrl',[
 
                           case 'youtube':
 
-                              if(value.indexOf('https://www.youtube.com/channel/') === -1)
+                              if(value.indexOf('https://www.youtube.comDB/channel/') === -1)
                               {
                                     value = 'https://www.youtube.com/channel/' + value;
                               }
@@ -246,7 +264,46 @@ angular.module('user').controller('UserAccountCtrl',[
 
           };
 
-          account.init();
+          // Get attribute data
+
+          account.getAttributeData = function(attr,attrColumn,data)
+          {
+
+              var i     = 0;
+              var j     = 0;
+              var found = false;
+              var value = '';
+
+              if(account.currentUser      !== null)
+                {
+
+                    for(i = 0; i < account.currentUser.friends.length; i++)
+                       {
+                            if(account.currentUser.friends[i].from.uuid === account.user.uuid)
+                              {
+                                  found = true;
+                                  break;
+                              }
+                       }
+
+                    if(found === true)
+                      {
+                            for(j = 0; j < account.user[attr].length; j++)
+                               {
+                                  if(account.user[attr][j].active      === true &&
+                                     account.user[attr][j][attrColumn] === data.id)
+                                    {
+                                         value =  '(' + account.user[attr][j].value + ')';
+                                         break;
+                                    }
+                               }
+                      }
+
+                }
+
+              return value;
+
+          };
 
      }
 ]);

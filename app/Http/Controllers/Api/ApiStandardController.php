@@ -66,6 +66,9 @@ class ApiStandardController extends ApiController
           $allowQueries    = data_get($map,'allowQueries', true);
           $roles           = data_get($map,'roles',        null);
           $wheres          = data_get($map,'wheres',       []);
+          $hidden          = data_get($map,'hidden',       []);
+          $postDataFns     = data_get($map,'postDataGet',  []);
+          $postMapFn       = data_get($map,'postMap',[]);
 
           if($roles !== null)
             {
@@ -150,19 +153,52 @@ class ApiStandardController extends ApiController
 
           }
 
+          foreach ($postDataFns as $key => $value) {
+
+              if($$key !== null && method_exists($this,$value))
+                {
+                    $$key = $this->$value($modelData,$request);
+                }
+
+          }
+
           // Check if the mode required a pagination
 
           if    ($pagination === true)
                 {
                     $modelData  = $modelData->paginate($perSite);
-                    return $this->respondSuccess($modelData->toArray());
+                    $data       = $modelData;
+                    $result     = $modelData->makeHidden($hidden);
+                    $data->data = $result;
+
+                    foreach ($postMapFn as $key => $value)
+                    {
+                        if(method_exists($this,$value))
+                          {
+                               $data->data = $this->$value($data->data,$request);
+                          }
+                    }
+
+                    return $this->respondSuccess($data->toArray());
                 }
           else  {
                     $modelData  = $modelData->get();
+                    $modelData = $modelData->makeHidden($hidden);
+
+                    foreach ($postMapFn as $key => $value)
+                    {
+                        if(method_exists($this,$value))
+                          {
+                               $modelData = $this->$value($modelData,$request);
+                          }
+                    }
+
                     return $this->respondSuccess(['data' => $modelData->toArray()]);
                 }
 
       }
+
+
 
       // Show an entry
 
@@ -178,7 +214,10 @@ class ApiStandardController extends ApiController
 
           $mdClass         = new $md();
           $fields          = data_get($map,'fields', $mdClass->getFillable());
-          $with            = data_get($map,'with', []);
+          $with            = data_get($map,'with',   []);
+          $hidden          = data_get($map,'hidden', []);
+          $postDataFns     = data_get($map,'postDataGet',[]);
+          $postMapFn       = data_get($map,'postMap',[]);
 
           $modelData       = $md::where('uuid',$uuid)->select($fields);
 
@@ -188,8 +227,28 @@ class ApiStandardController extends ApiController
 
           $modelData       = $modelData->first();
 
+          foreach ($postDataFns as $key => $value) {
+
+              if($$key !== null && method_exists($this,$value))
+                {
+                    $$key = $this->$value($modelData,$request);
+                }
+
+          }
+
+          $modelData       = $modelData->makeHidden($hidden);
+
           if($modelData !== null)
             {
+
+               foreach ($postMapFn as $key => $value)
+               {
+                   if(method_exists($this,$value))
+                     {
+                          $modelData = $this->$value($modelData,$request);
+                     }
+               }
+
                return $this->respondSuccess(['data' => $modelData->toArray()]);
             }
 

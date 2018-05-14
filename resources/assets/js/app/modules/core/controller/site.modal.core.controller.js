@@ -18,11 +18,7 @@ angular.module('core').controller('CoreSiteModalCtrl',[
 
           modal.getStyle = function()
           {
-
-
-
               return modal.styles;
-
           };
 
           modal.getClass = function()
@@ -38,9 +34,7 @@ angular.module('core').controller('CoreSiteModalCtrl',[
 
               $timeout(function()
               {
-
                   modal.content = '';
-
               },300);
 
           };
@@ -63,7 +57,7 @@ angular.module('core').controller('CoreSiteModalCtrl',[
                   modal.styles                        = {
                       background:   args.settings.background !== undefined ? args.settings.background : '#f4f4f4',
                       height:       document.getElementsByTagName('body')[0].offsetHeight + 'px',
-                      'min-height': '100vh'
+                      'min-height': window.outerHeight + 'px'
                   };
 
                   $scope.$apply();

@@ -310,6 +310,13 @@ angular.module('db').factory('DB',[
 
                                   DBBroadcast(response.data,callBroadcasts);
                                   deferred.reject({code:400,statusCode:response.status,data:response.data,headers:response.headers});
+
+                                  if(response.status === 401)
+                                    {
+                                       // Trigger fake "userLogged" to reset
+                                       $rootScope.broadcast('userLogged',{user:null,success:true});
+                                    }
+
                               }
                             );
 

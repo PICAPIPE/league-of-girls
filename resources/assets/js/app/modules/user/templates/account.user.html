@@ -34,13 +34,19 @@
           <h2>{{ 'Kommunikation' | translate }}</h2>
 
           <ul class="commnunications">
-             <li class="communication-item" ng-class="account.getCommunicationClass(communication.id)" ng-repeat="communication in account.commnunications"><i class="{{communication.icon}}" title="{{communication.name}}"></i></li>
+             <li class="communication-item" ng-class="account.getCommunicationClass(communication.id)" ng-repeat="communication in account.commnunications">
+               <i class="{{communication.icon}}" title="{{communication.name}}"></i>
+               <span compile="account.getAttributeData('communications','communication_id',communication)"></span>
+             </li>
           </ul>
 
           <h2>{{ 'Plattformen' | translate }}</h2>
 
           <ul class="plattforms">
-             <li class="plattform-item" ng-class="account.getPlattformClass(plattform.id)" ng-repeat="plattform in account.plattforms"><i class="{{plattform.icon}}" title="{{plattform.name}}"></i></li>
+             <li class="plattform-item" ng-class="account.getPlattformClass(plattform.id)" ng-repeat="plattform in account.plattforms">
+               <i class="{{plattform.icon}}" title="{{plattform.name}}"></i>
+               <span compile="account.getAttributeData('plattforms','plattform_id',plattform)"></span>
+             </li>
           </ul>
 
           <h2>{{ 'Links und Profile' | translate }}</h2>

@@ -59,12 +59,19 @@ class UserController extends ApiStandardController
             'filterConnection'
         ],
         'wheresAreOr'   => true,
-        'getData'       => 'getUserData'
+        'getData'       => 'getUserData',
+        'hidden'        => [],
+        'postMap'   => [
+            'filterData'
+        ]
       ],
 
       'show' => [
         'except'        => false,
-        'with'          => ['games','communications','plattforms']
+        'with'          => ['games','communications','plattforms'],
+        'postMap'       => [
+            'filterDataSingle'
+        ]
       ],
 
       'store' => [
@@ -93,10 +100,9 @@ class UserController extends ApiStandardController
          return $this->respondBadRequest('Keine Benutzerinformationen vorhanden.');
       }
 
-      //$request->user->settings = $request->user->getSettings();
       $data                    = $request->all();
 
-      $result                  = User::where('uuid',$request->user->uuid)->with('games')->with('plattforms')->with('communications')->with('links');
+      $result                  = User::where('uuid',$request->user->uuid)->with(['games','plattforms','communications','links','friends','friends.from']);
 
       $fields                  = $request->user->getRequestFields($request);
 
@@ -411,6 +417,98 @@ class UserController extends ApiStandardController
       return $model;
   }
 
+  // Filter data if not allowed (multiple entries)
+
+  protected function filterData($data,$request)
+  {
+
+      $friends = optional($request->user)->friends;
+
+      if($friends === null)
+        {
+            $friends = [];
+        }
+      else
+        {
+           $friends = $friends->pluck('from.uuid')->toArray();
+        }
+
+      $data = $data->map(function($item) use ($request,$friends){
+
+          if(in_array($item->uuid,$friends) === false && optional($request->user)->uuid !== $item->uuid)
+          {
+
+               // Filter data
+
+               if(optional($item)->communications !== null)
+                 {
+                      $item->communications = $item->communications->map(function($communication){
+                          $communication->value = '';
+                          return $communication;
+                      });
+                 }
+
+               if(optional($item)->plattforms !== null)
+                 {
+                      $item->plattforms = $item->plattforms->map(function($plattform){
+                          $plattform->value = '';
+                          return $plattform;
+                      });
+                 }
+
+          }
+
+          return $item;
+
+      });
+
+      return $data;
+
+  }
+
+  // Filter data if not allowed (single entry)
+
+  protected function filterDataSingle($data,$request)
+  {
+
+      $friends = optional($request->user)->friends;
+
+      if($friends === null)
+        {
+            $friends = [];
+        }
+      else
+        {
+           $friends = $friends->pluck('from.uuid')->toArray();
+        }
+
+      if(in_array($data->uuid,$friends) === false && optional($request->user)->uuid !== $data->uuid)
+        {
+
+             // Filter data
+
+             if(optional($data)->communications !== null)
+               {
+                    $data->communications = $data->communications->map(function($communication){
+                        $communication->value = '';
+                        return $communication;
+                    });
+               }
+
+             if(optional($data)->plattforms !== null)
+               {
+                    $data->plattforms = $data->plattforms->map(function($plattform){
+                        $plattform->value = '';
+                        return $plattform;
+                    });
+               }
+
+        }
+
+      return $data;
+
+  }
+
   // Get data
 
   public function getUserData($md, Request $request)
@@ -538,6 +636,12 @@ class UserController extends ApiStandardController
 
       return $this->respondSuccess(['data' => $connectionRequests->toArray()]);
 
+  }
+
+  protected function withHookCommunications($query)
+  {
+      dd('TEst');
+      return $query;
   }
 
 }

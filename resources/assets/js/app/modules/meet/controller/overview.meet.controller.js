@@ -23,6 +23,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           ctrl.pageCurrent     = 1;
           ctrl.pageMax         = 1;
+          ctrl.total           = 0;
           ctrl.data            = [];
 
           ctrl.plattforms      = [];
@@ -251,6 +252,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                     var user   = null;
 
                     ctrl.pageMax = result.data.last_page;
+                    ctrl.total   = result.data.total;
 
                     if(result.data.data.length === 0)
                       {

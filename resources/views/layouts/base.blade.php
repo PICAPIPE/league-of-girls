@@ -21,7 +21,7 @@
 
     </head>
     <body ng-controller="SiteCtrl as site">
-      
+
         <alerts></alerts>
 
         @yield('content')
