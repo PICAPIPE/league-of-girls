@@ -4,6 +4,11 @@ angular.module('user').factory('UserService', [
         var service     = this;
         var currentUser = null;
 
+        service.update        = function()
+        {
+
+        };
+
         // Set the current user
 
         service.setCurrentUser = function(user)

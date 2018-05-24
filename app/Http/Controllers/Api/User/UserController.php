@@ -612,11 +612,27 @@ class UserController extends ApiStandardController
               return $this->respondBadRequest(_i('Es besteht bereits eine Verknüpfung.'));
           }
 
-        $connectionRequest = UserRequest::where('user_id',$user->id)->where('from_id',$request->user->id)->first();
+        $connectionRequest = UserRequest::where('user_id',$user->id)->where('from_id',$request->user->id)->where('declined',false)->where('accepted',false)->first();
 
         if($connectionRequest !== null)
           {
               return $this->respondBadRequest(_i('Es besteht bereits eine Anfrage.'));
+          }
+
+        $userRequest = UserRequest::where('from_id',$user->id)->where('user_id',$request->user->id)->where('declined',false)->where('accepted',false)->first();
+
+        if($userRequest !== null)
+          {
+
+          $userRequest->accepted = true;
+          $userRequest->read     = true;
+          $userRequest->save();
+
+          // Create friendship
+
+          $userRequest->accept();
+
+          return $this->respondSuccess(['refresh' => true]);
           }
 
         UserRequest::create([
@@ -640,7 +656,6 @@ class UserController extends ApiStandardController
 
   protected function withHookCommunications($query)
   {
-      dd('TEst');
       return $query;
   }
 

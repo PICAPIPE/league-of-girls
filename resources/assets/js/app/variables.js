@@ -178,7 +178,7 @@ var DB_SERVICES    = [
     {
        'name' : 'FriendRequests',
        'url'  : 'api/friends-requests',
-       'except': ['all','get','show','store','destroy']
+       'except': ['all','get','show','store']
     },
 
     // Plattforms

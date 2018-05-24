@@ -39,7 +39,7 @@ class FriendRequestController extends ApiStandardController
       ],
 
       'destroy' => [
-        'except'        => true,
+        'except'        => false,
       ]
 
   ];
@@ -95,6 +95,35 @@ class FriendRequestController extends ApiStandardController
           $modelData->save();
 
       }
+
+      return $this->respondSuccess();
+
+  }
+
+  // Remove the friendship
+
+  public function destroy(Request $request, $uuid)
+  {
+
+      $map             = $this->getMap($this->getName($request));
+      $md              = $this->getModel($map);
+      $mdClass         = new $md();
+      $fields          = data_get($map,'fields', $mdClass->getFillable());
+
+      $modelData       = UserFriend::where('uuid',$uuid)->where(function($query) use ($request){
+          $query->where('user_id', $request->user->id)
+                ->orWhere('from_id',$request->user->id);
+      })->first();
+
+      if($modelData === null)
+        {
+        return $this->respondBadRequest();
+        }
+
+      // Delete Friendships
+
+      UserFriend::where('user_id',$modelData->user_id)->where('from_id',$modelData->from_id)->delete();
+      UserFriend::where('from_id',$modelData->user_id)->where('user_id',$modelData->from_id)->delete();
 
       return $this->respondSuccess();
 

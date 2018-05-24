@@ -167,11 +167,25 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               ctrl.DB.call('Users','request',{uuid:user.uuid},null).then(
                   function(result)
                   {
-                      ctrl.ALERT.add({
-                          'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
-                          'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
-                          'autoClose': true
-                      });
+                      if (result.data.refresh === true)
+                          {
+                            ctrl.ALERT.add({
+                                'title':     ctrl.LANG.getString('Du bist nun verbunden!'),
+                                'message':   ctrl.LANG.getString('Da bereits eine Freundschaftsanfrage existierte, bist du nun mit der/dem gewünschte/n Benutzer/in verbunden.'),
+                                'autoClose': true
+                            });
+
+                            $rootScope.$broadcast('requestUserUpdate');
+
+                          }
+                      else
+                          {
+                            ctrl.ALERT.add({
+                                'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
+                                'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
+                                'autoClose': true
+                            });
+                          }
                   },
                   function(errorResult)
                   {

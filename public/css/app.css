@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?99b7adf3889b87cdbf026909e8d2afad?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?3c959961906e935a564c8e2054685f9c) format("woff2"), url(/fonts/icons-standard.woff?b65ba49dbaa4b4eb555632172092a6f0) format("woff"), url(/fonts/icons-standard.ttf?d1804dca1d2d583035b54de9f63f2ff2) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?24e85a0b1e2f10d32e9e0441cb0f2a4d?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?a17f8feab469fe44176be5ec904bcb64) format("woff2"), url(/fonts/icons-standard.woff?f9ece6e56338784e44bfc99b6cfa5151) format("woff"), url(/fonts/icons-standard.ttf?64df1709c848052c819c9cd7cf258c28) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
@@ -14686,6 +14686,10 @@ a {
 .modalArea-content .user-account {
   -webkit-box-shadow: 9px 10px 5px -8px rgba(0, 0, 0, 0.19);
   box-shadow: 9px 10px 5px -8px rgba(0, 0, 0, 0.19);
+}
+
+.user-connect {
+  text-align: right;
 }
 
 .games {

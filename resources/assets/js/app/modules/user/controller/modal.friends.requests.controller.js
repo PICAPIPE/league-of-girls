@@ -103,9 +103,8 @@ angular.module('user').controller('FriendsRequestsModalCtrl',[
             modal.DB.call('FriendRequests','update',uuid,obj).then(
                 function(result)
                 {
-
                     modal.init();
-
+                    $rootScope.$broadcast('requestUserUpdate');
                 },
                 function(errorResult)
                 {

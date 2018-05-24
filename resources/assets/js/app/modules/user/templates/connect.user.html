@@ -1,0 +1,4 @@
+<div class="user-connect">
+    <button class="btn btn-outline-default" ng-if="connect.isConnected() === false" ng-click="connect.connect()">{{ 'Mit Benutzer verbinden' | translate }}</button>
+    <button class="btn btn-outline-default" ng-if="connect.isConnected() === true" ng-click="connect.deconnect()">{{ 'Verbindung aufheben' | translate }}</button>
+</div>
