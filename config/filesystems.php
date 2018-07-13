@@ -76,6 +76,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'exports' => [
+            'driver'     => 'local',
+            'root'       => storage_path('exports'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];

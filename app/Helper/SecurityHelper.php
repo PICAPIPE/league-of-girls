@@ -2,6 +2,7 @@
 
 namespace App\Helper;
 
+use Auth;
 use Cookie;
 use Gate;
 use JWTAuth;

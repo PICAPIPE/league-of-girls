@@ -24,24 +24,12 @@ var jsFiles = [
   'resources/assets/js/app/modules/**/components/*.js',
   'resources/assets/js/app/modules/**/services/*.js',
   'resources/assets/js/app/modules/**/controller/*.js',
-  'resources/assets/js/app/modules/**/templates/*.js'
+  'resources/assets/js/app/modules/**/templates/*.js',
+  'resources/assets/vendor/extra/*.js'
 ];
 
 var i        = 0;
 var files    = [];
-
-var jsVendor = [
-  'api-check',
-  'angular',
-  'angular-gettext',
-  '@uirouter/angularjs',
-  'angular-formly',
-  'angular-formly-templates-bootstrap',
-  'angular-storage',
-  'angular-sanitize',
-  'angular-upload',
-  'jquery'
-];
 
 var walkSync = function(dir, filelist) {
   var fs = fs || require('fs'),
@@ -84,12 +72,17 @@ for(i = 0; i < icons.length; i++)
         return item;
      });
 
+     if(webfontsGenerator === undefined)
+       {
+       continue;
+       }
+
      webfontsGenerator({
        fontName:     icons[i].name,
        files:        files,
        dest:         icons[i].dest,
        cssDest:      icons[i].cssDest,
-       cssFontsPath: '../../../public/webfonts',
+       cssFontsUrl: '../../../public/webfonts',
        cssTemplate:  path.join(__dirname,'resources/assets/hbs/icons.hbs'),
        templateOptions:  Object.assign({
           'css':'resources/assets/sass/components/icons.scss'
@@ -105,10 +98,11 @@ for(i = 0; i < icons.length; i++)
      });
    }
 
-mix.js('resources/assets/js/app.js', 'public/js')
-   .extract(jsVendor).sass('resources/assets/sass/app.scss', 'public/css').sourceMaps();;
+mix.js('resources/assets/js/app.js', 'public/js');
 
-mix.scripts(jsFiles, 'public/js/app.js').sourceMaps();
+mix.sass('resources/assets/sass/app.scss', 'public/css').sourceMaps();
+
+mix.scripts(jsFiles, 'public/js/application.js').sourceMaps();
 
 mix.copyDirectory('resources/assets/images', 'public/img');
 

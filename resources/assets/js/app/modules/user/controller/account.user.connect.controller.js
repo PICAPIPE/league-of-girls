@@ -31,6 +31,17 @@ angular.module('user').controller('UserConnectCtrl',[
 
           connect.connect        = function()
           {
+
+              if(angular.isUndefined(connect.user) === true || connect.user === null)
+                {
+                return;
+                }
+
+              if(connect.user.uuid === connect.userId)
+                {
+                return;
+                }
+
               connect.DB.call('Users','request',{uuid:connect.userId},null).then(
                   function(result)
                   {
@@ -59,7 +70,7 @@ angular.module('user').controller('UserConnectCtrl',[
                   function(errorResult)
                   {
                       connect.ALERT.add({
-                          'title':     connect.LANG.getString('Fehler bei de Freundschaftsanfrage'),
+                          'title':     connect.LANG.getString('Fehler bei der Freundschaftsanfrage'),
                           'message':   errorResult.data.message,
                           'autoClose': true
                       });
@@ -76,6 +87,16 @@ angular.module('user').controller('UserConnectCtrl',[
               var uuid = null;
               var i    = 0;
               var f    = -1;
+
+              if(angular.isUndefined(connect.user) === true || connect.user === null)
+                {
+                return;
+                }
+
+              if(connect.user.uuid === connect.userId)
+                {
+                return;
+                }
 
               for(i = 0; i < connect.user.friends.length; i++)
                  {
@@ -120,6 +141,31 @@ angular.module('user').controller('UserConnectCtrl',[
 
           };
 
+          // Create mesasge
+
+          connect.createMessage   = function()
+          {
+            connect.DB.call('Chats','get',{'type':'private','uuid':connect.userId}).then(
+              function(result)
+              {
+                  if(angular.isDefined(result.data.chat) === true)
+                    {
+                    $state.go('app.chat.detail',{id:result.data.chat});
+                    $rootScope.$broadcast('$modalClose'); 
+                    return;
+                    }
+              },
+              function(errorResult)
+              {
+                connect.ALERT.add({
+                    'title':     connect.LANG.getString('Fehler beim Erstellen einer Nachricht.'),
+                    'message':   errorResult.data.message,
+                    'autoClose': true
+                });
+              }
+            );
+          };
+
           // Check if the user is connected
 
           connect.isConnected    = function()
@@ -127,9 +173,9 @@ angular.module('user').controller('UserConnectCtrl',[
               var i         = 0;
               var connected = false;
 
-              if(connect.user.uuid === connect.userId)
+              if(angular.isUndefined(connect.user) === true || connect.user === null || connect.user.uuid === connect.userId || angular.isUndefined(connect.user.friends) === true)
                 {
-                return null;
+                return connected;
                 }
 
               for(i = 0; i < connect.user.friends.length; i++)

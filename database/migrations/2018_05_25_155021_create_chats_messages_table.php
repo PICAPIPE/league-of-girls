@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateChannelMessagesTable extends Migration
+class CreateChatsMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,33 +13,20 @@ class CreateChannelMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('channel_messages', function (Blueprint $table) {
+        Schema::create('chats_messages', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
-            $table->integer('channel_id')->unsigned();
+            $table->integer('chat_id')->unsigned();
             $table->integer('user_id')->unsigned();
-            $table->longText('message');
+            $table->boolean('reported');
+            $table->longText('text');
             $table->timestamps();
         });
 
-        if (Schema::hasTable('channels')) {
+        if(Schema::hasTable('chats_messages'))
+          {
 
-            Schema::table('channel_messages', function ($table) {
-
-                // Relations
-
-                $table->foreign('channel_id')
-                    ->references('id')
-                    ->on('channels')
-                    ->onDelete('cascade');
-
-            });
-
-        }
-
-        if (Schema::hasTable('users')) {
-
-            Schema::table('channel_messages', function ($table) {
+            Schema::table('chats_messages', function ($table) {
 
                 // Relations
 
@@ -50,8 +37,18 @@ class CreateChannelMessagesTable extends Migration
 
             });
 
-        }
+            Schema::table('chats_messages', function ($table) {
 
+                // Relations
+
+                $table->foreign('chat_id')
+                    ->references('id')
+                    ->on('chats')
+                    ->onDelete('cascade');
+
+            });
+
+          }
     }
 
     /**
@@ -61,6 +58,6 @@ class CreateChannelMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('channel_messages');
+        Schema::dropIfExists('chats_messages');
     }
 }

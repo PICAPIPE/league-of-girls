@@ -13,9 +13,13 @@
         <link rel="manifest"   href="/manifest.json">
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
+        <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
+        <script>var LARAVEL = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>;</script>
+
+
         <script src="/js/manifest.js"></script>
-        <script src="{{ mix('/js/vendor.js') }}"></script>
         <script src="{{ mix('/js/app.js') }}"></script>
+        <script src="{{ mix('/js/application.js') }}"></script>
 
         @yield('header')
 

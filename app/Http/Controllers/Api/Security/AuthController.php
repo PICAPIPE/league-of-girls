@@ -20,6 +20,7 @@ use App\Models\User\UserRole;
 use App\Models\Permissions\Role;
 
 use App\Mail\Auth\ResetPassword;
+use Illuminate\Support\Facades\Broadcast;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -269,6 +270,22 @@ class AuthController extends ApiController
             }
 
           return $this->respondSuccess(['data' => ['message' => _i('Sofern die E-Mail-Adresse in unserem System verwendet wird, wird an die angegebene Adresse ein Zurücksetzen-Link geschickt.')]]);
+
+    }
+
+    public function broadcasting(Request $request)
+    {
+        $token = $request->header('Authorization');
+        $user  = JWTAuth::parseToken()->toUser();
+
+        if ($user === null) {
+            return json_encode(false);
+        }
+
+        return json_encode(['channel_data' => [
+            'user_id'   => $request->user()->getAuthIdentifier(),
+            'user_info' => $user,
+        ]]);
 
     }
 

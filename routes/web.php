@@ -11,9 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome',[]);
-})->name('start');
+Route::get('/', ['uses'=>'Web\System\SiteController@site','middleware' => ['auth.safe']])->name('start');
 
 // Auth
 
@@ -28,6 +26,7 @@ Route::get('views/{module}/{name}',     ['uses'=>'Web\System\ComponentController
 // Files
 
 Route::get('files/avatars/{user}',     ['uses'=>'Web\Files\FileController@avatar']);
+Route::get('/export/{file}',           ['uses'=>'Web\Files\FileController@export'])->name('export.file')->middleware('signed');
 
 if(env('APP_DEBUG') === true)
   {
@@ -38,3 +37,10 @@ if(env('APP_DEBUG') === true)
       Route::get('test/email/{unique}', ['uses'=>'Web\System\TestController@email','middleware' => ['signed']])->name('testmail');
 
   }
+
+// Any requests
+
+Route::group(['middleware' =>['web']], function($request)
+    {
+        Route::any('/{slug}', ['uses'=>'Web\System\SiteController@site','middleware' => ['auth.safe']])->where('slug', '([A-z\d-\/_.]+)?');
+    });

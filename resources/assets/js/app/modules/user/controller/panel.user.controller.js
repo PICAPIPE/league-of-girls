@@ -4,8 +4,9 @@ angular.module('user').controller('UserPanelCtrl',[
      '$state',
      '$window',
      '$controller',
+     '$timeout',
      'UserService',
-     function($scope, $rootScope, $state, $window, $controller,UserService) {
+     function($scope, $rootScope, $state, $window, $controller,$timeout,UserService) {
 
           var userpanel = this;
           angular.extend(userpanel, $controller('BaseCtrl', {$scope: $scope}));
@@ -14,6 +15,7 @@ angular.module('user').controller('UserPanelCtrl',[
 
           userpanel.user     = null;
           userpanel.username = null;
+          userpanel.listener = null;
 
           // Init function
 
@@ -22,6 +24,41 @@ angular.module('user').controller('UserPanelCtrl',[
 
                 // Get the user information
                 userpanel.user = UserService.getCurrentUser();
+
+                userpanel.listen();
+
+                $timeout(function(){
+                    $scope.$apply();
+                });
+
+          };
+
+          // Update the user data
+
+          userpanel.update    = function()
+          {
+            userpanel.DB.call('CurrentUser','check',null,null).then(
+              function(result){
+
+                // Successful getting the user data
+                UserService.setCurrentUser(result.data.data);
+                userpanel.init();
+                userpanel.listen();
+
+              }
+            );
+          };
+
+          userpanel.listen    = function()
+          {
+
+            if(userpanel.listener === null && userpanel.user !== null)
+              {
+                userpanel.listener = Echo.join('user-' + userpanel.user.uuid)
+                  .listen('.UserUpdate', function(e) {
+                     userpanel.update();
+                  });
+              }
 
           };
 
@@ -47,8 +84,19 @@ angular.module('user').controller('UserPanelCtrl',[
               });
           };
 
+          userpanel.openMessages = function(e)
+          {
+              userpanel.createModal({
+                  'background' : 'rgba(34,181,115,0.8)',
+                  'content':     '<messages-modal>...</messages-modal>'
+              },function(){
+
+              });
+          };
+
           // Init
 
+          userpanel.listen();
           userpanel.init();
 
           // Watchers
@@ -62,8 +110,20 @@ angular.module('user').controller('UserPanelCtrl',[
                 }
 
               userpanel.init();
+              userpanel.listen();
 
           });
+
+          // Update the user data
+
+          $rootScope.$on('updateUser',function(){
+
+              userpanel.listen();
+              userpanel.update();
+
+          });
+
+
 
      }
 ]);

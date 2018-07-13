@@ -2,18 +2,17 @@
 
 namespace App\Models\Chat;
 
+use Illuminate\Database\Eloquent\Model;
 use App\Models\BaseModel;
 
-use Illuminate\Database\Eloquent\Model;
-
-class Channel extends BaseModel
+class ChatUser extends BaseModel
 {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'channels';
+  protected $table = 'chats_users';
 
   /**
    * The attributes that are mass assignable.
@@ -23,13 +22,13 @@ class Channel extends BaseModel
   protected $fillable = [
       'id',
       'uuid',
-      'type',
-      'name',
-      'deleted_at'
+      'chat_id',
+      'user_id',
   ];
 
   protected $validations = [
-
+      'chat_id' => 'required',
+      'user_id' => 'required'
   ];
 
   /**
@@ -65,5 +64,18 @@ class Channel extends BaseModel
    *
    * @var array
    */
-  protected $dates = ['deleted_at'];
+  protected $dates = ['created_at', 'updated_at', 'deleted_at'];
+
+  // Games
+
+  public function chat()
+  {
+      return $this->hasOne('App\Models\Chat\Chat');
+  }
+
+  public function user()
+  {
+      return $this->hasOne('App\Models\User\User','id','user_id')->select('username','id','uuid');
+  }
+
 }

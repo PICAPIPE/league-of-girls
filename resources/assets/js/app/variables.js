@@ -125,6 +125,37 @@ var DB_SERVICES    = [
                    return url + '/current/requests'
                }
            },
+           {
+               type:       'get',
+               name:       'chats',
+               queryIndex: 2,
+               dataIndex:  3,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/chats'
+               }
+           },
+           {
+               type:       'get',
+               name:       'export',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/export'
+               }
+           },
+           {
+               type:       'get',
+               name:       'deleteAccount',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/current/delete-account'
+               }
+           },
        ]
 
     },
@@ -200,6 +231,54 @@ var DB_SERVICES    = [
     {
        'name' : 'Links',
        'url'  : 'api/links'
+    },
+
+    // Chats
+
+    {
+       'name' : 'Chats',
+       'url'  : 'api/chats',
+       'except': ['all','show'],
+       'custom': [
+           {
+               type:       'get',
+               name:       'deleteMessages',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/delete-messages'
+               }
+           },
+           {
+               type:       'get',
+               name:       'exportMessages',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/export'
+               }
+           }
+        ]
+    },
+
+    {
+       'name' : 'Messages',
+       'url'  : 'api/messages',
+       'except': ['all','show','create'],
+       'custom': [
+           {
+               type:       'post',
+               name:       'report',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/:uuid/report'
+               }
+           }
+        ]
     }
 
 ];

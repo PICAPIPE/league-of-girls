@@ -10,6 +10,7 @@ use Carbon\Carbon;
 
 class AuthenticationApi
 {
+
     /**
      * Handle an incoming request.
      *

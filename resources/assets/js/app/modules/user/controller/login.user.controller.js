@@ -6,7 +6,8 @@ angular.module('user').controller('UserLoginCtrl',[
      '$controller',
      '$timeout',
      'UserService',
-     function($scope, $rootScope, $state, $window, $controller, $timeout,UserService) {
+     'store',
+     function($scope, $rootScope, $state, $window, $controller, $timeout,UserService,store) {
 
           var login = this;
           angular.extend(login, $controller('BaseCtrl', {$scope: $scope}));
@@ -75,6 +76,8 @@ angular.module('user').controller('UserLoginCtrl',[
                               // Login was successful
 
                               login.loading = false;
+
+                              store.set('token',result.data.token);
 
                               login.DB.call('CurrentUser','check',null,null).then(
                                 function(result){

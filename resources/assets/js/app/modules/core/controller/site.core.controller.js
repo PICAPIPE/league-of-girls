@@ -30,7 +30,7 @@ angular.module('core').controller('SiteCtrl',[
 
           $rootScope.$on('requestUserUpdate', function(event,args)
           {
-              site.DB.call('CurrentUser','check',null,null).then(
+              site.DB.call('CurrentUser','check',{sockedId:Echo.socketId()}).then(
                 function(result){
 
                   // Successful getting the user data

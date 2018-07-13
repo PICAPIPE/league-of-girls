@@ -10,6 +10,11 @@ use App\Models\BaseModel;
 use App\Models\Permissions\Role;
 use App\Models\Files\FileEntry;
 
+use App\Models\Chat\Chat;
+use App\Models\Chat\ChatMessage;
+use App\Models\Chat\ChatMessageRead;
+use App\Models\Chat\ChatUser;
+
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -159,6 +164,38 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserFriend');
   }
 
+  public function chats()
+  {
+      return Chat::where('public',false)->whereHas('users', function($q){
+          $q->where('user_id',$this->id);
+      });
+  }
+
+  public function messages($unread = null)
+  {
+      $chats = $this->chats()->pluck('id');
+
+      $chatMessage = ChatMessage::whereIn('chat_id',$chats->toArray());
+
+      if($unread !== null)
+        {
+        if($unread === true)
+             {
+             $chatMessage = $chatMessage->whereDoesntHave('messagesRead', function($q){
+                $q->where('user_id',$this->id);
+             });
+             }
+        else {
+             $chatMessage = $chatMessage->whereHas('messagesRead', function($q){
+                 $q->where('user_id',$this->id);
+             });
+             }
+        }
+
+      return $chatMessage;
+
+  }
+
   // Get Roles as id array
 
   public function getRoles()
@@ -219,6 +256,7 @@ class User extends Authenticatable implements JWTSubject
 
       })->with('permissions')->get();
 
+
       $permissions = $roles->map(function($role){
 
           $permissionData = $role->permissions->pluck('permission');
@@ -234,6 +272,11 @@ class User extends Authenticatable implements JWTSubject
             return $item;
           }
       });
+
+      if ($permissions->count() <= 1)
+           {
+           return $permissions;
+           }
 
       return $permissions->unique();
 
@@ -256,7 +299,8 @@ class User extends Authenticatable implements JWTSubject
       $permissions      = $this->getPermissions();
 
       if($permissions       !== null &&
-         $permissionsSearch !== null)
+         $permissionsSearch !== null &&
+         $permissions->count() > 0)
         {
           $permission_cnt = $permissions->intersect(collect($permissionsSearch))->count();
         }
@@ -265,7 +309,8 @@ class User extends Authenticatable implements JWTSubject
               {
                 $permission_found = true;
               }
-      else if (in_array('Admin',$permissions->toArray())      === true &&
+      else if ($permissions                                   !== null &&
+               in_array('Admin',$permissions->toArray())      === true &&
                SecurityHelper::isSuperAdminPermissionActive() === true)
               {
                  $permission_found = true;

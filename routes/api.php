@@ -21,6 +21,10 @@ Route::post('/auth/register',                         'Api\Security\AuthControll
 Route::post('/auth/login',                            'Api\Security\AuthController@login');
 Route::post('/auth/reset',                            'Api\Security\AuthController@requestResetLink');
 
+Route::group(['middleware' => ['auth.safe']], function(){
+  Route::post('/auth/broadcasting',                     'Api\Security\AuthController@broadcasting');
+});
+
 Route::group(['middleware' => ['auth.api']], function(){
 
     Route::post('/users/{user}/request',                         'Api\User\UserController@requestConnection');
@@ -32,8 +36,13 @@ Route::group(['middleware' => ['auth.api']], function(){
     Route::post('/users/current/communications',                 'Api\User\UserController@currentAddCommunication');
     Route::post('/users/current/links',                          'Api\User\UserController@currentAddLink');
     Route::get('/users/current/requests',                        'Api\User\UserController@currentConnectionRequest');
+    Route::get('/users/current/chats',                           'Api\User\UserController@currentChats');
+    Route::get('/users/current/export',                          'Api\User\UserController@currentExport');
+    Route::get('/users/current/delete-account',                  'Api\User\UserController@currentDeleteAccount');
 
 });
+
+
 
 // Users
 
@@ -49,5 +58,20 @@ Route::api('links',           'Api\Esport\LinkController',         [],false);
 
 // CHAT
 
-Route::get('/chat/private/{channel}', 'Api\Chat\ChatController@channelPrivate');
-Route::get('/chat/{channel}',         'Api\Chat\ChatController@channel');
+Route::group(['middleware' => ['auth.api']], function(){
+
+  Route::get('/chats/{uuid}/delete-messages', 'Api\Chat\ChatController@deleteMessages');
+  Route::get('/chats/{uuid}/export',          'Api\Chat\ChatController@exportMessages');
+
+});
+
+Route::api('chats',   'Api\Chat\ChatController',     [],true);
+Route::api('messages','Api\Chat\MessageController',  [],true);
+Route::post('/messages/{messages}/report', 'Api\Chat\MessageController@report');
+
+// TESTING
+
+if(env('APP_DEBUG') === true)
+  {
+    Route::get('/tests/chats/{uuid}', 'Api\Chat\ChatController@testBroadcast');
+  }

@@ -78,7 +78,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone'        => 'UTC',
+    'timezoneConvert' => 'Europe/Vienna',
 
     /*
     |--------------------------------------------------------------------------
@@ -235,6 +236,7 @@ return [
         'ValidationHelper'      => \App\Helper\ValidationHelper::class,
         'ResourceHelper'        => \App\Helper\ResourceHelper::class,
         'SecurityHelper'        => \App\Helper\SecurityHelper::class,
+        'ExportHelper'          => \App\Helper\ExportHelper::class,
 
         // VENDOR
         'TwitchApi'             => Zarlach\TwitchApi\Facades\TwitchApiServiceFacade::class,

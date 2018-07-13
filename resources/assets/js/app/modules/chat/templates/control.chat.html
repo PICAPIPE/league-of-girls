@@ -1,17 +1,57 @@
-<div class="chat chat-control">
+<div class="chat chat-control row" id="{{chat.id}}_chat">
 
-    <div class="chat-window">
+    <div class="col-xs-12 col-md-8 chat-window">
 
-          <div class="chat-messages">
+          <div id="{{chat.id}}_chat_messages" class="chat-messages">
 
+              <div class="chat-message" ng-if="chat.user === null">
+                 {{'Bitte melden Sie sich für den Chat an.' | translate }}
+              </div>
 
+              <div class="chat-loading" ng-class="chat.loading === true ? 'active' : ''">
+                 {{'Lade Mitteilungen...' | translate }}
+              </div>
+
+              <div class="chat-message" ng-repeat="message in chat.messages | orderBy:'id'" ng-if="chat.user !== null">
+                <div class="media">
+                  <img class="mr-3 chat-avatar" ng-class="chat.openProfileClass()" ng-src="{{chat.getAvatarPath(message)}}" ng-click="chat.openProfile($event, message.user)">
+                  <div class="media-body">
+                    <div class="chat-header">
+                        <span class="username" ng-class="chat.openProfileClass()" ng-click="chat.openProfile($event, message.user)">{{message.user.username}} {{'schrieb'|translate}}:</span>
+                        <span class="text-muted clickable" ng-if="message.user.id === chat.USER.getCurrentUser().id" ng-click="chat.deleteMessage($event, message.uuid)">(löschen)</span>
+                        <span class="text-muted clickable" ng-if="message.user.id !== chat.USER.getCurrentUser().id" ng-click="chat.reportMessage($event, message.uuid)">(melden)</span>
+                    </div>
+                    <div class="chat-subheader">
+                        {{ chat.MOMENT(message.created).fromNow() }}
+                    </div>
+                    <div class="chat-message" compile="message.text"></div>
+                  </div>
+                </div>
+              </div>
 
           </div>
 
           <div class="chat-create-msg">
-
+              <textarea ng-model="chat.fieldData.message" placeholder="{{'Nachricht eingegeben' | translate}}" ng-disabled="chat.user === null" class="chat-input" ng-keypress="chat.check($event)"></textarea>
           </div>
-          
+
+    </div>
+
+    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === false">
+        <div class="chat-user text-center" ng-if="chat.window.EchoHasConnection === false">
+            {{'Momentan besteht keine Verbindung zum Server.'|translate}}
+        </div>
+        <div class="chat-user" ng-repeat="user in chat.users" ng-class="chat.openProfileClass()" ng-click="chat.openProfile($event, user)">
+            {{user.username}}
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === true">
+         <h5>{{'Aktionen'|translate}}</h5>
+         <ul class="chat-actions">
+           <li><span ng-click="chat.exportMessages($event,chat.uuid)">{{'Chat exportieren' | translate}}</span></li>
+           <li><span ng-click="chat.deleteMessages($event,chat.uuid)">{{'Alle meine Nachrichten löschen' | translate}}</span></li>
+         </ul>
     </div>
 
 </div>

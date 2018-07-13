@@ -9,5 +9,11 @@ angular.module('chat').controller('ChatOverviewCtrl',[
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
 
+          if(angular.isDefined($state.params)    === true &&
+             angular.isDefined($state.params.id) === true)
+            {
+            ctrl.uuid = $state.params.id;
+            }
+
      }
 ]);

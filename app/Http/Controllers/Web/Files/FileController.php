@@ -34,4 +34,10 @@ class FileController extends Controller
 
     }
 
+    public function export(Request $request, $name)
+    {
+      $path = storage_path('exports/'.$name);
+      return response()->download($path)->deleteFileAfterSend(true);
+    }
+
 }

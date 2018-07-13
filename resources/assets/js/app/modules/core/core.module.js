@@ -47,6 +47,7 @@ angular.module('core').config([
 
         $urlRouterProvider.when('', fallbackUrl);
         $urlRouterProvider.when('/', fallbackUrl);
+        $urlRouterProvider.otherwise('/', fallbackUrl);
 
         // HTTP interceptor
 
@@ -118,8 +119,7 @@ angular.module('core').run([
           if    (user === null)
                 {
                     // Check current user data
-
-                    DB.call('CurrentUser','check').then(
+                    DB.call('CurrentUser','check',{sockedId:Echo.socketId()}).then(
                       function(result)
                       {
                           UserService.setCurrentUser(result.data.data);

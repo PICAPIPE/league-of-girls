@@ -613,16 +613,97 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           myaccountEdit.updateUser = function()
           {
-            myaccountEdit.DB.call('CurrentUser','check',null,null).then(
-              function(result){
+              myaccountEdit.DB.call('CurrentUser','check',null,null).then(
+                function(result){
 
-                // Successful getting the user data
-                UserService.setCurrentUser(result.data);
+                  // Successful getting the user data
+                  UserService.setCurrentUser(result.data);
 
+                }
+              );
+
+          };
+
+          // Delete account
+
+          myaccountEdit.deleteAccount = function(event,uuid)
+          {
+
+            var r = confirm(myaccountEdit.LANG.getString('Möchtest du dein Konto wirklich löschen? Dieser Vorgang kann nicht rückgängig gemacht werden.'));
+
+            if (r !== true)
+                 {
+                 myaccountEdit.ALERT.add({
+                       'title':     myaccountEdit.LANG.getString('Vorgang abgebrochen!'),
+                       'message':   myaccountEdit.LANG.getString('Die Kontolöschung wurde abgebrochen.'),
+                       'autoClose': true
+                 });
+                 return;
+                 }
+
+            myaccountEdit.DB.call('CurrentUser','deleteAccount',uuid,{uuid:uuid}).then(
+              function(result)
+              {
+
+                var i = 0;
+
+                myaccountEdit.ALERT.add({
+                    'title':     myaccountEdit.LANG.getString('Benutzer wurde gelöscht!'),
+                    'message':   myaccountEdit.LANG.getString('Du wirst abgemeldet!'),
+                    'autoClose': true
+                });
+
+                $state.go('login.logout');
+
+              },
+              function(errorResult)
+              {
+                myaccountEdit.ALERT.add({
+                    'title':     myaccountEdit.LANG.getString('Fehler beim Exportieren!'),
+                    'message':   errorResult.data.message,
+                    'autoClose': true
+                });
               }
-            );
 
-        };
+            );
+          };
+
+          // Export account data
+
+          myaccountEdit.exportAccount = function(event,uuid)
+          {
+            myaccountEdit.DB.call('CurrentUser','export',uuid,{uuid:uuid}).then(
+              function(result)
+              {
+
+                var i = 0;
+
+                myaccountEdit.ALERT.add({
+                    'title':     myaccountEdit.LANG.getString('Benutzerdaten werden exportiert'),
+                    'message':   myaccountEdit.LANG.getString('Die erstellten Daten wurden erstellt und mit dem Herunterladen auch von unserem Server gelöscht.'),
+                    'autoClose': true
+                });
+
+                // Öffne jeden Link
+
+                for (i = 0; i < result.data.files.length; i++)
+                      {
+                      console.log('Open Link:' + result.data.files[i]);
+                      window.open(result.data.files[i], '_blank');
+                      }
+
+              },
+              function(errorResult)
+              {
+                myaccountEdit.ALERT.add({
+                    'title':     myaccountEdit.LANG.getString('Fehler beim Exportieren!'),
+                    'message':   errorResult.data.message,
+                    'autoClose': true
+                });
+              }
+
+            );
+          };
 
           myaccountEdit.init();
 

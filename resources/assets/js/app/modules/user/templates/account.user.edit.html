@@ -23,6 +23,13 @@
 
        <div class="user-content">
 
+           <h2>{{ 'Funktionen' | translate }}</h2>
+
+           <div class="user-functions margin-bottom">
+              <button ng-click="myaccountEdit.exportAccount($event,myaccountEdit.user.uuid)" class="btn btn-outline-success">{{'Daten exportieren'|translate}}</button>
+              <button ng-click="myaccountEdit.deleteAccount($event,myaccountEdit.user.uuid)" class="btn btn-outline-danger">{{'Konto löschen'|translate}}</button>
+           </div>
+
            <h2>{{ 'Zugangsdaten' | translate }}</h2>
 
            <formly-form model="myaccountEdit.user" fields="myaccountEdit.fields">

@@ -6,13 +6,16 @@ angular.module('core').controller('BaseCtrl',[
      'gettextCatalog',
      'DB',
      'AlertService',
-     function($scope, $rootScope, $state, $window, gettextCatalog,DB,AlertService) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, gettextCatalog,DB,AlertService,UserService) {
 
           var ctrl = this;
 
           ctrl.DB      = DB;
           ctrl.LANG    = gettextCatalog;
           ctrl.ALERT   = AlertService;
+          ctrl.MOMENT  = $window.moment;
+          ctrl.USER    = UserService;
 
           ctrl.loading = false;
 

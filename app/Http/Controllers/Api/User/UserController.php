@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Api\User;
 
+use DB;
 use Image;
 use Storage;
 use StorageHelper;
+use ExportHelper;
 
 use Validator;
 use ValidationHelper;
@@ -19,6 +21,8 @@ use App\Models\User\UserPlattform;
 use App\Models\User\UserCommunication;
 use App\Models\User\UserFriend;
 use App\Models\User\UserRequest;
+
+use App\Models\Chat\Chat;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -114,7 +118,8 @@ class UserController extends ApiStandardController
 
       $result                 = $result->first();
       $result->count          = [
-        'friendrequests' => $result->friendRequests()->count()
+        'friendrequests' => $result->friendRequests()->count(),
+        'messages'      => $result->messages(true)->count()
       ];
 
       if($result !== null)
@@ -602,7 +607,7 @@ class UserController extends ApiStandardController
 
         if($user->uuid === $request->user->uuid)
           {
-              return $tihs->respondBadRequest(_i('Anfrage an sich selbst ist nicht möglich.'));
+              return $this->respondBadRequest(_i('Anfrage an sich selbst ist nicht möglich.'));
           }
 
         $friend = UserFriend::where('user_id',$user->id)->where('from_id',$request->user->id)->first();
@@ -652,6 +657,66 @@ class UserController extends ApiStandardController
 
       return $this->respondSuccess(['data' => $connectionRequests->toArray()]);
 
+  }
+
+  // Get the current users chats
+
+  public function currentChats(Request $request)
+  {
+      $unread = null;
+
+      if($request->input('read') === 'true')
+          {
+          $unread = true;
+          }
+      else if($request->input('read') === 'false')
+          {
+          $unread = false;
+          }
+
+      $chats = Chat::whereIn('id',array_unique(optional($request->user)->messages($unread)->pluck('chat_id')->toArray()))->get();
+
+      $chats = $chats->map(function($chat){
+
+          $chat->message = $chat->messages()->with('user')->orderBy('id', 'DESC')->first();
+
+          return $chat;
+
+      });
+
+      return $this->respondSuccess(['data' => $chats->toArray()]);
+
+  }
+
+  // Export all data to this user
+
+  public function currentExport(Request $request)
+  {
+    $files   = [];
+    $files[] = ExportHelper::run('user',     ['user' => $request->user]);
+    $files[] = ExportHelper::run('userchats',['user' => $request->user]);
+
+    return $this->respondSuccess(['files' => $files]);
+  }
+
+  // Delete the complete user
+
+  public function currentDeleteAccount(Request $request)
+  {
+        $result = DB::transaction(function() use ($request){
+
+            $userId   = $request->user->id;
+            $userUUID = $request->user->uuid;
+
+            DB::delete('delete from users where id = ?',[$userId]);
+
+            Storage::disk('avatars')->delete($userUUID.'.png');
+
+            return $this->respondSuccess();
+
+        });
+
+        return $result;
   }
 
   protected function withHookCommunications($query)

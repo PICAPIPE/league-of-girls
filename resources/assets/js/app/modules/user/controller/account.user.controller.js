@@ -274,7 +274,7 @@ angular.module('user').controller('UserAccountCtrl',[
               var found = false;
               var value = '';
 
-              if(account.currentUser      !== null)
+              if(account.currentUser !== null && angular.isDefined(account.currentUser.friends) === true)
                 {
 
                     for(i = 0; i < account.currentUser.friends.length; i++)
