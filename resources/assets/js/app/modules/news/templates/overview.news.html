@@ -1,3 +1,29 @@
 <div class="news news_overview">
-   Newsseite
+
+  <div class="news-list row">
+
+      <div class="news-item col-xs-12 col-md-4" ng-class="ctrl.getCssClass(news)" ng-repeat="news in ctrl.data">
+          <div class="news-inside">
+            <div class="news-avatar">
+                <div class="news-triangle"></div>
+                <img ng-if="news.type == 'twitch'" ng-src="{{news.image}}">
+            </div>
+            <div class="news-info">
+
+                <div class="news-element-twitch" ng-if="news.type == 'twitch'">
+                     <span class="news-element-text" ng-click="ctrl.openStream(news)" ng-if="news.live === true">{{'Jetzt ansehen!'|translate}}</span>
+                     <span class="news-element-text" ng-click="ctrl.openStream(news)" ng-if="news.live === false">{{'War live!'|translate}}</span>
+                     <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ news.channel }}</span>
+                </div>
+
+            </div>
+          </div>
+      </div>
+
+  </div>
+
+  <div class="news-load-more" ng-if="ctrl.total !== ctrl.data.length">
+      <button class="btn btn-link" ng-click="ctrl.loadMore()">{{ 'Mehr Inhalte laden' | translate}}</button>
+  </div>
+
 </div>

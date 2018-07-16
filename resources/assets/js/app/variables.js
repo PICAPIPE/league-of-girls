@@ -279,6 +279,16 @@ var DB_SERVICES    = [
                }
            }
         ]
+    },
+
+    // Streams
+
+    {
+       'name' : 'Streams',
+       'url'  : 'api/streams',
+       'custom': [
+
+       ]
     }
 
 ];

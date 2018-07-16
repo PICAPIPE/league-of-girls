@@ -4,6 +4,7 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
+
     /**
      * Run the database seeds.
      *
@@ -11,6 +12,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-         //$this->call(UsersTableSeeder::class);
-    }
+         $resources = ResourceHelper::getClasses(base_path('database/seeds'),'Seeder',true,'DatabaseSeeder',true);
+
+         if(sizeOf($resources) > 0)
+             {
+             asort($resources);
+             foreach($resources as $kResource => $vResource)
+                {
+                $this->call($vResource);
+                }
+             }
+
+      }
 }

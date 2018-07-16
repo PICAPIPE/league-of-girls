@@ -226,6 +226,15 @@ angular.module('user').controller('UserAccountCtrl',[
                        switch(link.type)
                        {
 
+                          case 'twich':
+
+                              value = 'https://www.twitch.tv/' + value;
+
+                              linkHtml = '<a href="' + value + '" target="blank">{{"Twitch Channel" | translate}}</a>';
+
+                              break;
+
+
                           case 'youtube':
 
                               if(value.indexOf('https://www.youtube.comDB/channel/') === -1)

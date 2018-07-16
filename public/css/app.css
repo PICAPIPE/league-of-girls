@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?32b3389ec75e45931340254e6d56c313?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?3c11fb31c49eaf46168b843d4c7e185b) format("woff2"), url(/fonts/icons-standard.woff?b328af01ac1415f64f7630fa9cedc545) format("woff"), url(/fonts/icons-standard.ttf?49e720d3a1a3ec2907ec990a3858e6f8) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?14903a68c45852ee9244fd3a9ea3eded?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?bb73f8c20ebf8d68dd5cffa72922772b) format("woff2"), url(/fonts/icons-standard.woff?8d10feee531911814d4727bc5d2e00c1) format("woff"), url(/fonts/icons-standard.ttf?36dcb191d76a5541107e0676c939d30a) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
@@ -15014,6 +15014,85 @@ a {
   -webkit-appearance: none;
   background: none;
   border: 0;
+  color: #ed4949;
+}
+
+.news-triangle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0px;
+  height: 0px;
+  -webkit-transform: rotate(360deg);
+  border-style: solid;
+  border-width: 30px 30px 0 0;
+  border-color: #ed4949 transparent transparent transparent;
+}
+
+.news-item {
+  padding: 1px;
+}
+
+.news-item.twitch {
+  background: #4b367c;
+  color: #FFF;
+}
+
+.news-item.twitch .news-inside {
+  color: #FFF;
+  border: 1px solid #4b367c;
+}
+
+.news-item.twitch .news-element-text {
+  position: absolute;
+  top: 10px;
+  cursor: pointer;
+}
+
+.news-item.twitch .news-element-channel {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.news-inside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px solid #ed4949;
+}
+
+.news-avatar {
+  position: relative;
+  background: #fafafa;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.news-avatar img {
+  width: 150px;
+  height: 150px;
+}
+
+.news-load-more {
+  position: relative;
+  margin: 0 auto;
+  max-width: 50%;
+  text-align: center;
+  border-bottom: 1px solid #dcdcdc;
+}
+
+.news-load-more button {
+  position: relative;
+  background: #FFF;
+  padding: 0 10px;
+  top: 12px;
+  color: #979797;
+}
+
+.news-load-more button:hover {
+  background: #FFF;
   color: #ed4949;
 }
 

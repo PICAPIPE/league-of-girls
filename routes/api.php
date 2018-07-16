@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth.api']], function(){
 
 });
 
-
+Route::api('streams',          'Api\News\StreamController',         [],false);
 
 // Users
 

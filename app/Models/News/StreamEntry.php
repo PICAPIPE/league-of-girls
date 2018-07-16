@@ -1,20 +1,18 @@
 <?php
 
-namespace App\Models\Esport;
+namespace App\Models\News;
 
 use App\Models\BaseModel;
-
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends BaseModel
+class StreamEntry extends BaseModel
 {
-
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'links';
+  protected $table = 'stream';
 
   /**
    * The attributes that are mass assignable.
@@ -25,11 +23,16 @@ class Link extends BaseModel
       'id',
       'uuid',
       'type',
-      'name',
-      'icon',
-      'placeholder',
-      'help',
-      'published'
+      'text',
+      'url',
+      'image',
+      'headline',
+      'text',
+      'published',
+      'featured',
+      'live',
+      'channel',
+      'game_id'
   ];
 
   protected $validations = [
@@ -61,7 +64,10 @@ class Link extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean'
+      'published' => 'boolean',
+      'live'      => 'boolean',
+      'featured'  => 'boolean',
+      'game_id'   => 'integer'
   ];
 
   /**
@@ -70,10 +76,4 @@ class Link extends BaseModel
    * @var array
    */
   protected $dates = [];
-
-  public function getValues()
-  {
-    return $this->hasMany('App\Models\User\UserLink','link_id','id');    
-  }
-
 }

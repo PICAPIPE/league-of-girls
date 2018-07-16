@@ -18,7 +18,7 @@ class CreateLinksTable extends Migration
           $table->increments('id');
           $table->uuid('uuid');
 
-          $table->enum('type',['youtube','blog','facebook','twitter','twich']);
+          $table->enum('type',['youtube','blog','facebook','twitter','twitch']);
 
           $table->string('name');
           $table->string('icon');
