@@ -3,13 +3,14 @@
 use Illuminate\Database\Seeder;
 
 use App\Models\Esport\Game;
+use App\Models\Esport\GameKeyword;
 
 class GameSeeder extends Seeder
 {
     protected $games = [
-        'CSGO'     => ['name' => 'Counterstrike Go',  'short' => 'CS:GO', 'icon' => '', 'color' => '', 'background' => '', 'published' => true],
-        'LOL'      => ['name' => 'League of Legends', 'short' => 'LOL',   'icon' => '', 'color' => '', 'background' => '', 'published' => true],
-        'FIFA'     => ['name' => 'FIFA',              'short' => 'FIFA',  'icon' => '', 'color' => '', 'background' => '', 'published' => true]
+        'CSGO'     => ['name' => 'Counterstrike Go',  'short' => 'CS:GO', 'icon' => '', 'color' => '', 'background' => '', 'published' => true, 'keywords' => ['cs','csgo']],
+        'LOL'      => ['name' => 'League of Legends', 'short' => 'LOL',   'icon' => '', 'color' => '', 'background' => '', 'published' => true, 'keywords' => ['lol','LOL','leagueoflegends']],
+        'FIFA'     => ['name' => 'FIFA',              'short' => 'FIFA',  'icon' => '', 'color' => '', 'background' => '', 'published' => true, 'keywords' => ['fifa']]
     ];
 
     /**
@@ -41,6 +42,21 @@ class GameSeeder extends Seeder
                   $gameModel->background  = $game['background'];
                   $gameModel->published   = $game['published'];
                   $gameModel->save();
+                  }
+
+            if(isset($game['keywords']))
+                  {
+                  foreach ($game['keywords'] as $keyW => $valueW)
+                    {
+                        $keyword = GameKeyword::where('game_id', $gameModel->id)->where('keyword',$valueW)->first();
+                        if ($keyword === null)
+                              {
+                                GameKeyword::create([
+                                  'game_id' => $gameModel->id,
+                                  'keyword' => $valueW
+                                ]);
+                              }
+                    }
                   }
 
         });

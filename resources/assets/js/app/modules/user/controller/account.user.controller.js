@@ -226,7 +226,7 @@ angular.module('user').controller('UserAccountCtrl',[
                        switch(link.type)
                        {
 
-                          case 'twich':
+                          case 'twitch':
 
                               value = 'https://www.twitch.tv/' + value;
 
@@ -234,6 +234,13 @@ angular.module('user').controller('UserAccountCtrl',[
 
                               break;
 
+                          case 'twitter':
+
+                              value = + value;
+
+                              linkHtml = '<a href="https://twitter.com/' + value + '" target="blank">' + value + '</a>';
+
+                              break;
 
                           case 'youtube':
 

@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 use Carbon\Carbon;
 
+use App\Models\Chat\Chat;
+
 use App\Models\Esport\Game;
 use App\Models\Esport\Link;
 use App\Models\News\StreamEntry;
@@ -66,6 +68,16 @@ class GetTwitch extends Command
 
       // Make the request
 
+      $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->get();
+
+      if($streamsLiveOlder !== null)
+           {
+           $streamsLiveOlder->each(function($stream){
+              $stream->live = false;
+              $stream->save();
+           });
+           }
+
       $request = new \GuzzleHttp\Psr7\Request('GET', $url);
 
       $promise = $client->sendAsync($request)->then(function ($response) use ($games, $channels){
@@ -101,6 +113,14 @@ class GetTwitch extends Command
                             'channel'   => $stream->channel->display_name,
                             'game_id'   => $game->id,
                             'published' => true
+                         ]);
+
+                         // Create a chat
+
+                         $chat = Chat::create([
+                            'pid_table' => 'streams',
+                            'pid'       => $streamEntry->id,
+                            'public'    => true
                          ]);
                          }
 

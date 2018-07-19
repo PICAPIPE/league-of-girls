@@ -22,14 +22,14 @@ class StreamController extends ApiStandardController
         'except'        => false,
         'fields'        => [],
         'sortBy'        => 'name',
-        'sortDirection' => 'ASC'
+        'sortDirection' => 'DESC'
       ],
 
       'index' => [
         'except'        => false,
         'fields'        => [],
         'sortBy'        => 'name',
-        'sortDirection' => 'ASC',
+        'sortDirection' => 'DESC',
         'pagination'    => true,
         'wheres'        => [
            'filterGame'
@@ -37,7 +37,11 @@ class StreamController extends ApiStandardController
       ],
 
       'show' => [
-        'except'        => true,
+        'except'        => false,
+        'with'          => ['chat'],
+        'wheres'        => [
+           'filterStream'
+        ]
       ],
 
       'store' => [
@@ -56,6 +60,12 @@ class StreamController extends ApiStandardController
 
   // Filter
 
+  protected function filterStream(Request $request,$model)
+  {
+      $model = $model->where('published',true);
+      return $model;
+  }
+
   protected function filterGame(Request $request,$model)
   {
 
@@ -65,12 +75,16 @@ class StreamController extends ApiStandardController
         {
             $model = $model->where(function($query) use ($game) {
 
-                $ids = Game::where('uuid',$game)->pluck('id');
+                $ids   = Game::where('uuid',$game)->pluck('id');
+                $ids   = $ids->toArray();
+                $ids[] = 0;
 
-                $query->whereIn('id',$ids->toArray());
+                $query->whereIn('game_id',$ids);
 
             });
         }
+
+      $model->with('chat');
 
       return $model;
   }

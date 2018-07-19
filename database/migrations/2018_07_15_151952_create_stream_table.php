@@ -17,7 +17,6 @@ class CreateStreamTable extends Migration
             $table->increments('id');
             $table->uuid('uuid');
             $table->integer('creator');
-            $table->integer('game_id')->unsigned();
             $table->enum('type',  ['blog', 'twitch', 'youtube', 'link', 'twitter', 'facebook']);
             $table->string('channel');
             $table->string('headline');
@@ -29,23 +28,6 @@ class CreateStreamTable extends Migration
             $table->boolean('published');
             $table->timestamps();
         });
-
-        if (Schema::hasTable('stream'))
-        {
-
-            Schema::table('stream', function ($table) {
-
-                // Relations
-
-                $table->foreign('game_id')
-                    ->references('id')
-                    ->on('games')
-                    ->onDelete('cascade');
-
-            });
-
-        }
-
 
     }
 

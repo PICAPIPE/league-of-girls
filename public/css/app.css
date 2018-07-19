@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?14903a68c45852ee9244fd3a9ea3eded?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?bb73f8c20ebf8d68dd5cffa72922772b) format("woff2"), url(/fonts/icons-standard.woff?8d10feee531911814d4727bc5d2e00c1) format("woff"), url(/fonts/icons-standard.ttf?36dcb191d76a5541107e0676c939d30a) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?238441ea00540b5e76f14304772cf708?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?950d559c281773d0ad051c6338ef3cde) format("woff2"), url(/fonts/icons-standard.woff?37b0cc226abffc6b12ebefea77f26ff7) format("woff"), url(/fonts/icons-standard.ttf?40f49300215e2f9bca036bfafa03c3e4) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
@@ -14160,7 +14160,7 @@ readers do not read off random characters that represent icons */
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 9999999;
 }
 
 .alerts-container {
@@ -15033,14 +15033,36 @@ a {
   padding: 1px;
 }
 
-.news-item.twitch {
-  background: #4b367c;
+.news-item.twitter {
+  position: relative;
+}
+
+.news-item.twitter .news-inside {
   color: #FFF;
+  border: 1px solid #1da1f2;
+  background: #1da1f2;
+}
+
+.news-item.twitter .news-element-text {
+  font-size: 12px;
+  max-height: 80%;
+  position: absolute;
+  overflow: auto;
+  text-overflow: ellipsis;
+  width: 43%;
+  top: 10px;
+}
+
+.news-item.twitter .news-element-channel {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .news-item.twitch .news-inside {
   color: #FFF;
   border: 1px solid #4b367c;
+  background: #4b367c;
 }
 
 .news-item.twitch .news-element-text {
@@ -15094,6 +15116,35 @@ a {
 .news-load-more button:hover {
   background: #FFF;
   color: #ed4949;
+}
+
+.news-logo {
+  opacity: 0.5;
+  color: #FFF;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 60px;
+}
+
+.news_twitch {
+  background: #FFF;
+}
+
+.news_twitch .chat-messages {
+  background: #FFF;
+}
+
+.news_twitch .chat-create-msg {
+  border-color: #4b367c;
+}
+
+.news_twitch .chat-window,
+.news_twitch .chat-users {
+  border-bottom: 0;
+  border-right: 0;
+  border-top: 0;
+  border-left-color: #4b367c;
 }
 
 .friends-requests-headline {

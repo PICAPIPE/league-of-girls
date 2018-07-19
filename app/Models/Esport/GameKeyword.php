@@ -1,18 +1,20 @@
 <?php
 
-namespace App\Models\News;
+namespace App\Models\Esport;
 
 use App\Models\BaseModel;
+
 use Illuminate\Database\Eloquent\Model;
 
-class StreamEntry extends BaseModel
+class GameKeyword extends BaseModel
 {
+
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'stream';
+  protected $table = 'games_keywords';
 
   /**
    * The attributes that are mass assignable.
@@ -22,17 +24,8 @@ class StreamEntry extends BaseModel
   protected $fillable = [
       'id',
       'uuid',
-      'type',
-      'text',
-      'url',
-      'image',
-      'headline',
-      'text',
-      'published',
-      'featured',
-      'live',
-      'channel',
-      'game_id'
+      'game_id',
+      'keyword'
   ];
 
   protected $validations = [
@@ -64,10 +57,7 @@ class StreamEntry extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean',
-      'live'      => 'boolean',
-      'featured'  => 'boolean',
-      'game_id'   => 'integer'
+
   ];
 
   /**
@@ -77,11 +67,9 @@ class StreamEntry extends BaseModel
    */
   protected $dates = [];
 
-  // Games
-
-  public function chat()
+  public function game()
   {
-      return $this->hasOne('App\Models\Chat\Chat','pid','id')->where('pid_table','streams');
+      return $this->belongsTo('App\Models\Esport\Game','game_id','id');
   }
 
 }

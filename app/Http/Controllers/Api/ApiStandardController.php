@@ -225,6 +225,15 @@ class ApiStandardController extends ApiController
               $modelData = $modelData->with($value);
           }
 
+          // Additional WHERE-Statement
+
+          if(empty($wheres) === false)
+          {
+              foreach ($wheres as $k => $where) {
+                 $modelData = $this->$where($request,$modelData);
+              }
+          }
+
           $modelData       = $modelData->first();
 
           foreach ($postDataFns as $key => $value) {

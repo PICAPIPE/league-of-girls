@@ -14,7 +14,7 @@ class CommunicationSeeder extends Seeder
     public function run()
     {
       $communications = [
-              'PS4'     => ['name' => 'Skype', 'icon' => 'fab fa-skype', 'placeholder' => _i('Benutzername'), 'help' => _i('Gib deinen Benutzernamen ein.'), 'published' => true],
+              'Skype'     => ['name' => 'Skype', 'icon' => 'fab fa-skype', 'placeholder' => _i('Benutzername'), 'help' => _i('Gib deinen Benutzernamen ein.'), 'published' => true],
       ];
 
       $communications = collect($communications);

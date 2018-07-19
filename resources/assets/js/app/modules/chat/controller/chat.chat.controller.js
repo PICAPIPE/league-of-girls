@@ -33,6 +33,19 @@ angular.module('chat').controller('ChatCtrl',[
 
           chat.chatType       = '';
 
+          chat.hideTypes      = ['streams'];
+
+          // Get the class for the messages container
+
+          chat.getClassForMessages = function()
+          {
+              if (chat.hideTypes.indexOf(chat.mode) > -1)
+                   {
+                   return 'col-xs-12 col-lg-12';
+                   }
+              return 'col-xs-12 col-lg-8';
+          };
+
           // return if a area should be hide by area
 
           chat.checkHideByType = function()
@@ -459,6 +472,11 @@ angular.module('chat').controller('ChatCtrl',[
                 {
 
                     var message = chat.LANG.getString('Es leider ein Fehler aufgetreten. Bitte probiere es erneut.');
+
+                    if (errorResult.statusCode === 401)
+                          {
+                          return;
+                          }
 
                     if(angular.isDefined(errorResult.data)         === true &&
                        angular.isDefined(errorResult.data.message) === true)

@@ -1,6 +1,6 @@
 <div class="chat chat-control row" id="{{chat.id}}_chat">
 
-    <div class="col-xs-12 col-md-8 chat-window">
+    <div class="chat-window" ng-class="chat.getClassForMessages()">
 
           <div id="{{chat.id}}_chat_messages" class="chat-messages">
 
@@ -37,7 +37,7 @@
 
     </div>
 
-    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === false">
+    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === false  && chat.hideTypes.indexOf(chat.mode) === -1">
         <div class="chat-user text-center" ng-if="chat.window.EchoHasConnection === false">
             {{'Momentan besteht keine Verbindung zum Server.'|translate}}
         </div>
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === true">
+    <div class="col-xs-12 col-md-4 chat-users" ng-if="chat.checkHideByType() === true && chat.hideTypes.indexOf(chat.mode) === -1">
          <h5>{{'Aktionen'|translate}}</h5>
          <ul class="chat-actions">
            <li><span ng-click="chat.exportMessages($event,chat.uuid)">{{'Chat exportieren' | translate}}</span></li>
