@@ -1,22 +1,43 @@
+import Echo from 'laravel-echo';
 
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+require('angular');
+require('angular-gettext');
+require('@uirouter/angularjs');
+require('angular-formly');
+require('angular-formly-templates-bootstrap');
+require('angular-storage');
+require('angular-sanitize');
+require('angular-upload');
+require('jquery');
 
-require('./bootstrap');
+window.io   = require('socket.io-client');
 
-window.Vue = require('vue');
+window.getAppToken = function()
+{
+    if(window.localStorage !== undefined)
+      {
+      return localStorage.getItem('token').substr(1,localStorage.getItem('token').length - 2);
+      }
+};
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+window.EchoHasConnection = false;
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host:        'http://localhost:6001',
+    auth: {
+        headers: {
+            'Authorization': 'Bearer ' + window.getAppToken()
+        }
+    }
+});
 
-const app = new Vue({
-    el: '#app'
+window.Echo.connector.socket.on('connect', function(){
+    window.EchoHasConnection = true;
+});
+window.Echo.connector.socket.on('disconnect', function(){
+    window.EchoHasConnection = false;
+});
+window.Echo.connector.socket.on('reconnecting', function(attemptNumber){
+    window.EchoHasConnection = false;
 });

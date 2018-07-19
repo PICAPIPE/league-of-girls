@@ -1,0 +1,11 @@
+<div class="navigation navigation_main">
+   <ul class="navigation_main_list">
+      <li class="navigation_list_item" ng-repeat="link in mainnavigation.links track by $index" ui-sref="{{link.state}}" ui-sref-active="active">
+          <a class="navigation_list_item_inner"  ui-sref="{{link.state}}" ui-sref-active="active">
+            <i ng-if="link.icon !== undefined && link.useFirstLetterAsIcon !== true" ng-class="mainnavigation.getIconClass(link)"></i>
+            <span class="navigation_list_item_first_letter" ng-if="link.useFirstLetterAsIcon === true"><span class="navigation_list_item_first_letter_inner">{{ link.label.substr(0,1) | uppercase }}</span></span>
+            <span class="navigation_list_item_text">{{link.label}}</div>
+          </a>
+      </li>
+   </ul>
+</div>

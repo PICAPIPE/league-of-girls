@@ -1,7 +1,14 @@
 /node_modules
 /public/hot
 /public/storage
+/public/js
+/public/css
+/public/webfonts/*
+/public/fonts/*
+/public/img/icons/*
 /storage/*.key
+/storage/avatars/*
+/storage/debug/*
 /vendor
 /.idea
 /.vscode

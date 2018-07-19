@@ -1,0 +1,32 @@
+<div class="dashboard dashboard_overview">
+   <h1>{{'Hallo' | translate }} {{dashboard.user.username}}!</h1>
+   <p class="lead">{{'Schön, dass du dich angemeldet hast!'}}</p>
+
+   <div class="row">
+
+     <!-- News -->
+
+     <div class="col-md-4 col-xs-12">
+        <h2>{{'News' | translate}}</h2>
+     </div>
+
+     <!-- Nachrichten -->
+
+     <div class="col-md-4 col-xs-12">
+        <h2>{{'Meine Nachrichten' | translate}}</h2>
+     </div>
+
+     <!-- Benutzerfunktionen -->
+
+     <div class="col-md-4 col-xs-12">
+        <h2>{{'Aktionen' | translate}}</h2>
+        <ul>
+           <li ng-repeat="link in dashboard.links track by $index">
+              <a>{{link.name}}</a>
+           </li>
+        </ul>
+     </div>
+
+   </div>
+
+</div>

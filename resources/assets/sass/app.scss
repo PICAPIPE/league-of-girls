@@ -1,14 +1,36 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400,500,700');
+@import url('https://fonts.googleapis.com/css?family=Bitter:400,700');
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
 // Variables
 @import "variables";
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+@import '_vendor.scss';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// Components
+@import 'components/icons-standard.scss';
+@import 'components/chats.scss';
+@import 'components/alerts.scss';
+@import 'components/layout.scss';
+@import 'components/login.scss';
+@import 'components/logo.scss';
+@import 'components/navigation.scss';
+@import 'components/grid.scss';
+@import 'components/form.scss';
+@import 'components/typo.scss';
+@import 'components/modal.scss';
+@import 'components/errors.scss';
+@import 'components/user.scss';
+@import 'components/user-account.scss';
+@import 'components/user-connect.scss';
+@import 'components/games.scss';
+@import 'components/plattforms.scss';
+@import 'components/communications.scss';
+@import 'components/links.scss';
+@import 'components/meet.scss';
+@import 'components/stream.scss';
+@import 'components/buttons.scss';
+@import 'components/friends.scss';

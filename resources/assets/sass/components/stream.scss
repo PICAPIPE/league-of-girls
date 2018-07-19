@@ -1,0 +1,174 @@
+$news-avatar-size: 150px;
+$news-border:      1px solid $CI-COLOR3;
+
+$news-filter-label-color: $CI-COLOR4;
+$news-filter-value-color: $CI-COLOR3;
+
+$news-twitch-bg:          rgb(75, 54, 124);
+$news-twitter-bg:         #1da1f2;
+
+.news-list
+{
+
+}
+
+.news-triangle
+{
+  position:         absolute;
+  top:              0;
+  left:             0;
+  width:            0px;
+  height:           0px;
+  -webkit-transform:rotate(360deg);
+  border-style:     solid;
+  border-width:     30px 30px 0 0;
+  border-color:     $CI-COLOR3 transparent transparent transparent;
+}
+
+.news-item
+{
+  padding:1px;
+
+
+  &.twitter
+  {
+
+     position: relative;
+
+     .news-inside
+     {
+       color:      #FFF;
+       border:     1px solid $news-twitter-bg;
+       background: $news-twitter-bg;
+     }
+
+     .news-element-text
+     {
+       font-size: 12px;
+       max-height: 80%;
+       position: absolute;
+       overflow: auto;
+       text-overflow: ellipsis;
+       width: 43%;
+       top: 10px;
+     }
+
+     .news-element-channel
+     {
+       position: absolute;
+       bottom:   10px;
+       right:    10px;
+     }
+
+  }
+
+  &.twitch
+  {
+
+     .news-inside
+     {
+     color:   #FFF;
+     border:  1px solid $news-twitch-bg;
+     background:$news-twitch-bg;
+     }
+
+     .news-element-text
+     {
+        position: absolute;
+        top:      10px;
+        cursor:   pointer;
+     }
+
+     .news-element-channel
+     {
+       position: absolute;
+       bottom:   10px;
+       right:    10px;
+       cursor:   pointer;
+     }
+
+
+  }
+}
+
+.news-inside
+{
+  display: flex;
+  border:  $meet-border;
+}
+
+.news-avatar
+{
+
+    position:      relative;
+    background:    #fafafa;
+    margin-right:  15px;
+    cursor:        pointer;
+
+    img
+    {
+       width:  $news-avatar-size;
+       height: $news-avatar-size;
+    }
+}
+
+.news-load-more
+{
+    position:   relative;
+    margin:     0 auto;
+    max-width:  50%;
+    text-align: center;
+    border-bottom: 1px solid $CI-COLOR8;
+
+    button
+    {
+       position:   relative;
+       background: #FFF;
+       padding:    0 10px;
+       top:        12px;
+       color:      $CI-COLOR4;
+
+       &:hover
+       {
+          background: #FFF;
+          color:      $CI-COLOR3;
+       }
+
+    }
+
+}
+
+.news-logo
+{
+  opacity:    0.5;
+  color:      #FFF;
+  position:   absolute;
+  right:      10px;
+  top:        10px;
+  font-size:  60px;
+}
+
+// TWITCH CONTAINER
+
+.news_twitch
+{
+   background: #FFF;
+
+   .chat-messages
+   {
+   background: #FFF;
+   }
+
+   .chat-create-msg
+   {
+   border-color:$news-twitch-bg;
+   }
+
+   .chat-window, .chat-users
+   {
+   border-bottom:     0;
+   border-right:      0;
+   border-top:        0;
+   border-left-color: $news-twitch-bg;
+   }
+}

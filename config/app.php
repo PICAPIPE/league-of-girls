@@ -56,6 +56,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | GZIP ON RESPONSE
+    |--------------------------------------------------------------------------
+    |
+    | This URL is used by the console to properly generate URLs when using
+    | the Artisan command line tool. You should set this to the root of
+    | your application so that it is used when running Artisan tasks.
+    |
+    */
+
+    'gzip' => env('APP_GZIP', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     |
@@ -65,7 +78,8 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone'        => 'UTC',
+    'timezoneConvert' => 'Europe/Vienna',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,7 +165,11 @@ return [
          * Package Service Providers...
          */
 
-         
+        Emadadly\LaravelUuid\LaravelUuidServiceProvider::class,
+        Xinax\LaravelGettext\LaravelGettextServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class,
+        Thujohn\Twitter\TwitterServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -161,6 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\MacroServiceProvider::class,
 
     ],
 
@@ -210,6 +229,26 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // System Helper
+
+        'CacheHelper'           => \App\Helper\CacheHelper::class,
+        'DebugHelper'           => \App\Helper\DebugHelper::class,
+        'ValidationHelper'      => \App\Helper\ValidationHelper::class,
+        'ResourceHelper'        => \App\Helper\ResourceHelper::class,
+        'SecurityHelper'        => \App\Helper\SecurityHelper::class,
+        'ExportHelper'          => \App\Helper\ExportHelper::class,
+
+        // VENDOR
+        'Form'                  => Collective\Html\FormFacade::class,
+        'Html'                  => Collective\Html\HtmlFacade::class,
+        'Image'                 => Intervention\Image\Facades\Image::class,
+        'Twitter'               => Thujohn\Twitter\Facades\Twitter::class,
+
+        // Authentication
+
+        'JWTAuth'               => \Tymon\JWTAuth\Facades\JWTAuth::class,
+        'JWTFactory'            => \Tymon\JWTAuth\Facades\JWTFactory::class
 
     ],
 

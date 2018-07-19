@@ -1,0 +1,135 @@
+$meet-avatar-size: 150px;
+$meet-border:      1px solid $CI-COLOR3;
+
+$meet-filter-label-color: $CI-COLOR4;
+$meet-filter-value-color: $CI-COLOR3;
+
+.meet-list
+{
+
+}
+
+.meet-triangle
+{
+  position:         absolute;
+  top:              0;
+  left:             0;
+  width:            0px;
+  height:           0px;
+  -webkit-transform:rotate(360deg);
+  border-style:     solid;
+  border-width:     30px 30px 0 0;
+  border-color:     $CI-COLOR3 transparent transparent transparent;
+}
+
+.meet-item
+{
+  padding:1px;
+}
+
+.meet-inside
+{
+  display: flex;
+  border:  $meet-border;
+}
+
+.meet-name
+{
+   font-family: 'Bitter';
+   font-size:   1.2em;
+   cursor:      pointer;
+}
+
+.meet-request
+{
+    position: absolute;
+    bottom:   10px;
+    right:    10px;
+}
+
+.meet-info
+{
+  padding: 10px 10px 50px 0;
+  width: 100%;
+}
+
+.meet-avatar
+{
+
+    position:      relative;
+    background:    #fafafa;
+    margin-right:  15px;
+    cursor:        pointer;
+
+    img
+    {
+       width:  $meet-avatar-size;
+       height: $meet-avatar-size;
+    }
+}
+
+.meet-load-more
+{
+    position:   relative;
+    margin:     0 auto;
+    max-width:  50%;
+    text-align: center;
+    border-bottom: 1px solid $CI-COLOR8;
+
+    button
+    {
+       position:   relative;
+       background: #FFF;
+       padding:    0 10px;
+       top:        12px;
+       color:      $CI-COLOR4;
+
+       &:hover
+       {
+          background: #FFF;
+          color:      $CI-COLOR3;
+       }
+
+    }
+
+}
+
+.meet-filter
+{
+   border:     1px solid #000;
+   padding:    10px 40px;
+   max-width:  80%;
+   margin:     15px auto 15px;
+}
+
+.meet-filter-label
+{
+    color:$meet-filter-label-color;
+}
+
+.meet-filter-value
+{
+    margin-right: 5px;
+    color:        $meet-filter-label-color;
+    cursor:       pointer;
+    font-weight:  bold;
+
+    > i
+    {
+       font-weight: normal!important;
+    }
+
+    &.active
+    {
+      color:        $meet-filter-value-color;
+    }
+
+}
+
+.meet-filter-select
+{
+    -webkit-appearance: none;
+    background:         none;
+    border:             0;
+    color:              $meet-filter-value-color;
+}

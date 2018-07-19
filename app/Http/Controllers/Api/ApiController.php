@@ -6,6 +6,8 @@ use App;
 use File;
 use Image;
 use LaravelGettext;
+use JWTAuth;
+use SecurityHelper;
 
 use App\Http\Controllers\Controller;
 
@@ -24,11 +26,17 @@ class ApiController extends Controller
 
     public function __construct(Request $request){
 
-        $this->setReturnFormat($request->header('Accept'));
+        $this->setReturnFormat(optional($request)->header('Accept'));
 
-        $this->download     = ($request->input('download') === 'true');
-        $this->fingerprint  = $request->fingerprint();
-        $this->user         = $request->user;
+
+        $this->download     = (optional($request)->input('download') === 'true');
+        $this->fingerprint  = null;
+        $this->user         = optional($request)->user;
+
+        if(method_exists($this,'fingerprint') === true)
+          {
+                $this->fingerprint  = optional($request)->fingerprint();
+          }
 
     }
 
@@ -72,7 +80,13 @@ class ApiController extends Controller
            App::environment()       !== 'development'&&
            App::environment()       !== 'testing')
           {
-              ob_start('ob_gzhandler');
+              if    (!in_array('ob_gzhandler', ob_list_handlers()))
+                    {
+                      ob_start('ob_gzhandler');
+                    }
+              else  {
+                      ob_start();
+                    }
           }
 
         $data['status']         = $this->getStatusCode();
@@ -106,7 +120,7 @@ class ApiController extends Controller
 
         if($cookieName !== null && $cookieValue !== null){
 
-            $result              = \Response::$macroname($data,$this->getStatusCode(),$headers)->cookie($cookieName, $cookieValue, 5, '/',config('app.domain'), false, true);
+            $result              = \Response::$macroname($data,$this->getStatusCode(),$headers)->cookie($cookieName, $cookieValue, 360, '/',config('app.domain'), false, true);
 
         }
         else {
@@ -251,47 +265,137 @@ class ApiController extends Controller
     }
 
     /**
-    ** Returns the information if the controller needs an authentication
+     ** Get the name of the controller name
     **/
 
-    public function checkAuthentication(Request $request){
+    protected function getName(Request $request)
+    {
 
-        $checkAuthentication = true;
+          $name         = $request->route()->getName();
 
-        if(method_exists($this,'getName') === true){
+          if    ($name === null)
+                {
 
-          $checkAuthentication = false;
+                    if(isset($request->route()->action['uses']) === true)
+                      {
 
-          $name                = $this->getName($request);
-          $map                 = $this->getMap();
+                          $nameExploded = explode('@',$request->route()->action['uses']);
+                          $nameCnt      = sizeOf($nameExploded);
 
-          if($map !== null && isset($map[$name]) === true)
+                          return $nameExploded[$nameCnt - 1];
+
+                      }
+
+                    return null;
+
+                }
+          else  {
+
+                  $nameExploded = explode('.',$name);
+                  $nameCnt      = sizeOf($nameExploded);
+
+                  return $nameExploded[$nameCnt - 1];
+
+                }
+
+      }
+
+      /**
+       ** Get a controller map (settings)
+      **/
+
+      protected function getMap($name = null)
+      {
+          $map = data_get($this->cl_map,$name,null);
+          return $map;
+      }
+
+      /**
+      ** Returns an array of fillable fields for the given model used in the api
+      **/
+
+      protected function getModelFields()
+      {
+
+          $md = $this->getModel();
+          $model = null;
+
+          if($md !== null)
             {
-
-                $check = $map[$name];
-
-                if      (isset($check['authentication']))
-                        {
-                            $checkAuthentication = $check['authentication'];
-                        }
-                else if (isset($check['policy']) && $check['policy'] !== null)
-                        {
-                            $checkAuthentication = true;
-                        }
-                else if (isset($check['roles']) && sizeOf($check['roles']) > 0)
-                        {
-                            $checkAuthentication = true;
-                        }
-                else if (isset($check['permissions']) && sizeOf($check['permissions']) > 0)
-                        {
-                            $checkAuthentication = true;
-                        }
-
+               $model = new $md();
+               return $model->getFillable();
             }
 
-        }
+          return [];
 
-        return $checkAuthentication;
+      }
+
+      /**
+    ** Get the model related to this controller
+    **/
+
+    protected function getModel($map = null)
+    {
+
+        $model = data_get($map,'model',null);
+
+        if($model !== null)
+          {
+             return $model;
+          }
+
+        if(isset($this->cl_model) === true)
+          {
+              return $this->cl_model;
+          }
+
+        return null;
+
+    }
+
+    /***
+     ** Check if the api request is available or if it is excepted from the api callable
+    ***/
+
+    protected function isAvailable(Request $request)
+    {
+        $data = [];
+        $map  = $this->getMap($this->getName($request));
+
+        return !data_get($map,'except',false);
+    }
+
+    public function validateSortByField($field,$mdClass)
+    {
+
+        $fillable = $mdClass->getFillable();
+
+        if(in_array($field,$fillable) === true)
+          {
+             return $field;
+          }
+
+        return 'id';
+
+    }
+
+    public function checkPermission(Request $request)
+    {
+        $map  = $this->getMap($this->getName($request));
+        $roles = data_get($map,'roles',[]);
+
+        if(sizeOf($roles) > 0)
+          {
+
+               if(optional($request)->user === null)
+                 {
+                     return $this->respondUnauthorized();
+                 }
+
+               return SecurityHelper::checkPermission(optional($request->user),$roles);
+          }
+
+        return true;
 
     }
 

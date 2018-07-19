@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use App;
 use Exception;
-use LogHelper;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -115,11 +114,6 @@ class Handler extends ExceptionHandler
         $instanceOf       = get_class($exception);
         $isMaintainceMode = ($instanceOf === 'Illuminate\Foundation\Http\Exceptions\MaintenanceModeException');
 
-        if(config('app.debug') === true)
-          {
-             return null;
-          }
-
         // Development environment behavior
 
         if(starts_with($path,'/api')   === true                                &&
@@ -128,6 +122,8 @@ class Handler extends ExceptionHandler
           {
               return $this->setStatusCode(503)->respond(array('message'=> __('Der Service steht momentan aufgrund von Wartungsarbeiten nicht zur Verfügung.')),array());
           }
+
+        $pathInformation = pathinfo($path);
 
         // Standard behavior
 
@@ -230,7 +226,17 @@ class Handler extends ExceptionHandler
 
         }
 
-        LogHelper::log($this,$request);
+        // SPA
+
+        if($instanceOf === 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException' && starts_with($path,'/api') === false)
+        {
+
+            if(starts_with('/files/',$path) === false)
+              {
+                    return response(view('welcome',[]));
+              }
+
+        }
 
         return $result;
 

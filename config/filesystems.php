@@ -55,6 +55,34 @@ return [
             'visibility' => 'public',
         ],
 
+        'spa' => [
+            'driver'     => 'local',
+            'root'       => resource_path('/assets/js/app/modules'),
+            'url'        => env('APP_URL').resource_path('/assets/js/app/modules'),
+            'visibility' => 'public',
+        ],
+
+        'debug' => [
+            'driver'     => 'local',
+            'root'       => storage_path('debug'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'avatars' => [
+            'driver'     => 'local',
+            'root'       => storage_path('avatars'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
+        'exports' => [
+            'driver'     => 'local',
+            'root'       => storage_path('exports'),
+            'url'        => env('APP_URL').'/storage',
+            'visibility' => 'public',
+        ],
+
     ],
 
 ];
