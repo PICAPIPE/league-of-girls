@@ -108,6 +108,11 @@ class SecurityHelper
             $authorized = false;
         }
 
+        if($user->locked === true)
+        {
+            $authorized = false;
+        }
+
       }
 
       return $authorized;

@@ -3,7 +3,10 @@
 use Illuminate\Database\Seeder;
 
 use App\Models\User\User;
+
 use Carbon\Carbon;
+
+
 
 class UserSeeder extends Seeder
 {
@@ -34,9 +37,11 @@ class UserSeeder extends Seeder
                         'firstname' => 'Administrator',
                         'lastname'  => '',
                         'active'    => true,
+                        'trusted'   => true,
                         'birthdate' => Carbon::now()->toDateTimeString()
                     ]);
                     }
+
              }
 
     }

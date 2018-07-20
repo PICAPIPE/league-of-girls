@@ -37,6 +37,7 @@ class CreateUsersTable extends Migration
 
             $table->boolean('locked')->default(false);
             $table->boolean('active');
+            $table->boolean('trusted');
             $table->boolean('newsletter')->default(false);
 
             $table->timestamp('loginAttempTimestamp');

@@ -30,6 +30,30 @@ angular.module('user').controller('UserAccountCtrl',[
 
           };
 
+          // Update user information
+
+          account.updateUser     = function(uuid,attr,value)
+          {
+
+            var params   = {};
+            params[attr] = value;
+
+            account.DB.call('Users','update', uuid, params).then(
+              function(result)
+              {
+                  account.init();
+              },
+              function(errorResult)
+              {
+                  account.ALERT.add({
+                      'title':     account.LANG.getString('Fehler beim Laden aktualisieren des Benutzers.'),
+                      'message':   account.LANG.getString('Es ist leider ein Fehler beim Aktualisieren aufgetreten.'),
+                      'autoClose': true
+                  });
+              }
+            );
+          };
+
           // Init the account information
 
           account.init           = function(ignore)
@@ -235,8 +259,6 @@ angular.module('user').controller('UserAccountCtrl',[
                               break;
 
                           case 'twitter':
-
-                              value = + value;
 
                               linkHtml = '<a href="https://twitter.com/' + value + '" target="blank">' + value + '</a>';
 

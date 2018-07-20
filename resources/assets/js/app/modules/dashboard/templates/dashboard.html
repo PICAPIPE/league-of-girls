@@ -8,21 +8,23 @@
 
      <div class="col-md-4 col-xs-12">
         <h2>{{'News' | translate}}</h2>
+        <news-overview mode="list" filter="nomy"></news-overview>
      </div>
 
      <!-- Nachrichten -->
 
      <div class="col-md-4 col-xs-12">
-        <h2>{{'Meine Nachrichten' | translate}}</h2>
+        <h2>{{'Meine News' | translate}}</h2>
+        <news-overview mode="list" filter="my"></news-overview>
      </div>
 
      <!-- Benutzerfunktionen -->
 
      <div class="col-md-4 col-xs-12">
         <h2>{{'Aktionen' | translate}}</h2>
-        <ul>
+        <ul class="actions-list">
            <li ng-repeat="link in dashboard.links track by $index">
-              <a>{{link.name}}</a>
+              <a ui-sref="{{link.state}}" ui-sref-active="active">{{link.name}}</a>
            </li>
         </ul>
      </div>

@@ -1,4 +1,4 @@
-angular.module('news').controller('NewsTwitchCtrl',[
+angular.module('news').controller('NewsTwitterCtrl',[
      '$scope',
      '$rootScope',
      '$state',
@@ -14,6 +14,47 @@ angular.module('news').controller('NewsTwitchCtrl',[
           ctrl.stream = '';
           ctrl.data   = {};
           ctrl.USER   = UserService.getCurrentUser();
+
+          // Get the style for the image
+
+          ctrl.getStyle  = function(news,image)
+          {
+              var styleObject = {};
+
+              if (image === true)
+                   {
+                   styleObject['background']          = 'url(' + news.image + ')';
+                   styleObject['background-size']     = 'cover';
+                   styleObject['background-position'] = 'center center';
+                   styleObject['right']               = '10px';
+                   styleObject['z-index']             = '999999';
+                   }
+              else {
+                   styleObject['right']               = '20px';
+                   styleObject['z-index']             = '999998';
+                   }
+
+              styleObject['width']               = '200px';
+              styleObject['height']              = '200px';
+
+              if (window.outerWidth > 768)
+                   {
+                   styleObject['position'] = 'absolute';
+                   }
+
+              return styleObject;
+          };
+
+          // Open Link
+
+          ctrl.open = function(news)
+          {
+              if (news.url == '')
+                   {
+                   return;
+                   }
+              window.open(news.url,'_blank');
+          };
 
           // Set published state
 
@@ -42,14 +83,12 @@ angular.module('news').controller('NewsTwitchCtrl',[
               ctrl.DB.call('Streams','show', ctrl.uuid).then(
                 function(result)
                 {
-                      ctrl.data   = result.data.data;
-                      ctrl.stream = '<div class="embed-responsive embed-responsive-16by9"><iframe src="http://player.twitch.tv/?channel=' + result.data.data.channel + '&muted=false" height="720" width="1280" frameborder="0" scrolling="no" allowfullscreen="false"></iframe></div>';
+                      ctrl.data   = result.data.data;;
                       ctrl.chat   = '<chat mode="streams" uuid="' + result.data.data.chat.uuid + '" id="general" profile="false"></chat>';
                 },
                 function(errorResult)
                 {
                       ctrl.data   = {};
-                      ctrl.stream = ctrl.LANG.getString('Ladefehler');
                       ctrl.chat   = '';
                 }
               );

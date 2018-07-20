@@ -14,3 +14,20 @@
   }
 
 }
+
+.beta
+{
+    background: red;
+    border-radius: 25px;
+    padding: 1px 8px;
+    position: absolute;
+    bottom: -4px;
+    right: 0;
+    font-size: 11px;
+    color: #FFF;
+
+    @include media-breakpoint-down(md) {
+        display: none;
+    }
+
+}

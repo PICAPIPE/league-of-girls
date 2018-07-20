@@ -26,7 +26,8 @@ angular.module('core').config([
                       'templateUrl': 'views/core/start.html',
                       'controller':  'CoreStartCtrl as ctrl'
                   }
-              }
+              },
+              redirectOnLoggged: true
             },
             {
               name:      'app.imprint',
@@ -35,6 +36,16 @@ angular.module('core').config([
                   '!$default.content':{
                       'templateUrl': 'views/core/imprint.html',
                       'controller':  'CoreImprintCtrl as imprint'
+                  }
+              }
+            },
+            {
+              name:      'app.privacy',
+              url:       '/privacy',
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/privacy.html',
+                      'controller':  'CorePrivacyCtrl as privacy'
                   }
               }
             }

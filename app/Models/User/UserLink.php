@@ -73,4 +73,12 @@ class UserLink extends BaseModel
 
   }
 
+  public function user(){
+
+      // Get permissions
+
+      return $this->hasOne('App\Models\User\User','id','user_id');
+
+  }
+
 }

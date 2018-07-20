@@ -16,6 +16,7 @@ class CreateStreamTable extends Migration
         Schema::create('stream', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->integer('game_id');
             $table->integer('creator');
             $table->enum('type',  ['blog', 'twitch', 'youtube', 'link', 'twitter', 'facebook']);
             $table->string('channel');

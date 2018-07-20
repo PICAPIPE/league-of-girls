@@ -170,6 +170,8 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Thujohn\Twitter\TwitterServiceProvider::class,
+        Alaouy\Youtube\YoutubeServiceProvider::class,
+        shweshi\OpenGraph\Providers\OpenGraphProvider::class,
 
         /*
          * Application Service Providers...
@@ -244,6 +246,8 @@ return [
         'Html'                  => Collective\Html\HtmlFacade::class,
         'Image'                 => Intervention\Image\Facades\Image::class,
         'Twitter'               => Thujohn\Twitter\Facades\Twitter::class,
+        'Youtube'               => Alaouy\Youtube\Facades\Youtube::class,
+        'OpenGraph'             => shweshi\OpenGraph\Facades\OpenGraphFacade::class,
 
         // Authentication
 

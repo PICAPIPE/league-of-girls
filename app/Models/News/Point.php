@@ -1,21 +1,18 @@
 <?php
 
-namespace App\Models\Esport;
+namespace App\Models\News;
 
 use App\Models\BaseModel;
-use App\Models\User\User;
-
 use Illuminate\Database\Eloquent\Model;
 
-class Link extends BaseModel
+class Point extends BaseModel
 {
-
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'links';
+  protected $table = 'points';
 
   /**
    * The attributes that are mass assignable.
@@ -25,12 +22,10 @@ class Link extends BaseModel
   protected $fillable = [
       'id',
       'uuid',
-      'type',
-      'name',
-      'icon',
-      'placeholder',
-      'help',
-      'published'
+      'pid',
+      'pid_table',
+      'user_id',
+      'amount'
   ];
 
   protected $validations = [
@@ -62,7 +57,9 @@ class Link extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean'
+      'pid'     => 'integer',
+      'user_id' => 'integer',
+      'amount'  => 'integer'
   ];
 
   /**
@@ -71,11 +68,5 @@ class Link extends BaseModel
    * @var array
    */
   protected $dates = [];
-
-  public function getValues()
-  {
-    $users = User::where('trusted',true)->pluck('id');
-    return $this->hasMany('App\Models\User\UserLink','link_id','id')->whereIn('user_id',$users->toArray());
-  }
 
 }

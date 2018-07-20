@@ -26,8 +26,9 @@ $chat-loading-bg:  $CI-COLOR3;
 
 .chat-avatar
 {
-   width: $chat-avatar-size;
-   height:$chat-avatar-size;
+   width:      $chat-avatar-size;
+   height:     $chat-avatar-size;
+   background: #efefef;
 }
 
 .chat-header

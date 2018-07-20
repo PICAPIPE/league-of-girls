@@ -61,6 +61,23 @@ class RoleSeeder extends Seeder
                 $role->setPermissions($roleData['permissions']);
                 $role->save();
 
+                // Give the admin the admin role
+
+                if (in_array('Admin',$roleData['permissions']) === true)
+                     {
+
+                     $user = User::where('email',env('ADMIN_EMAIL',null))->first();
+
+                     if ($user !== null)
+                           {
+                           UserRole::create([
+                               'user_id' => $user->id,
+                               'role_id' => $role->id
+                             ]);
+                           }
+                     }
+
+
             }
 
       });

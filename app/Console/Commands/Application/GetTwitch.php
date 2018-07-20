@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 
 use Carbon\Carbon;
 
+use App\Models\User\UserLink;
 use App\Models\Chat\Chat;
 
 use App\Models\Esport\Game;
@@ -122,6 +123,23 @@ class GetTwitch extends Command
                             'pid'       => $streamEntry->id,
                             'public'    => true
                          ]);
+
+                         // Create point entry
+
+                         $userLink = UserLink::where(function($query){
+                            $link = Link::where('type','twitch')->first();
+                            $query->where('link_id',$link->id);
+                         })->where('value',$stream->channel->display_name)->first();
+
+                         if ($userLink !== null)
+                              {
+                              $user = $userLink->user()->first();
+
+                              if($user !== null)
+                                  {
+                                  $user->addPoints($streamEntry->id,'streams', env('POINTS_TWITCH',1));
+                                  }
+                              }
                          }
 
                    if ($streamEntry !== null)

@@ -66,6 +66,42 @@ angular.module('user').factory('UserService', [
 
         };
 
+        // Check if the user has permission
+
+        service.hasPermission   = function(permissions)
+        {
+
+            var user        = service.getCurrentUser();
+            var found       = false;
+            var permissioni = 0;
+
+            console.error(user);
+
+            if(user                                  === null ||
+               angular.isUndefined(user.permissions) === false)
+              {
+                 return false;
+              }
+
+            for (permissioni = 0; permissioni < permissions.length; permissioni++)
+                {
+
+                    if(angular.isUndefined(user.permissions) === true)
+                      {
+                         break;
+                      }
+
+                    if(user.permissions.indexOf(permissions[permissioni]) > -1)
+                      {
+                         found = true;
+                         break;
+                      }
+                }
+
+            return found;
+
+        };
+
         return service;
 
     }

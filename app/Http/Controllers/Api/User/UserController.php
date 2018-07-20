@@ -92,6 +92,28 @@ class UserController extends ApiStandardController
 
   ];
 
+  // Update user information
+
+  public function update(Request $request, $uuid)
+  {
+
+      $user = User::where('uuid',$uuid)->first();
+
+      if($user === null)
+           {
+           return $this->respondBadRequest();
+           }
+
+      if ($user->id !== $request->user->id && $request->user->is(['Admin']) === false)
+           {
+           return $this->respondBadRequest();
+           }
+
+      $data = $request->all();
+      $user->update($data);
+
+  }
+
   /***
   ** Get the current user data
   **/
@@ -209,7 +231,7 @@ class UserController extends ApiStandardController
 
             $communicationData = collect($data['communications'])->where('communication_id',$communicationEntry->communication_id)->first();
 
-            if($communicationData !== null)
+            if($communicationData !== null && isset($communicationData['value']))
             {
               $communicationEntry->active = $communicationData['active'];
               $communicationEntry->value  = $communicationData['value'];
@@ -231,7 +253,7 @@ class UserController extends ApiStandardController
 
             $linkData = collect($data['links'])->where('link_id',$linkEntry->link_id)->first();
 
-            if($linkData !== null)
+            if($linkData !== null && isset($linkData['value']))
             {
               $linkEntry->active = $linkData['active'];
               $linkEntry->value  = $linkData['value'];
@@ -253,7 +275,7 @@ class UserController extends ApiStandardController
 
             $plattformData = collect($data['plattforms'])->where('plattform_id',$plattformEntry->plattform_id)->first();;
 
-            if($plattformData !== null)
+            if($plattformData !== null && isset($plattformData['value']))
             {
               $plattformEntry->value  = $plattformData['value'];
               $plattformEntry->active = $plattformData['active'];
