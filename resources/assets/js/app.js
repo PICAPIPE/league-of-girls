@@ -14,7 +14,9 @@ window.io   = require('socket.io-client');
 
 window.getAppToken = function()
 {
-    if(window.localStorage !== undefined)
+    if(window.localStorage                  !== undefined &&
+       window.localStorage.getItem('token') !== undefined &&
+       window.localStorage.getItem('token') !== null)
       {
       return localStorage.getItem('token').substr(1,localStorage.getItem('token').length - 2);
       }

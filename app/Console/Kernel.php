@@ -13,7 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        'App\Console\Commands\Application\GetContent'
     ];
 
     /**
@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
 
         // Load twitch information
 
-        $schedule->command('content:twitch')
+        $schedule->command('content:all')
                   ->everyFiveMinutes();
     }
 

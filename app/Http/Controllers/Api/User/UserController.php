@@ -60,7 +60,8 @@ class UserController extends ApiStandardController
         'with'          => ['games','communications','links'],
         'wheres'        => [
             'filterGame',
-            'filterConnection'
+            'filterConnection',
+            'filterStatus'
         ],
         'wheresAreOr'   => true,
         'getData'       => 'getUserData',
@@ -414,6 +415,14 @@ class UserController extends ApiStandardController
             });
         }
 
+      return $model;
+  }
+
+  // Filter locked users / inactive
+
+  protected function filterStatus(Request $request, $model)
+  {
+      $model = $model->where('locked',false)->where('active',true);
       return $model;
   }
 

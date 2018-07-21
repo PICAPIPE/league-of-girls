@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?85190db90fddf820e07b14d2878fcc40?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?0d9680f34440953fd9140052d0f816b1) format("woff2"), url(/fonts/icons-standard.woff?928b2e0cf50d7b7408252eb4a5959c97) format("woff"), url(/fonts/icons-standard.ttf?181ef6286da60c4a31cf1804a0a190cb) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?9fba414f05c4c87bad0e1b6a3685067a?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?d4932500223f9fd63f326deab7519bdc) format("woff2"), url(/fonts/icons-standard.woff?79e36e396278dd3ae5266361dcd194fa) format("woff"), url(/fonts/icons-standard.ttf?4dc2b61f7bc0cce64b3a556b7166854c) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
@@ -14124,6 +14124,8 @@ readers do not read off random characters that represent icons */
   outline: none;
   padding: 5px;
   resize: none;
+  height: 40px !important;
+  min-height: 40px !important;
 }
 
 .chat-actions {

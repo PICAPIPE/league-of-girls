@@ -76,7 +76,10 @@ class StreamController extends ApiStandardController
   {
       if ($request->user !== null)
           {
-          $model = $model->where('published',true)->orWhere('creator', $request->user->id);
+          if ($request->user->is(['Admin']) === false)
+               {
+               $model = $model->where('published',true)->orWhere('creator', $request->user->id);
+               }
           }
       else
           {
@@ -99,15 +102,25 @@ class StreamController extends ApiStandardController
                 }
           else if ($request->input('filter') === 'nomy')
                 {
-                $model = $model->where('published',true)->where('creator','!=',$request->user->id);
+                if ($request->user === null || $request->user->is(['Admin']) === false)
+                     {
+                     $model = $model->where('published',true);
+                     }
+                $model = $model->where('creator','!=',$request->user->id);
                 }
           else  {
-                $model = $model->where('published',true)->orWhere('creator', $request->user->id);
+                if ($request->user == null || $request->user->is(['Admin']) === false)
+                     {
+                     $model = $model->where('published',true)->orWhere('creator', $request->user->id);
+                     }
                 }
           }
       else
           {
-          $model = $model->where('published',true);
+          if ($request->user === null || $request->user->is(['Admin']) === false)
+                 {
+                 $model = $model->where('published',true);
+                 }
           }
 
       if($game !== null && $game !== 'ALL')

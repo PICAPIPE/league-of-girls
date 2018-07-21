@@ -96,6 +96,8 @@ $chat-loading-bg:  $CI-COLOR3;
        outline: none;
        padding: 5px;
        resize:  none;
+       height:  40px!important;
+       min-height:  40px!important;
     }
 
 }

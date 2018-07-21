@@ -20,113 +20,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
 
           // Form fields
 
-          ctrl.fields = [
-            {
-               "type":         "select",
-               "key":          "type",
-               "templateOptions":
-               {
-                   "type":            "select",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Typ'),
-                   "defaultValue":    "link",
-                   "options": [
-                      {label: ctrl.LANG.getString('Blog'),    id: 'link',    group: ctrl.LANG.getString('Webseiten')},
-                      {label: ctrl.LANG.getString('Youtube'), id: 'youtube', group: ctrl.LANG.getString('Streaming')},
-                      {label: ctrl.LANG.getString('Twitch'),  id: 'twitch',  group: ctrl.LANG.getString('Streaming')},
-                      {label: ctrl.LANG.getString('Tweet'),   id: 'twitter', group: ctrl.LANG.getString('Social Media')}
-                    ],
-                    "groupProp": 'group',
-                    "valueProp": 'id',
-                    "labelProp": 'label',
-                    "className": 'col-xs-12'
-               }
-            },
-            {
-               "type": "input",
-               "key":  "headline",
-               "templateOptions":
-               {
-                   "type":            "text",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Überschrift'),
-                   "placeholder":     ctrl.LANG.getString('Überschrift eingeben')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                   return scope.model.type !== 'link';
-               }
-            },
-            {
-               "type": "textarea",
-               "key":  "text",
-               "templateOptions":
-               {
-                   "type":            "textarea",
-                   "required":        false,
-                   "label":           ctrl.LANG.getString('Text'),
-                   "placeholder":     ctrl.LANG.getString('Bitte gib hier eine Kurzbeschreibung der Nachricht ein.')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                    return scope.model.type !== 'link';
-               }
-            },
-            {
-               "type": "input",
-               "key":  "channel",
-               "templateOptions":
-               {
-                   "type":            "text",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Youtube-Video ID'),
-                   "placeholder":     ctrl.LANG.getString('Gib bitte gib die Youtube Video Id ein.')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                    return scope.model.type !== 'youtube';
-               }
-            },
-            {
-               "type": "input",
-               "key":  "channel",
-               "templateOptions":
-               {
-                   "type":            "text",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Channel Name'),
-                   "placeholder":     ctrl.LANG.getString('Bitte gib einen Twitch Channel ein.')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                   return scope.model.type !== 'twitch';
-               }
-            },
-            {
-               "type": "input",
-               "key":  "url",
-               "templateOptions":
-               {
-                   "type":            "text",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Twitter-Link'),
-                   "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu dem Tweet ein.')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                   return scope.model.type !== 'twitter';
-               }
-            },
-            {
-               "type": "input",
-               "key":  "url",
-               "templateOptions":
-               {
-                   "type":            "text",
-                   "required":        true,
-                   "label":           ctrl.LANG.getString('Link'),
-                   "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu deiner Nachricht ein.')
-               },
-               hideExpression: function($viewValue, $modelValue, scope) {
-                  return scope.model.type !== 'link';
-               }
-            },
-          ];
+          ctrl.fields = [];
 
           // Submit a news entry
           ctrl.submit = function()
@@ -159,7 +53,140 @@ angular.module('news').controller('NewsSubmitCtrl',[
           // Init point
           ctrl.$onInit = function()
           {
-                console.error(ctrl);
+                ctrl.fields       = [];
+                ctrl.optionsGames = [];
+
+                ctrl.DB.call('Games','all').then(
+                  function(result){
+                    
+                      ctrl.optionsGames = result.data.data;
+
+                      ctrl.fields = [
+                        {
+                           "type":         "select",
+                           "key":          "game",
+                           "templateOptions":
+                           {
+                               "type":            "select",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Spiel'),
+                               "defaultValue":    store.get(ctrl.storageKey),
+                               "options": ctrl.optionsGames,
+                                "valueProp": 'uuid',
+                                "labelProp": 'name',
+                                "className": 'col-xs-12'
+                           }
+                        },
+                        {
+                           "type":         "select",
+                           "key":          "type",
+                           "templateOptions":
+                           {
+                               "type":            "select",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Typ'),
+                               "defaultValue":    "link",
+                               "options": [
+                                  {label: ctrl.LANG.getString('Blog'),    id: 'link',    group: ctrl.LANG.getString('Webseiten')},
+                                  {label: ctrl.LANG.getString('Youtube'), id: 'youtube', group: ctrl.LANG.getString('Streaming')},
+                                  {label: ctrl.LANG.getString('Twitch'),  id: 'twitch',  group: ctrl.LANG.getString('Streaming')},
+                                  {label: ctrl.LANG.getString('Tweet'),   id: 'twitter', group: ctrl.LANG.getString('Social Media')}
+                                ],
+                                "groupProp": 'group',
+                                "valueProp": 'id',
+                                "labelProp": 'label',
+                                "className": 'col-xs-12'
+                           }
+                        },
+                        {
+                           "type": "input",
+                           "key":  "headline",
+                           "templateOptions":
+                           {
+                               "type":            "text",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Überschrift'),
+                               "placeholder":     ctrl.LANG.getString('Überschrift eingeben')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                               return scope.model.type !== 'link';
+                           }
+                        },
+                        {
+                           "type": "textarea",
+                           "key":  "text",
+                           "templateOptions":
+                           {
+                               "type":            "textarea",
+                               "required":        false,
+                               "label":           ctrl.LANG.getString('Text'),
+                               "placeholder":     ctrl.LANG.getString('Bitte gib hier eine Kurzbeschreibung der Nachricht ein.')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                                return scope.model.type !== 'link';
+                           }
+                        },
+                        {
+                           "type": "input",
+                           "key":  "channel",
+                           "templateOptions":
+                           {
+                               "type":            "text",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Youtube-Video ID'),
+                               "placeholder":     ctrl.LANG.getString('Gib bitte gib die Youtube Video Id ein.')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                                return scope.model.type !== 'youtube';
+                           }
+                        },
+                        {
+                           "type": "input",
+                           "key":  "channel",
+                           "templateOptions":
+                           {
+                               "type":            "text",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Channel Name'),
+                               "placeholder":     ctrl.LANG.getString('Bitte gib einen Twitch Channel ein.')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                               return scope.model.type !== 'twitch';
+                           }
+                        },
+                        {
+                           "type": "input",
+                           "key":  "url",
+                           "templateOptions":
+                           {
+                               "type":            "text",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Twitter-Link'),
+                               "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu dem Tweet ein.')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                               return scope.model.type !== 'twitter';
+                           }
+                        },
+                        {
+                           "type": "input",
+                           "key":  "url",
+                           "templateOptions":
+                           {
+                               "type":            "text",
+                               "required":        true,
+                               "label":           ctrl.LANG.getString('Link'),
+                               "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu deiner Nachricht ein.')
+                           },
+                           hideExpression: function($viewValue, $modelValue, scope) {
+                              return scope.model.type !== 'link';
+                           }
+                        },
+                      ];
+                  }
+                );
+
+
           };
 
      }
