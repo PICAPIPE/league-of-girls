@@ -55,6 +55,7 @@ class ApiStandardController extends ApiController
           $with            = data_get($map,'with',[]);
           $fields          = data_get($map,'fields',['uuid']);
           $getModelData    = data_get($map,'getData', null);
+          $ignorePublish   = data_get($map,'ignorePublish', false);
           $pagination      = false;
           $perSite         = data_get($map,'perSite', config('api.perSite',50));
 
@@ -126,7 +127,7 @@ class ApiStandardController extends ApiController
                     $modelData = $md::where('id','>',0);
                 }
 
-          if(in_array('published',$mdClass->getFillable()) === true)
+          if(in_array('published',$mdClass->getFillable()) === true && $ignorePublish === false)
             {
                 $modelData = $modelData->where('published',true);
             }

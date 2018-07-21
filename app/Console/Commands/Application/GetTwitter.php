@@ -7,6 +7,8 @@ use Illuminate\Console\Command;
 use Twitter;
 use Carbon\Carbon;
 
+use App\Models\User\UserLink;
+
 use App\Models\Esport\Game;
 use App\Models\Esport\GameKeyword;
 use App\Models\Esport\Link;
@@ -93,7 +95,7 @@ class GetTwitter extends Command
                       {
                       if ($stream === null)
                             {
-                            StreamEntry::create([
+                            $stream = StreamEntry::create([
                                  'type'      => 'twitter',
                                  'game_id'   => $game_id,
                                  'url'       => $url,
@@ -102,6 +104,23 @@ class GetTwitter extends Command
                                  'image'     => $image,
                                  'text'      => $valueTweet->text
                             ]);
+
+                            // Create point entry
+
+                            $userLink = UserLink::where(function($query){
+                               $link = Link::where('type','twitter')->first();
+                               $query->where('link_id',$link->id);
+                            })->where('value', $value)->first();
+
+                            if ($userLink !== null)
+                                 {
+                                 $user = $userLink->user()->first();
+
+                                 if($user !== null)
+                                     {
+                                     $user->addPoints($stream->id,'streams', env('POINTS_TWITTER',1));
+                                     }
+                                 }
                             }
                       else  {
                             $stream->text = $valueTweet->text;

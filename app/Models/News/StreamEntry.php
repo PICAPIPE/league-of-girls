@@ -32,7 +32,8 @@ class StreamEntry extends BaseModel
       'featured',
       'live',
       'channel',
-      'game_id'
+      'game_id',
+      'creator'
   ];
 
   protected $validations = [
@@ -77,11 +78,18 @@ class StreamEntry extends BaseModel
    */
   protected $dates = [];
 
-  // Games
+  // Chat
 
   public function chat()
   {
       return $this->hasOne('App\Models\Chat\Chat','pid','id')->where('pid_table','streams');
+  }
+
+  // User (Createor)
+
+  public function user()
+  {
+      return $this->hasOne('App\Models\User\User','id','creator');
   }
 
 }

@@ -3,7 +3,7 @@
        <div class="user-headline">
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-lg-8 user-headline-name">
-                <span class="user-headline-name-element" contenteditable="true" strip-br="true" ng-model="myaccountEdit.user.username">{{myaccountEdit.user.username}}</span> - <span translate translate-n="account.user.level" translate-plural="Level {{$count}}">Level 1</span>
+                <span class="user-headline-name-element" contenteditable="true" strip-br="true" ng-model="myaccountEdit.user.username">{{myaccountEdit.user.username}}</span> - <span translate translate-n="account.user.points" translate-plural="{{$count}} Punkte">1 Punkt</span>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-4 user-headline-connect">
                 <button ng-disabled="myaccountEdit.changeDetected !== true" ng-click="myaccountEdit.save($event,myaccountEdit.user)" class="btn btn-outline-success float-right">{{'Speichern'|translate}}</button>

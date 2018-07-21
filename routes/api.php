@@ -42,7 +42,8 @@ Route::group(['middleware' => ['auth.api']], function(){
 
 });
 
-Route::api('streams',          'Api\News\StreamController',         [],false);
+Route::get('/streams/featured','Api\News\StreamController@featured');
+Route::api('streams',          'Api\News\StreamController',         [],true,['auth.safe']);
 
 // Users
 

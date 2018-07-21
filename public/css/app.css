@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?238441ea00540b5e76f14304772cf708?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?950d559c281773d0ad051c6338ef3cde) format("woff2"), url(/fonts/icons-standard.woff?37b0cc226abffc6b12ebefea77f26ff7) format("woff"), url(/fonts/icons-standard.ttf?40f49300215e2f9bca036bfafa03c3e4) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?9fba414f05c4c87bad0e1b6a3685067a?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?d4932500223f9fd63f326deab7519bdc) format("woff2"), url(/fonts/icons-standard.woff?79e36e396278dd3ae5266361dcd194fa) format("woff"), url(/fonts/icons-standard.ttf?4dc2b61f7bc0cce64b3a556b7166854c) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
@@ -14062,6 +14062,7 @@ readers do not read off random characters that represent icons */
 .chat-avatar {
   width: 40px;
   height: 40px;
+  background: #efefef;
 }
 
 .chat-header {
@@ -14123,6 +14124,8 @@ readers do not read off random characters that represent icons */
   outline: none;
   padding: 5px;
   resize: none;
+  height: 40px !important;
+  min-height: 40px !important;
 }
 
 .chat-actions {
@@ -14262,6 +14265,13 @@ readers do not read off random characters that represent icons */
 
 .margin-bottom {
   margin-bottom: 15px;
+}
+
+#footer {
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid #ececec;
 }
 
 .user-panel-login {
@@ -14409,6 +14419,23 @@ readers do not read off random characters that represent icons */
   }
 }
 
+.beta {
+  background: red;
+  border-radius: 25px;
+  padding: 1px 8px;
+  position: absolute;
+  bottom: -4px;
+  right: 0;
+  font-size: 11px;
+  color: #FFF;
+}
+
+@media (max-width: 991.98px) {
+  .beta {
+    display: none;
+  }
+}
+
 .navigation {
   text-align: center;
 }
@@ -14504,7 +14531,7 @@ readers do not read off random characters that represent icons */
 .navigation_games_list {
   display: block;
   padding: 0;
-  margin: 0;
+  margin: 0 0 15px;
   font-family: 'Roboto';
 }
 
@@ -14538,6 +14565,26 @@ readers do not read off random characters that represent icons */
 
 .user-panel-account {
   margin-right: 10px;
+}
+
+.actions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.actions-list > li {
+  display: block;
+}
+
+.actions-list > li > a {
+  display: block;
+  padding: 10px;
+  border-bottom: 1px dotted #ececec;
+}
+
+.actions-list > li:last-child a {
+  border-bottom: 0;
 }
 
 .row-margin-bottom {
@@ -14589,6 +14636,10 @@ readers do not read off random characters that represent icons */
 
 *[contenteditable] {
   border-bottom: 1px dashed #606060;
+}
+
+textarea {
+  min-height: 200px;
 }
 
 body {
@@ -15031,6 +15082,51 @@ a {
 
 .news-item {
   padding: 1px;
+  cursor: pointer;
+}
+
+.news-item .news-element-text {
+  font-family: 'Bitter', serif;
+}
+
+.news-item.youtube .news-inside {
+  color: #FFF;
+  border: 1px solid #ff0000;
+  background: #ff0000;
+}
+
+.news-item.youtube .news-element-text {
+  position: relative;
+  top: 10px;
+  cursor: pointer;
+  width: 80%;
+  display: block;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.news-item.youtube .news-element-channel {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.news-item.link .news-element-text {
+  font-size: 14px;
+  font-weight: bold;
+  max-height: 80%;
+  position: absolute;
+  overflow: auto;
+  text-overflow: ellipsis;
+  width: 43%;
+  top: 10px;
+}
+
+.news-item.link .news-element-channel {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
 .news-item.twitter {
@@ -15092,6 +15188,8 @@ a {
   cursor: pointer;
 }
 
+.news-avatar .youtube-icon,
+.news-avatar .link-icon,
 .news-avatar img {
   width: 150px;
   height: 150px;
@@ -15145,6 +15243,160 @@ a {
   border-right: 0;
   border-top: 0;
   border-left-color: #4b367c;
+}
+
+.news_link {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.news_link h1 {
+  font-family: 'Bitter', serif;
+  color: #FFF;
+}
+
+@media all and (min-width: 1000px) {
+  .news_link h1 {
+    padding-left: 40px;
+  }
+}
+
+.news_link .news_link_inside {
+  padding: 20px;
+  font-family: 'Bitter', serif;
+  line-height: 120%;
+}
+
+.news_link .news_link_share_user {
+  padding-top: 20px;
+  padding-left: 20px;
+}
+
+@media all and (min-width: 1000px) {
+  .news_link .news_link_share_user {
+    text-align: right;
+    padding-right: 10px;
+  }
+}
+
+.news_link .news_link_share_time {
+  font-size: 10px;
+  color: #ececec;
+  padding-left: 20px;
+}
+
+@media all and (min-width: 1000px) {
+  .news_link .news_link_share_time {
+    text-align: right;
+    padding-right: 10px;
+  }
+}
+
+.news_link .news-icon {
+  margin-top: 10px;
+}
+
+@media all and (max-width: 1000px) {
+  .news_link .news-icon {
+    position: static !important;
+    width: 100% !important;
+    margin: 10px -20px !important;
+  }
+}
+
+.news_link .news-icon-shadow {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-top: 20px;
+}
+
+@media all and (max-width: 1000px) {
+  .news_link .news-icon-shadow {
+    display: none;
+  }
+}
+
+.news_link .news_link_open {
+  text-align: right;
+}
+
+@media all and (max-width: 1000px) {
+  .news_link .news_link_open {
+    text-align: center;
+    display: block;
+    background: #ececec;
+    padding: 10px;
+    margin: 0 20px;
+  }
+}
+
+@media all and (min-width: 1000px) {
+  .news_link .news_link_open {
+    position: absolute;
+    margin-top: 10px;
+    bottom: auto0;
+    right: 10px;
+  }
+}
+
+.news_link .news_link_container {
+  background: #FFF;
+  width: 100%;
+}
+
+.news_link .chat-messages {
+  background: #FFF;
+}
+
+.news_link .chat-create-msg {
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+}
+
+.news_link .chat-window,
+.news_link .chat-users {
+  border-bottom: 0;
+  border-right: 0;
+  border-top: 0;
+}
+
+.notPublished {
+  opacity: 0.4;
+}
+
+.news-item.featured .news-avatar {
+  width: 100% !important;
+  margin-right: 0 !important;
+}
+
+.news-item.featured .news-item.twitch .news-element-channel {
+  position: static !important;
+}
+
+.news-item.featured .youtube-icon,
+.news-item.featured .link-icon {
+  width: 100% !important;
+  height: 150px;
+}
+
+.news-item.featured img {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.news-item.featured .news-inside {
+  display: block;
+}
+
+.news-item.featured .news-element-text {
+  position: static;
+  padding: 20px 10px;
+}
+
+.news-submit-form input,
+.news-submit-form textarea,
+.news-submit-form select {
+  border-radius: 0.35rem !important;
 }
 
 .friends-requests-headline {

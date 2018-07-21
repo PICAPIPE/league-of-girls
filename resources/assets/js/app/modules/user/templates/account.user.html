@@ -3,7 +3,7 @@
        <div class="user-headline">
           <div class="row">
             <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-name">
-                <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.level" translate-plural="Level {{$count}}">Level 1</span>
+                <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.points" translate-plural="{{$count}} Punkte">1 Punkt</span>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-connect">
                 <user-connect user-id="{{account.userId}}"></user-connect>
@@ -24,6 +24,13 @@
        </div>
 
        <div class="user-content">
+
+          <div class="admin_actions margin-bottom" ng-if="account.currentUser.permissions.indexOf('Admin') > -1">
+            <button ng-if="account.currentUser.permissions.indexOf('Admin') > -1 && account.user.locked === false"   ng-click="account.updateUser(account.user.uuid,'locked',!account.user.locked)"   class="btn btn-danger btn-block">{{'Sperren'|translate}}</button>
+            <button ng-if="account.currentUser.permissions.indexOf('Admin') > -1 && account.user.locked === true"    ng-click="account.updateUser(account.user.uuid,'locked',!account.user.locked)"   class="btn btn-success btn-block">{{'Entsperren'|translate}}</button>
+            <button ng-if="account.currentUser.permissions.indexOf('Admin') > -1 && account.user.trusted === true"   ng-click="account.updateUser(account.user.uuid,'trusted',!account.user.trusted)" class="btn btn-danger btn-block">{{'Vertauen entziehen'|translate}}</button>
+            <button ng-if="account.currentUser.permissions.indexOf('Admin') > -1 && account.user.trusted === false"  ng-click="account.updateUser(account.user.uuid,'trusted',!account.user.trusted)" class="btn btn-success btn-block">{{'Benutzer vertrauen'|translate}}</button>
+          </div>
 
           <h2>{{ 'Spiele' | translate }}</h2>
 

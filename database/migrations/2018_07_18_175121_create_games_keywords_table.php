@@ -15,7 +15,7 @@ class CreateGamesKeywordsTable extends Migration
     {
         Schema::create('games_keywords', function (Blueprint $table) {
             $table->increments('id');
-              $table->uuid('uuid');
+            $table->uuid('uuid');
             $table->integer('game_id')->unsigned();
             $table->string('keyword');
             $table->timestamps();

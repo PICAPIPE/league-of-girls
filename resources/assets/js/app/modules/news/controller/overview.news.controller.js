@@ -5,7 +5,8 @@ angular.module('news').controller('NewsOverviewCtrl',[
      '$window',
      '$controller',
      'store',
-     function($scope, $rootScope, $state, $window, $controller, store) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller, store,UserService) {
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
@@ -15,21 +16,41 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           ctrl.streamsUUID     = [];
           ctrl.pageCurrent     = 1;
+          ctrl.USER            = UserService.getCurrentUser();
 
           // Get the correct css class for the news
 
           ctrl.getCssClass = function(news)
           {
-              var className = '';
+              var className = 'col-xs-12 col-md-6 col-lg-4 ';
+
+              if (ctrl.mode === 'list' || ctrl.mode === 'featured')
+                   {
+                   className = 'col-xs-12 col-lg-12 ';
+                   }
+
               switch (news.type)
                     {
                     case 'twitch':
                     case 'twitter':
-                            className = news.type;
+                    case 'youtube':
+                    case 'link':
+                            className += ' ' + news.type;
                             break;
-                    default:className = '';
+                    default:className += '';
                             break;
                     }
+
+              if (news.published === false)
+                    {
+                    className += ' notPublished';
+                    }
+
+             if (ctrl.mode === 'featured')
+                    {
+                    className += ' featured';
+                    }
+
               return className;
           };
 
@@ -43,26 +64,38 @@ angular.module('news').controller('NewsOverviewCtrl',[
               switch (news.type)
                     {
                     case 'twitch':
-                            url = 'https://www.twitch.tv/' + news.channel;
 
-                            if (news.live === true)
-                                  {
-                                  ctrl.createModal({
-                                        'background' : 'rgba(75, 54, 124,0.8)',
-                                        'content':     '<news-twitch uuid="'+news.uuid+'"></news-twitch>'
-                                  },function(){
+                            ctrl.createModal({
+                                  'background' : 'rgba(75, 54, 124,0.8)',
+                                  'content':     '<news-twitch uuid="'+news.uuid+'"></news-twitch>'
+                            },function(){
 
-                                  });
-                                  return;
-                                  }
+                            });
+                            break;
+                    case 'youtube':
 
-                            window.open(url, '_blank');
+                            ctrl.createModal({
+                                  'background' : 'rgba(255, 0, 0,0.8)',
+                                  'content':     '<news-youtube uuid="'+news.uuid+'"></news-youtube>'
+                            },function(){
+
+                            });
                             break;
                     case 'twitter':
-                            url = news.url;
-                            window.open(url, '_blank');
+                            ctrl.createModal({
+                                  'background' : 'rgba(29, 161, 242,0.8)',
+                                  'content':     '<news-twitter uuid="'+news.uuid+'"></news-twitter>'
+                            },function(){
+
+                            });
                             break;
-                    default:url = '';
+                    default:
+                            ctrl.createModal({
+                                  'background' : 'rgba(237, 73, 73,0.8)',
+                                  'content':     '<news-link uuid="'+news.uuid+'"></news-link>'
+                            },function(){
+
+                            });
                             break;
                     }
 
@@ -74,6 +107,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
           {
             var params = {};
             var game   = store.get(ctrl.storageKey);
+            var method = 'get';
 
             if(game !== ctrl.currentGame)
               {
@@ -96,16 +130,27 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
             params['page'] = ctrl.pageCurrent;
 
-            ctrl.DB.call('Streams','get', params).then(
+            if (ctrl.filter !== undefined)
+                  {
+                  params['filter'] = ctrl.filter;
+                  }
+
+            if (ctrl.mode === 'featured')
+                  {
+                  method = 'featured';
+                  }
+
+            ctrl.DB.call('Streams',method, params).then(
               function(result)
               {
-                  var i      = 0;
-                  var news   = null;
+                  var i       = 0;
+                  var news    = null;
+                  var max     = result.data.data.length;
 
                   ctrl.pageMax = result.data.last_page;
                   ctrl.total   = result.data.total;
 
-                  if(result.data.data.length === 0)
+                  if(result.data.data.length === 0 && ctrl.mode !== 'list')
                     {
                       ctrl.ALERT.add({
                           'title':     ctrl.LANG.getString('Keine weiteren Daten gefunden!'),
@@ -114,9 +159,25 @@ angular.module('news').controller('NewsOverviewCtrl',[
                       });
                     }
 
-                  for(i = 0; i < result.data.data.length; i ++)
+                  if (ctrl.mode === 'list')
+                       {
+                       max = 3;
+                       }
+                  else if(ctrl.mode === 'featured')
+                       {
+                       ctrl.data[ctrl.data.length] = result.data.data;
+                       return;
+                       }
+
+
+                  for(i = 0; i < max; i ++)
                      {
                       news   = result.data.data[i];
+
+                      if (angular.isUndefined(news))
+                            {
+                            continue;
+                            }
 
                       if(ctrl.streamsUUID.indexOf(news.uuid) > -1)
                         {
@@ -138,28 +199,64 @@ angular.module('news').controller('NewsOverviewCtrl',[
             );
           };
 
+          // get styles
+
+          ctrl.getStyleForYoutube = function(news)
+          {
+                var styleObject = {};
+
+                styleObject['background']          = 'url(' + news.image + ')';
+                styleObject['background-size']     = 'cover';
+                styleObject['background-position'] = 'center center';
+
+                return styleObject;
+          };
+
+          // submit a news entry
+
+          ctrl.submitNews = function(event, game)
+          {
+
+              if (ctrl.USER === null)
+                   {
+                   ctrl.ALERT.add({
+                         'title':     ctrl.LANG.getString('Melde dich bitte zuerst an!'),
+                         'message':   ctrl.LANG.getString('Um Nachrichten hinzufügen zu können, musst du dich erst anmelden!'),
+                         'autoClose': true
+                   });
+                   return;
+                   }
+
+              ctrl.createModal({
+                    'background' : 'rgba(255, 255, 255,0.9)',
+                    'content':     '<news-submit uuid="'+game+'"></news-submit>'
+              },function(){
+
+              });
+          };
+
           // Init function
 
-           ctrl.init      = function()
-           {
+          ctrl.init      = function()
+          {
               ctrl.pageCurrent = 0;
               ctrl.loadMore(ctrl.pageCurrent);
-           };
+          };
 
-           ctrl.loadMore = function()
-           {
-               ctrl.pageCurrent++;
-               ctrl.loadNews(ctrl.pageCurrent);
-           };
+          ctrl.loadMore = function()
+          {
+              ctrl.pageCurrent++;
+              ctrl.loadNews(ctrl.pageCurrent);
+          };
 
-           ctrl.$onInit = function()
-           {
-               ctrl.init();
-           };
+          ctrl.$onInit = function()
+          {
+              ctrl.init();
+          };
 
-           // Watchers
+          // Watchers
 
-           $rootScope.$on('chooseGame',function(event,args){
+          $rootScope.$on('chooseGame',function(event,args){
 
                // Other game identified
                if (store.get(ctrl.storageKey) !== args.id)
@@ -168,7 +265,15 @@ angular.module('news').controller('NewsOverviewCtrl',[
                      }
 
                ctrl.loadNews();
-           });
+          });
+
+          // Reload the news from outside
+
+          $rootScope.$on('reloadNews',function(){
+              ctrl.streamsUUID = [];
+              ctrl.data        = [];
+              ctrl.loadNews();
+          });
 
      }
 ]);

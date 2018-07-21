@@ -287,7 +287,16 @@ var DB_SERVICES    = [
        'name' : 'Streams',
        'url'  : 'api/streams',
        'custom': [
-
+           {
+               type:       'get',
+               name:       'featured',
+               queryIndex: 2,
+               keep:       true,
+               getUrl: function(url)
+               {
+                   return url + '/featured'
+               }
+           }
        ]
     }
 

@@ -24,6 +24,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Emadadly\LaravelUuid\Uuids;
 use Ramsey\Uuid\Uuid;
 
+use App\Models\News\Point;
+
 use App\Traits\ExtModel;
 
 class User extends Authenticatable implements JWTSubject
@@ -59,7 +61,8 @@ class User extends Authenticatable implements JWTSubject
       'active',
       'password',
       'newsletter',
-      'about'
+      'about',
+      'trusted'
   ];
 
   protected $validations = [
@@ -83,8 +86,7 @@ class User extends Authenticatable implements JWTSubject
   protected $hidden = [
     'password',
     'loginAttemps',
-    'loginAttempTimestamp',
-    'locked'
+    'loginAttempTimestamp'
   ];
 
   /**
@@ -94,7 +96,8 @@ class User extends Authenticatable implements JWTSubject
    */
 
   protected $appends = [
-
+      'points',
+      'permissions'
   ];
 
   /**
@@ -107,7 +110,8 @@ class User extends Authenticatable implements JWTSubject
       'active'        => 'boolean',
       'newsletter'    => 'boolean',
       'loginAttemps'  => 'integer',
-      'avatar_id'     => 'integer'
+      'avatar_id'     => 'integer',
+      'trusted'       => 'boolean'
   ];
 
   /**
@@ -342,6 +346,32 @@ class User extends Authenticatable implements JWTSubject
   public function getAvatarAttribute()
   {
       return null;
+  }
+
+  public function getPermissionsAttribute()
+  {
+      $permissions = $this->getPermissions();
+
+      return $permissions;
+  }
+
+  public function getPointsAttribute()
+  {
+      $points = Point::where('user_id',$this->id)->sum('amount');
+      return $points;
+  }
+
+  // Add points to users account
+
+  public function addPoints($pid,$pid_table,$points)
+  {
+      Point::create([
+          'pid'       => $pid,
+          'pid_table' => $pid_table,
+          'amount'    => $points,
+          'user_id'   => $this->id
+      ]);
+
   }
 
 }

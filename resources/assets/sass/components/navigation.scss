@@ -124,7 +124,7 @@ $navigation-item-color-hover:           $CI-COLOR3;
 {
     display:     block;
     padding:     0;
-    margin:      0;
+    margin:      0 0 15px;
     font-family: 'Roboto';
 
     > .navigation_list_item
@@ -161,4 +161,31 @@ $navigation-item-color-hover:           $CI-COLOR3;
 .user-panel-account
 {
    margin-right:10px;
+}
+
+.actions-list
+{
+  list-style: none;
+  padding:    0;
+  margin:     0;
+
+  > li
+  {
+     display: block;
+
+     > a
+     {
+       display: block;
+       padding:10px;
+       border-bottom: 1px dotted $CI-COLOR9;
+
+     }
+
+     &:last-child
+     {
+        a {
+          border-bottom: 0;
+        }
+     }
+  }
 }

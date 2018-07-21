@@ -3,6 +3,7 @@
 namespace App\Models\Esport;
 
 use App\Models\BaseModel;
+use App\Models\User\User;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -73,7 +74,8 @@ class Link extends BaseModel
 
   public function getValues()
   {
-    return $this->hasMany('App\Models\User\UserLink','link_id','id');    
+    $users = User::where('trusted',true)->pluck('id');
+    return $this->hasMany('App\Models\User\UserLink','link_id','id')->whereIn('user_id',$users->toArray());
   }
 
 }
