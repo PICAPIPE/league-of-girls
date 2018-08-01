@@ -38,8 +38,12 @@
         <div id="footer" class="footer container">
               © PICAPIPE GmbH
               <div class="float-right">
-                  <a href="/imprint">{{ _i('Impressum') }}</a> - 
+                  <a href="/imprint">{{ _i('Impressum') }}</a> -
                   <a href="/privacy">{{ _i('Datenschutz') }}</a>
+              </div>
+              <div class="sponsored-by">
+                  <small>{{ _i('Gefördert durch') }}</small> <br>
+                  <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
               </div>
         </div>
 
