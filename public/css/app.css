@@ -13963,7 +13963,7 @@ readers do not read off random characters that represent icons */
 
 @font-face {
   font-family: "icons-standard";
-  src: url(/fonts/icons-standard.eot?9fba414f05c4c87bad0e1b6a3685067a?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?d4932500223f9fd63f326deab7519bdc) format("woff2"), url(/fonts/icons-standard.woff?79e36e396278dd3ae5266361dcd194fa) format("woff"), url(/fonts/icons-standard.ttf?4dc2b61f7bc0cce64b3a556b7166854c) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
+  src: url(/fonts/icons-standard.eot?6e3322e1ccae45d3044ea23a4b34c68f?#iefix) format("embedded-opentype"), url(/fonts/icons-standard.woff2?3714518e8604abbd4a1b2bd17ab9bce9) format("woff2"), url(/fonts/icons-standard.woff?b3075b4044614d0155631eaffa5a0ffd) format("woff"), url(/fonts/icons-standard.ttf?3805e403f1879c20a98e68576b1c31be) format("truetype"), url(/fonts/icons-standard.svg?4256a4332d6694d85adcda91a7c46799#icons-standard) format("svg");
 }
 
 .log-icon {
