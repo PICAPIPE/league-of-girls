@@ -1,0 +1,22 @@
+<div class="datalist">
+    <div class="datalist-entry" ng-repeat="entry in datalist.data.data">
+        <div class="media">
+          <div class="media-body" ng-transclude="main">
+            {{entry.name || entry.id}}
+          </div>
+          <div class="ml-3">
+            <div class="btn-group" role="group">
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   {{ 'Aktionen' | translate }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" ng-transclude="actions">
+                  <a class="dropdown-item" ng-click="datalist.callAction($event)">{{ 'Bearbeiten' | translate }}</a>
+                  <a class="dropdown-item" ng-click="datalist.callAction($event)">{{ 'Löschen' | translate }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>

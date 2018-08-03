@@ -298,6 +298,14 @@ var DB_SERVICES    = [
                }
            }
        ]
-    }
+    },
+
+    // Pages
+
+    {
+       'name' : 'Pages',
+       'url'  : 'api/pages',
+       'custom': []
+    },
 
 ];

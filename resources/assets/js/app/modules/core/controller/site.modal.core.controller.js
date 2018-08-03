@@ -53,6 +53,7 @@ angular.module('core').controller('CoreSiteModalCtrl',[
 
                   modal.content                       = args.settings.content;
                   modal.classes[modal.classes.length] = 'open';
+                  modal.classes                       = modal.classes.concat(args.settings.classes || []);
 
                   modal.styles                        = {
                       background:   args.settings.background !== undefined ? args.settings.background : '#f4f4f4',

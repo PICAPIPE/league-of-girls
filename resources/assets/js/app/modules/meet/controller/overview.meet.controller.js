@@ -127,7 +127,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                          {
                          return;
                          }
-                         
+
                     ctrl.ALERT.add({
                         'title':     ctrl.LANG.getString('Fehler beim Laden der Kommunikationsmethoden'),
                         'message':   ctrl.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Kommunikationsmethoden aufgetreten.'),
@@ -277,6 +277,11 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
                     ctrl.pageMax = result.data.last_page;
                     ctrl.total   = result.data.total;
+
+                    if (errorResult.status !== 500)
+                         {
+                         return;
+                         }
 
                     if(result.data.data.length === 0)
                       {

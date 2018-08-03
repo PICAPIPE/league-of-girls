@@ -57,6 +57,10 @@ Route::api('plattforms',      'Api\Esport\PlattformController',    [],false);
 Route::api('communications',  'Api\Esport\CommunicationController',[],false);
 Route::api('links',           'Api\Esport\LinkController',         [],false);
 
+// Site
+
+Route::api('pages',          'Api\System\PageController',         [],true,['auth.safe']);
+
 // CHAT
 
 Route::group(['middleware' => ['auth.api']], function(){

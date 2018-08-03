@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Models\News;
+namespace App\Models\System;
 
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Point extends BaseModel
+class Page extends BaseModel
 {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'points';
+  protected $table = 'pages';
 
   /**
    * The attributes that are mass assignable.
@@ -22,14 +22,16 @@ class Point extends BaseModel
   protected $fillable = [
       'id',
       'uuid',
-      'pid',
-      'pid_table',
-      'user_id',
-      'amount'
+      'sort',
+      'alias',
+      'name',
+      'description',
+      'published'
   ];
 
   protected $validations = [
-
+      'alias' => 'required|unique',
+      'name'  => 'required'
   ];
 
   /**
@@ -57,10 +59,7 @@ class Point extends BaseModel
    * @var array
    */
   protected $casts = [
-    'pid'     => 'integer',
-    'user_id' => 'integer',
-    'amount'  => 'integer'
-
+      'published' => 'boolean'
   ];
 
   /**

@@ -229,7 +229,8 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
               ctrl.createModal({
                     'background' : 'rgba(255, 255, 255,0.9)',
-                    'content':     '<news-submit uuid="'+game+'"></news-submit>'
+                    'content':     '<news-submit uuid="'+game+'"></news-submit>',
+                    'classes':     ['news-create']
               },function(){
 
               });
