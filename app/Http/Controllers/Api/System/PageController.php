@@ -20,14 +20,21 @@ class PageController extends ApiStandardController
       'all' => [
         'except'        => false,
         'fields'        => [],
-        'roles'         => ['Admin']
+        'roles'         => ['Admin'],
+        'sortBy'        => 'name',
+        'sortDirection' => 'ASC',
+        'searchIn'      => 'name',
       ],
 
       'index' => [
         'except'        => false,
         'fields'        => [],
         'pagination'    => true,
-        //'roles'         => ['Admin']
+        'roles'         => ['Admin'],
+        'sortBy'        => 'name',
+        'sortDirection' => 'ASC',
+        'searchIn'      => 'name',
+        'ignorePublish' => true
       ],
 
       'show' => [

@@ -64,6 +64,8 @@ class ApiStandardController extends ApiController
           $sortDirection   = data_get($map,'sortDirection','ASC');
           $sortBy          = data_get($map,'sortBy',       'id');
 
+          $searchIn        = data_get($map,'searchIn',     null);
+
           $allowQueries    = data_get($map,'allowQueries', true);
           $roles           = data_get($map,'roles',        null);
           $wheres          = data_get($map,'wheres',       []);
@@ -76,7 +78,7 @@ class ApiStandardController extends ApiController
                 $allowed         = $this->checkPermission($request,$roles);
             }
 
-          if($allowed !== null)
+          if($allowed !== null && $allowed !== true)
             {
                return $this->respondForbidden();
             }
@@ -127,10 +129,15 @@ class ApiStandardController extends ApiController
                     $modelData = $md::where('id','>',0);
                 }
 
+          if ($request->input('search') !== null && $searchIn !== null)
+                {
+                $modelData = $modelData->where($searchIn,'LIKE', '%' . strtolower($request->input('search')) . '%');
+                }
+
           if(in_array('published',$mdClass->getFillable()) === true && $ignorePublish === false)
-            {
-                $modelData = $modelData->where('published',true);
-            }
+                {
+                    $modelData = $modelData->where('published',true);
+                }
 
           $modelData = $modelData->select($fields);
 

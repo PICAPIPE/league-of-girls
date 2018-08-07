@@ -173,7 +173,7 @@ class SecurityHelper
                 return true;
             }
 
-          $allow = $user->hasPermission($permissions);
+          $allow = $user->is($permissions);
 
           return $allow;
 

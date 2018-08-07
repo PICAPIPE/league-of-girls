@@ -10,6 +10,9 @@ angular.module('datalist').component('datalist', {
                     options:        '=',
                     data:           '<',
                     showPagination: '=',
-                    showActions:    '='
+                    showActions:    '=',
+                    onAction:       '&',
+                    onPagination:   '&',
+                    onSearch:       '&'
                 }
 });
