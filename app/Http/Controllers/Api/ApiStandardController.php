@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use DB;
 use Carbon\Carbon;
+use Validation;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiController;
@@ -206,8 +207,6 @@ class ApiStandardController extends ApiController
 
       }
 
-
-
       // Show an entry
 
       public function show(Request $request, $uuid)
@@ -300,10 +299,17 @@ class ApiStandardController extends ApiController
 
           });
 
+          $validations = $mdClass->getValidations();
+
+          if (sizeOf($validations)  > 0 )
+               {
+               $validatedData = $request->validate($validations);
+               }
+
           if($modelData !== null)
             {
 
-                $response = DB::transaction(function () use ($request){
+                $response = DB::transaction(function () use ($request,$modelData,$data){
 
                                   $success = $modelData->update($data);
 
@@ -371,6 +377,7 @@ class ApiStandardController extends ApiController
                 return $this->respondNotAllowed();
             }
 
+
             $map             = $this->getMap($this->getName($request));
             $md              = $this->getModel($map);
 
@@ -387,6 +394,13 @@ class ApiStandardController extends ApiController
                   }
 
             });
+
+            $validations = $mdClass->getValidations();
+
+            if (sizeOf($validations)  > 0 )
+                 {
+                 $validatedData = $request->validate($validations);
+                 }
 
             $response = DB::transaction(function () use ($request,$data,$md){
 

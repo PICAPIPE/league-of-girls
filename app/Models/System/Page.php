@@ -25,12 +25,15 @@ class Page extends BaseModel
       'sort',
       'alias',
       'name',
+      'type',
+      'url',
       'description',
       'published'
   ];
 
   protected $validations = [
-      'alias' => 'required|unique',
+      'alias' => 'required|unique:pages,uuid:%UUID%',
+      'type'  => 'required',
       'name'  => 'required'
   ];
 

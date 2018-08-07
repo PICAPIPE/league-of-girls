@@ -48,7 +48,7 @@ angular.module('pages').controller('PagesOverviewCtrl',[
           {
               ctrl.createModal({
                     'background' : 'rgba(75, 54, 124,0.8)',
-                    'content':     '<page-create></page-create>'
+                    'content':     '<page-create on-save="ctrl.onSave"></page-create>'
               },function(){
 
               });
@@ -59,7 +59,7 @@ angular.module('pages').controller('PagesOverviewCtrl',[
           {
               ctrl.createModal({
                     'background' : 'rgba(75, 54, 124,0.8)',
-                    'content':     '<page-create page-id="'+ id + '"></page-create>'
+                    'content':     '<page-create page-id="'+ id + '" on-save="ctrl.onSave"></page-create>'
               },function(){
 
               });
@@ -104,6 +104,18 @@ angular.module('pages').controller('PagesOverviewCtrl',[
                     break;
                  }
           };
+
+          // Save callback
+          ctrl.onSave = function(result)
+          {
+              ctrl.getData (ctrl.page);
+          };
+
+          // Broadcasts
+
+          $rootScope.$on('page-save', function(event,args){
+              ctrl.getData (ctrl.page);
+          });
 
      }
 ]);

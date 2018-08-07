@@ -16,9 +16,11 @@ class CreatePagesTable extends Migration
         Schema::create('pages', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid');
+            $table->enum('type',['page','redirect']);
             $table->integer('sort');
             $table->string('alias');
             $table->string('name');
+            $table->longText('url');
             $table->longText('description');
             $table->boolean('published');
             $table->timestamps();
