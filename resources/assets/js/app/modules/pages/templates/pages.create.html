@@ -1,7 +1,7 @@
 <div class="pages pages_create">
 
-  <h1 ng-if="ctrl.id !== '' && ctrl.id !== undefined">{{'Seite bearbeiten' | translate}}</h1>
-  <h1 ng-if="ctrl.id === '' || ctrl.id === undefined">{{'Seite erstellen' | translate}}</h1>
+  <h1 ng-if="ctrl.pageId !== '' && ctrl.pageId !== undefined">{{'Seite bearbeiten' | translate}}</h1>
+  <h1 ng-if="ctrl.pageId === '' || ctrl.pageId === undefined">{{'Seite erstellen' | translate}}</h1>
 
   <form class="pages-create-submit-form" ng-submit="ctrl.submit(ctrl.fieldData)" name="page.submit.form">
     <formly-form model="ctrl.fieldData" fields="ctrl.fields">

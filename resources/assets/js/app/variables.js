@@ -2,7 +2,7 @@ var ROLES_STANDARD = ['User'];
 
 var CONST          = {
     colors: {
-       pages: 'rgba(255,255,255,0.8)'
+       pages: 'rgba(175, 175, 175,0.8)'
     }
 };
 

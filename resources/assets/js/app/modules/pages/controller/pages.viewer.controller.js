@@ -109,6 +109,21 @@ angular.module('pages').controller('PagesViewerCtrl',[
               });
           };
 
+          // Insert content element
+          page.insert = function (type)
+          {
+              if (window.LARAVEL.debug === true)
+                   {
+                   console.log('Open element create dialog for:' + page.data.uuid);
+                   }
+              page.createModal({
+                    'background' : window.CONST.colors.pages,
+                    'content':     '<page-element page-id="'+ page.data.uuid + '" parent="' + type + '"></page-element>'
+              },function(){
+
+              });
+          };
+
           // Watchers
 
           $scope.$on('page-save', function (event,args) {
