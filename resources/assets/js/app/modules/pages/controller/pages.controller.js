@@ -10,7 +10,17 @@ angular.module('pages').controller('PagesOverviewCtrl',[
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
 
           ctrl.data    = {};
-          ctrl.options = {};
+          ctrl.options = {
+              actionItems:[
+                 {
+                   label: ctrl.LANG.getString('Inhalt bearbeiten'),
+                   action: function (event, entry, actionItem)
+                   {
+                      window.location.href = '/' + entry.alias;
+                   }
+                 }
+              ]
+          };
           ctrl.page    = 1;
 
           // Init
@@ -47,7 +57,7 @@ angular.module('pages').controller('PagesOverviewCtrl',[
           ctrl.createPage = function()
           {
               ctrl.createModal({
-                    'background' : 'rgba(75, 54, 124,0.8)',
+                    'background' : window.CONST.colors.pages,
                     'content':     '<page-create on-save="ctrl.onSave"></page-create>'
               },function(){
 
@@ -58,7 +68,7 @@ angular.module('pages').controller('PagesOverviewCtrl',[
           ctrl.editPage = function(id)
           {
               ctrl.createModal({
-                    'background' : 'rgba(75, 54, 124,0.8)',
+                    'background' : window.CONST.colors.pages,
                     'content':     '<page-create page-id="'+ id + '" on-save="ctrl.onSave"></page-create>'
               },function(){
 
@@ -95,7 +105,7 @@ angular.module('pages').controller('PagesOverviewCtrl',[
                      {
                          // Error message
                          ctrl.ALERT.add({
-                             'title':     chat.LANG.getString('Fehler beim Löschen aufgetreten.'),
+                             'title':     ctrl.LANG.getString('Fehler beim Löschen aufgetreten.'),
                              'message':   errorResult.message,
                              'autoClose': true
                          });

@@ -34,15 +34,16 @@ angular.module('pages').controller('PagesCreateCtrl',[
                 function(result)
                 {
                     var fn = null;
-                    $rootScope.$broadcast('$modalClose');
 
                     if (angular.isDefined(ctrl.onSave) === true &&
                         angular.isFunction(ctrl.onSave) === true)
                            {
                            fn = ctrl.onSave;
                            fn(result);
-                           $rootScope.$broadcast('page-save');
+                           $rootScope.$broadcast('page-save', {uuid:ctrl.pageId,data:result.data.data});
                            }
+
+                    $rootScope.$broadcast('$modalClose');
                 },
                 function(errorResult)
                 {
@@ -125,6 +126,18 @@ angular.module('pages').controller('PagesCreateCtrl',[
                  },
                  hideExpression: function($viewValue, $modelValue, scope) {
                      return scope.model.type !== 'redirect';
+                 }
+              },
+              {
+                 "type": "checkbox",
+                 "key":  "published",
+                 "templateOptions":
+                 {
+                     "required":        false,
+                     "label":           ctrl.LANG.getString('Veröffentlichen')
+                 },
+                 hideExpression: function($viewValue, $modelValue, scope) {
+
                  }
               },
             ];

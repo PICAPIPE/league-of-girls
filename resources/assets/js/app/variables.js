@@ -1,5 +1,11 @@
 var ROLES_STANDARD = ['User'];
 
+var CONST          = {
+    colors: {
+       pages: 'rgba(255,255,255,0.8)'
+    }
+};
+
 var DB_SERVICES    = [
 
     // Status
@@ -305,7 +311,19 @@ var DB_SERVICES    = [
     {
        'name' : 'Pages',
        'url'  : 'api/pages',
-       'custom': []
+       'custom': [
+         {
+             type:       'get',
+             name:       'view',
+             queryIndex: 2,
+             dataIndex:  3,
+             keep:       true,
+             getUrl: function(url)
+             {
+                 return url + '/views/:id'
+             }
+         }
+       ]
     },
 
 ];

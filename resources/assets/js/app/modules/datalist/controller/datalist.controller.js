@@ -18,6 +18,8 @@ angular.module('datalist').controller('DatalistCtrl',[
           datalist.search     = '';
           datalist.searchTS   = null;
 
+          datalist.actionItems = [];
+
           // Checks if the pagination link is disabled or not
           datalist.isDisabled = function(mode)
           {
@@ -37,8 +39,27 @@ angular.module('datalist').controller('DatalistCtrl',[
 
           };
 
+          // Set options for the element
+          datalist.loadOptions = function()
+          {
+              if (angular.isDefined(datalist.options) == false)
+                   {
+                   return;
+                   }
+
+              if (angular.isDefined(datalist.options.actionItems) === true)
+                   {
+                   datalist.actionItems = angular.copy(datalist.options.actionItems);
+                   }
+          };
+
           // Init
           datalist.$onInit = function () {
+
+              // Load options
+              datalist.loadOptions();
+
+              // Run init methods
               datalist.init();
           };
 
@@ -122,17 +143,31 @@ angular.module('datalist').controller('DatalistCtrl',[
           };
 
           // Menu actions
-          datalist.callAction = function(event,type,entry)
+          datalist.callAction = function(event, type, entry, actionItem)
           {
               var fn = null;
               event.preventDefault();
 
-              if (angular.isDefined(datalist.onAction)  === true &&
-                  angular.isFunction(datalist.onAction) === true)
-                     {
-                     fn = datalist.onAction();
-                     fn(type,entry);
-                     }
+              switch(type)
+                 {
+                 case 'custom':
+                   if (angular.isDefined (actionItem)        === true &&
+                       angular.isDefined (actionItem.action) === true)
+                         {
+                         actionItem.action (event, entry, actionItem);
+                         }
+                   break;
+                 default:
+                   if (angular.isDefined(datalist.onAction)  === true &&
+                       angular.isFunction(datalist.onAction) === true)
+                          {
+                          fn = datalist.onAction();
+                          fn(type,entry);
+                          }
+                    break;
+                 }
+
+
           };
 
           // Watchers

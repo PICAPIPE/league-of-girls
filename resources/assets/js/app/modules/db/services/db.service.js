@@ -217,7 +217,10 @@ angular.module('db').factory('DB',[
 
                   for(i = 0; i < channels.length; i++)
                   {
-                     console.log('Broadcast to channel: ' + channels[i]);
+                     if (window.LARAVEL.debug === true)
+                           {
+                           console.log('Broadcast to channel: ' + channels[i]);
+                           }
                      $rootScope.$broadcast(channels[i],{data:data});
                   }
 

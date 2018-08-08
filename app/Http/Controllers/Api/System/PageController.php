@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\System;
 
-
+use App\Models\System\Page;
 use Carbon\Carbon;
 
 use Illuminate\Http\Request;
@@ -59,5 +59,27 @@ class PageController extends ApiStandardController
       ]
 
   ];
+
+  // Get the page with complete data based on its slug
+  public function viewPage (Request $request, $slug)
+  {
+      $page = Page::where('alias', $slug);
+
+
+      if($request->user === null || $request->user->is(['Admin']) === false)
+           {
+           $page = $page->where('published',true);
+           }
+
+      $page = $page->first();
+
+      if ($page === null)
+            {
+            return $this->respondNotFound(_i('Seite nicht gefunden'));
+            }
+
+      return $this->respondSuccess(['data' => $page->toArray()]);
+
+  }
 
 }

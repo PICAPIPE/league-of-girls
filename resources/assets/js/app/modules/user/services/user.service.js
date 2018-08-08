@@ -75,19 +75,23 @@ angular.module('user').factory('UserService', [
             var found       = false;
             var permissioni = 0;
 
-            console.error(user);
-
             if(user                                  === null ||
                angular.isUndefined(user.permissions) === false)
               {
                  return false;
               }
 
+            console.error(user.permissions);
+
             for (permissioni = 0; permissioni < permissions.length; permissioni++)
                 {
 
                     if(angular.isUndefined(user.permissions) === true)
                       {
+                         if (window.LARAVEL.debug === true)
+                              {
+                              console.warn('User does not have any permissions');
+                              }
                          break;
                       }
 

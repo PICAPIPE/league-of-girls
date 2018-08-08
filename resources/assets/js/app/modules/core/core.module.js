@@ -7,7 +7,8 @@ angular.module('core').config([
     '$locationProvider',
     'gettext',
     '$httpProvider',
-    function ($rootScopeProvider,$stateProvider, $urlRouterProvider,$locationProvider,gettext,$httpProvider) {
+    '$injector',
+    function ($rootScopeProvider,$stateProvider, $urlRouterProvider,$locationProvider,gettext,$httpProvider,$injector) {
 
         var fallbackUrl = '/start';
 
@@ -58,7 +59,49 @@ angular.module('core').config([
 
         $urlRouterProvider.when('', fallbackUrl);
         $urlRouterProvider.when('/', fallbackUrl);
-        $urlRouterProvider.otherwise('/', fallbackUrl);
+
+        $urlRouterProvider.otherwise(function($injector, $location){
+
+              var requestValue = $location.path().substr(1);
+
+              var $state       = $injector.get('$state');
+              var DB           = $injector.get('DB');
+
+              DB.call('Pages','view', {id:requestValue}, {}).then(
+                  function(data)
+                  {
+                      var routeName = 'app_' + data.data.data.uuid;
+
+                      // Check if this site is a redirect
+                      if (data.data.data.type === 'redirect')
+                            {
+                            window.location.replace(data.data.data.url);
+                            return;
+                            }
+
+                      $stateProvider.state(routeName, {
+                            url:    data.data.data.alias,
+                            parent: 'app',
+                            data: data.data,
+                            views: {
+                                '!$default.content':{
+                                    'templateUrl': 'views/core/dynamic.html',
+                                    'controller':  'CoreDynamicCtrl as site'
+                                }
+                            }
+                        });
+
+                        $state.go(routeName,data.data);
+
+                  },
+                  function(errorResult)
+                  {
+                      // Site not found our error while request
+                      $state.go('app.start');
+                  }
+              );
+
+        });
 
         // HTTP interceptor
 

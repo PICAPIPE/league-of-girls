@@ -28,6 +28,7 @@
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" ng-transclude="actions">
                   <a class="dropdown-item" ng-click="datalist.callAction($event,'edit',   entry)">{{ 'Bearbeiten' | translate }}</a>
                   <a class="dropdown-item" ng-click="datalist.callAction($event,'delete', entry)">{{ 'Löschen' | translate }}</a>
+                  <a class="dropdown-item" ng-click="datalist.callAction($event,'custom', entry, actionItem)" ng-repeat="actionItem in datalist.actionItems">{{ actionItem.label }}</a>
                 </div>
               </div>
             </div>
