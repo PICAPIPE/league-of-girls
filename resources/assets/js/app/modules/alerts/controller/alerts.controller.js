@@ -102,6 +102,11 @@ angular.module('alerts').controller('AlertCtrl',[
 
               var classAdd = '';
 
+              if (angular.isUndefined(element) === true)
+                 {
+                 return classAdd;  
+                 }
+
               if(alerts.listItemOpen[index] === true)
                 {
                    classAdd = ' open';

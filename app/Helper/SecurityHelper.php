@@ -147,7 +147,7 @@ class SecurityHelper
 
     // Check a permission object (file/folder) for a user and method
 
-    public static function checkPermission(User $user,$permisssions = [])
+    public static function checkPermission($user = null,$permissions = [])
     {
 
           $allow = false;
@@ -160,6 +160,12 @@ class SecurityHelper
                   return $allow;
             }
 
+          if ($user                 == null &&
+              sizeOf($permissions) >= 1)
+              {
+              return $allow;
+              }
+
           // Check if the user is super admin - than permissioncheck is always true
 
           if(config('security.superadminpermission') === true && $user->is(['Admin']) === true)
@@ -167,7 +173,7 @@ class SecurityHelper
                 return true;
             }
 
-          $allow = $user->hasPermission($permissions);
+          $allow = $user->is($permissions);
 
           return $allow;
 

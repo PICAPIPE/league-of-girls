@@ -688,7 +688,10 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                 for (i = 0; i < result.data.files.length; i++)
                       {
-                      console.log('Open Link:' + result.data.files[i]);
+                      if (window.LARAVEL.debug === true)
+                            {
+                            console.log('Open Link:' + result.data.files[i]);
+                            }
                       window.open(result.data.files[i], '_blank');
                       }
 

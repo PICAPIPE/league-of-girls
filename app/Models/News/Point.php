@@ -57,9 +57,10 @@ class Point extends BaseModel
    * @var array
    */
   protected $casts = [
-      'pid'     => 'integer',
-      'user_id' => 'integer',
-      'amount'  => 'integer'
+    'pid'     => 'integer',
+    'user_id' => 'integer',
+    'amount'  => 'integer'
+
   ];
 
   /**

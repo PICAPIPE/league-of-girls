@@ -14,12 +14,11 @@
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 
         <script src="//{{ Request::getHost() }}:6001/socket.io/socket.io.js"></script>
-        <script>var LARAVEL = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>;</script>
+        <script>var LARAVEL = <?php echo json_encode(['csrfToken' => csrf_token(), 'stage' =>App::environment() , 'debug' => env('APP_DEBUG')]); ?>;</script>
 
         <script src="/js/manifest.js"></script>
         <script src="{{ mix('/js/app.js') }}"></script>
         <script src="{{ mix('/js/application.js') }}"></script>
-
         <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
 
         @yield('header')
@@ -38,8 +37,12 @@
         <div id="footer" class="footer container">
               © PICAPIPE GmbH
               <div class="float-right">
-                  <a href="/imprint">{{ _i('Impressum') }}</a> - 
+                  <a href="/imprint">{{ _i('Impressum') }}</a> -
                   <a href="/privacy">{{ _i('Datenschutz') }}</a>
+              </div>
+              <div class="sponsored-by">
+                  <small>{{ _i('Gefördert durch') }}</small> <br>
+                  <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
               </div>
         </div>
 

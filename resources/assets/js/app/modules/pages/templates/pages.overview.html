@@ -1,0 +1,19 @@
+<div class="pages pages_overview">
+   <h1>{{'Seitenverwaltung' | translate }}</h1>
+   <p class="lead">{{'Verwalten Sie hier die Seiten.'}}</p>
+
+   <hr>
+
+   <div class="margin-bottom" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+       <button ng-click="ctrl.createPage($event)" class="btn btn-outline-success">{{'Seite erstellen'|translate}}</button>
+       <button ng-click="ctrl.createAlias($event)" class="btn btn-outline-success">{{'Seitenaliase erstellen'|translate}}</button>
+   </div>
+
+   <datalist show-pagination="true" show-actions="true" data="ctrl.data" options="ctrl.options" on-action="ctrl.onAction" on-pagination="ctrl.onPagination" on-search="ctrl.onSearch">
+      <datalist-main>
+          <strong>{{$parent.entry.name}}</strong><br/>
+          <small ng-if="$parent.entry.published === false">{{'Nicht veröffentlicht' | translate}}</small>
+      </datalist-main>
+   </datalist>
+
+</div>

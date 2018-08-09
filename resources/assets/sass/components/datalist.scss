@@ -1,0 +1,23 @@
+$datalist-border-color: $CI-COLOR8;
+
+datalist
+{
+  display: block;
+}
+
+.datalist-entry
+{
+   position:      relative;
+   border-bottom: 1px solid $datalist-border-color;
+   padding:       20px 10px;
+
+   &:last-child
+   {
+      border-bottom:0;
+   }
+}
+
+.datalist-pagination
+{
+  margin-top:20px;
+}

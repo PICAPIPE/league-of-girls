@@ -14,11 +14,14 @@ angular.module('db').run([
 
                    if(angular.isUndefined(DB_SERVICES[dbi].name) === true ||
                       angular.isUndefined(DB_SERVICES[dbi].url)  === true)
-                     {
+                        {
                         continue;
-                     }
+                        }
 
-                   console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');
+                   if (window.LARAVEL.debug === true)
+                        {
+                        console.info('Register DB-Service: [Name ="' + DB_SERVICES[dbi].name + '", Url="' + DB_SERVICES[dbi].url + '"]');
+                        }
 
                    DB.register(DB_SERVICES[dbi].name,DB_SERVICES[dbi].url,{
                        'except':DB_SERVICES[dbi].except !== undefined ? DB_SERVICES[dbi].except : [],

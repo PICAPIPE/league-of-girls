@@ -16,6 +16,7 @@ angular.module('core').controller('BaseCtrl',[
           ctrl.ALERT   = AlertService;
           ctrl.MOMENT  = $window.moment;
           ctrl.USER    = UserService;
+          ctrl.STATE   = {};
 
           ctrl.loading = false;
 
@@ -41,6 +42,19 @@ angular.module('core').controller('BaseCtrl',[
               $rootScope.$broadcast('$modalClose');
 
           };
+
+          ctrl.loadOnInit = function()
+          {
+              try {
+                  ctrl.STATE = $state.current.data.data;
+                  }
+              catch (err)
+                  {
+                  ctrl.STATE = {};
+                  }
+          };
+
+          ctrl.loadOnInit();
 
      }
 ]);
