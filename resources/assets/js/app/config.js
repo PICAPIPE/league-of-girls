@@ -9,7 +9,8 @@ var appConfig = (function() {
       'gettext',
       'angular-storage',
       'ngSanitize',
-      'lr.upload'
+      'lr.upload',
+      'angular-sortable-view'
     ];
 
     // Add a new vertical module

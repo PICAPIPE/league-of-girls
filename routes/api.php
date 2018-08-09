@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth.safe']], function(){
   Route::any('pages/views/{slug}', ['uses'=>'Api\System\PageController@viewPage'])->where('slug', '([A-z\d-\/_.]+)?');
 });
 Route::api('pages',              'Api\System\PageController',         [],true,['auth.safe']);
+Route::api('elements',           'Api\System\PageElementController',  [],true,['auth.safe']);
 
 // CHAT
 

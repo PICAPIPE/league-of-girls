@@ -139,7 +139,7 @@ angular.module('pages').controller('PagesCreateCtrl',[
                  hideExpression: function($viewValue, $modelValue, scope) {
 
                  }
-              },
+              }
             ];
           }
 

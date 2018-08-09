@@ -118,13 +118,89 @@ angular.module('pages').controller('PagesViewerCtrl',[
                    }
               page.createModal({
                     'background' : window.CONST.colors.pages,
-                    'content':     '<page-element page-id="'+ page.data.uuid + '" parent="' + type + '"></page-element>'
+                    'content':     '<page-element-create page-id="'+ page.data.id + '" parent="' + type + '"></page-element-create>'
               },function(){
 
               });
           };
 
+          // Insert content element
+          page.editElement = function (uuid)
+          {
+              if (window.LARAVEL.debug === true)
+                   {
+                   console.log('Open element edit dialog for:' + uuid);
+                   }
+              page.createModal({
+                    'background' : window.CONST.colors.pages,
+                    'content':     '<page-element-create page-id="'+ page.data.id + '" element-id="' + uuid + '"></page-element-create>'
+              },function(){
+
+              });
+          };
+
+
+          // Page reload
+          page.reload = function()
+          {
+              page.alias = page.data.alias;
+
+              if (angular.isUndefined(page.alias) === true)
+                    {
+                    return;
+                    }
+
+              page.load();
+          };
+
+          // Element sortable
+          page.onSort = function($item, $partFrom, $partTo, $indexFrom, $indexTo)
+          {
+             var i = 0;
+
+             for (i = 0; i < page.data.elements.length; i ++)
+                    {
+                    page.data.elements[i].sort = i;
+                    page.DB.call('Elements','update',page.data.elements[i].uuid, {sort:i}).then(
+                      function(result)
+                      {
+                        if (i + 1 === page.data.elements.length)
+                              {
+                                page.reload();
+                              }
+                      },
+                      function(errorResult)
+                      {
+                          // Error message
+                          page.ALERT.add({
+                              'title':     ctrl.LANG.getString('Fehler beim Aktualisieren der Reihenfolge.'),
+                              'message':   errorResult.message,
+                              'autoClose': true
+                          });
+
+                          if (i + 1 === page.data.elements.length)
+                                {
+                                  page.reload();
+                                }
+                      }
+                    );
+                    }
+
+          }
+
           // Watchers
+
+          $scope.$on('element-edit' , function (event,args) {
+              if (angular.isUndefined(args.uuid) === true)
+                    {
+                    return;
+                    }
+              page.editElement (args.uuid);
+          });
+
+          $scope.$on('page-reload', function (event,args) {
+              page.reload();
+          });
 
           $scope.$on('page-save', function (event,args) {
               if (args.uuid === page.data.uuid)

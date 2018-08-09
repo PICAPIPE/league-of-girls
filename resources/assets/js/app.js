@@ -1,5 +1,7 @@
 import Echo from 'laravel-echo';
 
+require('jquery');
+require('bootstrap');
 require('angular');
 require('angular-gettext');
 require('@uirouter/angularjs');
@@ -8,7 +10,7 @@ require('angular-formly-templates-bootstrap');
 require('angular-storage');
 require('angular-sanitize');
 require('angular-upload');
-require('jquery');
+require('angular-sortable-view');
 
 window.io   = require('socket.io-client');
 

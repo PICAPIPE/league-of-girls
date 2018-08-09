@@ -1,0 +1,13 @@
+<div class="page-element" ng-class="element.getClass()">
+  <div class="page-element-controls" ng-if="element.currentUser.permissions.indexOf('Admin') > -1">
+    <button type="button" class="btn btn-primary btn-sm" ng-click="element.edit($event)"><i class="fas fa-edit"></i></button>
+    <button type="button" class="btn btn-secondary btn-sm" ng-click="element.remove($event)"><i class="fas fa-trash-alt"></i></button>
+  </div>
+  <div class="page-element-standard" ng-if="element.data.type !== 'html'">
+
+      <div class="page-element-headline" ng-if="element.check('headline')" compile="element.getHeadline()"></div>
+      <div class="page-element-text"     ng-if="element.check('text')"     compile="element.data.text"></div>
+
+  </div>
+  <div class="page-element-html" compile="element.data.html"></div>
+</div>

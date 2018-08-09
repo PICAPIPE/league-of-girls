@@ -5,14 +5,14 @@ namespace App\Models\System;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends BaseModel
+class PageElement extends BaseModel
 {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'pages';
+  protected $table = 'pages_elements';
 
   /**
    * The attributes that are mass assignable.
@@ -23,18 +23,20 @@ class Page extends BaseModel
       'id',
       'uuid',
       'sort',
-      'alias',
-      'name',
+      'page_id',
       'type',
-      'url',
-      'description',
+      'headline',
+      'headlineSize',
+      'html',
+      'text',
+      'image',
+      'imageClass',
+      'cssClass',
       'published'
   ];
 
   protected $validations = [
-      'alias' => 'required|unique:pages,uuid:%UUID%',
-      'type'  => 'required',
-      'name'  => 'required'
+      'type'  => 'required'
   ];
 
   /**
@@ -62,7 +64,9 @@ class Page extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean'
+      'published' => 'boolean',
+      'sort'      => 'integer',
+      'page_id'   => 'integer'
   ];
 
   /**
@@ -71,14 +75,5 @@ class Page extends BaseModel
    * @var array
    */
   protected $dates = [];
-
-  /**
-   * Page elements
-   */
-
-   public function elements()
-   {
-      return $this->hasMany('App\Models\System\PageElement')->orderBy('sort','ASC');
-   }
 
 }

@@ -8,11 +8,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiStandardController;
 
-class PageController extends ApiStandardController
+class PageElementController extends ApiStandardController
 {
 
   // Define the model class used in this controller
-  protected $cl_model = \App\Models\System\Page::class;
+  protected $cl_model = \App\Models\System\PageElement::class;
 
   // Define the controller map - auto resolve the http requests
   protected $cl_map   = [
@@ -21,10 +21,8 @@ class PageController extends ApiStandardController
         'except'        => false,
         'fields'        => [],
         'roles'         => ['Admin'],
-        'sortBy'        => 'name',
-        'sortDirection' => 'ASC',
-        'searchIn'      => 'name',
-        'with'          => ['elements'],
+        'sortBy'        => 'sort',
+        'sortDirection' => 'ASC'
       ],
 
       'index' => [
@@ -32,23 +30,21 @@ class PageController extends ApiStandardController
         'fields'        => [],
         'pagination'    => true,
         'roles'         => ['Admin'],
-        'sortBy'        => 'name',
+        'sortBy'        => 'sort',
         'sortDirection' => 'ASC',
         'searchIn'      => 'name',
-        'ignorePublish' => true,
-        'with'          => ['elements'],
+        'ignorePublish' => true
       ],
 
       'show' => [
         'except'        => false,
-        'with'          => ['elements'],
+        'with'          => [],
         'roles'         => ['Admin']
       ],
 
       'store' => [
         'except'        => false,
-        'roles'         => ['Admin'],
-        'with'          => ['elements']
+        'roles'         => ['Admin']
       ],
 
       'update' => [
@@ -62,27 +58,5 @@ class PageController extends ApiStandardController
       ]
 
   ];
-
-  // Get the page with complete data based on its slug
-  public function viewPage (Request $request, $slug)
-  {
-      $page = Page::where('alias', $slug);
-
-
-      if($request->user === null || $request->user->is(['Admin']) === false)
-           {
-           $page = $page->where('published',true);
-           }
-
-      $page = $page->with('elements')->first();
-
-      if ($page === null)
-            {
-            return $this->respondNotFound(_i('Seite nicht gefunden'));
-            }
-
-      return $this->respondSuccess(['data' => $page->toArray()]);
-
-  }
 
 }

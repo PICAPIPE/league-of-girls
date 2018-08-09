@@ -326,4 +326,12 @@ var DB_SERVICES    = [
        ]
     },
 
+    // Pages Elements
+
+    {
+       'name' : 'Elements',
+       'url'  : 'api/elements',
+       'custom': []
+    }
+
 ];

@@ -16,6 +16,7 @@
     "angular-formly-templates-bootstrap": "^6.5.1",
     "angular-gettext": "^2.3.10",
     "angular-sanitize": "^1.6.9",
+    "angular-sortable-view": "0.0.17",
     "angular-upload": "^1.0.13",
     "api-check": "^7.5.5",
     "axios": "^0.18",
