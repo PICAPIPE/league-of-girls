@@ -137,6 +137,11 @@ angular.module('datalist').controller('DatalistCtrl',[
                       angular.isFunction(datalist.onSearch) === true)
                          {
                          fn = datalist.onSearch();
+                         if (angular.isUndefined(fn) === true ||
+                             angular.isFunction(fn)  === false)
+                              {
+                              return;
+                              }
                          fn(datalist.search);
                          }
                 });

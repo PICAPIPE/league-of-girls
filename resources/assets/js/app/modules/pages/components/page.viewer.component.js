@@ -3,7 +3,7 @@ angular.module('pages').component('pageViewer', {
   controller:   'PagesViewerCtrl as page',
   scope:        true,
   bindings:     {
-                    data:    '=',
+                    data:    '=?',
                     alias:   '@?'
                 }
 });

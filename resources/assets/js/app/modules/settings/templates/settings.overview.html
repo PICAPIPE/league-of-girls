@@ -1,0 +1,13 @@
+<div class="settings settings_overview">
+   <h1>{{'Einstellungen' | translate }}</h1>
+   <p class="lead">{{'Verwalten Sie hier die Einstellungen der Webseite.'}}</p>
+
+   <hr>
+
+   <div class="settings-list">
+     <div class="settings-list-item" ng-repeat="link in ctrl.links">
+        <a class="navigation_list_item_inner"  ui-sref="{{link.name}}" ui-sref-active="active">{{link.label}}</a>
+     </div>
+   </div>
+
+</div>
