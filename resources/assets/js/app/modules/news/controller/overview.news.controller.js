@@ -150,15 +150,6 @@ angular.module('news').controller('NewsOverviewCtrl',[
                   ctrl.pageMax = result.data.last_page;
                   ctrl.total   = result.data.total;
 
-                  if(result.data.data.length === 0 && ctrl.mode !== 'list')
-                    {
-                      ctrl.ALERT.add({
-                          'title':     ctrl.LANG.getString('Keine weiteren Daten gefunden!'),
-                          'message':   ctrl.LANG.getString('Es gibt keine weiteren Daten zu diese Suche.'),
-                          'autoClose': true
-                      });
-                    }
-
                   if (ctrl.mode === 'list')
                        {
                        max = 3;

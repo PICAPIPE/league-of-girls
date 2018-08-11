@@ -33,6 +33,11 @@ angular.module('dashboard').controller('DashboardCtrl',[
                 state:'app.pages.overview',
                 name: dashboard.LANG.getString('Seitenverwaltung'),
                 roles: ['Admin']
+              },
+              {
+                state:'app.settings.overview',
+                name: dashboard.LANG.getString('Einstellungen'),
+                roles: ['Admin']
               }
           ];
 

@@ -278,20 +278,6 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                     ctrl.pageMax = result.data.last_page;
                     ctrl.total   = result.data.total;
 
-                    if (errorResult.status !== 500)
-                         {
-                         return;
-                         }
-
-                    if(result.data.data.length === 0)
-                      {
-                        ctrl.ALERT.add({
-                            'title':     ctrl.LANG.getString('Keine weiteren Daten gefunden!'),
-                            'message':   ctrl.LANG.getString('Es gibt keine weiteren Daten zu diese Suche.'),
-                            'autoClose': true
-                        });
-                      }
-
                     for(i = 0; i < result.data.data.length; i ++)
                     {
                         user   = result.data.data[i];

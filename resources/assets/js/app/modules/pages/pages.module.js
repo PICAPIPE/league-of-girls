@@ -20,7 +20,7 @@ angular.module('pages').config([
                     'controller':  'PagesOverviewCtrl as ctrl'
                   }
               },
-              roles: window.GetStandardRoles()
+              roles: ['Admin']
             },
             {
               name:      'app.pages.create',
@@ -31,7 +31,7 @@ angular.module('pages').config([
                     'controller':  'UserMyAccountEditCtrl as myaccountEdit'
                   }
               },
-              roles: window.GetStandardRoles()
+              roles: ['Admin']
             }
         ];
 
