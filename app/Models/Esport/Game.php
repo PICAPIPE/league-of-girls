@@ -26,6 +26,7 @@ class Game extends BaseModel
       'uuid',
       'name',
       'short',
+      'icon',
       'color',
       'background',
       'published'

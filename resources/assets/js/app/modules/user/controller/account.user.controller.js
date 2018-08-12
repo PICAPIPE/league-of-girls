@@ -41,7 +41,8 @@ angular.module('user').controller('UserAccountCtrl',[
             account.DB.call('Users','update', uuid, params).then(
               function(result)
               {
-                  account.init();
+                  account.user[attr] = value;
+                  account.init(false);
               },
               function(errorResult)
               {

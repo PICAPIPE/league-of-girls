@@ -25,9 +25,11 @@ class LinkController extends ApiStandardController
 
       'index' => [
         'except'        => false,
-        'fields'        => ['name','uuid','id','icon','placeholder','help','type'],
+        'fields'        => ['name','uuid','id','icon','placeholder','help','type','published'],
         'sortBy'        => 'name',
         'sortDirection' => 'ASC',
+        'searchIn'      => 'name',
+        'ignorePublish' => true,
         'pagination'    => true
       ],
 
@@ -37,14 +39,17 @@ class LinkController extends ApiStandardController
 
       'store' => [
         'except'        => false,
+        'roles'         => ['Admin']
       ],
 
       'update' => [
         'except'        => false,
+        'roles'         => ['Admin']
       ],
 
       'destroy' => [
         'except'        => false,
+        'roles'         => ['Admin']
       ],
 
   ];

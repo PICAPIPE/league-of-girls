@@ -113,6 +113,8 @@ class UserController extends ApiStandardController
       $data = $request->all();
       $user->update($data);
 
+      return $this->show($request,$uuid);
+
   }
 
   /***
@@ -213,7 +215,11 @@ class UserController extends ApiStandardController
             if($gameData !== null)
             {
               $gameEntry->active = $gameData['active'];
-              $gameEntry->skill  = $gameData['skill']['skill'];
+              if (isset($gameData['skill'])          === true &&
+                  isset($gameData['skill']['skill']) === true)
+                    {
+                    $gameEntry->skill  = $gameData['skill']['skill'];
+                    }
               $gameEntry->save();
             }
 
@@ -232,12 +238,17 @@ class UserController extends ApiStandardController
 
             $communicationData = collect($data['communications'])->where('communication_id',$communicationEntry->communication_id)->first();
 
+            $communicationEntry->active = $communicationData['active'];
             if($communicationData !== null && isset($communicationData['value']))
             {
-              $communicationEntry->active = $communicationData['active'];
               $communicationEntry->value  = $communicationData['value'];
-              $communicationEntry->save();
             }
+            else
+            {
+              $communicationEntry->value  = '';
+              $communicationEntry->active = false;
+            }
+            $communicationEntry->save();
 
         });
 
@@ -254,12 +265,17 @@ class UserController extends ApiStandardController
 
             $linkData = collect($data['links'])->where('link_id',$linkEntry->link_id)->first();
 
+            $linkEntry->active = $linkData['active'];
             if($linkData !== null && isset($linkData['value']))
             {
-              $linkEntry->active = $linkData['active'];
               $linkEntry->value  = $linkData['value'];
-              $linkEntry->save();
             }
+            else
+            {
+              $linkEntry->value  = '';
+              $linkEntry->active = false;
+            }
+            $linkEntry->save();
 
         });
 
@@ -276,12 +292,17 @@ class UserController extends ApiStandardController
 
             $plattformData = collect($data['plattforms'])->where('plattform_id',$plattformEntry->plattform_id)->first();;
 
+            $plattformEntry->active = $plattformData['active'];
             if($plattformData !== null && isset($plattformData['value']))
             {
               $plattformEntry->value  = $plattformData['value'];
-              $plattformEntry->active = $plattformData['active'];
-              $plattformEntry->save();
             }
+            else
+            {
+              $plattformEntry->value  = '';
+              $plattformEntry->active = false;
+            }
+            $plattformEntry->save();
 
         });
 

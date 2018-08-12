@@ -33,7 +33,8 @@ angular.module('settings').controller('SettingsAreaCtrl',[
                   search = '';
                   }
 
-            if (angular.isUndefined($state.current.datalist)    === true &&
+            if (angular.isUndefined($state.current)             === true ||
+                angular.isUndefined($state.current.datalist)    === true ||
                 angular.isUndefined($state.current.datalist.DB) === true)
                  {
                  if (window.LARAVEL.debug === true)
@@ -80,7 +81,8 @@ angular.module('settings').controller('SettingsAreaCtrl',[
           // Button actions
           setting.onAction = function(type,entry)
           {
-            if (angular.isUndefined($state.current.datalist)    === true &&
+            if (angular.isUndefined($state.current)             === true ||
+                angular.isUndefined($state.current.datalist)    === true ||
                 angular.isUndefined($state.current.datalist.DB) === true)
                  {
                  if (window.LARAVEL.debug === true)
@@ -142,6 +144,13 @@ angular.module('settings').controller('SettingsAreaCtrl',[
           {
               setting.getData (setting.page);
           };
+
+          // Watchers
+
+          $scope.$on('reload-data', function()
+          {
+              setting.$onInit();
+          });
 
      }
 ]);

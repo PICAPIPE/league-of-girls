@@ -35,7 +35,8 @@ angular.module('settings').config([
               },
               datalist:{
                   'DB':       'Games',
-                  'template' :'{{$parent.entry.name}}'
+                  'template' :'{{$parent.entry.name}}',
+                  'component':'games-create'
               },
               showAtSettings: true,
               roles: ['Admin']
@@ -52,7 +53,8 @@ angular.module('settings').config([
               },
               datalist:{
                   'DB':       'Plattforms',
-                  'template' :'{{$parent.entry.name}}'
+                  'template' :'{{$parent.entry.name}}',
+                  'component':'plattforms-create'
               },
               showAtSettings: true,
               roles: ['Admin']
@@ -69,7 +71,26 @@ angular.module('settings').config([
               },
               datalist:{
                   'DB':       'Communications',
-                  'template' :'{{$parent.entry.name}}'
+                  'template' :'{{$parent.entry.name}}',
+                  'component':'communications-create'
+              },
+              showAtSettings: true,
+              roles: ['Admin']
+            },
+            {
+              name:      'app.settings.links',
+              label:     gettext('Links'),
+              url:       '/settings/links',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/settings/settings.area.html',
+                    'controller':  'SettingsAreaCtrl as setting'
+                  }
+              },
+              datalist:{
+                  'DB':       'Links',
+                  'template' :'{{$parent.entry.name}}',
+                  'component':'links-create'
               },
               showAtSettings: true,
               roles: ['Admin']
