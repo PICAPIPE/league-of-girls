@@ -65,6 +65,9 @@ Route::group(['middleware' => ['auth.safe']], function(){
 Route::api('pages',              'Api\System\PageController',         [],true,['auth.safe']);
 Route::api('elements',           'Api\System\PageElementController',  [],true,['auth.safe']);
 
+// Faq
+Route::api('faq',              'Api\System\FaqController',            [],true,['auth.safe']);
+
 // CHAT
 
 Route::group(['middleware' => ['auth.api']], function(){

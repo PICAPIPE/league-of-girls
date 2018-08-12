@@ -21,12 +21,22 @@
      <!-- Benutzerfunktionen -->
 
      <div class="col-md-4 col-xs-12">
-        <h2>{{'Aktionen' | translate}}</h2>
-        <ul class="actions-list">
-           <li ng-repeat="link in dashboard.links track by $index" ng-if="dashboard.USER.hasPermission(link.roles) === true">
-              <a ui-sref="{{link.state}}" ui-sref-active="active">{{link.name}}</a>
-           </li>
-        </ul>
+            <div class="dashboard-administration">
+                 <h2>{{'Aktionen' | translate}}</h2>
+                 <ul class="actions-list">
+                    <li ng-repeat="link in dashboard.linksAdminstration track by $index" ng-if="dashboard.USER.hasPermission(link.roles) === true">
+                       <a ui-sref="{{link.state}}" ui-sref-active="active">{{link.name}}</a>
+                    </li>
+                 </ul>
+            </div>
+            <div class="dashboard-sites" ng-if="dashboard.links.length > 0">
+               <h2>{{'Seiten' | translate}}</h2>
+               <ul class="actions-list">
+                  <li ng-repeat="link in dashboard.links track by $index">
+                     <a href="{{link.alias}}">{{link.name}}</a>
+                  </li>
+               </ul>
+             </div>
      </div>
 
    </div>

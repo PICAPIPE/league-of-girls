@@ -37,6 +37,7 @@
         <div id="footer" class="footer container">
               © PICAPIPE GmbH
               <div class="float-right">
+                  <a href="/faq">{{ _i('FAQ') }}</a> -
                   <a href="/imprint">{{ _i('Impressum') }}</a> -
                   <a href="/privacy">{{ _i('Datenschutz') }}</a>
               </div>

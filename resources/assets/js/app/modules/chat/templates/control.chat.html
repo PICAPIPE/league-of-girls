@@ -33,6 +33,7 @@
 
           <div class="chat-create-msg">
               <textarea ng-model="chat.fieldData.message" placeholder="{{'Nachricht eingegeben' | translate}}" ng-disabled="chat.user === null" class="chat-input" ng-keypress="chat.check($event)"></textarea>
+              <button class="chat-button" ng-click="chat.submitMessage($event)"><i class="log-icon log-icon-game"></i></button>
           </div>
 
     </div>

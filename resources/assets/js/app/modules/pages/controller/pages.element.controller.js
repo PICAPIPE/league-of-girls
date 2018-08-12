@@ -4,7 +4,8 @@ angular.module('pages').controller('PagesElementCtrl',[
      '$state',
      '$window',
      '$controller',
-     function($scope, $rootScope, $state, $window, $controller) {
+     '$sce',
+     function($scope, $rootScope, $state, $window, $controller,$sce) {
 
           var element = this;
           angular.extend(element, $controller('BaseCtrl', {$scope: $scope}));
@@ -28,6 +29,12 @@ angular.module('pages').controller('PagesElementCtrl',[
                     case 'headline':
                         if (element.data.type !== 'headline' &&
                             element.data.type !== 'text')
+                              {
+                              check = false;
+                              }
+                        break;
+                    default:
+                        if (element.data.type !== area)
                               {
                               check = false;
                               }

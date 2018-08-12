@@ -22,9 +22,7 @@ class PageController extends ApiStandardController
         'fields'        => [],
         'roles'         => ['Admin'],
         'sortBy'        => 'name',
-        'sortDirection' => 'ASC',
-        'searchIn'      => 'name',
-        'with'          => ['elements'],
+        'sortDirection' => 'ASC'
       ],
 
       'index' => [

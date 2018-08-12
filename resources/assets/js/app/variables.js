@@ -239,6 +239,13 @@ var DB_SERVICES    = [
        'url'  : 'api/links'
     },
 
+    // FAQ
+
+    {
+       'name' : 'Faq',
+       'url'  : 'api/faq'
+    },
+
     // Chats
 
     {

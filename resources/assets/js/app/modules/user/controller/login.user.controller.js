@@ -89,7 +89,7 @@ angular.module('user').controller('UserLoginCtrl',[
                                   // Close modal and then redirect to dashboard
 
                                   $rootScope.$broadcast('$modalClose');
-                                  $state.go('app.dashboard.overview');
+                                  location.reload();
 
                                   $timeout(function()
                                   {

@@ -18,13 +18,17 @@ class CreatePagesElementsTable extends Migration
             $table->uuid('uuid');
             $table->integer('sort');
             $table->integer('page_id')->unsigned();
-            $table->enum('type',['headline','text','image','html','custom']);
+            $table->enum('type',['headline','text','image','html','custom','youtube','twitter','twitch',]);
             $table->string('headline')->nullable();
             $table->string('headlineSize')->nullable();
             $table->longText('html')->nullable();
             $table->longText('text')->nullable();
             $table->string('image')->nullable();
             $table->string('imageClass')->nullable();
+            $table->string('youtube')->nullable();
+            $table->string('twitch')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('url')->nullable();
             $table->string('cssClass');
             $table->boolean('published');
 
