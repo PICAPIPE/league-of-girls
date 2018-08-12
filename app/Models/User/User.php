@@ -208,7 +208,7 @@ class User extends Authenticatable implements JWTSubject
     $rolesReturn = [];
     $roles       = $this->roles()->with(['role'])->get();
 
-    $rolesReturn = $roles->pluck('role.id');
+    $rolesReturn = $roles->pluck('role.name');
 
     // Add Standard role to the user roles
 

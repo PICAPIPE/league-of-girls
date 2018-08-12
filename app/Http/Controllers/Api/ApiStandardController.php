@@ -290,6 +290,18 @@ class ApiStandardController extends ApiController
 
           $data            = [];
 
+          $roles           = data_get($map,'roles',        null);
+
+          if($roles !== null)
+            {
+                $allowed         = $this->checkPermission($request,$roles);
+            }
+
+          if($allowed !== null && $allowed !== true && $roles !== null)
+            {
+               return $this->respondForbidden();
+            }
+
           collect($request->all())->each(function($item,$key) use ($mdClass,&$data){
 
               if(in_array($key,$mdClass->getFillable()) === true)
@@ -341,6 +353,18 @@ class ApiStandardController extends ApiController
               return $this->respondNotAllowed();
           }
 
+          $roles           = data_get($map,'roles',        null);
+
+          if($roles !== null)
+            {
+                $allowed         = $this->checkPermission($request,$roles);
+            }
+
+          if($allowed !== null && $allowed !== true && $roles !== null)
+            {
+               return $this->respondForbidden();
+            }
+
           $success = DB::transaction(function () use ($request,$uuid){
 
                           $map             = $this->getMap($this->getName($request));
@@ -385,6 +409,18 @@ class ApiStandardController extends ApiController
             $fields          = data_get($map,'fields', $mdClass->getFillable());
 
             $data            = [];
+
+            $roles           = data_get($map,'roles',        null);
+
+            if($roles !== null)
+              {
+                  $allowed         = $this->checkPermission($request,$roles);
+              }
+
+            if($allowed !== null && $allowed !== true && $roles !== null)
+              {
+                 return $this->respondForbidden();
+              }
 
             collect($request->all())->each(function($item,$key) use ($mdClass,&$data){
 
