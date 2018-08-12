@@ -49,6 +49,16 @@ angular.module('core').config([
                       'controller':  'CorePrivacyCtrl as privacy'
                   }
               }
+            },
+            {
+              name:      'app.error403',
+              url:       '/403',
+              views:     {
+                  '!$default.content':{
+                      'templateUrl': 'views/core/error.html',
+                      'controller':  'CoreError403Ctrl as ctrl'
+                  }
+              }
             }
         ];
 
@@ -135,7 +145,7 @@ angular.module('core').run([
               if(roles.length > 0 || redirectOnLoggged === true)
                 {
 
-                    hasRole = usersrv.hasRole(roles);
+                    hasRole = usersrv.hasPermission(roles);
 
                     if(user            === null          &&
                        trans.to().name !== 'login.login' &&
@@ -158,6 +168,7 @@ angular.module('core').run([
                        roles.length   >  0)
                       {
                           // User does not have the permission
+                          $state.go('app.error403');
                           return trans.router.stateService.target('app.error403');
                       }
 

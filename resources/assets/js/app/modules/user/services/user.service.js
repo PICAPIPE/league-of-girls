@@ -42,10 +42,16 @@ angular.module('user').factory('UserService', [
             var rolei = 0;
 
             if(user                            === null ||
-               angular.isUndefined(user.roles) === false)
+               angular.isUndefined(user.roles) === true)
               {
                  return false;
               }
+
+            if (angular.isUndefined(roles) === true ||
+                roles.length               === 0)
+                  {
+                  return true;
+                  }
 
             for (rolei = 0; rolei < roles.length; rolei++)
                 {
@@ -76,12 +82,16 @@ angular.module('user').factory('UserService', [
             var permissioni = 0;
 
             if(user                                  === null ||
-               angular.isUndefined(user.permissions) === false)
+               angular.isUndefined(user.permissions) === true)
               {
                  return false;
               }
 
-            console.error(user.permissions);
+            if (angular.isUndefined(permissions) === false &&
+                permissions.length               === 0)
+                  {
+                  return true;
+                  }
 
             for (permissioni = 0; permissioni < permissions.length; permissioni++)
                 {

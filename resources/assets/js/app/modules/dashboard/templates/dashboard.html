@@ -23,7 +23,7 @@
      <div class="col-md-4 col-xs-12">
         <h2>{{'Aktionen' | translate}}</h2>
         <ul class="actions-list">
-           <li ng-repeat="link in dashboard.links track by $index" ng-if="link.roles.length === 0 || dashboard.USER.hasRole(link.roles || []) > -1">
+           <li ng-repeat="link in dashboard.links track by $index" ng-if="dashboard.USER.hasPermission(link.roles) === true">
               <a ui-sref="{{link.state}}" ui-sref-active="active">{{link.name}}</a>
            </li>
         </ul>
