@@ -5,7 +5,8 @@ angular.module('news').controller('NewsSubmitCtrl',[
      '$window',
      '$controller',
      'store',
-     function($scope, $rootScope, $state, $window, $controller, store) {
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller, store,$timeout) {
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
@@ -14,7 +15,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
 
           ctrl.errors     = [];
           ctrl.fieldData  = {
-              'game':    store.get(ctrl.storageKey),
+              'game':    '-1',
               'type':    'link'
           };
 
@@ -58,23 +59,34 @@ angular.module('news').controller('NewsSubmitCtrl',[
 
                 ctrl.DB.call('Games','all').then(
                   function(result){
-                    
-                      ctrl.optionsGames = result.data.data;
+
+                      ctrl.optionsGames = [];
+
+                      var resultGames = result.data.data;
+                      var games       = [];
+
+                      games[games.length] = {'name':'Allgemein','uuid':'-1'};
+
+                      for (var i = 0; i < resultGames.length; i++)
+                             {
+                             games[games.length] = {name:resultGames[i].name,uuid:resultGames[i].uuid};
+                             }
 
                       ctrl.fields = [
                         {
                            "type":         "select",
                            "key":          "game",
+                           "defaultValue": "-1",
                            "templateOptions":
                            {
                                "type":            "select",
                                "required":        true,
                                "label":           ctrl.LANG.getString('Spiel'),
-                               "defaultValue":    store.get(ctrl.storageKey),
-                               "options": ctrl.optionsGames,
-                                "valueProp": 'uuid',
-                                "labelProp": 'name',
-                                "className": 'col-xs-12'
+                               "options":         games,
+                               "valueProp":       'uuid',
+                               "labelProp":       'name',
+                               "defaultValue":    '-1',
+                               "className":       'col-xs-12'
                            }
                         },
                         {
@@ -183,6 +195,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
                            }
                         },
                       ];
+
                   }
                 );
 
