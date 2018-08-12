@@ -150,6 +150,7 @@ class UserController extends ApiStandardController
       if($result !== null)
         {
            $result->roles = $result->getRoles();
+
         }
 
       return $this->respondSuccess(['data' => $result]);

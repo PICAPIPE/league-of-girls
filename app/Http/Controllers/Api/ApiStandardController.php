@@ -79,7 +79,7 @@ class ApiStandardController extends ApiController
                 $allowed         = $this->checkPermission($request,$roles);
             }
 
-          if($allowed !== null && $allowed !== true)
+          if($allowed !== null && $allowed !== true && $roles !== null)
             {
                return $this->respondForbidden();
             }
@@ -132,7 +132,25 @@ class ApiStandardController extends ApiController
 
           if ($request->input('search') !== null && $searchIn !== null)
                 {
-                $modelData = $modelData->where($searchIn,'LIKE', '%' . strtolower($request->input('search')) . '%');
+                if ($searchIn === 'all')
+                      {
+                      $fillable = $mdClass->getFillable();
+
+                      $modelData = $modelData->where(function($query) use ($fillable,$request){
+                          foreach ($fillable as $key => $value) {
+                             if($key === 0)
+                                  {
+                                  $query->where($value,'LIKE', '%' . strtolower($request->input('search')) . '%');
+                                  }
+                             else {
+                                  $query->orWhere($value,'LIKE', '%' . strtolower($request->input('search')) . '%');
+                                  }
+                          }
+                      });
+                      }
+                else  {
+                      $modelData = $modelData->where($searchIn,'LIKE', '%' . strtolower($request->input('search')) . '%');
+                      }
                 }
 
           if(in_array('published',$mdClass->getFillable()) === true && $ignorePublish === false)
@@ -353,18 +371,6 @@ class ApiStandardController extends ApiController
               return $this->respondNotAllowed();
           }
 
-          $roles           = data_get($map,'roles',        null);
-
-          if($roles !== null)
-            {
-                $allowed         = $this->checkPermission($request,$roles);
-            }
-
-          if($allowed !== null && $allowed !== true && $roles !== null)
-            {
-               return $this->respondForbidden();
-            }
-
           $success = DB::transaction(function () use ($request,$uuid){
 
                           $map             = $this->getMap($this->getName($request));
@@ -374,6 +380,18 @@ class ApiStandardController extends ApiController
                           $fields          = data_get($map,'fields', $mdClass->getFillable());
 
                           $modelData       = $md::where('uuid',$uuid)->select($fields)->first();
+
+                          $roles           = data_get($map,'roles',        null);
+
+                          if($roles !== null)
+                            {
+                                $allowed = $this->checkPermission($request,$roles);
+                            }
+
+                          if($allowed !== null && $allowed !== true && $roles !== null)
+                            {
+                               return false;
+                            }
 
                           if($modelData !== null)
                             {
@@ -414,7 +432,7 @@ class ApiStandardController extends ApiController
 
             if($roles !== null)
               {
-                  $allowed         = $this->checkPermission($request,$roles);
+                  $allowed = $this->checkPermission($request,$roles);
               }
 
             if($allowed !== null && $allowed !== true && $roles !== null)

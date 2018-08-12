@@ -5,14 +5,14 @@ namespace App\Models\System;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class PageElement extends BaseModel
+class Faq extends BaseModel
 {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'pages_elements';
+  protected $table = 'faq';
 
   /**
    * The attributes that are mass assignable.
@@ -23,24 +23,14 @@ class PageElement extends BaseModel
       'id',
       'uuid',
       'sort',
-      'page_id',
-      'type',
-      'headline',
-      'headlineSize',
-      'html',
-      'text',
-      'image',
-      'imageClass',
-      'youtube',
-      'twitch',
-      'twitter',
-      'url',
-      'cssClass',
+      'question',
+      'answer',
       'published'
   ];
 
   protected $validations = [
-      'type'  => 'required'
+      'question' => 'required',
+      'answwer'  => 'required'
   ];
 
   /**
@@ -68,9 +58,7 @@ class PageElement extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean',
-      'sort'      => 'integer',
-      'page_id'   => 'integer'
+      'published' => 'boolean'
   ];
 
   /**
@@ -79,5 +67,9 @@ class PageElement extends BaseModel
    * @var array
    */
   protected $dates = [];
+
+  /**
+   * Page elements
+   */
 
 }

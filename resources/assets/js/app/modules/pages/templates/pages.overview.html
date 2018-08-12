@@ -6,7 +6,6 @@
 
    <div class="margin-bottom" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
        <button ng-click="ctrl.createPage($event)" class="btn btn-outline-success">{{'Seite erstellen'|translate}}</button>
-       <button ng-click="ctrl.createAlias($event)" class="btn btn-outline-success">{{'Seitenaliase erstellen'|translate}}</button>
    </div>
 
    <datalist show-pagination="true" show-actions="true" data="ctrl.data" options="ctrl.options" on-action="ctrl.onAction" on-pagination="ctrl.onPagination" on-search="ctrl.onSearch">

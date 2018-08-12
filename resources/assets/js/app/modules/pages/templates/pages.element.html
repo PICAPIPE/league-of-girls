@@ -8,6 +8,20 @@
       <div class="page-element-headline" ng-if="element.check('headline')" compile="element.getHeadline()"></div>
       <div class="page-element-text"     ng-if="element.check('text')"     compile="element.data.text"></div>
 
+      <!-- Youtube -->
+      <div class="embed-responsive embed-responsive-16by9" ng-if="element.check('youtube')">
+        <iframe class="embed-responsive-item" ng-src="{{ 'https://www.youtube.com/embed/' + element.data.youtube | trustUrl}}"></iframe>
+      </div>
+
+      <!-- Twitter -->
+      <a ng-if="element.check('twitter')" target="_blank" href="{{ element.data.twitter | trustUrl}}">Tweet öffnen</a>
+
+      <!-- Twitch -->
+      <div class="embed-responsive embed-responsive-16by9" ng-if="element.check('twitch')">
+        <iframe class="embed-responsive-item" ng-src="{{ 'http://player.twitch.tv/?channel=' + element.data.twitch + '&muted=false' | trustUrl}}"></iframe>
+      </div>
+
+
   </div>
   <div class="page-element-html" compile="element.data.html"></div>
 </div>

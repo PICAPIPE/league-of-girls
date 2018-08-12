@@ -104,6 +104,9 @@ angular.module('pages').controller('PagesElementsCreateCtrl',[
                         {label: ctrl.LANG.getString('Text'),             id: 'text',          group: ctrl.LANG.getString('Standard')},
                         //{label: ctrl.LANG.getString('Bild'),             id: 'image',         group: ctrl.LANG.getString('Standard')},
                         {label: ctrl.LANG.getString('HTML'),             id: 'html',          group: ctrl.LANG.getString('Standard')},
+                        {label: ctrl.LANG.getString('Youtube'),          id: 'youtube',       group: ctrl.LANG.getString('Medien')},
+                        {label: ctrl.LANG.getString('Twitter'),          id: 'twitter',       group: ctrl.LANG.getString('Medien')},
+                        {label: ctrl.LANG.getString('Twitch'),           id: 'twitch',        group: ctrl.LANG.getString('Medien')},
                         //{label: ctrl.LANG.getString('Benutzerdefiniert'),id: 'custom',        group: ctrl.LANG.getString('Standard')}
                       ],
                       "groupProp": 'group',
@@ -182,6 +185,51 @@ angular.module('pages').controller('PagesElementsCreateCtrl',[
                  },
                  hideExpression: function($viewValue, $modelValue, scope) {
                     return scope.model.type === '' ||  scope.model.type === undefined || scope.model.type !== 'html';
+                 }
+              },
+              {
+                 "type": "input",
+                 "key":  "twitter",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        false,
+                     "label":           ctrl.LANG.getString('Twitter-URL'),
+                     "placeholder":     ctrl.LANG.getString('Geben Sie hier die URL zum Tweet ein.'),
+                     "className":       'col-xs-12 col-lg-12'
+                 },
+                 hideExpression: function($viewValue, $modelValue, scope) {
+                    return scope.model.type === '' ||  scope.model.type === undefined || (scope.model.type !== 'twitter');
+                 }
+              },
+              {
+                 "type": "input",
+                 "key":  "youtube",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        false,
+                     "label":           ctrl.LANG.getString('Youtube-ID'),
+                     "placeholder":     ctrl.LANG.getString('Bitte geben Sie hier die Youtube Video ID ein.'),
+                     "className":       'col-xs-12 col-lg-12'
+                 },
+                 hideExpression: function($viewValue, $modelValue, scope) {
+                    return scope.model.type === '' ||  scope.model.type === undefined || (scope.model.type !== 'youtube');
+                 }
+              },
+              {
+                 "type": "input",
+                 "key":  "twitch",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        false,
+                     "label":           ctrl.LANG.getString('Channel-ID'),
+                     "placeholder":     ctrl.LANG.getString('Bitte geben Sie hier die Twitch Channel ID ein.'),
+                     "className":       'col-xs-12 col-lg-12'
+                 },
+                 hideExpression: function($viewValue, $modelValue, scope) {
+                    return scope.model.type === '' ||  scope.model.type === undefined || (scope.model.type !== 'twitch');
                  }
               },
               {

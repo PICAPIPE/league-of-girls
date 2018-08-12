@@ -22,4 +22,11 @@ $PAGE-ELEMENT-PADDING: 10px;
   position: absolute;
   right:    $PAGE-ELEMENT-PADDING;
   top:      $PAGE-ELEMENT-PADDING;
+  z-index:  9999;
+}
+
+
+.page-content
+{
+  margin:0 -10px;
 }

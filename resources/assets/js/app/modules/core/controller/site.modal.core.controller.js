@@ -82,3 +82,9 @@ angular.module('core').filter('compile',['$sce',
           };
     }
 ]);
+
+angular.module('core').filter('trustUrl', function ($sce) {
+    return function(url) {
+    return $sce.trustAsResourceUrl(url);
+   };
+});

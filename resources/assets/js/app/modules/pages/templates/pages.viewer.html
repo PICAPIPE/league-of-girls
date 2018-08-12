@@ -27,12 +27,16 @@
         </div>
     </div>
 
-    <div class="row" ng-if="page.currentUser.permissions.indexOf('Admin') > -1" data-ng-model="page.data.elements" sv-root sv-part="page.data.elements" sv-on-sort="page.onSort($item, $partFrom, $partTo, $indexFrom, $indexTo)">
-        <page-element data="element" class="dragable" ng-class="element.cssClass" ng-repeat="element in page.data.elements" sv-element><page-element>
-    </div>
+    <div class="page-content">
 
-    <div class="row" ng-if="page.currentUser === null || page.currentUser.permissions.indexOf('Admin') === -1">
-        <page-element ng-if="element.published === true" data="element" ng-class="element.cssClass" ng-repeat="element in page.data.elements"><page-element>
+      <div class="row" ng-if="page.currentUser.permissions.indexOf('Admin') > -1" data-ng-model="page.data.elements" sv-root sv-part="page.data.elements" sv-on-sort="page.onSort($item, $partFrom, $partTo, $indexFrom, $indexTo)">
+          <page-element data="element" class="dragable" ng-class="element.cssClass" ng-repeat="element in page.data.elements" sv-element><page-element>
+      </div>
+
+      <div class="row" ng-if="page.currentUser === null || page.currentUser.permissions.indexOf('Admin') === -1">
+          <page-element ng-if="element.published === true" data="element" ng-class="element.cssClass" ng-repeat="element in page.data.elements"><page-element>
+      </div>
+
     </div>
 
 </div>

@@ -123,8 +123,14 @@ angular.module('chat').controller('ChatCtrl',[
               );
           };
 
-          // Mis the the messages
+          // Submit button for messages
+          chat.submitMessage = function(event)
+          {
+              event.preventDefault();
+              chat.send(event);
+          };
 
+          // Mis the the messages
           chat.mix      = function(messages)
           {
               var i = 0;

@@ -19,7 +19,7 @@
           <div class="media-body" ng-transclude="main">
             {{entry.name || entry.id}}
           </div>
-          <div class="ml-3">
+          <div class="ml-3" ng-if="datalist.USER.hasPermission(['Admin'])">
             <div class="btn-group" role="group">
               <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -11,39 +11,61 @@ angular.module('dashboard').controller('DashboardCtrl',[
 
           dashboard.user  = dashboard.USER.getCurrentUser();
 
+          // Links Administration
+
+          dashboard.linksAdminstration = [
+            {
+              state:'app.user.myaccount',
+              name: dashboard.LANG.getString('Mein Konto'),
+              roles: []
+            },
+            {
+              state:'app.pages.overview',
+              name: dashboard.LANG.getString('Seitenverwaltung'),
+              roles: ['Admin']
+            },
+            {
+              state:'app.settings.overview',
+              name: dashboard.LANG.getString('Einstellungen'),
+              roles: ['Admin']
+            }
+          ];
+
           // Links
 
           dashboard.links = [
-              {
-                state:'app.user.myaccount',
-                name: dashboard.LANG.getString('Mein Konto'),
-                roles: []
-              },
-              {
-                state:'app.imprint',
-                name: dashboard.LANG.getString('Impressum'),
-                roles: []
-              },
-              {
-                state:'app.privacy',
-                name: dashboard.LANG.getString('Datenschutz'),
-                roles: []
-              },
-              {
-                state:'app.pages.overview',
-                name: dashboard.LANG.getString('Seitenverwaltung'),
-                roles: ['Admin']
-              },
-              {
-                state:'app.settings.overview',
-                name: dashboard.LANG.getString('Einstellungen'),
-                roles: ['Admin']
-              }
+
           ];
 
           // Init
 
           dashboard.$onInit = function () {
+
+            dashboard.DB.call('Pages','all').then(
+                function(result){
+
+                    var i = 0;
+
+                    for (i = 0; i < result.data.data.length; i++)
+                           {
+                           if (result.data.data[i].published === true)
+                                 {
+                                 dashboard.links.push({
+                                      alias: result.data.data[i].alias,
+                                      name:  result.data.data[i].name
+                                 });
+                                 }
+                           }
+
+                },
+                function(errorResult)
+                {
+                    if (window.LARAVEL.debug === true)
+                          {
+                          console.error(errorResult);
+                          }
+                }
+            );
 
           };
 
