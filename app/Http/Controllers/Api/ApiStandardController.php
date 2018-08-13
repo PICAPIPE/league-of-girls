@@ -153,7 +153,7 @@ class ApiStandardController extends ApiController
                       }
                 }
 
-          if(in_array('published',$mdClass->getFillable()) === true && $ignorePublish === false)
+          if(in_array('published',$mdClass->getFillable()) === true && (($ignorePublish === false && ($request->user === null || $request->user->is(['Admin']) === false)) || ($request->input('showUnpublished') === false && $request->user->is(['Admin']))))
                 {
                     $modelData = $modelData->where('published',true);
                 }

@@ -31,7 +31,7 @@ class FaqController extends ApiStandardController
         'sortBy'        => 'sort',
         'sortDirection' => 'ASC',
         'searchIn'      => 'all',
-        'ignorePublish' => true
+        'ignorePublish' => false
       ],
 
       'show' => [
