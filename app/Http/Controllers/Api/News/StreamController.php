@@ -178,7 +178,13 @@ class StreamController extends ApiStandardController
 
               // Check if the video exists
 
-              $video = Youtube::getVideoInfo($data['channel']);
+              $youtubeVideo = $data['channel'];
+              $youtubeVideo = str_replace('https://youtu.be/','',$youtubeVideo);
+              $youtubeVideo = str_replace('http://youtu.be/','', $youtubeVideo);
+              $youtubeVideo = str_replace('https://www.youtube.com/embed/','', $youtubeVideo);
+              $youtubeVideo = str_replace('http://www.youtube.com/embed/','', $youtubeVideo);
+
+              $video = Youtube::getVideoInfo($youtubeVideo);
 
               $url   = 'https://www.youtube.com/embed/'.$data['channel'];
 
@@ -189,6 +195,11 @@ class StreamController extends ApiStandardController
               if ($entry !== null)
                    {
                    return $this->respondBadRequest(_i('Das Video befindet sich bereits im System und kann kein zweites Mal hinzugefügt werden.'));
+                   }
+
+              if ($video === false)
+                   {
+                   return $this->respondBadRequest(_i('Es ist ein Fehler in der Kommunikation mit Youtube aufgetreten. Bitte versuche es erneut oder kontaktiere unser Team.'));
                    }
 
               $entry = StreamEntry::create([

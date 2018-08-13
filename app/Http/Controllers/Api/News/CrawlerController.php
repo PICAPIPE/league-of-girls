@@ -1,18 +1,30 @@
 <?php
 
-namespace App\Http\Controllers\Api\System;
+namespace App\Http\Controllers\Api\News;
 
-use App\Models\System\Page;
+use Youtube;
+use Twitter;
+use OpenGraph;
+
 use Carbon\Carbon;
+
+use App\Models\Chat\Chat;
+use App\Models\Esport\Game;
+use App\Models\Esport\GameKeyword;
+use App\Models\Esport\Link;
+
+use App\Models\User\UserLink;
+
+use App\Models\News\StreamEntry;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiStandardController;
 
-class FaqController extends ApiStandardController
+class CrawlerController extends ApiStandardController
 {
 
   // Define the model class used in this controller
-  protected $cl_model = \App\Models\System\Faq::class;
+  protected $cl_model = \App\Models\News\Crawler::class;
 
   // Define the controller map - auto resolve the http requests
   protected $cl_map   = [
@@ -20,7 +32,7 @@ class FaqController extends ApiStandardController
       'all' => [
         'except'        => false,
         'fields'        => [],
-        'sortBy'        => 'sort',
+        'sortBy'        => 'type',
         'sortDirection' => 'ASC'
       ],
 
@@ -28,7 +40,7 @@ class FaqController extends ApiStandardController
         'except'        => false,
         'fields'        => [],
         'pagination'    => true,
-        'sortBy'        => 'sort',
+        'sortBy'        => 'type',
         'sortDirection' => 'ASC',
         'searchIn'      => 'all',
         'ignorePublish' => false

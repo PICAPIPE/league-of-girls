@@ -28,7 +28,7 @@ class GameController extends ApiStandardController
         'fields'        => ['name','uuid','id','short','published'],
         'sortBy'        => 'name',
         'sortDirection' => 'ASC',
-        'ignorePublish' => true,
+        'ignorePublish' => false,
         'pagination'    => true
       ],
 

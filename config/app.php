@@ -172,6 +172,7 @@ return [
         Thujohn\Twitter\TwitterServiceProvider::class,
         Alaouy\Youtube\YoutubeServiceProvider::class,
         shweshi\OpenGraph\Providers\OpenGraphProvider::class,
+        Awjudd\FeedReader\FeedReaderServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -248,6 +249,7 @@ return [
         'Twitter'               => Thujohn\Twitter\Facades\Twitter::class,
         'Youtube'               => Alaouy\Youtube\Facades\Youtube::class,
         'OpenGraph'             => shweshi\OpenGraph\Facades\OpenGraphFacade::class,
+        'FeedReader'            => Awjudd\FeedReader\Facades\FeedReader::class,
 
         // Authentication
 

@@ -14,6 +14,7 @@ angular.module('pages').controller('FaqOverviewCtrl',[
               actionItems:[]
           };
           ctrl.page    = 1;
+          ctrl.user    = ctrl.USER.getCurrentUser();
 
           // Init
 
@@ -33,7 +34,7 @@ angular.module('pages').controller('FaqOverviewCtrl',[
                   {
                   search = '';
                   }
-            ctrl.DB.call('Faq','get', {showUnpublished:true,page:page,search:search}).then(
+            ctrl.DB.call('Faq','get', {showUnpublished:(ctrl.user !== null && ctrl.user !== undefined && ctrl.user.permissions.indexOf('Admin') !== -1),page:page,search:search}).then(
               function(result)
               {
                   ctrl.data = result;

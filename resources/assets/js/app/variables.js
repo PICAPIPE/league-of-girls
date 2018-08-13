@@ -246,6 +246,13 @@ var DB_SERVICES    = [
        'url'  : 'api/faq'
     },
 
+    // Crawler
+
+    {
+       'name' : 'Crawler',
+       'url'  : 'api/crawler'
+    },
+
     // Chats
 
     {
