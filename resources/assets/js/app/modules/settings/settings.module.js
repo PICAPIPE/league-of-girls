@@ -94,6 +94,24 @@ angular.module('settings').config([
               },
               showAtSettings: true,
               roles: ['Admin']
+            },
+            {
+              name:      'app.settings.crawler',
+              label:     gettext('Crawler'),
+              url:       '/settings/crawler',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/settings/settings.area.html',
+                    'controller':  'SettingsAreaCtrl as setting'
+                  }
+              },
+              datalist:{
+                  'DB':       'Crawler',
+                  'template' :'<crawler-unit uuid="$parent.entry.uuid"></crawler-unit>',
+                  'component':'crawler-create'
+              },
+              showAtSettings: true,
+              roles: ['Admin']
             }
         ];
 

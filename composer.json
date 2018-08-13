@@ -21,6 +21,7 @@
         "spatie/laravel-twitter-streaming-api": "^1.1",
         "thujohn/twitter": "^2.2",
         "tymon/jwt-auth": "dev-develop",
+        "vedmant/laravel-feed-reader": "^1.2",
         "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {

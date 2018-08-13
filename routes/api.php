@@ -52,10 +52,10 @@ Route::api('friends-requests','Api\User\FriendRequestController',  [],true);
 
 // E-Sport
 
-Route::api('games',           'Api\Esport\GameController',         [],false);
-Route::api('plattforms',      'Api\Esport\PlattformController',    [],false);
-Route::api('communications',  'Api\Esport\CommunicationController',[],false);
-Route::api('links',           'Api\Esport\LinkController',         [],false);
+Route::api('games',           'Api\Esport\GameController',         [],true,['auth.safe']);
+Route::api('plattforms',      'Api\Esport\PlattformController',    [],true,['auth.safe']);
+Route::api('communications',  'Api\Esport\CommunicationController',[],true,['auth.safe']);
+Route::api('links',           'Api\Esport\LinkController',         [],true,['auth.safe']);
 
 // Site
 
@@ -67,6 +67,7 @@ Route::api('elements',           'Api\System\PageElementController',  [],true,['
 
 // Faq
 Route::api('faq',              'Api\System\FaqController',            [],true,['auth.safe']);
+Route::api('crawler',          'Api\News\CrawlerController',          [],true,['auth.safe']);
 
 // CHAT
 

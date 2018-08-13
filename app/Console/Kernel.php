@@ -29,6 +29,16 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('content:all')
                   ->everyFiveMinutes();
+
+        $schedule->command('crawler:15')
+                  ->everyFifteenMinutes();
+
+        $schedule->command('crawler:30')
+                  ->everyThirtyMinutes();
+
+        $schedule->command('crawler:60')
+                  ->hourly();
+
     }
 
     /**
