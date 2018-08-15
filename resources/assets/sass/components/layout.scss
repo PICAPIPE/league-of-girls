@@ -23,3 +23,10 @@
     padding-bottom: 20px;
     border-top:     1px solid $CI-COLOR9;
 }
+
+@include media-breakpoint-down(sm) {
+    body
+    {
+       padding: 0 20px;
+    }
+}

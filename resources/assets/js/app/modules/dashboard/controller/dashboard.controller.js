@@ -31,43 +31,5 @@ angular.module('dashboard').controller('DashboardCtrl',[
             }
           ];
 
-          // Links
-
-          dashboard.links = [
-
-          ];
-
-          // Init
-
-          dashboard.$onInit = function () {
-
-            dashboard.DB.call('Pages','all').then(
-                function(result){
-
-                    var i = 0;
-
-                    for (i = 0; i < result.data.data.length; i++)
-                           {
-                           if (result.data.data[i].published === true)
-                                 {
-                                 dashboard.links.push({
-                                      alias: result.data.data[i].alias,
-                                      name:  result.data.data[i].name
-                                 });
-                                 }
-                           }
-
-                },
-                function(errorResult)
-                {
-                    if (window.LARAVEL.debug === true)
-                          {
-                          console.error(errorResult);
-                          }
-                }
-            );
-
-          };
-
      }
 ]);

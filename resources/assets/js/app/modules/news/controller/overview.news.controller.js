@@ -267,5 +267,18 @@ angular.module('news').controller('NewsOverviewCtrl',[
               ctrl.loadNews();
           });
 
+          // On edit news broadcast event -> close and open modal
+          $rootScope.$on('editNews', function(event,args){
+              $rootScope.$broadcast('$modalClose');
+
+              ctrl.createModal({
+                    'background' : 'rgba(255, 255, 255,0.9)',
+                    'content':     '<news-edit uuid="'+args.uuid+'"></news-edit>',
+                    'classes':     ['news-create']
+              },function(){
+                  
+              });
+          });
+
      }
 ]);

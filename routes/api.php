@@ -60,6 +60,7 @@ Route::api('links',           'Api\Esport\LinkController',         [],true,['aut
 // Site
 
 Route::group(['middleware' => ['auth.safe']], function(){
+  Route::get('pages/published',    ['uses'=>'Api\System\PageController@published']);
   Route::any('pages/views/{slug}', ['uses'=>'Api\System\PageController@viewPage'])->where('slug', '([A-z\d-\/_.]+)?');
 });
 Route::api('pages',              'Api\System\PageController',         [],true,['auth.safe']);

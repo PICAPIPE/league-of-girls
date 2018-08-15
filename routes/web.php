@@ -35,6 +35,7 @@ if(env('APP_DEBUG') === true)
       })->name('testmaillayout');
 
       Route::get('test/email/{unique}', ['uses'=>'Web\System\TestController@email','middleware' => ['signed']])->name('testmail');
+      Route::get('test/slack', ['uses'=>'Web\System\TestController@slack'])->name('testslack');
 
   }
 

@@ -410,6 +410,18 @@ $news-youtube-bg:         #ff0000;
    }
 }
 
+news-twitch,
+news-twitter,
+news-youtube
+{
+   .text-check
+   {
+     display: block;
+     color:   #FFF;
+     padding: 10px 0;
+   }
+}
+
 .news-create .modalArea-close,
 .news-create .modalArea-close button
 {

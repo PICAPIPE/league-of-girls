@@ -83,4 +83,16 @@ class PageController extends ApiStandardController
 
   }
 
+  // Returns all the published pages
+  public function published (Request $request)
+  {
+      $doNotInclude = [
+          'imprint',
+          'privacy'
+      ];
+
+      $pages = Page::where('published',true)->whereNotIn('alias',$doNotInclude)->get();
+      return $this->respondSuccess(['data' => $pages->toArray()]);
+  }
+
 }

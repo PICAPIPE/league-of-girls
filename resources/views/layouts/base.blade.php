@@ -20,6 +20,7 @@
         <script src="{{ mix('/js/app.js') }}"></script>
         <script src="{{ mix('/js/application.js') }}"></script>
         <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
 
         @yield('header')
 
@@ -35,15 +36,25 @@
         @yield('scripts')
 
         <div id="footer" class="footer container">
-              © PICAPIPE GmbH
-              <div class="float-right">
-                  <a href="/faq">{{ _i('FAQ') }}</a> -
-                  <a href="/imprint">{{ _i('Impressum') }}</a> -
-                  <a href="/privacy">{{ _i('Datenschutz') }}</a>
-              </div>
-              <div class="sponsored-by">
-                  <small>{{ _i('Gefördert durch') }}</small> <br>
-                  <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
+              <div class="row">
+                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+                      © PICAPIPE GmbH
+                      <div class="sponsored-by">
+                          <small>{{ _i('Gefördert durch') }}</small> <br>
+                          <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
+                      </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3  col-lg-2 text-right">
+                    <pages-list></pages-list>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3  col-lg-2 text-right">
+                    <ul class="actions-list">
+                      <li><a href="https://github.com/PICAPIPE/league-of-girls/issues" target="_blank">{{ _i('Fehler gefunden?') }}</a></li>
+                      <li><a href="/faq">{{ _i('FAQ') }}</a></li>
+                      <li><a href="/imprint">{{ _i('Impressum') }}</a></li>
+                      <li><a href="/privacy">{{ _i('Datenschutz') }}</a></li>
+                    </ul>
+                  </div>
               </div>
         </div>
 
