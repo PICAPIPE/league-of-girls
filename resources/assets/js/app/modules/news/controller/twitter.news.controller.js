@@ -67,12 +67,55 @@ angular.module('news').controller('NewsTwitterCtrl',[
               function(result)
               {
               ctrl.$onInit();
+              $rootScope.$broadcast('reloadNews');
               },
               function(errorResult)
               {
               ctrl.$onInit();
               }
             );
+          };
+
+          // Delete an entry
+          ctrl.delete = function(uuid)
+          {
+
+
+            ctrl.DB.call('Streams','destroy', ctrl.uuid).then(
+              function(result)
+              {
+                $rootScope.$broadcast('reloadNews');
+                $rootScope.$broadcast('$modalClose');
+              },
+              function(errorResult)
+              {
+                var message = ctrl.LANG.getString('Es leider ein Fehler aufgetreten. Bitte probiere es erneut.');
+
+                if (window.LARAVEL.debug === true)
+                      {
+                      console.error(errorResult);
+                      }
+
+                if(angular.isDefined(errorResult.data)         === true &&
+                   angular.isDefined(errorResult.data.message) === true)
+                  {
+                  message = errorResult.data.message;
+                  }
+
+                ctrl.ALERT.add({
+                    'title':     ctrl.LANG.getString('Fehler beim Speichern der Plattform aufgeteten.'),
+                    'message':   message,
+                    'autoClose': true
+                });
+
+              }
+            );
+          };
+
+          // Edit the entry
+          ctrl.edit = function(uuid)
+          {
+              $rootScope.$broadcast('editNews',{uuid:uuid});
           };
 
           // Init Method

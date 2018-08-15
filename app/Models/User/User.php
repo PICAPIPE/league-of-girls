@@ -156,6 +156,19 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false);
   }
 
+  // My friendship requests
+
+  public function myfriedsrequests ()
+  {
+      if (request()->user !== null)
+           {
+           return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false)->where('from_id',request()->user->id);   
+           }
+
+      return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false)->where('from_id',0);
+
+  }
+
   // Roles
 
   public function roles()

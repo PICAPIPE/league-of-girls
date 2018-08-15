@@ -177,6 +177,8 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               ctrl.DB.call('Users','request',{uuid:user.uuid},null).then(
                   function(result)
                   {
+                      var i = 0;
+
                       if (result.data.refresh === true)
                           {
                             ctrl.ALERT.add({
@@ -190,11 +192,24 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                           }
                       else
                           {
-                            ctrl.ALERT.add({
-                                'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
-                                'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
-                                'autoClose': true
-                            });
+
+                              ctrl.ALERT.add({
+                                  'title':     ctrl.LANG.getString('Freundschaftsanfrage erfolgreich abgeschickt!'),
+                                  'message':   ctrl.LANG.getString('Deine Freundschaftsanfrage wurde erfolgreich abgeschickt.'),
+                                  'autoClose': true
+                              });
+
+                             // Update the data
+
+                             for (i = 0; i < ctrl.users.length; i++)
+                                  {
+                                  if (ctrl.users[i].uuid === user.uuid)
+                                        {
+                                        ctrl.users[i].myfriedsrequests.push(result.data.data);
+                                        break;
+                                        }
+                                  }
+
                           }
                   },
                   function(errorResult)

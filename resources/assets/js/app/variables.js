@@ -336,6 +336,17 @@ var DB_SERVICES    = [
              {
                  return url + '/views/:id'
              }
+         },
+         {
+             type:       'get',
+             name:       'published',
+             queryIndex: 2,
+             dataIndex:  3,
+             keep:       false,
+             getUrl: function(url)
+             {
+                 return url + '/published'
+             }
          }
        ]
     },

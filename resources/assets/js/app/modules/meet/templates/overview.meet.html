@@ -44,7 +44,7 @@
                     </ul>
                 </div>
                 <div class="meet-request" ng-if="ctrl.user.uuid !== user.uuid && ctrl.user !== null">
-                    <button class="btn btn-outline-log" ng-click="ctrl.createFriendRequest(user)">{{ 'Anfrage' | translate }}</button>
+                    <button class="btn btn-outline-log" ng-click="ctrl.createFriendRequest(user)" ng-if="user.myfriedsrequests.length === 0">{{ 'Anfrage' | translate }}</button>
                 </div>
             </div>
           </div>

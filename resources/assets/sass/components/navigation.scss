@@ -176,16 +176,7 @@ $navigation-item-color-hover:           $CI-COLOR3;
      > a
      {
        display: block;
-       padding:10px;
-       border-bottom: 1px dotted $CI-COLOR9;
-
-     }
-
-     &:last-child
-     {
-        a {
-          border-bottom: 0;
-        }
+       padding:4px;
      }
   }
 }

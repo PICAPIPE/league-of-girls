@@ -28,4 +28,9 @@ class testController extends Controller
 
     }
 
+    public function slack(Request $request)
+    {
+        abort(500,'Slack error testing.');
+    }
+
 }

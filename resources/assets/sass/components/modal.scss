@@ -52,3 +52,10 @@
     margin-top: 40px;
     padding:    40px;
 }
+
+@include media-breakpoint-down(sm) {
+    .modalArea-content
+    {
+       padding: 15px;
+    }
+}

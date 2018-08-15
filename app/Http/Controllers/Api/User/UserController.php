@@ -57,7 +57,7 @@ class UserController extends ApiStandardController
         'sortBy'        => 'username',
         'sortDirection' => 'ASC',
         'pagination'    => true,
-        'with'          => ['games','communications','links'],
+        'with'          => ['games','communications','links','myfriedsrequests'],
         'wheres'        => [
             'filterGame',
             'filterConnection',

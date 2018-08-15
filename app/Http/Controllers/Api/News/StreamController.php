@@ -65,7 +65,8 @@ class StreamController extends ApiStandardController
       ],
 
       'destroy' => [
-        'except'        => true,
+        'except'        => false,
+        'roles'         => ['Admin']
       ],
 
   ];
@@ -275,12 +276,18 @@ class StreamController extends ApiStandardController
               $guzzle   = $client->get($url);
               $response = json_decode($guzzle->getBody()->getContents());
 
+              if (sizeOf($response->streams) === 0)
+                   {
+                   return $this->respondBadRequest(_i('Du kannst nur Livestreams hinzufügen.'));
+                   }
+
               foreach($response->streams as $k => $stream)
               {
 
               // Check if the game is in the list of allowed games
-              $entry       = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', data_get($data,'channel',''))->first();
               $game        = Game::where('name',$stream->game)->first();
+
+              $entry       = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', data_get($data,'channel',''))->where('game_id',$game_id)->first();
 
               if ($game !== null)
                     {
@@ -297,6 +304,9 @@ class StreamController extends ApiStandardController
                        'live'      => true,
                        'creator'   => $request->user->id
                     ]);
+                    }
+              else  {
+                    return $this->respondBadRequest(_i('Der Twitcheintrag wurde heute bereits hinzugefügt.'));
                     }
 
               if ($entry !== null)
@@ -379,6 +389,19 @@ class StreamController extends ApiStandardController
            {
            $entry->published = true;
            $entry->save();
+
+           if (env('SLACK_WEBHOOK_URL',null)   != null &&
+               env('SLACK_CHANNEL_POSTS',null) != null)
+                 {
+                 \Slack::to(env('SLACK_CHANNEL_POSTS','leagueofgirls'))->send(_i('Es wurde soeben ein neuer Beitrag wurde soeben veröffentlicht.'));
+                 }
+           }
+      else {
+           if (env('SLACK_WEBHOOK_URL',null)   != null &&
+               env('SLACK_CHANNEL_POSTS',null) != null)
+                 {
+                 \Slack::to(env('SLACK_CHANNEL_POSTS','leagueofgirls'))->send(_i('Es wurde soeben ein neuer Beitrag eingereicht.'));
+                 }
            }
 
       // Give the user his/her points

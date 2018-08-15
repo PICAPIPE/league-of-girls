@@ -1,0 +1,7 @@
+<div class="pages-list" ng-if="ctrl.links.length > 0">
+   <ul class="actions-list">
+      <li ng-repeat="link in ctrl.links track by $index">
+         <a href="{{link.alias}}">{{link.name}}</a>
+      </li>
+   </ul>
+ </div>

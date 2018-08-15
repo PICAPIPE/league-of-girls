@@ -11,6 +11,7 @@ class StatusController extends ApiController
 {
 
     public function status(Request $request){
+        //throw new \Exception("Error Processing Request", 1);
 
         return $this->respondSuccess(['time' => time()]);
 

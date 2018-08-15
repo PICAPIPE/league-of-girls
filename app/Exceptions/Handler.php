@@ -220,11 +220,20 @@ class Handler extends ExceptionHandler
                   }
 
                 $result = $this->setStatusCode(500)->respond(array('message'=> $message),array());
+
                 break;
 
           }
 
         }
+
+        // Slack
+
+        if (env('APP_REPORTS',false)    === true && 
+            $exception->getStatusCode() === 500)
+             {
+             \Slack::to(env('SLACK_CHANNEL_REPORTING','reports'))->send($exception->getMessage());
+             }
 
         // SPA
 

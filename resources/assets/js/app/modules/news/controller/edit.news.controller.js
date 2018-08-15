@@ -1,4 +1,4 @@
-angular.module('news').controller('NewsSubmitCtrl',[
+angular.module('news').controller('NewsEditCtrl',[
      '$scope',
      '$rootScope',
      '$state',
@@ -23,7 +23,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
           // Submit a news entry
           ctrl.submit = function()
           {
-              ctrl.DB.call('Streams','store', {}, ctrl.fieldData).then(
+              ctrl.DB.call('Streams','update', ctrl.uuid, ctrl.fieldData).then(
                 function(result)
                 {
                     $rootScope.$broadcast('$modalClose');
@@ -40,7 +40,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
                       }
 
                     ctrl.ALERT.add({
-                        'title':     ctrl.LANG.getString('Fehler beim Einreichen der News!'),
+                        'title':     ctrl.LANG.getString('Fehler beim Abspeichern der News!'),
                         'message':   message,
                         'autoClose': true
                     });
@@ -62,7 +62,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
                       var resultGames = result.data.data;
                       var games       = [];
 
-                      games[games.length] = {'name':'Allgemein',id:-1};
+                      games[games.length] = {'name':'Allgemein','id':-1};
 
                       for (var i = 0; i < resultGames.length; i++)
                              {
@@ -191,6 +191,33 @@ angular.module('news').controller('NewsSubmitCtrl',[
                            }
                         },
                       ];
+
+                      // Load news entry
+                      ctrl.DB.call('Streams','show', ctrl.uuid).then(
+                        function(result){
+                           ctrl.fieldData = result.data.data;
+                        },
+                        function(errorResult)
+                        {
+
+                          var message = ctrl.LANG.getString('Es leider ein Fehler aufgetreten. Bitte probiere es erneut.');
+
+                          if(angular.isDefined(errorResult.data)         === true &&
+                             angular.isDefined(errorResult.data.message) === true)
+                            {
+                            message = errorResult.data.message;
+                            }
+
+                          ctrl.ALERT.add({
+                              'title':     ctrl.LANG.getString('Fehler beim Öffnen der News!'),
+                              'message':   message,
+                              'autoClose': true
+                          });
+
+                          $rootScope.$broadcast('$modalClose');
+
+                        }
+                      );
 
                   }
                 );
