@@ -28,7 +28,7 @@ window.EchoHasConnection = false;
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host:        'http://localhost:6001',
+    host:        window.location.origin + ':6001',
     auth: {
         headers: {
             'Authorization': 'Bearer ' + window.getAppToken()
