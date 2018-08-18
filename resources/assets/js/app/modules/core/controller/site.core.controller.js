@@ -12,6 +12,24 @@ angular.module('core').controller('SiteCtrl',[
           var site = this;
           angular.extend(site, $controller('BaseCtrl', {$scope: $scope}));
 
+          // Styline
+
+          site.getStyle = function()
+          {
+              var style = {};
+
+              if (document.documentElement.clientWidth <= 575)
+                    {
+                    return style;
+                    }
+
+              if ($state.current.name === 'login.login')
+                    {
+                    style['background'] = '#dcdcdc';
+                    }
+              return style;
+          };
+
           // Listen to Request abortion
 
           $rootScope.$on('$abort', function (event, next, current) {

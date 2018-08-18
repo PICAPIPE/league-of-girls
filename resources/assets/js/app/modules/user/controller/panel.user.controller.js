@@ -31,6 +31,8 @@ angular.module('user').controller('UserPanelCtrl',[
                     $scope.$apply();
                 });
 
+                $rootScope.$broadcast('requestUserUpdate');
+
           };
 
           // Update the user data
@@ -101,16 +103,18 @@ angular.module('user').controller('UserPanelCtrl',[
 
           // Watchers
 
-          $scope.$on('userLogged',function(event,args){
+          $rootScope.$on('userLogged',function(event,args){
 
               if(angular.isDefined(args) === true &&
                  args.success            === true)
                 {
                       UserService.setCurrentUser(args.user);
                 }
-
-              userpanel.init();
+                
               userpanel.listen();
+
+              // Update user object in this controller
+              userpanel.user = args.user;
 
           });
 
@@ -122,8 +126,6 @@ angular.module('user').controller('UserPanelCtrl',[
               userpanel.update();
 
           });
-
-
 
      }
 ]);
