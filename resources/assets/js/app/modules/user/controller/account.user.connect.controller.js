@@ -12,7 +12,8 @@ angular.module('user').controller('UserConnectCtrl',[
           var date    = new Date();
           angular.extend(connect, $controller('BaseCtrl', {$scope: $scope}));
 
-          connect.user    = UserService.getCurrentUser();
+          connect.user            = UserService.getCurrentUser();
+          connect.userRequestUuid = null;
 
           connect.$onInit = function () {
 
@@ -24,13 +25,14 @@ angular.module('user').controller('UserConnectCtrl',[
 
           connect.init           = function()
           {
-              connect.user    = UserService.getCurrentUser();
+              $rootScope.$broadcast('requestUserUpdate');
           };
 
           // Connect with user
 
           connect.connect        = function()
           {
+
 
               if(angular.isUndefined(connect.user) === true || connect.user === null)
                 {
@@ -141,6 +143,45 @@ angular.module('user').controller('UserConnectCtrl',[
 
           };
 
+          // Remove friedship request
+
+          connect.connectStop    = function()
+          {
+            connect.DB.call('FriendRequests','destroy',connect.userRequestUuid).then(
+                function(result)
+                {
+                    var i = 0;
+                    connect.init();
+
+                    connect.ALERT.add({
+                        'title':     connect.LANG.getString('Freundschaftanfrage zurückgezogen'),
+                        'message':   connect.LANG.getString('Die Freundschaftsanfrage wurde beendet.'),
+                        'autoClose': true
+                    });
+
+                    for (i = 0; i < connect.user.open_requests.length; i++)
+                          {
+                          if (connect.user.open_requests[i].user.uuid === connect.userRequestUuid)
+                                {
+                                connect.user.open_requests.splice(i,1);
+                                break;
+                                }
+                          }
+
+                    $rootScope.$broadcast('requestUserUpdate');
+
+                },
+                function(errorResult)
+                {
+                    connect.ALERT.add({
+                        'title':     connect.LANG.getString('Freundschaftsanfrage konnte nicht beendet werden!'),
+                        'message':   connect.LANG.getString('Es ist ein Fehler beim Löschen der Freundschaftsanfrage aufgetreten. Versuche es erneut oder kontaktiere den Support.'),
+                        'autoClose': true
+                    });
+                }
+            );
+          };
+
           // Create mesasge
 
           connect.createMessage   = function()
@@ -151,7 +192,7 @@ angular.module('user').controller('UserConnectCtrl',[
                   if(angular.isDefined(result.data.chat) === true)
                     {
                     $state.go('app.chat.detail',{id:result.data.chat});
-                    $rootScope.$broadcast('$modalClose'); 
+                    $rootScope.$broadcast('$modalClose');
                     return;
                     }
               },
@@ -190,6 +231,42 @@ angular.module('user').controller('UserConnectCtrl',[
               return connected;
 
           };
+
+          // Checks if the user appears in the current requests list
+          connect.isOpenRequest = function()
+          {
+              var found = false;
+              var i     = 0;
+
+              connect.userRequestUuid = null;
+
+              if(angular.isUndefined(connect.user) === true || connect.user === null || connect.user.uuid === connect.userId)
+                {
+                return found;
+                }
+
+              for (i = 0; i < connect.user.open_requests.length; i++)
+                    {
+                    if (connect.user.open_requests[i].user.uuid === connect.userId)
+                          {
+                          found = true;
+                          connect.userRequestUuid = connect.user.open_requests[i].uuid;
+                          break;
+                          }
+                    }
+
+              return found;
+          };
+
+          // Hear on user logged callback
+
+          $rootScope.$on('userLogged', function(event,args) {
+              connect.user = args.user;
+              $timeout(function()
+              {
+                $scope.$apply();
+              });
+          });
 
      }
 ]);

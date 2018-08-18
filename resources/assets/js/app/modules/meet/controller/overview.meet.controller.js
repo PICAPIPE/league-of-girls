@@ -6,7 +6,8 @@ angular.module('meet').controller('MeetOverviewCtrl',[
      '$controller',
      'UserService',
      'store',
-     function($scope, $rootScope, $state, $window, $controller,UserService,store) {
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,UserService,store,$timeout) {
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
@@ -210,6 +211,8 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                                         }
                                   }
 
+                              $rootScope.$broadcast('requestUserUpdate');
+
                           }
                   },
                   function(errorResult)
@@ -391,12 +394,39 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           };
 
+          // Checks if a open request exists
+          ctrl.openRequest           = function(user)
+          {
+              var exists = false;
+              var i      = 0;
+
+              for (i = 0; i < ctrl.user.open_requests.length; i++)
+                    {
+                    if (ctrl.user.open_requests[i].user.uuid === user.uuid)
+                          {
+                          exists = true;
+                          break;
+                          }
+                    }
+
+              return exists;
+          };
+
           ctrl.init();
 
           // Watchers
 
           $rootScope.$on('chooseGame',function(event,args){
               ctrl.loadUsers();
+          });
+
+          $rootScope.$on('userLogged', function(event,args) {
+              ctrl.user = args.user;
+              $timeout(function()
+              {
+                $scope.$apply();
+                ctrl.init();
+              });
           });
 
           $scope.$watch('ctrl.filters',           ctrl.watch,               true);

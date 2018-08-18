@@ -149,6 +149,11 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserLink');
   }
 
+  public function openRequests()
+  {
+      return $this->hasMany('App\Models\User\UserRequest','from_id','id')->where('declined',false)->where('accepted',false)->with('user');
+  }
+
   // Requests
 
   public function friendRequests()
@@ -162,7 +167,7 @@ class User extends Authenticatable implements JWTSubject
   {
       if (request()->user !== null)
            {
-           return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false)->where('from_id',request()->user->id);   
+           return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false)->where('from_id',request()->user->id);
            }
 
       return $this->hasMany('App\Models\User\UserRequest')->where('declined',false)->where('accepted',false)->where('from_id',0);

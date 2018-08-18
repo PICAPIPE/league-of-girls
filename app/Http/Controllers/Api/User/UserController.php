@@ -131,7 +131,7 @@ class UserController extends ApiStandardController
 
       $data                    = $request->all();
 
-      $result                  = User::where('uuid',$request->user->uuid)->with(['games','plattforms','communications','links','friends','friends.from']);
+      $result                  = User::where('uuid',$request->user->uuid)->with(['games','plattforms','communications','links','friends','friends.from','openRequests']);
 
       $fields                  = $request->user->getRequestFields($request);
 

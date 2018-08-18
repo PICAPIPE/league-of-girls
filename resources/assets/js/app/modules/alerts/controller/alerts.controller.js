@@ -104,7 +104,7 @@ angular.module('alerts').controller('AlertCtrl',[
 
               if (angular.isUndefined(element) === true)
                  {
-                 return classAdd;  
+                 return classAdd;
                  }
 
               if(alerts.listItemOpen[index] === true)
@@ -218,9 +218,19 @@ angular.module('alerts').controller('AlertCtrl',[
           alerts.init = function(element,index)
           {
 
-                var ts = element.autoCloseTime !== undefined && isNaN(element.autoCloseTime) === false ? element.autoCloseTime : 2000;
+                var ts = element !== undefined && element !== null && element.autoCloseTime !== undefined && isNaN(element.autoCloseTime) === false ? element.autoCloseTime : 2000;
 
                 // Set data
+
+                if (angular.isUndefined(element) === true)
+                     {
+                     if (window.LARAVEL.debug === true)
+                           {
+                           console.warn('Could not find the alerts element.');
+                           }
+                     alerts.dismiss(index);
+                     return;
+                     }
 
                 element.index = index;
 
