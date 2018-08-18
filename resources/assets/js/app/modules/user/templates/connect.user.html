@@ -1,5 +1,6 @@
 <div class="user-connect">
-    <button class="btn btn-outline-default" ng-if="connect.isConnected() === false && connect.user !== null  && connect.user.uuid !== connect.userId && connect.userId !== '-1'" ng-click="connect.connect()">{{ 'Mit Benutzer verbinden' | translate }}</button>
+    <button class="btn btn-outline-default" ng-if="connect.isOpenRequest() === true && connect.isConnected() === false && connect.user !== null  && connect.user.uuid !== connect.userId && connect.userId !== '-1'" ng-click="connect.connectStop()">{{ 'Anfrage zurückziehen' | translate }}</button>
+    <button class="btn btn-outline-default" ng-if="connect.isOpenRequest() === false && connect.isConnected() === false && connect.user !== null  && connect.user.uuid !== connect.userId && connect.userId !== '-1'" ng-click="connect.connect()">{{ 'Mit Benutzer verbinden' | translate }}</button>
     <button class="btn btn-outline-default" ng-if="connect.isConnected() === true  && connect.user !== null  && connect.user.uuid !== connect.userId && connect.userId !== '-1'" ng-click="connect.createMessage()">{{ 'Nachricht schicken' | translate }}</button>
     <button class="btn btn-outline-default" ng-if="connect.isConnected() === true  && connect.user !== null  && connect.user.uuid !== connect.userId && connect.userId !== '-1'" ng-click="connect.deconnect()">{{ 'Verbindung aufheben' | translate }}</button>
 </div>

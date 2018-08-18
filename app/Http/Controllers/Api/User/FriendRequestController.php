@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use Carbon\Carbon;
 
 use App\Models\User\UserFriend;
+use App\Models\User\UserRequest;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiStandardController;
@@ -115,9 +116,23 @@ class FriendRequestController extends ApiStandardController
                 ->orWhere('from_id',$request->user->id);
       })->first();
 
+      if ($modelData === null)
+            {
+            $modelData = UserRequest::where('uuid',$uuid)->where(function($query) use ($request){
+                $query->where('user_id', $request->user->id)
+                      ->orWhere('from_id',$request->user->id);
+            })->first();
+
+            if ($modelData !== null)
+                  {
+                  UserRequest::where('uuid',$uuid)->delete();
+                  return $this->respondSuccess();
+                  }
+            }
+
       if($modelData === null)
         {
-        return $this->respondBadRequest();
+        return $this->respondNotFound(_i('Die Freundschaftanfrage existiert nicht.'));
         }
 
       // Delete Friendships
