@@ -4,7 +4,8 @@ angular.module('dashboard').controller('DashboardCtrl',[
      '$state',
      '$window',
      '$controller',
-     function($scope, $rootScope, $state, $window, $controller) {
+     '$timeout',
+     function($scope, $rootScope, $state, $window, $controller,$timeout) {
 
           var dashboard = this;
           angular.extend(dashboard, $controller('BaseCtrl', {$scope: $scope}));
@@ -30,6 +31,15 @@ angular.module('dashboard').controller('DashboardCtrl',[
               roles: ['Admin']
             }
           ];
+
+          // Hear on update of user object
+          $rootScope.$on('userLogged', function(event,args) {
+              dashboard.user = args.user;
+              $timeout(function()
+              {
+                $scope.$apply();
+              });
+          });
 
      }
 ]);

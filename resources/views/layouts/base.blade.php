@@ -25,7 +25,7 @@
         @yield('header')
 
     </head>
-    <body ng-controller="SiteCtrl as site">
+    <body ng-controller="SiteCtrl as site" ng-style="site.getStyle()">
 
         <alerts></alerts>
 

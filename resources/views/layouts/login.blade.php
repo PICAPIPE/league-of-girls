@@ -11,9 +11,7 @@
                 </a>
             </div>
             <div class="loginContainer">
-
                   @yield('content-login')
-
             </div>
         </div>
     </div>
