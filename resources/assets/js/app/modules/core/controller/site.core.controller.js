@@ -23,7 +23,8 @@ angular.module('core').controller('SiteCtrl',[
                     return style;
                     }
 
-              if ($state.current.name === 'login.login')
+              if ($state.current.name === 'login.login' ||
+                  $state.current.name === 'login.logout')
                     {
                     style['background'] = '#dcdcdc';
                     }
