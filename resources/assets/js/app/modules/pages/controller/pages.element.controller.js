@@ -5,12 +5,18 @@ angular.module('pages').controller('PagesElementCtrl',[
      '$window',
      '$controller',
      '$sce',
-     function($scope, $rootScope, $state, $window, $controller,$sce) {
+     '$filter',
+     function($scope, $rootScope, $state, $window, $controller,$sce,$filter) {
 
           var element = this;
           angular.extend(element, $controller('BaseCtrl', {$scope: $scope}));
 
           element.currentUser = element.USER.getCurrentUser();
+
+          element.trust   = function(url)
+          {
+             return $filter('trustUrl')(url);
+          }
 
           // Check if the element is allowed
           element.check   = function(area)

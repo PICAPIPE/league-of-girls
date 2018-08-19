@@ -10,15 +10,15 @@
 
       <!-- Youtube -->
       <div class="embed-responsive embed-responsive-16by9" ng-if="element.check('youtube')">
-        <iframe class="embed-responsive-item" ng-src="{{ 'https://www.youtube.com/embed/' + element.data.youtube | trustUrl}}"></iframe>
+        <iframe class="embed-responsive-item" ng-src="{{ element.trust('https://www.youtube.com/embed/' + element.data.youtube)}}"></iframe>
       </div>
 
       <!-- Twitter -->
-      <a ng-if="element.check('twitter')" target="_blank" href="{{ element.data.twitter | trustUrl}}">Tweet öffnen</a>
+      <a ng-if="element.check('twitter')" target="_blank" href="{{ element.trust(element.data.twitter) }}">Tweet öffnen</a>
 
       <!-- Twitch -->
       <div class="embed-responsive embed-responsive-16by9" ng-if="element.check('twitch')">
-        <iframe class="embed-responsive-item" ng-src="{{ 'http://player.twitch.tv/?channel=' + element.data.twitch + '&muted=false' | trustUrl}}"></iframe>
+        <iframe class="embed-responsive-item" ng-src="{{ element.trust('http://player.twitch.tv/?channel=' + element.data.twitch + '&muted=false') }}"></iframe>
       </div>
 
 
