@@ -50,6 +50,7 @@ class StreamController extends ApiStandardController
 
       'show' => [
         'except'        => false,
+        'fields'        => ['id','uuid','game_id','creator','type','channel','headline','text','url','image','live','featured','published','created_at'],
         'with'          => ['chat','user'],
         'wheres'        => [
            'filterStream'

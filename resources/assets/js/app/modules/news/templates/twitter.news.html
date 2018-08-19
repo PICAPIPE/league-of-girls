@@ -23,7 +23,6 @@
                     <strong>{{ 'Geteilt von:' | translate}}</strong><br>
                     {{ ctrl.data.user.username }}
                   </div>
-
                   <div class="news_link_share_time">{{ ctrl.MOMENT(ctrl.data.created_at).fromNow()}}</div>
 
                   <div ng-if="ctrl.data.image != ''" ng-style="ctrl.getStyle(ctrl.data,true)"  class="news-icon"></div>
