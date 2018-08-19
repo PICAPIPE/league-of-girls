@@ -13,6 +13,9 @@
 </div>
 <div class="news news_twitch">
    <div class="row">
+     <div class="news_link_shared_by">
+       {{ 'Geteilt von' | translate}} {{ ctrl.data.user.username }} ({{ ctrl.MOMENT(ctrl.data.created_at).fromNow()}})
+     </div>
      <div class="col-lg-4 col-xs-12" style="display:grid;padding-right: 0;" compile="ctrl.stream"></div>
      <div class="col-lg-8 col-xs-12" compile="ctrl.chat"></div>
    </div>

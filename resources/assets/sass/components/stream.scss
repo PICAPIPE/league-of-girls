@@ -351,6 +351,16 @@ $news-youtube-bg:         #ff0000;
    }
 }
 
+.news_link_shared_by
+{
+  background: rgba(0,0,0,0.8);
+  padding:    10px;
+  color:      #FFF;
+  width:      100%;
+  margin:     0 0 0 2px;
+  top:        0;
+}
+
 .notPublished
 {
    opacity: 0.4;
