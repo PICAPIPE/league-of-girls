@@ -8,6 +8,7 @@ use Twitter;
 use Carbon\Carbon;
 
 use App\Models\User\UserLink;
+use App\Models\Chat\Chat;
 
 use App\Models\Esport\Game;
 use App\Models\Esport\GameKeyword;
@@ -103,6 +104,14 @@ class GetTwitter extends Command
                                  'published' => true,
                                  'image'     => $image,
                                  'text'      => $valueTweet->text
+                            ]);
+
+                            // Create a chat
+
+                            $chat = Chat::create([
+                               'pid_table' => 'streams',
+                               'pid'       => $stream->id,
+                               'public'    => true
                             ]);
 
                             // Create point entry

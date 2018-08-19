@@ -48,7 +48,9 @@ angular.module('pages').controller('PagesElementCtrl',[
           element.getClass = function()
           {
               var classNames = [];
-              if (element.currentUser.permissions.indexOf('Admin') > -1)
+              if (angular.isDefined(element.currentUser)          == true &&
+                  element.currentUser                             != null &&
+                  element.currentUser.permissions.indexOf('Admin') > -1)
                     {
                     classNames.push('show-lines');
                     if(element.data.published === false)

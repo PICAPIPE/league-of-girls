@@ -38,7 +38,6 @@ angular.module('news').controller('NewsYoutubeCtrl',[
           ctrl.delete = function(uuid)
           {
 
-
             ctrl.DB.call('Streams','destroy', ctrl.uuid).then(
               function(result)
               {
