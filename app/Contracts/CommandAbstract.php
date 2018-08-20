@@ -186,7 +186,7 @@ class CommandAbstract extends Command{
 
                         $chat = Chat::create([
                            'pid_table' => 'streams',
-                           'pid'       => $streamEntry->id,
+                           'pid'       => $stream->id,
                            'public'    => true
                         ]);
                         }
