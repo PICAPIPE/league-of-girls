@@ -1,4 +1,9 @@
-# League of Girls
+![League of girls](https://www.league-of-girls.com/img/logos/logo-log.svg)
+**powered by [PICAPIPE GmbH](https://picapipe.com)**
+
+This project was funded and supported by 
+
+[![netidee](https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg)](https://netidee.at)
 
 ## Documentation
 https://github.com/PICAPIPE/league-of-girls/wiki
