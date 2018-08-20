@@ -1,5 +1,11 @@
 # League of Girls
 
+## Documentation
+https://github.com/PICAPIPE/league-of-girls/wiki
+
+## Issues
+https://github.com/PICAPIPE/league-of-girls/issues
+
 ## Contributing
 
 Thank you for considering contributing to the League of girls! Detailed information can be found at [PICAPIPE.com](http://picapipe.com).
