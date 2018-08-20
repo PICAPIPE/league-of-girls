@@ -61,6 +61,9 @@ angular.module('core').controller('CoreSiteModalCtrl',[
                       'min-height': window.outerHeight + 'px'
                   };
 
+                  // Scroll to top
+                  window.scrollTo(0, 0);
+
                   $scope.$apply();
 
               },300);

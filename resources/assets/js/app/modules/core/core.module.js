@@ -181,6 +181,8 @@ angular.module('core').run([
           var usersrv           = trans.injector().get('UserService');
           var user              = usersrv.getCurrentUser();
 
+          window.scrollTo(0, 0);
+
           if    (user === null)
                 {
                     // Check current user data
