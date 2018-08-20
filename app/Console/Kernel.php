@@ -39,6 +39,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('crawler:60')
                   ->hourly();
 
+        // Chat Update
+        $schedule->command('chat:update')
+                  ->hourly();
+
     }
 
     /**
