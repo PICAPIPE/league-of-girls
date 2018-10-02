@@ -13,9 +13,25 @@ https://github.com/PICAPIPE/league-of-girls/issues
 
 ## Developement
 
-For the purpose of developement we provide an simple docker container.
-Just run ./dockercompose.sh from the root folder.
-If you have any troubles with the development environment please let us know so we can adopt and improve the process.
+### Docker
+
+This Repo is using docker for the environment. It's not required to use docker. If you don't want to you docker please use only the content of the src folder. Otherwise use the docker-compose files.
+
+This repository provides 2 different yaml files. One for developement and one for production.
+
+#### First steps with docker
+https://www.docker.com/get-started
+
+#### Using this repository
+For using this repository please run the following instructions in the command line:
+```
+docker-compose up --build
+```
+Then attach to the app container and run the following commands
+
+```
+php artisan migrate
+```
 
 ## Feedback
 
