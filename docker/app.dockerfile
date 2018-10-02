@@ -16,5 +16,5 @@ COPY ./scripts /var/www/html/scripts
 RUN apk add --update nodejs nodejs-npm && \
     cd /var/www/html && \
     npm install && \
+    npm rebuild node-sass --force && \
     npm run $DEPLOY_TYPE
-
