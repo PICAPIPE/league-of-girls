@@ -1,0 +1,30 @@
+version: "3.1"
+services:
+  app: 
+    container_name: picapipe-server
+    build:
+      context: ./
+      dockerfile: ./docker/app.dockerfile
+    restart:  always
+    ports:
+    - "8080:80"
+    env_file:
+        - ./environment/.env-app
+    environment:
+        - DEPLOY_TYPE="dev"
+  database:
+    container_name: picapipe-db
+    image: mysql:5.7
+    volumes:
+        - dbdata:/var/lib/mysql
+    env_file:
+        - ./environment/.env-docker
+    ports:
+        - "33061:3306"
+  redis:
+    image: redis:alpine
+    volumes:
+      - redisdata:/var/lib/redis
+volumes:
+  dbdata:
+  redisdata:
