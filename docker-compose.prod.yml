@@ -1,31 +1,37 @@
 version: "3.1"
 services:
   app:
-    container_name: picapipe-server
+    container_name: log-server
     build:
       context: ./
       dockerfile: ./docker/app.dockerfile
     restart:  always
     ports:
-    - "8080:80"
+    - "9090:80"
+    - "6001:6001"
     env_file:
-        - ./environment/.env-app
+      - ./environment/.env-app
+    environment:
+      - DEPLOY_TYPE="dev"
     depends_on:
       - database
       - redis
   database:
-    container_name: picapipe-db
-    image: mysql:5.7
+    container_name: log-db
+    image: mysql:5.7.23
     volumes:
-        - dbdata:/var/lib/mysql
+      - dbdata:/var/lib/database-log
     env_file:
-        - ./environment/.env-docker
+      - ./environment/.env-docker
     ports:
-        - "33061:3306"
+      - "33061:3306"
   redis:
     image: redis:alpine
+    container_name: log-redis
     volumes:
       - redisdata:/var/lib/redis
+    ports:
+      - "6379:6379"
 volumes:
   dbdata:
   redisdata:

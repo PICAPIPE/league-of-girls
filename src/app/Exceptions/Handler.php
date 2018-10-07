@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use App;
 use Exception;
+use Slack;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -110,6 +111,8 @@ class Handler extends ExceptionHandler
 
         $result     = null;
         $message    = null;
+
+        dd(env('DB_PORT'));
 
         $instanceOf       = get_class($exception);
         $isMaintainceMode = ($instanceOf === 'Illuminate\Foundation\Http\Exceptions\MaintenanceModeException');
@@ -229,8 +232,7 @@ class Handler extends ExceptionHandler
 
         // Slack
 
-        if (env('APP_REPORTS',false)    === true && 
-            $exception->getStatusCode() === 500)
+        if (env('APP_REPORTS',false)    === true)
              {
              \Slack::to(env('SLACK_CHANNEL_REPORTING','reports'))->send($exception->getMessage());
              }

@@ -6,19 +6,17 @@ ENV HIDE_NGINX_HEADERS=1
 ENV REMOVE_FILES=1
 ENV RUN_SCRIPTS=1
 
-ADD ./conf/nginx-site.conf /etc/nginx/sites-available/default.conf
-ADD ./conf/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
-
 COPY ./src /var/www/html
-COPY ./scripts /var/www/html/scripts
+COPY ./src/conf/supervisord.conf /etc/supervisord.conf
+COPY ./src/conf/nginx-site.conf /etc/nginx/sites-available/default.conf
+COPY ./src/conf/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 
 # Install nodejs
 RUN apk add --update nodejs nodejs-npm && \
     cd /var/www/html && \
-    npm install
+    npm install --silent
+
+# Install laravel-echo server
+RUN npm install -g laravel-echo-server
 
 RUN apk add --virtual build-dependencies build-base
-
-# Rebuild sass
-RUN npm rebuild node-sass --force && \
-    npm run $DEPLOY_TYPE
