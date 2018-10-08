@@ -70,10 +70,17 @@ angular.module('chat').controller('ChatCtrl',[
           chat.check     = function(event)
           {
 
-              if(event.keyCode !== 13 || event.shiftKey === true)
-                {
-                return;
-                }
+              chat.user = chat.USER.getCurrentUser();
+
+              if (chat.user === null)
+                   {
+                   return;
+                   }
+
+              if (event.keyCode !== 13 || event.shiftKey === true)
+                   {
+                   return;
+                   }
 
               event.preventDefault();
 
@@ -491,11 +498,14 @@ angular.module('chat').controller('ChatCtrl',[
               {
               return;
               }
+            
+            console.log('Joining ' + 'chat-' + chat.current);
 
             Echo.join('chat-' + chat.current)
               .here(function(users) {
 
                   var i = 0;
+
 
                   chat.users    = [];
                   chat.usersIds = [];
@@ -544,12 +554,14 @@ angular.module('chat').controller('ChatCtrl',[
                   });
               })
               .listen('.ChatMessage', function(e) {
+                 console.log(e);
                  if(e.uuid === chat.current)
                    {
                    chat.init(true);
                    }
               })
               .listen('.ChatMessageRead', function(e) {
+                 console.log(e);
                  $rootScope.$broadcast('updateUser',{});
               });
 
@@ -609,6 +621,14 @@ angular.module('chat').controller('ChatCtrl',[
               });
 
           };
+
+          $rootScope.$on('userLogged',function(event,args){
+            chat.user = chat.USER.getCurrentUser();
+          });
+
+          $rootScope.$on('updateUser',function(){
+            chat.user = chat.USER.getCurrentUser();
+          });
 
      }
 ]);

@@ -26,7 +26,7 @@ angular.module('user').controller('FriendsRequestsModalCtrl',[
               },
               {
                  skill: 'advanced',
-                 label: modal.LANG.getString('Fortgeschriten')
+                 label: modal.LANG.getString('Fortgeschritten')
               },
               {
                  skill: 'pro',

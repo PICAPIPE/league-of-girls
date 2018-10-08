@@ -225,7 +225,7 @@ class CommandAbstract extends Command{
 
             $game_id     = $entry->game;
 
-            if ($game_id !== 0)
+            if ($game_id !== null)
                   {
                   if ($stream === null)
                         {

@@ -116,7 +116,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               },
               {
                  skill: 'advanced',
-                 label: myaccountEdit.LANG.getString('Fortgeschriten')
+                 label: myaccountEdit.LANG.getString('Fortgeschritten')
               },
               {
                  skill: 'pro',

@@ -50,7 +50,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               },
               {
                  skill: 'advanced',
-                 label: ctrl.LANG.getString('Fortgeschriten')
+                 label: ctrl.LANG.getString('Fortgeschritten')
               },
               {
                  skill: 'pro',

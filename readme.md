@@ -33,6 +33,14 @@ Then attach to the app container and run the following commands
 php artisan migrate
 ```
 
+### Using Laravel-Echo for chat
+
+Please make sure that you are using the follwoing endpoint.
+
+```
+"authEndpoint": "/api/auth/broadcasting",
+```
+
 ## Feedback
 
 [Feedback in German](https://docs.google.com/forms/d/e/1FAIpQLSfee4Kxq1c56MkhA0yPcOqdVtFBzOrFOowlks7uUz5XSwF9kw/viewform)
