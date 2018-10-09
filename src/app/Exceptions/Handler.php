@@ -112,8 +112,6 @@ class Handler extends ExceptionHandler
         $result     = null;
         $message    = null;
 
-        dd(env('DB_PORT'));
-
         $instanceOf       = get_class($exception);
         $isMaintainceMode = ($instanceOf === 'Illuminate\Foundation\Http\Exceptions\MaintenanceModeException');
 
