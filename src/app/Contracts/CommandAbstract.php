@@ -169,6 +169,11 @@ class CommandAbstract extends Command{
 
             $game_id     = $entry->game;
 
+            if ($valueTweet->retweeted === true)
+                  {
+                  return;
+                  }
+
             if ($game_id !== 0)
                   {
                   if ($stream === null)
@@ -218,6 +223,11 @@ class CommandAbstract extends Command{
         $tweets = json_decode(Twitter::getSearch(['q' => $entry->tag, 'count' => 20, 'format' => 'json']));
 
         foreach ($tweets->statuses as $keyTweet => $valueTweet) {
+
+            if ($valueTweet->retweeted === true)
+                  {
+                  return;
+                  }
 
             $url         = 'https://twitter.com/'.$valueTweet->user->screen_name.'/status/'.$valueTweet->id;
             $stream      = StreamEntry::where('url', $url)->first();
