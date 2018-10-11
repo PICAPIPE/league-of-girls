@@ -1,16 +1,16 @@
 <div class="news news_overview">
 
-  <div class="margin-bottom text-center">
+  <div class="margin-bottom text-center"  ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
         <button ng-click="ctrl.submitNews($event,ctrl.currentGame)" class="btn btn-outline-success">{{'News einreichen'|translate}}</button>
   </div>
 
-  <div class="row margin-bottom news-filter" id="news-filter">
-      <div class="col-xs-12 col-md-6" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+  <div class="row margin-bottom news-filter" id="news-filter"  ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+      <div class="col-xs-12 col-md-6">
         <div class="input-group input-group-sm ">
             <input type="search" ng-model="ctrl.search" class="form-control" placeholder="{{'Suchbegriff eingeben'|translate}}">
         </div>
       </div>
-      <div class="col-xs-12 col-md-3" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+      <div class="col-xs-12 col-md-3">
             <span class="news-filter-label">{{'Channel' | translate }}:</span>
             <select ng-model="ctrl.filters.channel[0]" class="news-filter-select" ng-options="obj.channel as obj.label for obj in ctrl.channelOptions track by obj.channel">
                 <option value="">{{'Alle'|translate}}</option>

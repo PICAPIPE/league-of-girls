@@ -99,7 +99,7 @@ class StreamController extends ApiStandardController
       $search = $request->input('search');
       if ($search !== null && $search !== '')
            {
-           $model = $model->where(function($query){
+           $model = $model->where(function($query) use ($search){
                 $query->where('channel','LIKE','%'.$search.'%')
                     ->orWhere('headline','LIKE','%'.$search.'%')
                     ->orWhere('text','LIKE','%'.$search.'%')
