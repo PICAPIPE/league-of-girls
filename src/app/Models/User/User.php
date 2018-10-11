@@ -97,7 +97,8 @@ class User extends Authenticatable implements JWTSubject
 
   protected $appends = [
       'points',
-      'permissions'
+      'permissions',
+      'myfriend'
   ];
 
   /**
@@ -377,6 +378,11 @@ class User extends Authenticatable implements JWTSubject
   {
       $points = Point::where('user_id',$this->id)->sum('amount');
       return $points;
+  }
+
+  public function getMyfriendAttribute()
+  {
+      return UserFriend::where('user_id',$this->id)->where('from_id',data_get(request()->user,'id',0))->count() > 0;
   }
 
   // Add points to users account

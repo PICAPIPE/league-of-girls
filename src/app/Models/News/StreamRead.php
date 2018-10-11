@@ -5,16 +5,14 @@ namespace App\Models\News;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\News\StreamRead;
-
-class StreamEntry extends BaseModel
+class StreamRead extends BaseModel
 {
   /**
    * The database table used by the model.
    *
    * @var string
    */
-  protected $table = 'stream';
+  protected $table = 'stream_readlater';
 
   /**
    * The attributes that are mass assignable.
@@ -24,18 +22,8 @@ class StreamEntry extends BaseModel
   protected $fillable = [
       'id',
       'uuid',
-      'type',
-      'text',
-      'url',
-      'image',
-      'headline',
-      'text',
-      'published',
-      'featured',
-      'live',
-      'channel',
-      'game_id',
-      'creator'
+      'user_id',
+      'stream_id'
   ];
 
   protected $validations = [
@@ -58,7 +46,7 @@ class StreamEntry extends BaseModel
    */
 
   protected $appends = [
-      'readlater'
+
   ];
 
   /**
@@ -67,10 +55,8 @@ class StreamEntry extends BaseModel
    * @var array
    */
   protected $casts = [
-      'published' => 'boolean',
-      'live'      => 'boolean',
-      'featured'  => 'boolean',
-      'game_id'   => 'integer'
+      'stream_id' => 'integer',
+      'user_id'   => 'integer'
   ];
 
   /**
@@ -82,27 +68,16 @@ class StreamEntry extends BaseModel
 
   // Chat
 
-  public function chat()
+  public function stream()
   {
-      return $this->hasOne('App\Models\Chat\Chat','pid','id')->where('pid_table','streams');
+      return $this->hasOne('App\Models\News\StreamEntry','stream_id','id');
   }
 
   // User (Createor)
 
   public function user()
   {
-      return $this->hasOne('App\Models\User\User','id','creator');
-  }
-
-  public function getReadlaterAttribute()
-  {
-      if (request()->user === null)
-            {
-            return false;
-            }
-
-      return StreamRead::where('user_id',request()->user->id)->where('stream_id',$this->id)->count() > 0;
-
+      return $this->hasOne('App\Models\User\User','id','user_id');
   }
 
 }

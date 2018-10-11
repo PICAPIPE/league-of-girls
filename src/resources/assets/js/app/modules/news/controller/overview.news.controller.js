@@ -5,8 +5,9 @@ angular.module('news').controller('NewsOverviewCtrl',[
      '$window',
      '$controller',
      'store',
+     '$timeout',
      'UserService',
-     function($scope, $rootScope, $state, $window, $controller, store,UserService) {
+     function($scope, $rootScope, $state, $window, $controller, store,$timeout,UserService) {
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
@@ -14,9 +15,17 @@ angular.module('news').controller('NewsOverviewCtrl',[
           ctrl.data            = [];
           ctrl.storageKey      = 'log_choosen_game';
 
+          ctrl.search          = '';
+          ctrl.searchEvent     = null;
           ctrl.streamsUUID     = [];
           ctrl.pageCurrent     = 1;
           ctrl.USER            = UserService.getCurrentUser();
+
+          ctrl.filters         = 
+          {
+             channel:     [],
+             addon:       []
+          };
 
           // Get the correct css class for the news
 
@@ -53,6 +62,25 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
               return className;
           };
+
+          ctrl.channelOptions    = [
+            {
+               channel: 'twitch',
+               label: ctrl.LANG.getString('Twitch')
+            },
+            {
+               channel: 'youtube',
+               label: ctrl.LANG.getString('Youtube')
+            },
+            {
+               channel: 'link',
+               label: ctrl.LANG.getString('Blog/Webseite')
+            },
+            {
+               channel: 'twitter',
+               label: ctrl.LANG.getString('Twitter')
+            }
+        ];
 
           // Open stream
 
@@ -139,6 +167,18 @@ angular.module('news').controller('NewsOverviewCtrl',[
                   {
                   method = 'featured';
                   }
+
+            params['search'] = ctrl.search;
+
+            // Setup the filters
+
+            for(var filter in ctrl.filters)
+            {
+              if(angular.isDefined(ctrl.filters[filter]) === true)
+              {
+                  params[filter] = ctrl.filters[filter].join(',');
+              }
+            }
 
             ctrl.DB.call('Streams',method, params).then(
               function(result)
@@ -227,6 +267,38 @@ angular.module('news').controller('NewsOverviewCtrl',[
               });
           };
 
+          // Read later 
+
+          ctrl.readlater = function(news,event)
+          {
+              console.error('READLATER');
+              event.preventDefault();
+              if (news.readlater === true)
+                    {
+                    // Remove from read later list
+                    ctrl.DB.call('Streams','removefromreadlater', {uuid:news.uuid}).then(
+                        function(result)
+                        {
+                        news.readlater = false;
+                        }
+                    );
+                    }
+              else  {
+                    // Add to readlater list
+                    ctrl.DB.call('Streams','readlater', {uuid:news.uuid}).then(
+                        function(result)
+                        {
+                        news.readlater = true;
+                        }
+                    );
+                    }
+          };
+
+          ctrl.getCssClassForReadlater = function(news)
+          {
+             return news.readlater === true ? '' : 'inactive';
+          };
+
           // Init function
 
           ctrl.init      = function()
@@ -246,6 +318,20 @@ angular.module('news').controller('NewsOverviewCtrl',[
               ctrl.init();
           };
 
+          ctrl.watch = function()
+          {
+              if (ctrl.searchEvent !== null)
+                    {
+                    clearTimeout(ctrl.searchEvent);
+                    }
+
+              ctrl.searchEvent = setTimeout(function(){
+                  ctrl.streamsUUID = [];
+                  ctrl.data        = [];
+                  ctrl.loadNews(1);
+              },350);
+          };
+
           // Watchers
 
           $rootScope.$on('chooseGame',function(event,args){
@@ -258,6 +344,14 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
                ctrl.loadNews();
           });
+
+          $scope.$watch('ctrl.search', function(oldValue,newValue){
+
+             ctrl.watch();
+
+          }, true);
+
+          $scope.$watch('ctrl.filters',           ctrl.watch,               true);
 
           // Reload the news from outside
 
@@ -278,7 +372,16 @@ angular.module('news').controller('NewsOverviewCtrl',[
               },function(){
                   
               });
+
           });
+
+          $rootScope.$on('userLogged', function(event,args) {
+            ctrl.USER = args.user;
+            $timeout(function()
+            {
+              $scope.$apply();
+            });
+        });
 
      }
 ]);

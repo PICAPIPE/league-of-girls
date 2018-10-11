@@ -314,9 +314,29 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/featured'
+                   return url + '/featured';
                }
-           }
+           },
+           {
+                type:       'post',
+                name:       'readlater',
+                queryIndex: 2,
+                keep:       true,
+                getUrl: function(url)
+                {
+                    return url + '/:uuid/readlater';
+                }
+            },
+            {
+                type:       'delete',
+                name:       'removefromreadlater',
+                queryIndex: 2,
+                keep:       true,
+                getUrl: function(url)
+                {
+                    return url + '/:uuid/readlater';
+                }
+            }
        ]
     },
 

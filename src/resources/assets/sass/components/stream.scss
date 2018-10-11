@@ -8,9 +8,90 @@ $news-twitch-bg:          rgb(75, 54, 124);
 $news-twitter-bg:         #1da1f2;
 $news-youtube-bg:         #ff0000;
 
-.news-list
+#news-filter
 {
+    .input-group 
+    {
+      position: relative;
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 15px;
+        top: 3px;
+      }
+      @include media-breakpoint-up(md) {
+        left: -20px;
+        top: 7px;
+      }
+      @include media-breakpoint-up(lg) {
+        left: 0px;
+        top: 0px;
+      }
+    }
+}
 
+.news-filter
+{
+   border:     1px solid #000;
+   padding:    10px 40px;
+   max-width:  80%;
+   margin:     15px auto 15px;
+}
+
+.news-filter-label,
+.news-filter-select {
+  @include media-breakpoint-up(lg) {
+    position: relative;
+    top: 3px;
+    left: 5px;
+  }
+}
+
+.news-filter-label
+{
+    color:$news-filter-label-color;
+}
+
+.news-filter-value
+{
+    margin-right: 5px;
+    color:        $news-filter-label-color;
+    cursor:       pointer;
+    font-weight:  bold;
+
+    > i
+    {
+       font-weight: normal!important;
+    }
+
+    &.active
+    {
+      color:        $news-filter-value-color;
+    }
+
+}
+
+.news-filter-select
+{
+    -webkit-appearance: none;
+    background:         none;
+    border:             0;
+    color:              $news-filter-value-color;
+}
+
+.news-readlater 
+{
+  position: absolute;
+  color: #444;
+  bottom: 6px;
+  right: 7px;
+  background: #FFF;
+  padding: 4px 7px;
+  border-radius: 100px;
+  z-index:9999;
+  cursor: pointer;
+  &.inactive 
+  {
+    opacity: 0.75;
+  }
 }
 
 .news-triangle

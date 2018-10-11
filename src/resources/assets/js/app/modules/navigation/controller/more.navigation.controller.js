@@ -10,16 +10,10 @@ angular.module('navigation').controller('NavigationMoreCtrl',[
           angular.extend(morenavigation, $controller('BaseCtrl', {$scope: $scope}));
 
           morenavigation.links = [
-            {
-                label:                morenavigation.LANG.getString("Chat"),
-                state:                'app.chat.overview',
-                useFirstLetterAsIcon: true
-            },
+
           ];
 
           morenavigation.load  = function(){
-
-
 
           };
 

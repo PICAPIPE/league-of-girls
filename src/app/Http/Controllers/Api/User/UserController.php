@@ -467,7 +467,7 @@ class UserController extends ApiStandardController
 
           if($connected === true)
                 {
-                    $query->whereIn('id',array_unique($userIds));
+                    $query->whereIn('id', array_unique($userIds));
                 }
 
       });

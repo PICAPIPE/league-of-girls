@@ -72,7 +72,7 @@ class RoleSeeder extends Seeder
                            {
 
                            // Add user role only if the user does not have the current role
-                           $userRoleCnt = UserRole::where('user_id',$user->id)->where('role_id',$role->id)->count()
+                           $userRoleCnt = UserRole::where('user_id',$user->id)->where('role_id',$role->id)->count();
                            if ($userRoleCnt === 0)
                                  {
                                  UserRole::create([

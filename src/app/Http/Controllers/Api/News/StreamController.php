@@ -16,6 +16,7 @@ use App\Models\Esport\Link;
 use App\Models\User\UserLink;
 
 use App\Models\News\StreamEntry;
+use App\Models\News\StreamRead;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiStandardController;
@@ -44,7 +45,10 @@ class StreamController extends ApiStandardController
         'pagination'    => true,
         'ignorePublish' => true,
         'wheres'        => [
-           'filterGame'
+           'filterGame',
+           'filterChannel',
+           'filterSearch',
+           'filterAddon'
         ],
       ],
 
@@ -68,7 +72,7 @@ class StreamController extends ApiStandardController
       'destroy' => [
         'except'        => false,
         'roles'         => ['Admin']
-      ],
+      ]
 
   ];
 
@@ -88,6 +92,49 @@ class StreamController extends ApiStandardController
           $model = $model->where('published',true);
           }
       return $model;
+  }
+
+  protected function filterSearch(Request $request,$model)
+  {
+      if (request('search') !== null && request('search') !== '')
+           {
+           $model = $model->where(function($query){
+                $query->where('channel','LIKE','%'.request('search').'%')
+                    ->orWhere('headline','LIKE','%'.request('search').'%')
+                    ->orWhere('text','LIKE','%'.request('search').'%')
+                    ->orWhere('text','LIKE','%'.request('search').'%');
+           });
+           }
+
+      return $model;
+  }
+
+  protected function filterChannel(Request $request,$model)
+  {
+      if (request('channel') !== null && request('channel') !== '' && request('channel') !== 'ALL')
+           {
+           $model = $model->where('type', request('channel'));
+           }
+
+      return $model;
+  }
+
+  protected function filterAddon(Request $request,$model)
+  {
+     if (request('addon') !== null && request('addon') !== '' && request('addon') !== 'ALL')
+            {
+            if (request('addon') === 'featured')
+                  {
+                  $model = $model->where('featured', true);    
+                  }
+            else if (request('addon') === 'readlater' && $request->user !== null)
+                  {
+                  $model = $model->where(function($query) use ($request){
+                    $query->whereIn('id', StreamRead::where('user_id',$request->user->id)->pluck('stream_id'));
+                  });    
+                  }
+            }
+     return $model;
   }
 
   protected function filterGame(Request $request,$model)
@@ -113,7 +160,9 @@ class StreamController extends ApiStandardController
           else  {
                 if ($request->user == null || $request->user->is(['Admin']) === false)
                      {
-                     $model = $model->where('published',true)->orWhere('creator', $request->user->id);
+                     $model = $model->where(function(){
+                         $query->where('published',true)->orWhere('creator', $request->user->id);
+                     });
                      }
                 }
           }
@@ -129,11 +178,15 @@ class StreamController extends ApiStandardController
         {
             $model = $model->where(function($query) use ($game) {
 
-                $ids   = Game::where('uuid',$game)->pluck('id');
-                $ids   = $ids->toArray();
-                $ids[] = 0;
+                $gameEntry   = Game::where('uuid',$game)->first();
 
-                $query->whereIn('game_id',$ids);
+                if ($gameEntry !== null)
+                      {
+                      $query->where('game_id',$gameEntry->id);
+                      }
+                else  {
+                      $query->where('game_id',0);
+                      }
 
             });
 
@@ -457,6 +510,45 @@ class StreamController extends ApiStandardController
            }
 
       return $this->respondSuccess(['data' => $stream->toArray()]);
+
+  }
+
+  // Save a stream in the read later table
+
+  public function readLater(Request $request, $uuid)
+  {
+        $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+        if ($stream !== null && $request->user !== null)
+              {
+              $streamReadLater = StreamRead::where('stream_id', $stream->id)->where('user_id',$request->user->id)->first();
+              if ($streamReadLater === null)
+                    {
+                    StreamRead::create(['stream_id' => $stream->id, 'user_id' => $request->user->id]);
+                    return $this->respondSuccess();
+                    }
+              }
+
+        return $this->respondBadRequest();
+
+  }
+
+  // Delete a stream in the read later table
+
+  public function readLaterDelete(Request $request, $uuid)
+  {
+
+        $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+        if ($stream !== null && $request->user !== null)
+              {
+              $streamReadLater = StreamRead::where('stream_id', $stream->id)->where('user_id',$request->user->id)->first();
+              if ($streamReadLater !== null)
+                    {
+                    $streamReadLater->delete();
+                    return $this->respondSuccess();
+                    }
+              }
+
+        return $this->respondBadRequest();
 
   }
 

@@ -312,7 +312,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
                 },
                 function(errorResult){
-                    gamesnavigation.links = [];
+                    
                 }
               );
 
