@@ -12,7 +12,11 @@ COPY ./src/conf/nginx-site.conf /etc/nginx/sites-available/default.conf
 COPY ./src/conf/nginx-site-ssl.conf /etc/nginx/sites-available/default-ssl.conf
 
 # Install nodejs
-RUN apk add --update nodejs nodejs-npm && \
+# Install nodejs
+RUN apk add --update automake make \
+    gcc autoconf \
+    libtool libc-dev nasm libpng-dev \
+    nodejs nodejs-npm && \
     cd /var/www/html && \
     npm install --silent
 
