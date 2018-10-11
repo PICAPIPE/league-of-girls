@@ -42,7 +42,7 @@
                 <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
                 <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
                 <div ng-if="news.type == 'link'"    ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
-                <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)">
+                <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                     <i class="fas fa-glasses"></i>
                 </div>
             </div>

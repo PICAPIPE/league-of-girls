@@ -96,13 +96,14 @@ class StreamController extends ApiStandardController
 
   protected function filterSearch(Request $request,$model)
   {
-      if (request('search') !== null && request('search') !== '')
+      $search = $request->input('search');
+      if ($search !== null && $search !== '')
            {
            $model = $model->where(function($query){
-                $query->where('channel','LIKE','%'.request('search').'%')
-                    ->orWhere('headline','LIKE','%'.request('search').'%')
-                    ->orWhere('text','LIKE','%'.request('search').'%')
-                    ->orWhere('text','LIKE','%'.request('search').'%');
+                $query->where('channel','LIKE','%'.$search.'%')
+                    ->orWhere('headline','LIKE','%'.$search.'%')
+                    ->orWhere('text','LIKE','%'.$search.'%')
+                    ->orWhere('text','LIKE','%'.$search.'%');
            });
            }
 
@@ -111,9 +112,10 @@ class StreamController extends ApiStandardController
 
   protected function filterChannel(Request $request,$model)
   {
-      if (request('channel') !== null && request('channel') !== '' && request('channel') !== 'ALL')
+      $channel = $request->input('channel');
+      if ($channel !== null && $channel !== '' && $channel !== 'ALL')
            {
-           $model = $model->where('type', request('channel'));
+           $model = $model->where('type', $channel);
            }
 
       return $model;
@@ -121,16 +123,17 @@ class StreamController extends ApiStandardController
 
   protected function filterAddon(Request $request,$model)
   {
-     if (request('addon') !== null && request('addon') !== '' && request('addon') !== 'ALL')
+     $addon = $request->input('addon');
+     if ($addon !== null && $addon !== '' && $addon !== 'ALL')
             {
-            if (request('addon') === 'featured')
+            if ($addon === 'featured')
                   {
                   $model = $model->where('featured', true);    
                   }
-            else if (request('addon') === 'readlater' && $request->user !== null)
+            else if ($addon === 'readlater' && $request->user !== null)
                   {
                   $model = $model->where(function($query) use ($request){
-                    $query->whereIn('id', StreamRead::where('user_id',$request->user->id)->pluck('stream_id'));
+                     $query->whereIn('id', StreamRead::where('user_id',$request->user->id)->pluck('stream_id'));
                   });    
                   }
             }
@@ -160,7 +163,7 @@ class StreamController extends ApiStandardController
           else  {
                 if ($request->user == null || $request->user->is(['Admin']) === false)
                      {
-                     $model = $model->where(function(){
+                     $model = $model->where(function($query) use ($request){
                          $query->where('published',true)->orWhere('creator', $request->user->id);
                      });
                      }
