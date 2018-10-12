@@ -101,14 +101,15 @@ input[type=search]{
     color:              $news-filter-value-color;
     font-weight: 500;
 
+    
 }
 
 .news-readlater 
 {
   position: absolute;
-  color: #444;
+  color: $CI-COLOR4;
   bottom: 6px;
-  right: 7px;
+  left: 7px;
   background: #FFF;
   padding: 4px 7px;
   border-radius: 100px;
@@ -116,7 +117,7 @@ input[type=search]{
   cursor: pointer;
   &.inactive 
   {
-    opacity: 0.75;
+    opacity: 0.50;
   }
 }
 
@@ -191,8 +192,8 @@ input[type=search]{
   {
       .news-inside
       {
-        color:      #FFF;
         border:     1px solid $news-youtube-bg;
+        color:      $CI-COLOR1;
 
         &:hover{
           background: $news-youtube-bg;
