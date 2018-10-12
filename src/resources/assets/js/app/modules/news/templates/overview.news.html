@@ -37,9 +37,9 @@
       <div class="news-item" ng-class="ctrl.getCssClass(news)" ng-repeat="news in ctrl.data">
           <div class="news-inside">
             <div class="news-avatar">
-                <div class="news-triangle"></div>
                 <img ng-if="news.type == 'twitch'"  ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
                 <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
+                <div class="news-triangle"></div>
                 <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
                 <div ng-if="news.type == 'link'"    ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
                 <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
@@ -58,17 +58,32 @@
                 <div class="news-element-twitch" ng-if="news.type == 'youtube'">
                      <span class="news-element-text" ng-click="ctrl.openStream(news)">{{ news.headline}}</span>
                      <span class="news-logo"><i class="fab fa-youtube"></i></span>
-                     <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ 'Öffnen' | translate }}</span>
+                     <div class="news-element-channel-box">
+                            <div class="news-element-channel-type"><i class="fab fa-youtube"></i></div>
+                            <div class="news-element-channel-name">
+                            <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ 'Öffnen' | translate }}</span>
+                            </div>
+                     </div>
                 </div>
 
                 <div class="news-element-twitter" ng-if="news.type == 'twitter'">
                      <div class="news-element-text" compile="news.text"></div>
-                     <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ news.channel }}</span>
+                     <div class="news-element-channel-box">
+                            <div class="news-element-channel-type"><i class="fab fa-twitter"></i></div>
+                            <div class="news-element-channel-name">
+                            <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ news.channel }}</span>
+                            </div>
+                     </div>
                 </div>
 
                 <div class="news-element-link" ng-if="news.type == 'link'">
                      <div class="news-element-text" compile="news.headline"></div>
-                     <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
+                     <div class="news-element-channel-box">
+                            <div class="news-element-channel-type"><i class="fab fa-link"></i></div>
+                            <div class="news-element-channel-name">
+                                <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
+                            </div>
+                     </div>
                 </div>
 
             </div>

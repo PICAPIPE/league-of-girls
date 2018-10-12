@@ -1,4 +1,4 @@
-$navigation-first-letter-size:          29px;
+$navigation-first-letter-size:          36px;
 $navigation-first-letter-border-color:  $CI-COLOR4;
 $navigation-first-letter-border:        1px solid $navigation-first-letter-border-color;
 
@@ -15,6 +15,7 @@ $navigation-item-color-hover:           $CI-COLOR3;
   padding:    0;
   margin:     0;
   list-style: none;
+  font-size: 1.4em;
 }
 
 .navigation_list_item {
