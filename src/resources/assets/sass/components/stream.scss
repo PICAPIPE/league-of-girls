@@ -1,10 +1,10 @@
-$news-avatar-size: 150px;
+$news-avatar-size: 180px;
 $news-border:      1px solid $CI-COLOR3;
 
 $news-filter-label-color: $CI-COLOR4;
 $news-filter-value-color: $CI-COLOR3;
 
-$news-twitch-bg:          rgb(75, 54, 124);
+$news-twitch-bg:          rgb(100, 65, 164);
 $news-twitter-bg:         #1da1f2;
 $news-youtube-bg:         #ff0000;
 
@@ -30,7 +30,7 @@ $news-youtube-bg:         #ff0000;
 
 .news-filter
 {
-   border:     1px solid #000;
+   border:     1px solid $CI-COLOR4;
    padding:    10px 40px;
    max-width:  80%;
    margin:     15px auto 15px;
@@ -69,12 +69,34 @@ $news-youtube-bg:         #ff0000;
 
 }
 
+input[type=search]::-webkit-search-cancel-button,
+input[type=search]::-webkit-search-decoration,
+input[type=search]::-webkit-search-results-button,
+input[type=search]::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
+input[type=search] {
+  -webkit-appearance:textfield;
+  -webkit-box-sizing:content-box;
+  outline: none;
+}
+
+input[type=search]{
+  border-bottom: 2px solid $CI-COLOR1;
+}
+
+.input-group .form-control {
+  font-size: 14px;
+}
+
 .news-filter-select
 {
     -webkit-appearance: none;
     background:         none;
     border:             0;
     color:              $news-filter-value-color;
+    font-weight: 500;
+
 }
 
 .news-readlater 
@@ -109,12 +131,55 @@ $news-youtube-bg:         #ff0000;
 
 .news-item
 {
-  padding:1px;
+  padding: 2.5px;
   cursor: pointer;
 
   .news-element-text
   {
     font-family: 'Bitter', serif;
+    font-size: 14px;
+    max-height:    70%;
+    position:      absolute;
+    overflow:      hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    max-width: 90%;
+  }
+
+  .news-element-channel-box{
+    position: absolute;
+    bottom:   30px;
+    left:    80px;
+    height: 18px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    grid-template-areas: "news-type news-name";
+    align-items: center;
+
+
+    .news-element-channel-type{
+      height: 100%;
+      text-align: center;
+      grid-area: news-type;
+      font-size: 16px;
+      color: $CI-COLOR10;
+      background-color: $CI-COLOR3;
+    }
+
+    .news-element-channel-name{
+      height: 100%;
+      grid-area: news-name;
+      padding: 0 20px;
+      font-family: Roboto, sans-serif;
+      font-size: 17px;
+      font-weight: 500;
+      color: $CI-COLOR10;
+      background-color: $CI-COLOR4;
+
+      span {
+        margin: 0 auto;
+      }
+    }
   }
 
   &.youtube
@@ -123,7 +188,10 @@ $news-youtube-bg:         #ff0000;
       {
         color:      #FFF;
         border:     1px solid $news-youtube-bg;
-        background: $news-youtube-bg;
+
+        &:hover{
+          background: $news-youtube-bg;
+        }
       }
 
       .news-element-text
@@ -131,18 +199,18 @@ $news-youtube-bg:         #ff0000;
          position: relative;
          top: 10px;
          cursor: pointer;
-         width: 80%;
          display: block;
          white-space: normal;
          word-break: break-word;
       }
 
-      .news-element-channel
+      .news-element-channel-type{
+        background-color: $news-youtube-bg;
+      }
+
+      .news-triangle
       {
-        position: absolute;
-        bottom:   10px;
-        right:    10px;
-        cursor:   pointer;
+        border-color: $news-youtube-bg transparent transparent transparent;
       }
   }
 
@@ -151,21 +219,13 @@ $news-youtube-bg:         #ff0000;
 
     .news-element-text
     {
-      font-size:     14px;
       font-weight:   bold;
-      max-height:    80%;
-      position:      absolute;
-      overflow:      auto;
-      text-overflow: ellipsis;
       width:         43%;
       top:           10px;
     }
 
     .news-element-channel
     {
-      position: absolute;
-      bottom:   10px;
-      right:    10px;
     }
   }
 
@@ -176,27 +236,31 @@ $news-youtube-bg:         #ff0000;
 
      .news-inside
      {
-       color:      #FFF;
+       color:      $CI-COLOR1;
        border:     1px solid $news-twitter-bg;
-       background: $news-twitter-bg;
+
+       &:hover{
+        background: $news-twitter-bg;
+      }
+     }
+
+     .news-avatar{
+       background-color: $news-twitter-bg;
      }
 
      .news-element-text
      {
-       font-size: 12px;
-       max-height: 80%;
        position: absolute;
-       overflow: auto;
-       text-overflow: ellipsis;
-       width: 43%;
        top: 10px;
      }
 
-     .news-element-channel
+     .news-element-channel-type{
+       background-color: $news-twitter-bg;
+     }
+
+     .news-triangle
      {
-       position: absolute;
-       bottom:   10px;
-       right:    10px;
+       border-color: $news-twitter-bg transparent transparent transparent;
      }
 
   }
@@ -213,19 +277,25 @@ $news-youtube-bg:         #ff0000;
 
      .news-element-text
      {
-        position: absolute;
-        top:      10px;
-        cursor:   pointer;
-     }
+      position: absolute;
+      top: 25px;
+    }
 
      .news-element-channel
      {
-       position: absolute;
-       bottom:   10px;
-       right:    10px;
-       cursor:   pointer;
-     }
 
+       position: absolute;
+       bottom:   15px;
+       right:    15px;
+       cursor:   pointer;
+       font-family: Roboto, sans-serif;
+       font-size: 16px;
+       font-weight: 600;
+      }
+     .news-triangle
+     {
+       border-color: $news-twitch-bg transparent transparent transparent;
+     }
 
   }
 }
@@ -234,6 +304,16 @@ $news-youtube-bg:         #ff0000;
 {
   display: flex;
   border:  $meet-border;
+  background-color: #fff;
+  transition: background .1s linear;
+
+  &:hover .news-element-text{
+    color: #fff;
+  }
+
+  &:hover > .news-avatar img {
+    opacity: 0.5;
+  }
 }
 
 .news-avatar
@@ -244,6 +324,13 @@ $news-youtube-bg:         #ff0000;
     margin-right:  15px;
     cursor:        pointer;
 
+    & > img {
+      -webkit-filter: saturate(.9) contrast(.5) brightness(1.4);
+      filter: saturate(.9) contrast(.5) brightness(1.4);
+      opacity: 0.9;
+      transition: .1s opacity linear;
+      -webkit-transition: .1s opacity linear;
+    }
 
     .youtube-icon,
     .link-icon,
@@ -282,11 +369,11 @@ $news-youtube-bg:         #ff0000;
 
 .news-logo
 {
-  opacity:    0.5;
+  opacity:    0.4;
   color:      #FFF;
   position:   absolute;
-  right:      10px;
-  top:        10px;
+  right:      15px;
+  top:        5px;
   font-size:  60px;
 }
 
