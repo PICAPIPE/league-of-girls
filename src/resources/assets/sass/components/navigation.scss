@@ -15,17 +15,17 @@ $navigation-item-color-hover:           $CI-COLOR3;
   padding:    0;
   margin:     0;
   list-style: none;
-  font-size: 1.4em;
+  font-size: 1.3em;
 }
 
 .navigation_list_item {
 
-  margin:         0 20px;
+  margin:         0 30px;
   list-style:     none;
   text-align:     center;
   display:        inline-block;
   text-transform: uppercase;
-  font-size:      1.15em;
+  font-size:      1.05em;
   font-weight:    bold;
   color:          $navigation-item-color;
 
@@ -117,7 +117,7 @@ $navigation-item-color-hover:           $CI-COLOR3;
      position: absolute;
      width: 150px;
      left: -150px;
-     font-size: 1.4em;
+     font-size: 1.3em;
     }
 }
 

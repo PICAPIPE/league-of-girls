@@ -45,6 +45,9 @@
                 <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                     <i class="fas fa-glasses"></i>
                 </div>
+                <div class="featured-badge" ng-if="ctrl.mode == 'featured'">
+                        <!-- <i class="log-icon log-icon-game"></i> -->F
+                  </div>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)">
 
@@ -55,7 +58,7 @@
                      <span class="news-element-channel">{{ news.channel }}</span>
                 </div>
 
-                <div class="news-element-twitch" ng-if="news.type == 'youtube'">
+                <div class="news-element-youtube" ng-if="news.type == 'youtube'">
                      <span class="news-element-text" ng-click="ctrl.openStream(news)">{{ news.headline}}</span>
                      <span class="news-logo"><i class="fab fa-youtube"></i></span>
                      <div class="news-element-channel-box">

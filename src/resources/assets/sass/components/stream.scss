@@ -30,8 +30,8 @@ $news-youtube-bg:         #ff0000;
 
 .news-filter
 {
-   border:     1px solid $CI-COLOR4;
-   padding:    10px 40px;
+   border-bottom:     1px solid $CI-COLOR8;
+   padding:    20px 40px;
    max-width:  80%;
    margin:     15px auto 15px;
 }
@@ -43,6 +43,10 @@ $news-youtube-bg:         #ff0000;
     top: 3px;
     left: 5px;
   }
+}
+
+.news-filter-select {
+  cursor: pointer;
 }
 
 .news-filter-label
@@ -138,8 +142,9 @@ input[type=search]{
   {
     font-family: 'Bitter', serif;
     font-size: 14px;
-    max-height:    70%;
+    max-height:    45%;
     position:      absolute;
+    top: 25px;
     overflow:      hidden;
     text-overflow: ellipsis;
     white-space: normal;
@@ -196,8 +201,8 @@ input[type=search]{
 
       .news-element-text
       {
+
          position: relative;
-         top: 10px;
          cursor: pointer;
          display: block;
          white-space: normal;
@@ -221,7 +226,6 @@ input[type=search]{
     {
       font-weight:   bold;
       width:         43%;
-      top:           10px;
     }
 
     .news-element-channel
@@ -251,7 +255,6 @@ input[type=search]{
      .news-element-text
      {
        position: absolute;
-       top: 10px;
      }
 
      .news-element-channel-type{
@@ -538,6 +541,48 @@ input[type=search]{
 {
    &.featured
    {
+    .featured-badge{
+      position: absolute;
+      color: #fff;
+      font-weight: 600;
+      top: 0;
+      right: 0;
+      background-color: $CI-COLOR3;
+      width: 25px;
+      height: 25px; 
+      text-align: center;
+    }
+
+    .news-element-channel-box{
+      position: absolute;
+      bottom:   30px;
+      right:    30px;
+      height: 18px;
+      min-width: 80px;
+      display: grid;
+      grid-template-areas: "news-name";
+      align-items: center;
+      text-align: right;
+  
+      .news-element-channel-type{
+        display: none;
+      }
+
+      // .news-element-channel-name{
+      //   height: 100%;
+      //   grid-area: news-name;
+      //   padding: 0 20px;
+      //   font-family: Roboto, sans-serif;
+      //   font-size: 17px;
+      //   font-weight: 500;
+      //   color: $CI-COLOR10;
+      //   background-color: $CI-COLOR4;
+  
+      //   span {
+      //     margin: 0 auto;
+      //   }
+      // }
+    }
        .news-avatar
        {
          width:        100%!important;

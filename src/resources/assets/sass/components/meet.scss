@@ -36,7 +36,7 @@ $meet-filter-value-color: $CI-COLOR3;
 .meet-name
 {
    font-family: 'Bitter';
-   font-size:   1.2em;
+   font-size:   1.25em;
    cursor:      pointer;
 }
 
@@ -96,7 +96,7 @@ $meet-filter-value-color: $CI-COLOR3;
 
 .meet-filter
 {
-   border:     1px solid #000;
+   border:     1px solid $CI-COLOR8;
    padding:    10px 40px;
    max-width:  80%;
    margin:     15px auto 15px;
@@ -132,4 +132,6 @@ $meet-filter-value-color: $CI-COLOR3;
     background:         none;
     border:             0;
     color:              $meet-filter-value-color;
+    font-weight: 600;
+    cursor: pointer;
 }

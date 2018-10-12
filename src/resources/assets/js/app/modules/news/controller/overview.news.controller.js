@@ -94,7 +94,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
                     case 'twitch':
 
                             ctrl.createModal({
-                                  'background' : 'rgba(75, 54, 124,0.8)',
+                                  'background' : 'rgba(75, 54, 124,0.95)',
                                   'content':     '<news-twitch uuid="'+news.uuid+'"></news-twitch>'
                             },function(){
 
@@ -103,7 +103,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
                     case 'youtube':
 
                             ctrl.createModal({
-                                  'background' : 'rgba(255, 0, 0,0.8)',
+                                  'background' : 'rgba(255, 0, 0,0.95)',
                                   'content':     '<news-youtube uuid="'+news.uuid+'"></news-youtube>'
                             },function(){
 
@@ -111,7 +111,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
                             break;
                     case 'twitter':
                             ctrl.createModal({
-                                  'background' : 'rgba(29, 161, 242,0.8)',
+                                  'background' : 'rgba(42, 159, 239,0.95)',
                                   'content':     '<news-twitter uuid="'+news.uuid+'"></news-twitter>'
                             },function(){
 
@@ -119,7 +119,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
                             break;
                     default:
                             ctrl.createModal({
-                                  'background' : 'rgba(237, 73, 73,0.8)',
+                                  'background' : 'rgba(237, 73, 73,0.95)',
                                   'content':     '<news-link uuid="'+news.uuid+'"></news-link>'
                             },function(){
 
