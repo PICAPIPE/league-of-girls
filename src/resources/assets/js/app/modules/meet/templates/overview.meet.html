@@ -43,6 +43,9 @@
                        <li class="communication-item" ng-class="ctrl.getActiveClass(communication.active)" ng-repeat="communication in user.communications"><i class="{{communication.icon}}"></i></li>
                     </ul>
                 </div>
+                <div class="meet-request" ng-if="ctrl.user.uuid !== user.uuid && ctrl.user !== null && user.myfriend === false && ctrl.openRequest(user) === true" >
+                    {{ 'Ausstehende Anfrage' | translate }}
+                </div>
                 <div class="meet-request" ng-if="ctrl.user.uuid !== user.uuid && ctrl.user !== null && user.myfriend === false">
                     <button class="btn btn-outline-log" ng-click="ctrl.createFriendRequest(user)" ng-if="ctrl.openRequest(user) === false">{{ 'Anfrage' | translate }}</button>
                 </div>
