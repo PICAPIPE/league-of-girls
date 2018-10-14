@@ -16,13 +16,11 @@
                 <option value="">{{'Alle'|translate}}</option>
             </select>
       </div>
-      <div class="col-xs-12 col-md-3" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured' && ctrl.USER !== null && ctrl.USER !== undefined">
-            <span class="news-filter-label">{{'Zusatz' | translate }}:</span>
-            <select ng-model="ctrl.filters.addon[0]" class="news-filter-select" ng-if="ctrl.user !== null">
-                <option value="">{{'Alle'|translate}}</option>
-                <option value="featured">{{'Features'|translate}}</option>
-                <option value="readlater">{{'Merkliste'|translate}}</option>
-            </select>
+      <div class="col-xs-12 col-md-3" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+            <span class="featured clickable" title="{{'Nicht nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)" ng-if="ctrl.filters.featured === false"><i class="far fa-star"></i></span>
+            <span class="featured clickable" title="{{'Nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)" ng-if="ctrl.filters.featured === true"><i class="fas fa-star"></i></i></span>
+            <span class="readlater clickable" title="{{'Auch Beiträge die nicht auf der Merkliste stehen.'|translate}}" ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === false && ctrl.USER !== undefined && ctrl.USER !== null"><i class="fas fa-glasses deactivated"></i></span>
+            <span class="readlater clickable" title="{{'Nur Beiträge die auf der Merkliste stehen.'|translate}}" ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === true && ctrl.USER !== undefined && ctrl.USER !== null"><i class="fas fa-glasses"></i></i></span>
       </div>
   </div>
 
@@ -43,7 +41,7 @@
                 <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
                 <div ng-if="news.type == 'link'"    ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
                 <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
-                    <i class="fas fa-glasses"></i>
+                    <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
                 </div>
                 <div class="featured-badge" ng-if="ctrl.mode == 'featured'">
                         <!-- <i class="log-icon log-icon-game"></i> -->F
@@ -51,8 +49,8 @@
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)">
 
-                <div class="news-element-twitch" ng-if="news.type == 'twitch'">
-                     <span class="news-element-text" ng-if="news.live === true">{{'Jetzt ansehen!'|translate}}</span>
+                <div class="news-element-twitch overflowVisible" ng-if="news.type == 'twitch'">
+                     <span class="news-element-text overflowVisible" ng-if="news.live === true">{{'Jetzt ansehen!'|translate}} <span class="live-icon"></span></span>
                      <span class="news-element-text" ng-if="news.live === false">{{'War live!'|translate}}</span>
                      <span class="news-logo"><i class="fab fa-twitch"></i></span>
                      <span class="news-element-channel">{{ news.channel }}</span>

@@ -123,20 +123,26 @@ class StreamController extends ApiStandardController
 
   protected function filterAddon(Request $request,$model)
   {
-     $addon = $request->input('addon');
-     if ($addon !== null && $addon !== '' && $addon !== 'ALL')
+     $featured     = $request->input('featured');
+     $readlater    = $request->input('readlater');
+
+     if ($featured === 'true' || $featured === true)
             {
-            if ($addon === 'featured')
-                  {
-                  $model = $model->where('featured', true);    
-                  }
-            else if ($addon === 'readlater' && $request->user !== null)
-                  {
-                  $model = $model->where(function($query) use ($request){
-                     $query->whereIn('id', StreamRead::where('user_id',$request->user->id)->pluck('stream_id'));
-                  });    
-                  }
+            $model = $model->where('featured', true);    
             }
+
+     if ($readlater === 'true' || $readlater === true)
+            {
+            // Read only modus only for logged user
+            if ($request->user === null)
+                 {
+                 return $modek;
+                 }
+            $model = $model->where(function($query) use ($request){
+                  $query->whereIn('id', StreamRead::where('user_id',$request->user->id)->pluck('stream_id'));
+            }); 
+            }
+
      return $model;
   }
 

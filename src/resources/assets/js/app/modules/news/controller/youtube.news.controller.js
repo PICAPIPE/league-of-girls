@@ -15,6 +15,32 @@ angular.module('news').controller('NewsYoutubeCtrl',[
           ctrl.data   = {};
           ctrl.USER   = UserService.getCurrentUser();
 
+          // Read later 
+
+          ctrl.readlater = function(news,event)
+          {
+              event.preventDefault();
+              if (news.readlater === true)
+                    {
+                    // Remove from read later list
+                    ctrl.DB.call('Streams','removefromreadlater', {uuid:news.uuid}).then(
+                        function(result)
+                        {
+                        news.readlater = false;
+                        }
+                    );
+                    }
+              else  {
+                    // Add to readlater list
+                    ctrl.DB.call('Streams','readlater', {uuid:news.uuid}).then(
+                        function(result)
+                        {
+                        news.readlater = true;
+                        }
+                    );
+                    }
+          };
+
           // Set published state
 
           ctrl.setValue = function(uuid, attr,value)

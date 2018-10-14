@@ -416,6 +416,13 @@ input[type=search]{
    border-top:        0;
    border-left-color: $news-twitch-bg;
    }
+
+   .news-readlater
+   {
+     position: absolute;
+     right:    10px;
+     left:     auto;
+   }
 }
 
 // News for normal link
@@ -537,6 +544,7 @@ input[type=search]{
 
 .news_link_shared_by
 {
+  position:   relative;
   background: rgba(0,0,0,0.8);
   padding:    10px;
   color:      #FFF;
@@ -663,3 +671,33 @@ news-youtube
 {
     color: #000!important;
 }
+
+.news_link
+{
+   .news-readlater
+   {
+     position: relative;
+     margin-top: 20px;
+     text-align: right;
+     margin-right: 8px;
+   }
+}
+
+@keyframes blinker {  
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+.live-icon
+{
+  display: inline-block;
+  width:   15px;
+  height:  15px;
+  background:  red;
+  border-radius: 100px;
+  position: relative;
+  right: -5px;
+  top: 2px;
+  animation: blinker 0.8s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
+}
+

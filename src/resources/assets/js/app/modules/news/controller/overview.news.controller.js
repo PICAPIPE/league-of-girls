@@ -24,7 +24,8 @@ angular.module('news').controller('NewsOverviewCtrl',[
           ctrl.filters         = 
           {
              channel:     [],
-             addon:       []
+             featured:    false,
+             readlater:   false
           };
 
           // Get the correct css class for the news
@@ -176,7 +177,13 @@ angular.module('news').controller('NewsOverviewCtrl',[
             {
               if(angular.isDefined(ctrl.filters[filter]) === true)
               {
-                  params[filter] = ctrl.filters[filter].join(',');
+                  if (Array.isArray(ctrl.filters[filter]) === true)
+                        {
+                        params[filter] = ctrl.filters[filter].join(',');
+                        }
+                  else  {
+                        params[filter] = ctrl.filters[filter];
+                        }
               }
             }
 
@@ -297,6 +304,18 @@ angular.module('news').controller('NewsOverviewCtrl',[
           ctrl.getCssClassForReadlater = function(news)
           {
              return news.readlater === true ? '' : 'inactive';
+          };
+
+          // Set filter featured
+          ctrl.setFeatured = function(status)
+          {
+             ctrl.filters.featured = status;
+          };
+
+          // Set filter readlater
+          ctrl.setReadlater = function(status)
+          {
+             ctrl.filters.readlater = status;
           };
 
           // Init function
