@@ -72,33 +72,28 @@ class CommandAbstract extends Command{
         $client   = new \GuzzleHttp\Client();
         $url      = 'https://api.twitch.tv/kraken/streams?client_id='.env('TWITCH_KEY','').'&channel='.$entry->channel;
 
-        // Make the request
-
-        $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->get();
-
-        if($streamsLiveOlder !== null)
-             {
-             $streamsLiveOlder->each(function($stream){
-                $stream->live = false;
-                $stream->save();
-             });
-             }
-
+        // Make the request        
         $request = new \GuzzleHttp\Psr7\Request('GET', $url);
 
         $promise = $client->sendAsync($request)->then(function ($response) use ($entry){
 
             $data        = json_decode($response->getBody(true)->getContents());
             $streams     = collect($data->streams);
+            $streamsGet  = [];
 
-            // Set all streams to offline
+            // Set all streams to offline            
 
-            $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->get();
-
-            $streamsLive->each(function($stream) {
-               $stream->live = false;
-               $stream->save();
+            $streams->each(function($stream) use (&$streamsGet){
+                  $streamsGet[] = $stream->channel->display_name;
             });
+
+            $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->where('channel',$entry->channel)->first();
+
+            if ($streamsLive !== null)
+                  {
+                  $streamsLive->live = false;
+                  $streamsLive->save();
+                  }
 
             // Update all active streams
 
@@ -116,6 +111,7 @@ class CommandAbstract extends Command{
                        'channel'   => $stream->channel->display_name,
                        'game_id'   => $game_id,
                        'published' => true,
+                       'live'      => true,
                        'creator'   => User::where('email',env('ADMIN_EMAIL'))->first()->id
                     ]);
 
@@ -126,6 +122,22 @@ class CommandAbstract extends Command{
                        'pid'       => $streamEntry->id,
                        'public'    => true
                     ]);
+
+                    // Add points
+                    $userLink = UserLink::where(function($query){
+                        $link = Link::where('type','twitch')->first();
+                        $query->where('link_id',$link->id);
+                     })->where('value', $entry->channel)->first();
+       
+                     if ($userLink !== null)
+                           {
+                           $user = $userLink->user()->first();
+       
+                           if($user !== null)
+                                {
+                                $user->addPoints($stream->id,'streams', env('POINTS_TWITCH',1));
+                                }
+                           }
                     }
 
               if ($streamEntry !== null)
@@ -134,21 +146,14 @@ class CommandAbstract extends Command{
                     $streamEntry->published = true;
                     $streamEntry->image     = $stream->channel->logo;
                     $streamEntry->save();
-                    }
 
-              $userLink = UserLink::where(function($query){
-                 $link = Link::where('type','twitch')->first();
-                 $query->where('link_id',$link->id);
-              })->where('value', $entry->channel)->first();
-
-              if ($userLink !== null)
-                    {
-                    $user = $userLink->user()->first();
-
-                    if($user !== null)
-                         {
-                         $user->addPoints($stream->id,'streams', env('POINTS_TWITCH',1));
-                         }
+                    $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->where('channel',$entry->channel)->get();
+                    if($streamsLiveOlder !== null)
+                        {
+                        $streamsLiveOlder->each(function($stream){
+                           $stream->delete();
+                        });
+                        }
                     }
 
             });
@@ -281,6 +286,12 @@ class CommandAbstract extends Command{
 
     public function importYoutubeVideos($entry)
     {
+        
+        if (strlen($entry->channel) < 24)
+              {
+              return;
+              }
+
         $channelVideos = Youtube::listChannelVideos($entry->channel);
 
         foreach ($channelVideos as $kVideo => $video)
