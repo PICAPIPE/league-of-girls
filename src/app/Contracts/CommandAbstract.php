@@ -193,7 +193,7 @@ class CommandAbstract extends Command{
                   {
                   if ($stream === null)
                         {
-
+                         $text = $valueTweet->text;
                          $text = preg_replace( 
                                    "/(?<!a href=\")(?<!src=\")((http|ftp)+(s)?:\/\/[^<>\s]+)/i", 
                                    "<a href=\"\\0\" target=\"blank\">\\0</a>", 

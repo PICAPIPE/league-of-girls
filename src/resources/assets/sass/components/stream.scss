@@ -511,7 +511,7 @@ input[type=search]{
           display:    block;
           background: $CI-COLOR9;
           padding:    10px;
-          margin:     0 20px;
+          margin:     0 20px 15px;
       }
 
       @media all and (min-width: 1000px) {
@@ -519,6 +519,7 @@ input[type=search]{
           margin-top: 10px;
           bottom:     auto0;
           right:      10px;
+          margin-bottom: 15px;
       }
    }
 

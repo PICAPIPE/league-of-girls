@@ -564,6 +564,7 @@ class UserController extends ApiStandardController
               {
               $communication->action = $communitionInformation->action;
               }
+        return $communication;
       });
 
       $data->plattforms = $data->plattforms->map(function($plattform){
@@ -572,6 +573,7 @@ class UserController extends ApiStandardController
                     {
                     $plattform->action = $plattformInformation->action;
                     }
+        return $plattform;
       });
 
       if(in_array($data->uuid,$friends) === false && optional($request->user)->uuid !== $data->uuid)
@@ -582,7 +584,7 @@ class UserController extends ApiStandardController
              if(optional($data)->communications !== null)
                {
                     $data->communications = $data->communications->map(function($communication){
-                        if ($communication->public === true)
+                        if (isset($communication->public) && $communication->public === true)
                              {
                              return $communication;
                              }

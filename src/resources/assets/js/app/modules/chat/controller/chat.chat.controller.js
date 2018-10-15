@@ -35,6 +35,8 @@ angular.module('chat').controller('ChatCtrl',[
 
           chat.hideTypes      = ['streams'];
 
+          chat.writePlaceholder = chat.LANG.getString('Nachricht eingeben');
+
           // Get the class for the messages container
 
           chat.getClassForMessages = function()
@@ -618,6 +620,13 @@ angular.module('chat').controller('ChatCtrl',[
                           chat.init(false,chat.messages[0].id);
                       }
                 });
+
+                // Set placeholder
+                if (chat.mode === 'streams')
+                  {
+                  chat.writePlaceholder = chat.LANG.getString('Kommentar schreiben');  
+                  }
+
               });
 
           };
