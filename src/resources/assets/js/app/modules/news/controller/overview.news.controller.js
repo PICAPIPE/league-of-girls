@@ -39,6 +39,11 @@ angular.module('news').controller('NewsOverviewCtrl',[
                    className = 'col-xs-12 col-lg-12 ';
                    }
 
+              if (news.featured === true)
+                   {
+                   className += ' feature';
+                   }
+
               switch (news.type)
                     {
                     case 'twitch':

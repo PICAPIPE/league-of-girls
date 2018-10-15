@@ -40,7 +40,7 @@ class StreamController extends ApiStandardController
       'index' => [
         'except'        => false,
         'fields'        => [],
-        'sortBy'        => 'name',
+        'sortBy'        => 'created_at',
         'sortDirection' => 'DESC',
         'pagination'    => true,
         'ignorePublish' => true,
