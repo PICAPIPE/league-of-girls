@@ -4,7 +4,7 @@
     <div class="crawler-info">
         <div ng-if="ctrl.data.type == 'twitch'" class="text-muted">{{'Kanal' | translate}}: {{ ctrl.data.channel }}</div>
         <div ng-if="ctrl.data.type == 'youtube'" class="text-muted">{{'Youtube' | translate}}: {{ ctrl.data.channel }}</div>
-        <div ng-if="ctrl.data.type == 'twitter'" class="text-muted">{{'Twitter User' | translate}}: {{ ctrl.data.twitter }}</div>
+        <div ng-if="ctrl.data.type == 'twitter'" class="text-muted">{{'Twitter User' | translate}}: {{ ctrl.data.channel }}</div>
         <div ng-if="ctrl.data.type == 'twitter_hashtag'" class="text-muted">{{'Hashtag' | translate}}: {{ ctrl.data.tag }}</div>
         <div ng-if="ctrl.data.type == 'rss'" class="text-muted">{{'URL' | translate}}: {{ ctrl.data.url }}</div>
         <div><small>{{'Interval' | translate}}: {{ ctrl.data.interval }} Minuten</small></div>
