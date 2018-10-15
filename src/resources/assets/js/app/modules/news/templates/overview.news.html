@@ -34,6 +34,7 @@
 
       <div class="news-item" ng-class="ctrl.getCssClass(news)" ng-repeat="news in ctrl.data">
           <div class="news-inside">
+            <news-like news="news"></news-like>
             <div class="news-avatar">
                 <img ng-if="news.type == 'twitch'"  ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
                 <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
@@ -43,9 +44,9 @@
                 <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                     <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
                 </div>
-                <div class="featured-badge" ng-if="ctrl.mode == 'featured'">
+                <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
                         <!-- <i class="log-icon log-icon-game"></i> -->F
-                  </div>
+                </div>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)">
 
@@ -85,7 +86,7 @@
                                 <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
                             </div>
                      </div>
-                </div>
+                </div>                
 
             </div>
           </div>

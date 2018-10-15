@@ -17,6 +17,7 @@ use App\Models\User\UserLink;
 
 use App\Models\News\StreamEntry;
 use App\Models\News\StreamRead;
+use App\Models\News\StreamLike;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Api\ApiStandardController;
@@ -554,6 +555,43 @@ class StreamController extends ApiStandardController
                     {
                     $streamReadLater->delete();
                     return $this->respondSuccess();
+                    }
+              }
+
+        return $this->respondBadRequest();
+
+  }
+
+  // Save a like entry
+
+  public function likes(Request $request, $uuid)
+  {
+        $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+        if ($stream !== null && $request->user !== null)
+              {
+              $stream->likeIt($request->input('type'));
+              $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+              return $this->respondSuccess(['data' => $stream->toArray()]);
+              }
+
+        return $this->respondBadRequest();
+
+  }
+
+  // Likes a stream entry
+
+  public function likesDelete(Request $request, $uuid)
+  {
+
+        $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+        if ($stream !== null && $request->user !== null)
+              {
+              $streamLike = StreamLike::where('stream_id', $stream->id)->where('user_id',$request->user->id)->first();
+              if ($streamLike !== null)
+                    {
+                    $streamLike->delete();
+                    $stream = StreamEntry::where('uuid',$uuid)->where('published', true)->first();
+                    return $this->respondSuccess(['data' => $stream->toArray()]);
                     }
               }
 

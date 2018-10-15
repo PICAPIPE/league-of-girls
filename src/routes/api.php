@@ -47,6 +47,9 @@ Route::group(['middleware' => ['auth.api']], function(){
   Route::delete('/streams/{stream}/readlater','Api\News\StreamController@readLaterDelete');
   Route::post('/streams/{stream}/readlater','Api\News\StreamController@readLater');
 
+  Route::delete('/streams/{stream}/likes','Api\News\StreamController@likesDelete');
+  Route::post('/streams/{stream}/likes','Api\News\StreamController@likes');
+
 });
 Route::get('/streams/featured','Api\News\StreamController@featured');
 Route::api('streams',          'Api\News\StreamController',         [],true,['auth.safe']);

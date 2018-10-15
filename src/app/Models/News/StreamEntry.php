@@ -58,7 +58,9 @@ class StreamEntry extends BaseModel
    */
 
   protected $appends = [
-      'readlater'
+      'readlater',
+      'likes',
+      'myliketype'
   ];
 
   /**
@@ -103,6 +105,84 @@ class StreamEntry extends BaseModel
 
       return StreamRead::where('user_id',request()->user->id)->where('stream_id',$this->id)->count() > 0;
 
+  }
+
+  // Returns the data for like data
+  public function getLikesAttribute()
+  {
+      $likes = StreamLike::where('stream_id', $this->id)->get();
+      $data  = [
+         'total' => $likes->count(),
+         'like'  => $likes->where('type','like')->count(), 
+         'heart' => $likes->where('type','heart')->count(), 
+         'hate'  => $likes->where('type','hate')->count(),
+         'woot'  => $likes->where('type','woot')->count(), 
+         'sad'   => $likes->where('type','sad')->count()
+      ];
+      return $data;
+  }
+
+  // Returns the data for like data
+  public function getMyliketypeAttribute()
+  {
+      if (request()->user === null)
+            {
+            return null;
+            }
+      $like = StreamLike::where('stream_id', $this->id)->where('user_id',request()->user->id)->first();
+      if ($like !== null)
+            {
+            return $like->type;
+            }
+
+      return null;
+  }
+
+  // Like entry
+  public function likeIt($type = null)
+  {
+      if ($type === null)
+           {
+           return false;
+           }
+
+      $like = StreamLike::where('stream_id', $this->id)->where('user_id',request()->user->id)->first();
+          
+      if ($like !== null)
+           {
+           $like->type = $type;
+           $like->save();
+           return true;
+           }
+      else {
+           $like = StreamLike::create(['stream_id' => $this->id, 'user_id' => request()->user->id, 'type' => $type]);
+           if ($like !== null)
+                 {
+                 return true;
+                 }
+           }
+
+      return false;
+      
+  }
+
+  // UnLike entry
+  public function unLikeIt($type = null)
+  {
+      if ($type === null || request()->user === null)
+           {
+           return false;
+           }
+      
+      $like = StreamLike::where('stream_id', $this->id)->where('user_id',request()->user->id)->first();
+          
+      if ($like !== null)
+           {
+           $like->delete();
+           }
+      
+      return true;
+      
   }
 
 }

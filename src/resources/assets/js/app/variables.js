@@ -22,7 +22,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url
+                   return url;
                }
            }
        ]
@@ -42,7 +42,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/:uuid/request'
+                   return url + '/:uuid/request';
                }
            }
        ]
@@ -62,7 +62,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current'
+                   return url + '/current';
                }
            },
            {
@@ -73,7 +73,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current'
+                   return url + '/current';
                }
            },
            {
@@ -84,7 +84,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/games'
+                   return url + '/current/games';
                }
            },
            {
@@ -95,7 +95,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/plattforms'
+                   return url + '/current/plattforms';
                }
            },
            {
@@ -106,7 +106,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/communications'
+                   return url + '/current/communications';
                }
            },
            {
@@ -117,7 +117,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/links'
+                   return url + '/current/links';
                }
            },
            {
@@ -128,7 +128,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/requests'
+                   return url + '/current/requests';
                }
            },
            {
@@ -139,7 +139,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/chats'
+                   return url + '/current/chats';
                }
            },
            {
@@ -149,7 +149,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/export'
+                   return url + '/current/export';
                }
            },
            {
@@ -159,7 +159,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/current/delete-account'
+                   return url + '/current/delete-account';
                }
            },
        ]
@@ -181,7 +181,7 @@ var DB_SERVICES    = [
                keep:       false,
                getUrl: function(url)
                {
-                   return url + '/login'
+                   return url + '/login';
                }
            },
            {
@@ -192,7 +192,7 @@ var DB_SERVICES    = [
                keep:       false,
                getUrl: function(url)
                {
-                   return url + '/register'
+                   return url + '/register';
                }
            },
            {
@@ -203,7 +203,7 @@ var DB_SERVICES    = [
                keep:       false,
                getUrl: function(url)
                {
-                   return url + '/reset'
+                   return url + '/reset';
                }
            }
        ]
@@ -267,7 +267,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/:uuid/delete-messages'
+                   return url + '/:uuid/delete-messages';
                }
            },
            {
@@ -277,7 +277,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/:uuid/export'
+                   return url + '/:uuid/export';
                }
            }
         ]
@@ -295,7 +295,7 @@ var DB_SERVICES    = [
                keep:       true,
                getUrl: function(url)
                {
-                   return url + '/:uuid/report'
+                   return url + '/:uuid/report';
                }
            }
         ]
@@ -335,6 +335,26 @@ var DB_SERVICES    = [
                 getUrl: function(url)
                 {
                     return url + '/:uuid/readlater';
+                }
+            },
+            {
+                type:       'post',
+                name:       'like',
+                queryIndex: 2,
+                dataIndex:  3,
+                getUrl: function(url)
+                {
+                    return url + '/:uuid/likes';
+                }
+            },
+            {
+                type:       'delete',
+                name:       'removeLike',
+                queryIndex: 2,
+                dataIndex:  3,
+                getUrl: function(url)
+                {
+                    return url + '/:uuid/likes';
                 }
             }
        ]

@@ -308,7 +308,7 @@ input[type=search]{
 
        position: absolute;
        bottom:   15px;
-       right:    15px;
+       right:    55px;
        cursor:   pointer;
        font-family: Roboto, sans-serif;
        font-size: 16px;
@@ -727,3 +727,78 @@ news-youtube
   animation: blinker 0.8s cubic-bezier(.5, 0, 1, 1) infinite alternate;  
 }
 
+// Likes 
+
+.likes
+{
+  bottom: 10px;
+  position: absolute;
+  right: 10px;
+  background:#ededed;
+  border-radius: 100px;
+  padding:3px 10px;
+  display: block;
+  width:30px;
+  transition: width 0.5s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-align: center;
+  z-index:999;
+  color:#444;
+  .likes-total
+  {
+    display: inline-block;
+  }
+  .likes-options 
+  {
+    display:none;
+  }
+  &:hover 
+  {
+    width:200px;
+    .likes-total
+    {
+      display: none;
+    }
+    .likes-options 
+    {
+      display:inline-block;
+      cursor: pointer;
+    }
+  }
+}
+
+.like-option
+{
+  cursor: pointer;
+  .like-option-count
+  {
+    position: relative;
+    left: -3px;
+    top:-3px;
+    font-size:10px;
+    opacity: 0.5;
+  }
+}
+
+.news-interaction
+{
+    position: absolute;
+    z-index:  99999;
+    left:     10px;
+    top:      10px;
+    @include media-breakpoint-up(md) {  
+      top: 15px;
+    }
+    .likes {
+      position: relative;
+      bottom:   auto;
+      left:     auto;
+      right:    auto;
+    }
+}
+
+.news_twitch .likes{
+  right:  50px;
+  bottom: 7px;
+}
