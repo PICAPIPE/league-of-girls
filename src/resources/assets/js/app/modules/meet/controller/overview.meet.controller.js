@@ -390,7 +390,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           ctrl.filterConnectedRender = function()
           {
 
-                return ctrl.filters.connected[0] === true ? 'JA' : '-';
+                return ctrl.filters.connected[0] === true ? ctrl.LANG.getString('JA') : '-';
 
           };
 
