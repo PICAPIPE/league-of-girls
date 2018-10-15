@@ -106,6 +106,16 @@ class CommandAbstract extends Command{
 
               if ($streamEntry === null)
                     {
+
+                    $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->channel->display_name)->get();
+
+                    if ($streamEntriesOld !== null)
+                          {
+                          $streamEntriesOld->each(function($streamEntryOld){
+                               $streamEntryOld->delete();
+                          });
+                          }
+
                     $streamEntry = StreamEntry::create([
                        'type'      => 'twitch',
                        'channel'   => $stream->channel->display_name,
@@ -183,6 +193,30 @@ class CommandAbstract extends Command{
                   {
                   if ($stream === null)
                         {
+
+                         $text = preg_replace( 
+                                   "/(?<!a href=\")(?<!src=\")((http|ftp)+(s)?:\/\/[^<>\s]+)/i", 
+                                   "<a href=\"\\0\" target=\"blank\">\\0</a>", 
+                                   $text);
+                  
+                         if (isset($valueTweet->extended_entities) === true &&
+                             $valueTweet->extended_entities        !== null && 
+                             $valueTweet->extended_entities->media !== null && 
+                             sizeOf($valueTweet->extended_entities->media) > 0)
+                               {
+                               foreach($valueTweet->extended_entities->media as $kMedia => $vMedia)
+                                  {
+                                  if ($vMedia->type === 'animated_gif')
+                                        {
+                                        $text .= '<video width="320" height="240" controls><source src="'.$vMedia->video_info->variants[0]->url.'" type="video/mp4"></video>';
+                                        }
+                                  else if ($vMedia->type === 'photo')
+                                        {
+                                        $text .= '<img src="'.$vMedia->media_url_https.'" alt="Twitter Image" />';
+                                        }
+                                  }
+                               }
+
                         $stream = StreamEntry::create([
                              'type'      => 'twitter',
                              'game_id'   => $game_id,
@@ -190,7 +224,7 @@ class CommandAbstract extends Command{
                              'channel'   => $entry->channel,
                              'published' => true,
                              'image'     => $image,
-                             'text'      => $valueTweet->text,
+                             'text'      => $text,
                              'creator'   => User::where('email',env('ADMIN_EMAIL'))->first()->id
                         ]);
 

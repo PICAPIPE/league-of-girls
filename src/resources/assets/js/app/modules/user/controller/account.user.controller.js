@@ -308,37 +308,47 @@ angular.module('user').controller('UserAccountCtrl',[
           account.getAttributeData = function(attr,attrColumn,data)
           {
 
-              var i     = 0;
-              var j     = 0;
-              var found = false;
-              var value = '';
+              var i      = 0;
+              var j      = 0;
+              var found  = false;
+              var value  = '';
+              var aciont = '';
 
               if(account.currentUser !== null && angular.isDefined(account.currentUser.friends) === true)
-                {
-
-                    for(i = 0; i < account.currentUser.friends.length; i++)
-                       {
-                            if(account.currentUser.friends[i].from.uuid === account.user.uuid)
-                              {
-                                  found = true;
-                                  break;
-                              }
-                       }
-
-                    if(found === true)
-                      {
-                            for(j = 0; j < account.user[attr].length; j++)
-                               {
-                                  if(account.user[attr][j].active      === true &&
-                                     account.user[attr][j][attrColumn] === data.id)
-                                    {
-                                         value =  '(' + account.user[attr][j].value + ')';
-                                         break;
-                                    }
-                               }
-                      }
-
-                }
+                   {
+   
+                       for(i = 0; i < account.currentUser.friends.length; i++)
+                          {
+                               if(account.currentUser.friends[i].from.uuid === account.user.uuid)
+                                 {
+                                     found = true;
+                                     break;
+                                 }
+                          }  
+   
+                   }
+              
+              for(j = 0; j < account.user[attr].length; j++)
+                   {
+                      if(account.user[attr][j].active      === true &&
+                         account.user[attr][j][attrColumn] === data.id)
+                        {
+                             if (account.user[attr][j].public === true || found === true)
+                                  {
+                                  if (account.user[attr][j].action !== '')
+                                       {
+                                       action = account.user[attr][j].action;
+                                       action = action.replace(new RegExp('\\%username\\%','g'), account.user[attr][j].value);
+                                       action = action.replace(new RegExp('\\%email\\%','g'), account.user.email);
+                                       value  = '(<a href="' + action +'" target="_blank">' + account.user[attr][j].value + '</a>)';
+                                       }
+                                  else {
+                                       value =  '(' + account.user[attr][j].value + ')';
+                                       }
+                                  }
+                             break;
+                        }
+                   }
 
               return value;
 

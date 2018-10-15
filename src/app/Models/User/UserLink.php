@@ -31,7 +31,8 @@ class UserLink extends BaseModel
       'uuid',
       'user_id',
       'link_id',
-      'value'
+      'value',
+      'allow_crawler'
   ];
 
   /**
@@ -62,7 +63,8 @@ class UserLink extends BaseModel
   protected $casts = [
       'link_id'          => 'integer',
       'user_id'          => 'integer',
-      'active'           => 'boolean'
+      'active'           => 'boolean',
+      'allow_crawler'    => 'boolean'
   ];
 
   public function link(){

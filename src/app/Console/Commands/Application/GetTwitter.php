@@ -58,7 +58,10 @@ class GetTwitter extends Command
             $values = collect($link->getValues);
 
             collect($link->getValues)->each(function($value) use (&$channels) {
-                $channels[] = $value->value;
+                if ($value->allow_crawler === true)
+                      {
+                      $channels[] = $value->value;
+                      }
             });
 
         });
@@ -92,8 +95,39 @@ class GetTwitter extends Command
 
                       }
 
-                if ($game_id !== 0)
+                if ($game_id >= 0)
                       {
+                      
+                      $text = $valueTweet->text;
+
+                      if (starts_with($text,'RT') === true)
+                            {
+                            return;
+                            }
+
+                      $text = preg_replace( 
+                                "/(?<!a href=\")(?<!src=\")((http|ftp)+(s)?:\/\/[^<>\s]+)/i", 
+                                "<a href=\"\\0\" target=\"blank\">\\0</a>", 
+                                $text);
+                    
+                      if (isset($valueTweet->extended_entities) === true &&
+                          $valueTweet->extended_entities        !== null && 
+                          $valueTweet->extended_entities->media !== null && 
+                          sizeOf($valueTweet->extended_entities->media) > 0)
+                            {
+                            foreach($valueTweet->extended_entities->media as $kMedia => $vMedia)
+                               {
+                               if ($vMedia->type === 'animated_gif')
+                                     {
+                                     $text .= '<video width="320" height="240" controls><source src="'.$vMedia->video_info->variants[0]->url.'" type="video/mp4"></video>';
+                                     }
+                               else if ($vMedia->type === 'photo')
+                                     {
+                                     $text .= '<img src="'.$vMedia->media_url_https.'" alt="Twitter Image" />';
+                                     }
+                               }
+                            }
+
                       if ($stream === null)
                             {
                             $stream = StreamEntry::create([
@@ -103,7 +137,7 @@ class GetTwitter extends Command
                                  'channel'   => $value,
                                  'published' => true,
                                  'image'     => $image,
-                                 'text'      => $valueTweet->text
+                                 'text'      => $text
                             ]);
 
                             // Create a chat

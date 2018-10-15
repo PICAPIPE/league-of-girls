@@ -31,7 +31,8 @@ class UserCommunication extends BaseModel
       'uuid',
       'user_id',
       'communication_id',
-      'value'
+      'value',
+      'public'
   ];
 
   /**
@@ -62,7 +63,8 @@ class UserCommunication extends BaseModel
   protected $casts = [
       'communication_id' => 'integer',
       'user_id'          => 'integer',
-      'active'           => 'boolean'
+      'active'           => 'boolean',
+      'public'           => 'boolean'
   ];
 
   public function communication(){

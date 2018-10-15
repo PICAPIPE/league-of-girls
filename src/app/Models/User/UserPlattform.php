@@ -31,7 +31,8 @@ class UserPlattform extends BaseModel
       'uuid',
       'user_id',
       'plattform_id',
-      'value'
+      'value',
+      'public'
   ];
 
   /**
@@ -62,7 +63,8 @@ class UserPlattform extends BaseModel
   protected $casts = [
       'plattform_id' => 'integer',
       'user_id'      => 'integer',
-      'active'       => 'boolean'
+      'active'       => 'boolean',
+      'public'       => 'boolean'
   ];
 
   public function plattform(){

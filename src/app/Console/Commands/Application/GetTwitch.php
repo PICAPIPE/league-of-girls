@@ -58,7 +58,10 @@ class GetTwitch extends Command
           $values = collect($link->getValues);
 
           collect($link->getValues)->each(function($value) use (&$channels) {
-              $channels[] = $value->value;
+              if ($value->allow_crawler === true)
+                    {
+                    $channels[] = $value->value;
+                    }
           });
 
       });
@@ -109,6 +112,16 @@ class GetTwitch extends Command
 
                    if ($streamEntry === null)
                          {
+
+                         $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->channel->display_name)->get();
+
+                         if ($streamEntriesOld !== null)
+                               {
+                               $streamEntriesOld->each(function($streamEntryOld){
+                                    $streamEntryOld->delete();
+                               });
+                               }
+
                          $streamEntry = StreamEntry::create([
                             'type'      => 'twitch',
                             'channel'   => $stream->channel->display_name,

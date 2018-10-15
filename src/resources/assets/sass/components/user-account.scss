@@ -114,3 +114,16 @@ $user-account-header-color:       #FFFFFF;
   -moz-box-shadow: 9px 10px 5px -8px rgba(0,0,0,0.19);
   box-shadow: 9px 10px 5px -8px rgba(0,0,0,0.19);
 }
+
+.dsgvo_public,
+.crawler_setup
+{
+    font-size: 12px;
+    position: relative;
+    top: 7px;
+    right: 15px;
+
+    input {
+      margin-right:4px;
+    }
+}

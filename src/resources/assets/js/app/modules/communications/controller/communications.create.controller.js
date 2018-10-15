@@ -116,6 +116,17 @@ angular.module('communications').controller('CommunicationsCreateCtrl',[
                  }
               },
               {
+                "type": "input",
+                "key":  "action",
+                "templateOptions":
+                {
+                    "type":            "Aktionslink",
+                    "required":        true,
+                    "label":           ctrl.LANG.getString('Aktionslink'),
+                    "placeholder":     ctrl.LANG.getString('Geben Sie den Pfad auf der beim Anklicken auf den Namen aufgerufen werden soll. %username% und %email% stehen als Platzhalter zur Verfügung.')
+                }
+             },
+              {
                  "type": "checkbox",
                  "key":  "published",
                  "templateOptions":

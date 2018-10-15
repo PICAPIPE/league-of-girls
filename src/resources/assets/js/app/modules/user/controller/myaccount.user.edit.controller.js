@@ -200,6 +200,12 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                 myaccountEdit.changeDetected = true;
 
+                if (angular.isUndefined(newValue)                 === true ||
+                    angular.isUndefined(myaccountEdit.user[attr]) === true)
+                     {
+                     return;   
+                     }
+
                 for(i = 0; i < newValue.length; i++)
                 {
 
@@ -210,10 +216,17 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                         {
                               if(attr === 'games')
                                    {
-                                     myaccountEdit.user[attr][j].skill = newValue[i].skill;
+                                   myaccountEdit.user[attr][j].skill = newValue[i].skill;
                                    }
                               else {
-                                    myaccountEdit.user[attr][j].value = newValue[i].value;
+                                   if (attr === 'links')
+                                        {
+                                        myaccountEdit.user[attr][j].allow_crawler = newValue[i].allow_crawler;
+                                        }
+                                   else {
+                                        myaccountEdit.user[attr][j].public = newValue[i].public;
+                                        }
+                                   myaccountEdit.user[attr][j].value = newValue[i].value;
                                    }
                               break;
                         }
@@ -314,8 +327,17 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                                   }
 
                                }
-                          else {
+                          else {                                  
                                   myaccountEdit[attr][i].value = myaccountEdit.user[attr][j].value;
+                                  if (attr !== 'links')
+                                       {
+                                       myaccountEdit[attr][i].public = myaccountEdit.user[attr][j].public;
+                                       }
+                               }
+
+                          if (attr === 'links')
+                               {
+                                  myaccountEdit[attr][i].allow_crawler = myaccountEdit.user[attr][j].allow_crawler;
                                }
                           break;
                       }

@@ -278,7 +278,6 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           ctrl.readlater = function(news,event)
           {
-              console.error('READLATER');
               event.preventDefault();
               if (news.readlater === true)
                     {

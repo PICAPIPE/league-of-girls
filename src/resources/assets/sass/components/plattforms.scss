@@ -23,6 +23,10 @@ $plattform-active-color: $CI-COLOR7;
     {
        opacity: 1;
        color:   $plattform-active-color;
+       a 
+       {
+        color:   $plattform-active-color;
+       }
     }
 
     .text-muted {

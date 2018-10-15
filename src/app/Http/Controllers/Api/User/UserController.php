@@ -249,6 +249,12 @@ class UserController extends ApiStandardController
               $communicationEntry->value  = '';
               $communicationEntry->active = false;
             }
+
+            if($communicationData !== null && isset($communicationData['public']))
+            {
+              $communicationEntry->public  = $communicationData['public'];
+            }
+
             $communicationEntry->save();
 
         });
@@ -276,6 +282,12 @@ class UserController extends ApiStandardController
               $linkEntry->value  = '';
               $linkEntry->active = false;
             }
+
+            if($linkData !== null && isset($linkData['allow_crawler']))
+            {
+              $linkEntry->allow_crawler  = $linkData['allow_crawler'];
+            }
+
             $linkEntry->save();
 
         });
@@ -303,6 +315,12 @@ class UserController extends ApiStandardController
               $plattformEntry->value  = '';
               $plattformEntry->active = false;
             }
+
+            if($plattformData !== null && isset($plattformData['public']))
+            {
+              $plattformEntry->public  = $plattformData['public'];
+            }
+
             $plattformEntry->save();
 
         });
@@ -540,6 +558,22 @@ class UserController extends ApiStandardController
            $friends = $friends->pluck('from.uuid')->toArray();
         }
 
+      $data->communications = $data->communications->map(function($communication){
+        $communitionInformation = $communication->communication()->first();
+        if ($communitionInformation !== null)
+              {
+              $communication->action = $communitionInformation->action;
+              }
+      });
+
+      $data->plattforms = $data->plattforms->map(function($plattform){
+        $plattformInformation = $plattform->plattform()->first();
+              if ($plattformInformation !== null)
+                    {
+                    $plattform->action = $plattformInformation->action;
+                    }
+      });
+
       if(in_array($data->uuid,$friends) === false && optional($request->user)->uuid !== $data->uuid)
         {
 
@@ -548,6 +582,10 @@ class UserController extends ApiStandardController
              if(optional($data)->communications !== null)
                {
                     $data->communications = $data->communications->map(function($communication){
+                        if ($communication->public === true)
+                             {
+                             return $communication;
+                             }
                         $communication->value = '';
                         return $communication;
                     });
@@ -556,6 +594,10 @@ class UserController extends ApiStandardController
              if(optional($data)->plattforms !== null)
                {
                     $data->plattforms = $data->plattforms->map(function($plattform){
+                        if ($plattform->public === true)
+                              {
+                              return $plattform;
+                              }
                         $plattform->value = '';
                         return $plattform;
                     });

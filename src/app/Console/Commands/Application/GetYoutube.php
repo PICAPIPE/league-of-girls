@@ -59,7 +59,10 @@ class GetYoutube extends Command
             $values = collect($link->getValues);
 
             collect($link->getValues)->each(function($value) use (&$channels) {
-                $channels[] = $value->value;
+                if ($value->allow_crawler === true)
+                       {
+                       $channels[] = $value->value;
+                       }
             });
 
         });

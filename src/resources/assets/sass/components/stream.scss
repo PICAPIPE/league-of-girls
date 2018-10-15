@@ -150,6 +150,12 @@ input[type=search]{
     text-overflow: ellipsis;
     white-space: normal;
     margin-right: 15px; 
+    img
+    video 
+    {
+      display:none;
+    }
+
   }
 
   .news-element-channel-box{
@@ -520,6 +526,14 @@ input[type=search]{
    {
      background: #FFF;
      width:      100%;
+
+     img,
+     video 
+     {
+       width: 100%;
+       height: auto;
+       margin: 20px 0;
+     }
    }
 
    .chat-messages
@@ -642,6 +656,8 @@ input[type=search]{
    }
 }
 
+
+
 // News submissions
 
 .news-submit-form
@@ -681,6 +697,15 @@ news-youtube
      text-align: right;
      margin-right: 8px;
    }
+}
+
+.news-element-text
+{
+  img,
+  video 
+  {
+    display:none;
+  }
 }
 
 @keyframes blinker {  

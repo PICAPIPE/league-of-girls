@@ -240,7 +240,7 @@ angular.module('user').controller('UserConnectCtrl',[
 
               connect.userRequestUuid = null;
 
-              if(angular.isUndefined(connect.user) === true || connect.user === null || connect.user.uuid === connect.userId)
+              if(angular.isUndefined(connect.user) === true || connect.user === null || connect.user.uuid === connect.userId || angular.isUndefined(connect.user.open_requests) === true)
                 {
                 return found;
                 }

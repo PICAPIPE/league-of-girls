@@ -28,7 +28,8 @@ class Plattform extends BaseModel
       'icon',
       'placeholder',
       'help',
-      'published'
+      'published',
+      'action'
   ];
 
   protected $validations = [
