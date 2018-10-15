@@ -390,7 +390,7 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           ctrl.filterConnectedRender = function()
           {
 
-                return ctrl.filters.connected[0] === true ? 'JA' : 'NEIN';
+                return ctrl.filters.connected[0] === true ? 'JA' : '-';
 
           };
 
