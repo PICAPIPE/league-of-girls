@@ -74,7 +74,7 @@ class AuthController extends ApiController
 
             // Gender
 
-            if(isset($data['gender'])){
+            if(isset($data['gender']) === false){
                 $data['gender'] =  config('user.standardGender');
             }
 

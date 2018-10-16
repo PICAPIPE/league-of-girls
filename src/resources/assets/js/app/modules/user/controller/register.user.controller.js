@@ -14,7 +14,24 @@ angular.module('user').controller('UserRegisterCtrl',[
 
           // Variables
 
-          register.fieldData = {};
+          register.fieldData = {
+              'gender': 'female'
+          };
+
+          register.gender    = [
+             {
+                id: 'female',
+                name: register.LANG.getString('Weiblich')
+             },
+             {
+                id: 'male',
+                name: register.LANG.getString('Männlich')
+             },
+             {
+                id: 'misc',
+                name: register.LANG.getString('Divers')
+             }
+          ];
 
           register.fields    = [
              {
@@ -58,6 +75,21 @@ angular.module('user').controller('UserRegisterCtrl',[
                        "class": ""
                      }
                  }
+             },
+             {
+                "type":         "select",
+                "key":          "gender",
+                "templateOptions":
+                {
+                    "type":            "select",
+                    "required":        false,
+                    "label":           register.LANG.getString('Geschlecht'),
+                    "placeholder":     register.LANG.getString('Geschlecht'),
+                    "options":         register.gender,
+                    "valueProp":       'id',
+                    "labelProp":       'name',
+                    "className":       'col-xs-12'
+                }
              },
              {
                 "type": "input",

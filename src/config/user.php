@@ -15,7 +15,7 @@ return [
 
     'enums' => [
 
-        'types' => ['female','male']
+        'types' => ['female','male','misc']
 
     ]
 
