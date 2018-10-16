@@ -35,9 +35,29 @@ angular.module('meet').controller('MeetOverviewCtrl',[
               plattforms:     [],
               communications: [],
               connected:      [],
-              skill:          []
+              skill:          [],
+              genders:        [],
+              categories:     []
 
           };
+
+          ctrl.genders    = [
+            {
+               id: 'female',
+               icon: 'fas fa-venus',
+               label: ctrl.LANG.getString('Weiblich')
+            },
+            {
+               id: 'male',
+               icon: 'fas fa-mars',
+               label: ctrl.LANG.getString('Männlich')
+            },
+            {
+               id: 'misc',
+               icon: 'fas fa-genderless',
+               label: ctrl.LANG.getString('Divers')
+            }
+          ];
 
           ctrl.skillOptions    = [
               {
@@ -57,6 +77,25 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                  label: ctrl.LANG.getString('Profi')
               }
           ];
+
+          ctrl.categoryOptions    = [
+            {
+               id: 'beginner',
+               label: ctrl.LANG.getString('Anfänger')
+            },
+            {
+               id: 'amateur',
+               label: ctrl.LANG.getString('Amateur')
+            },
+            {
+               id: 'advanced',
+               label: ctrl.LANG.getString('Fortgeschritten')
+            },
+            {
+               id: 'pro',
+               label: ctrl.LANG.getString('Profi')
+            }
+        ];
 
           // Watch method
 
@@ -96,6 +135,36 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           ctrl.init      = function()
           {
+
+              ctrl.DB.call('Categories','all').then(
+                function(result)
+                {
+                    var i     = 0;
+                    var items = [];
+
+                    for (i = 0; i < result.data.data.length; i++)
+                           {
+                           items.push({
+                              id:    result.data.data[i].key,
+                              label: result.data.data[i].label
+                           });
+                           }
+                    ctrl.categoryOptions = [].concat(items);
+                },
+                function(errorResult)
+                {
+                    if (errorResult.status !== 500)
+                         {
+                         return;
+                         }
+
+                    ctrl.ALERT.add({
+                        'title':     ctrl.LANG.getString('Fehler beim Laden der Kategorien'),
+                        'message':   ctrl.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Kategorien aufgetreten.'),
+                        'autoClose': true
+                    });
+                }
+              );
 
               ctrl.DB.call('Plattforms','all').then(
                 function(result)
@@ -318,6 +387,11 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
           };
 
+          ctrl.callback  = function(filters)
+          {
+              ctrl.filters.categories = [].concat(filters);
+          };
+
           // Event handler for loading more users
 
           ctrl.loadMore = function()
@@ -384,6 +458,8 @@ angular.module('meet').controller('MeetOverviewCtrl',[
                           }
 
                 }
+
+                console.warn(filter);
 
           };
 

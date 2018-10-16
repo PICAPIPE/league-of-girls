@@ -338,6 +338,10 @@ angular.module('user').controller('UserAccountCtrl',[
                                   if (account.user[attr][j].action !== '')
                                        {
                                        action = account.user[attr][j].action;
+                                       if (angular.isUndefined(action) === true)
+                                            {
+                                            continue;
+                                            }
                                        action = action.replace(new RegExp('\\%username\\%','g'), account.user[attr][j].value);
                                        action = action.replace(new RegExp('\\%email\\%','g'), account.user.email);
                                        value  = '(<a href="' + action +'" target="_blank">' + account.user[attr][j].value + '</a>)';

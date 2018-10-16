@@ -126,12 +126,19 @@ $meet-filter-value-color: $CI-COLOR3;
 
 }
 
+.meet-filter-icons i.fas
+{
+    font-weight: 900!important;
+}
+
+
+
 .meet-filter-select
 {
     -webkit-appearance: none;
     background:         none;
     border:             0;
     color:              $meet-filter-value-color;
-    font-weight: 600;
-    cursor: pointer;
+    font-weight:        600;
+    cursor:             pointer;
 }

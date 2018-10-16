@@ -66,3 +66,38 @@ textarea
 {
   min-height: 200px;
 }
+
+.forms-multiselect-btn
+{
+   border:     0;
+   background: none;
+   position:   relative;
+   display:    inline-block;
+
+   .forms-multiselect-subelements
+   {
+       position:           absolute;
+       left:               0;
+       background:       #FFF;
+       padding:            5px 10px;
+       -webkit-box-shadow: 4px 4px 22px 0px rgba(0,0,0,0.75);
+       -moz-box-shadow:    4px 4px 22px 0px rgba(0,0,0,0.75);
+       box-shadow:         4px 4px 22px 0px rgba(0,0,0,0.75);
+       z-index:            999;
+       
+
+       .form-check-label
+       {
+           white-space: nowrap;
+           font-weight: normal;
+       }
+   }
+
+   &.closed
+   {
+       .forms-multiselect-subelements
+       {
+           display: none;
+       }
+   }
+}

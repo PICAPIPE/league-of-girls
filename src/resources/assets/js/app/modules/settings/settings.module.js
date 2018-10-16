@@ -112,7 +112,25 @@ angular.module('settings').config([
               },
               showAtSettings: true,
               roles: ['Admin']
-            }
+            },
+            {
+              name:      'app.settings.cateogires',
+              label:     gettext('Kategorien'),
+              url:       '/settings/categories',
+              views:     {
+                  '!$default.content':{
+                    'templateUrl': 'views/settings/settings.area.html',
+                    'controller':  'SettingsAreaCtrl as setting'
+                  }
+              },
+              datalist:{
+                  'DB':       'Categories',
+                  'template' :'{{$parent.entry.name}}',
+                  'component':'category-create'
+              },
+              showAtSettings: true,
+              roles: ['Admin']
+            },
         ];
 
         // Loop over the state definitions and register them

@@ -65,6 +65,8 @@ Route::api('games',           'Api\Esport\GameController',         [],true,['aut
 Route::api('plattforms',      'Api\Esport\PlattformController',    [],true,['auth.safe']);
 Route::api('communications',  'Api\Esport\CommunicationController',[],true,['auth.safe']);
 Route::api('links',           'Api\Esport\LinkController',         [],true,['auth.safe']);
+Route::api('categories',      'Api\Esport\CategoryController',     [],true,['auth.safe']);
+
 
 // Site
 

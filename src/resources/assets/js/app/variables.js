@@ -246,6 +246,15 @@ var DB_SERVICES    = [
        'url'  : 'api/faq'
     },
 
+    // 
+
+    // Plattforms
+
+    {
+        'name' : 'Categories',
+        'url'  : 'api/categories'
+     },
+
     // Crawler
 
     {

@@ -6,10 +6,13 @@ angular.module('news').controller('NewsLikeCtrl',[
      '$controller',
      'store',
      '$timeout',
-     function($scope, $rootScope, $state, $window, $controller, store, $timeout) {
+     'UserService',
+     function($scope, $rootScope, $state, $window, $controller, store, $timeout,UserService) {
 
           var ctrl = this;
           angular.extend(ctrl, $controller('BaseCtrl', {$scope: $scope}));
+
+          ctrl.USER      = UserService.getCurrentUser();
 
           ctrl.data      = {};
           ctrl.showTotal = true;
@@ -48,6 +51,11 @@ angular.module('news').controller('NewsLikeCtrl',[
             var method = 'like';
 
             $event.preventDefault();
+
+            if (angular.isUndefined(ctrl.USER) === true || ctrl.USER === null) 
+                  {
+                  return;
+                  }
 
             // Check the type of interaction
             if (ctrl.news.myliketype !== null && ctrl.news.myliketype === type)

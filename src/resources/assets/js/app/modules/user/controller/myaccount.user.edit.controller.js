@@ -12,13 +12,28 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           var date          = new Date();
           angular.extend(myaccountEdit, $controller('BaseCtrl', {$scope: $scope}));
 
-          myaccountEdit.user             = Object.assign({},UserService.getCurrentUser());
+          myaccountEdit.user             = Object.assign({'gender':'female'},UserService.getCurrentUser());
           myaccountEdit.changeDetected   = false;
           myaccountEdit.imagePath        = '/files/avatars/' + myaccountEdit.user.uuid + '?time='+ date.getTime();
           myaccountEdit.games            = [];
           myaccountEdit.plattforms       = [];
           myaccountEdit.communications   = [];
           myaccountEdit.links            = [];
+
+          myaccountEdit.gender    = [
+            {
+               id: 'female',
+               name: myaccountEdit.LANG.getString('Weiblich')
+            },
+            {
+               id: 'male',
+               name: myaccountEdit.LANG.getString('Männlich')
+            },
+            {
+               id: 'misc',
+               name: myaccountEdit.LANG.getString('Divers')
+            }
+          ];
 
           myaccountEdit.fields           = [
             {
@@ -93,6 +108,25 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
             }
           ];
 
+          myaccountEdit.fieldsGeneral    = [
+            {
+                "type":         "select",
+                "key":          "gender",
+                "defaultValue": "female",
+                "templateOptions":
+                {
+                    "type":            "select",
+                    "required":        false,
+                    "label":           myaccountEdit.LANG.getString('Geschlecht'),
+                    "placeholder":     myaccountEdit.LANG.getString('Geschlecht'),
+                    "options":         myaccountEdit.gender,
+                    "valueProp":       'id',
+                    "labelProp":       'name',
+                    "className":       'col-xs-12'
+                }
+             }
+          ];
+
           myaccountEdit.fieldsNewsletter = [
               {
                  "type": "checkbox",
@@ -159,6 +193,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           myaccountEdit.watch = function(newValue, oldValue, scope)
           {
                 var i = 0;
+
+                if (newValue.gender === '' || newValue.gender === undefined)
+                     {
+                     newValue = 'female';
+                     }
 
                 if(angular.isDefined(newValue)  === true &&
                    newValue                     !== null &&

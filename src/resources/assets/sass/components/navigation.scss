@@ -28,6 +28,9 @@ $navigation-item-color-hover:           $CI-COLOR3;
   font-size:      1.05em;
   font-weight:    bold;
   color:          $navigation-item-color;
+  max-width:      100%;
+  overflow:       hidden;
+  text-overflow:  ellipsis;
 
   @include media-breakpoint-down(lg) {
 

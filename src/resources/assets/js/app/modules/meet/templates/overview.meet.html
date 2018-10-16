@@ -3,23 +3,39 @@
   <div class="meet-filter">
 
       <div class="row">
-          <div class="col-xs-12 col-md-3">
-              <span class="meet-filter-label" ng-if="ctrl.currentGameData !== null">{{'Skill' | translate }}:</span>
-              <select ng-if="ctrl.currentGameData !== null" ng-model="ctrl.filters.skill[0]" class="meet-filter-select" ng-options="obj.skill as obj.label for obj in ctrl.skillOptions track by obj.skill">
-                  <option value="">{{'Alle'|translate}}</option>
-              </select>
+          <div class="col-xs-12 col-md-4">
+              <div class="filter-element">
+                <span class="meet-filter-label" ng-if="ctrl.currentGameData !== null">{{'Skill' | translate }}:</span>
+                <select ng-if="ctrl.currentGameData !== null" ng-model="ctrl.filters.skill[0]" class="meet-filter-select" ng-options="obj.skill as obj.label for obj in ctrl.skillOptions track by obj.skill">
+                    <option value="">{{'Alle'|translate}}</option>
+                </select>
+              </div>
+              <div class="filter-element">
+                <span class="meet-filter-label">{{'Kategorie' | translate }}:</span>
+                <span class="meet-filter-value">
+                    <form-multi-select items="ctrl.categoryOptions" callback="ctrl.callback"></form-multi-select> 
+                </span>
+              </div>
           </div>
-          <div class="col-xs-12 col-md-3">
-              <span class="meet-filter-label">{{'Messenger' | translate }}:</span>
-              <span class="meet-filter-value" ng-repeat="communication in ctrl.communications" ng-class="ctrl.getClass('communications','id',communication)" ng-click="ctrl.setFilter('communications', communication.id)"><i class="{{communication.icon}}" title="{{communication.name}}"></i></span>
+          <div class="col-xs-12 col-md-4">
+              <div class="filter-element">
+                    <span class="meet-filter-label">{{'Messenger' | translate }}:</span>
+                    <span class="meet-filter-value" ng-repeat="communication in ctrl.communications" ng-class="ctrl.getClass('communications','id',communication)" ng-click="ctrl.setFilter('communications', communication.id)"><i class="{{communication.icon}}" title="{{communication.name}}"></i></span>
+              </div>
+              <div class="filter-element">
+                    <span class="meet-filter-label">{{'Geschlecht' | translate }}:</span>
+                    <span class="meet-filter-value meet-filter-icons" ng-repeat="gender in ctrl.genders" ng-class="ctrl.getClass('genders','id',gender)" ng-click="ctrl.setFilter('genders', gender.id)"><i class="{{gender.icon}}" title="{{gender.label}}"></i></span>
+              </div>
           </div>
-          <div class="col-xs-12 col-md-3">
-              <span class="meet-filter-label">{{'Plattform' | translate }}:</span>
-              <span class="meet-filter-value" ng-repeat="plattform in ctrl.plattforms" ng-class="ctrl.getClass('plattforms','id',plattform)" ng-click="ctrl.setFilter('plattforms', plattform.id)"><i class="{{plattform.icon}}" title="{{plattform.name}}"></i></span>
-          </div>
-          <div class="col-xs-12 col-md-3">
-              <span class="meet-filter-label">{{'Mit mir verbunden' | translate }}:</span>
-              <span class="meet-filter-value" compile="ctrl.filterConnectedRender()" ng-class="ctrl.getClass('connected')" ng-click="ctrl.setFilter('connected', !ctrl.filterConnected)"></span>
+          <div class="col-xs-12 col-md-4">
+              <div class="filter-element">
+                    <span class="meet-filter-label">{{'Plattform' | translate }}:</span>
+                    <span class="meet-filter-value" ng-repeat="plattform in ctrl.plattforms" ng-class="ctrl.getClass('plattforms','id',plattform)" ng-click="ctrl.setFilter('plattforms', plattform.id)"><i class="{{plattform.icon}}" title="{{plattform.name}}"></i></span>
+              </div>
+              <div class="filter-element">
+                    <span class="meet-filter-label">{{'Mit mir verbunden' | translate }}:</span>
+                    <span class="meet-filter-value" compile="ctrl.filterConnectedRender()" ng-class="ctrl.getClass('connected')" ng-click="ctrl.setFilter('connected', !ctrl.filterConnected)"></span>
+              </div>
           </div>
       </div>
 

@@ -180,6 +180,11 @@ class UserController extends ApiStandardController
           return $this->respondValidationFails($validation);
       }
 
+      if(isset($data['gender']) === false || $data['gender'] === '')
+          {
+          $data['gender'] = config('user.standardGender');
+          }
+
       if(isset($data['password']) || isset($data['password2'])){
 
         $validation = Validator::make($data, [
@@ -617,9 +622,11 @@ class UserController extends ApiStandardController
   {
         $input   = $request->input('communications');
         $input2  = $request->input('plattforms');
+        $input3  = $request->input('genders');
 
         $values  = [];
         $values2 = [];
+        $values4 = [];
 
         $modelData = null;
 
@@ -681,10 +688,23 @@ class UserController extends ApiStandardController
 
           }
 
-      if($modelData === null)
-        {
+        if($input3 !== null)
+           {
+           $values3 = collect(explode(',',$input3));
+
+           if($input === null && $input2 === null)
+                {
+                $modelData = $md::whereIn('gender',$values3->toArray());
+                }
+           else {
+                $modelData = $modelData->orWhereIn('gender',$values3->toArray());
+                }
+           }
+
+        if($modelData === null)
+           {
            $modelData = $md::where('id','>',0);
-        }
+           }
 
       return $modelData;
 
