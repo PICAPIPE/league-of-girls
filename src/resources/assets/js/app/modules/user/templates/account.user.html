@@ -5,9 +5,9 @@
             <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-name">
                 <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.points" translate-plural="{{$count}} Punkte">1 Punkt</span> - 
                 <span class="user-headline-gender">
-                    <i class="fas fa-venus"      title="{{'Weiblich' | translate}}"></i>
-                    <i class="fas fa-mars"       title="{{'Männlich' | translate}}"></i>
-                    <i class="fas fa-genderless" title="{{'Divers' | translate}}"></i>
+                    <i ng-if="account.user.gender === 'female'" class="fas fa-venus"      title="{{'Weiblich' | translate}}"></i>
+                    <i ng-if="account.user.gender === 'male'"   class="fas fa-mars"       title="{{'Männlich' | translate}}"></i>
+                    <i ng-if="account.user.gender === 'misc'"   class="fas fa-genderless" title="{{'Divers' | translate}}"></i>
                 </span>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-connect">
