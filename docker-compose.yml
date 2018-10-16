@@ -10,7 +10,7 @@ services:
     - "9090:80"
     - "6001:6001"
     volumes:
-    - ./src:/var/www/html
+    - application:/var/www/html
     env_file:
       - ./environment/.env-app
     environment:
@@ -33,5 +33,10 @@ services:
     volumes:
       - redisdata:/var/lib/redis
 volumes:
+  application:
+    driver_opts:
+      type: none
+      device: $PWD/src
+      o: bind
   dbdata:
   redisdata:
