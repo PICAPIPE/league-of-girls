@@ -1,0 +1,25 @@
+<div class="crawler crawler_create">
+
+  <h1 ng-if="ctrl.uuid !== '' && ctrl.uuid !== undefined">{{'Kategorie bearbeiten' | translate}}</h1>
+  <h1 ng-if="ctrl.uuid === '' || ctrl.uuid === undefined">{{'Kategorie erstellen' | translate}}</h1>
+
+  <form class="crawler-create-submit-form" ng-submit="ctrl.submit(ctrl.fieldData)" name="crawler.submit.form">
+    <formly-form model="ctrl.fieldData" fields="ctrl.fields">
+
+        <!-- ERRORS -->
+
+        <div class="errors error-list-container" ng-if="ctrl.errors.length > 0">
+          <ul class="error-list">
+            <li class="error-list-item" ng-repeat="error in ctrl.errors">{{error}}</li>
+          </ul>
+        </div>
+
+        <!-- SUBMIT CONTAINER -->
+
+        <div class="submit_container">
+            <button type="submit" class="btn btn-outline-success float-right" ng-disable="login.loading">{{ 'Speichern' | translate }}</button>
+        </div>
+
+    </formly-form>
+  </form>
+</div>
