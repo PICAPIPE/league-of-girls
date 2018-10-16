@@ -35,9 +35,14 @@ $meet-filter-value-color: $CI-COLOR3;
 
 .meet-name
 {
-   font-family: 'Bitter';
-   font-size:   1.25em;
-   cursor:      pointer;
+   font-family:   'Bitter';
+   font-size:     1.25em;
+   cursor:        pointer;
+   display:       block;
+   width:         100%;
+   overflow:      hidden;
+   white-space:   nowrap;
+   text-overflow: ellipsis;
 }
 
 .meet-request
@@ -49,8 +54,8 @@ $meet-filter-value-color: $CI-COLOR3;
 
 .meet-info
 {
-  padding: 10px 10px 50px 0;
-  width: 100%;
+  padding: 10px 10px 50px 15px;
+  width:   calc(100% - 150px);
 }
 
 .meet-avatar
@@ -58,7 +63,6 @@ $meet-filter-value-color: $CI-COLOR3;
 
     position:      relative;
     background:    #fafafa;
-    margin-right:  15px;
     cursor:        pointer;
 
     img

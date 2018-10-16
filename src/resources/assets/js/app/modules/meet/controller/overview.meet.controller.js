@@ -459,8 +459,6 @@ angular.module('meet').controller('MeetOverviewCtrl',[
 
                 }
 
-                console.warn(filter);
-
           };
 
           ctrl.filterConnectedRender = function()
