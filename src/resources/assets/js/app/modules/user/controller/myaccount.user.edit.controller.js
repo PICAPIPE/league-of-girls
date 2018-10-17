@@ -19,6 +19,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           myaccountEdit.plattforms       = [];
           myaccountEdit.communications   = [];
           myaccountEdit.links            = [];
+          myaccountEdit.categories       = [];
 
           myaccountEdit.gender    = [
             {
@@ -225,7 +226,12 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                 if(angular.isUndefined(newValue.games) === false)
                   {
-                        myaccountEdit.watchCheck(newValue,'games');
+                      myaccountEdit.watchCheck(newValue,'games');
+                  }
+
+                if(angular.isUndefined(newValue.categories) === false)
+                  {
+                      myaccountEdit.watchCheck(newValue,'categories');
                   }
 
           };
@@ -265,7 +271,12 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                                    else {
                                         myaccountEdit.user[attr][j].public = newValue[i].public;
                                         }
-                                   myaccountEdit.user[attr][j].value = newValue[i].value;
+
+                                   // Save attribute in original data set
+                                   if (angular.isDefined(newValue[i].value) === true)
+                                        {
+                                        myaccountEdit.user[attr][j].value = newValue[i].value;
+                                        }
                                    }
                               break;
                         }
@@ -301,6 +312,13 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           myaccountEdit.watchGames  = function(newValue, oldValue, scope)
           {
               myaccountEdit.watchAttribute(newValue,'games','game_id');
+          };
+
+          // Watcher for games
+
+          myaccountEdit.watchCategories  = function(newValue, oldValue, scope)
+          {
+              myaccountEdit.watchAttribute(newValue,'categories','category_id');
           };
 
           // Save profile information
@@ -344,6 +362,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               var i = 0;
               var j = 0;
               var k = 0;
+
+              if (angular.isUndefined(myaccountEdit.user[attr]) === true)
+                  {
+                  return;
+                  }
 
               for(j = 0; j < myaccountEdit.user[attr].length; j++)
               {
@@ -440,6 +463,28 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                 }
               );
 
+              myaccountEdit.DB.call('Categories','all').then(
+                function(result)
+                {
+                    myaccountEdit.categories = result.data.data;
+
+                    $timeout(function(){
+                      $scope.$apply();
+                    });
+
+                    myaccountEdit.setUpValue('categories','category_id');
+
+                },
+                function(errorResult)
+                {
+                  myaccountEdit.ALERT.add({
+                      'title':     myaccountEdit.LANG.getString('Fehler beim Laden der Kategorien'),
+                      'message':   myaccountEdit.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Kategorien aufgetreten.'),
+                      'autoClose': true
+                  });
+                }
+              );
+
               myaccountEdit.DB.call('Plattforms','all').then(
                 function(result)
                 {
@@ -518,6 +563,13 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               return myaccountEdit.getHelperClass('games','game_id',gameId);
           };
 
+          // Get the class for a category
+
+          myaccountEdit.getCategoryClass        = function(categoryId)
+          {
+              return myaccountEdit.getHelperClass('categories','category_id',categoryId);
+          };
+
           // Get the class for a plattform
 
           myaccountEdit.getPlattformClass        = function(plattformId)
@@ -546,6 +598,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               var i = 0;
 
               if(angular.isDefined(myaccountEdit.user) === false)
+                {
+                   return '';
+                }
+             
+              if(angular.isDefined(myaccountEdit.user[attr]) === false)
                 {
                    return '';
                 }
@@ -590,6 +647,14 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               myaccountEdit.toggleItemData('links','link_id','addLink','link',linkId,noSet);
           };
 
+          // Toogle category status
+
+          myaccountEdit.toggleCategory      = function(categoryId,noSet)
+          {
+              myaccountEdit.toggleItemData('categories','category_id','addCategory','category',categoryId,noSet);
+          };
+
+
           // Helper method to toggle item data
 
           myaccountEdit.toggleItemData = function(attr,pid,method,id,value,noSet)
@@ -609,6 +674,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
             }
 
             myaccountEdit.changeDetected = true;
+
+            if (angular.isUndefined(myaccountEdit.user[attr]) === true)
+                  {
+                  return;
+                  }
 
             for(i = 0; i < myaccountEdit.user[attr].length; i++)
             {
@@ -648,6 +718,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
                                   if(attr === 'games')
                                     {
                                       myaccountEdit.setUpValue('games','game_id');
+                                    }
+
+                                  if(attr === 'categories')
+                                    {
+                                      myaccountEdit.setUpValue('categories','category_id');
                                     }
 
                               }
@@ -778,6 +853,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           $scope.$watch('myaccountEdit.communications', myaccountEdit.watchCommunications, true);
           $scope.$watch('myaccountEdit.links',          myaccountEdit.watchLinks,          true);
           $scope.$watch('myaccountEdit.games',          myaccountEdit.watchGames,          true);
+          $scope.$watch('myaccountEdit.categories',     myaccountEdit.watchCategories,     true);
 
      }
 ]);

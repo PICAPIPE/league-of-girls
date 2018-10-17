@@ -187,6 +187,11 @@ class User extends Authenticatable implements JWTSubject
       return $this->hasMany('App\Models\User\UserFriend');
   }
 
+  public function categories()
+  {
+      return $this->hasMany('App\Models\User\UserCategory');
+  }
+
   public function chats()
   {
       return Chat::where('public',false)->whereHas('users', function($q){

@@ -121,6 +121,17 @@ var DB_SERVICES    = [
                }
            },
            {
+                type:       'post',
+                name:       'addCategory',
+                queryIndex: 2,
+                dataIndex:  3,
+                keep:       true,
+                getUrl: function(url)
+                {
+                    return url + '/current/categories';
+                }
+            },
+           {
                type:       'get',
                name:       'friendRequests',
                queryIndex: 2,

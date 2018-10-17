@@ -64,6 +64,12 @@
               </li>
            </ul>
 
+           <h2>{{ 'Kategorien' | translate }}</h2>
+
+          <ul class="categories">
+             <li class="category-item" ng-class="myaccountEdit.getCategoryClass(category.id)" ng-repeat="category in myaccountEdit.categories" ng-click="myaccountEdit.toggleCategory(category.id)">{{category.label}}</li>
+          </ul>
+
            <h2>{{ 'Kommunikation' | translate }}</h2>
 
            <ul class="commnunications">

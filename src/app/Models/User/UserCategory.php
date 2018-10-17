@@ -5,7 +5,7 @@ namespace App\Models\User;
 use App\Models\BaseModel;
 use Illuminate\Database\Eloquent\Model;
 
-class UserGame extends BaseModel
+class UserCategory extends BaseModel
 {
 
   /**
@@ -30,7 +30,8 @@ class UserGame extends BaseModel
   protected $fillable = [
       'uuid',
       'user_id',
-      'category_id'
+      'category_id',
+      'active'
   ];
 
   /**
@@ -60,7 +61,8 @@ class UserGame extends BaseModel
    */
   protected $casts = [
       'user_id' => 'integer',
-      'category_id' => 'integer'
+      'category_id' => 'integer',
+      'active' => 'boolean'
   ];
 
   public function category(){

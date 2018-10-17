@@ -66,3 +66,28 @@
 {
   border-color:#FFFFFF;
 }
+
+
+.categories
+{
+    list-style: none;
+    padding:    0;
+    margin:     0;
+}
+
+.category-item
+{
+    list-style:    none;
+    padding:       5px 10px;
+    margin:        0 10px 10px 0;
+    border:        1px solid $input-border-color;
+    display:       inline-block;
+    border-radius: $border-radius;
+    opacity:       0.2;
+
+    &.active
+    {
+       opacity: 1;
+    }
+
+}

@@ -17,6 +17,7 @@ angular.module('user').controller('UserAccountCtrl',[
           account.imagePath      = '';
 
           account.games          = [];
+          account.categories     = [];
           account.plattforms     = [];
           account.commnunications= [];
           account.link           = [];
@@ -110,6 +111,21 @@ angular.module('user').controller('UserAccountCtrl',[
                 }
               );
 
+              account.DB.call('Categories','all').then(
+                function(result)
+                {
+                    account.categories = result.data.data;
+                },
+                function(errorResult)
+                {
+                    account.ALERT.add({
+                        'title':     account.LANG.getString('Fehler beim Laden der Kategorien'),
+                        'message':   account.LANG.getString('Es ist leider ein Fehler beim Laden der verfügbaren Kategorien aufgetreten.'),
+                        'autoClose': true
+                    });
+                }
+              );
+
               account.DB.call('Plattforms','all').then(
                 function(result)
                 {
@@ -164,6 +180,13 @@ angular.module('user').controller('UserAccountCtrl',[
           account.getClass        = function(gameId)
           {
               return account.getHelperClass('games','game_id',gameId);
+          };
+
+          // Get the class for a game
+
+          account.getCategoryClass        = function(categoryId)
+          {
+              return account.getHelperClass('categories','category_id',categoryId);
           };
 
           // Get the class for a plattform

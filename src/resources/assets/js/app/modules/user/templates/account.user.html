@@ -43,6 +43,12 @@
              <li class="game-item" ng-class="account.getClass(game.id)" ng-repeat="game in account.games">{{game.name}}</li>
           </ul>
 
+          <h2>{{ 'Kategorien' | translate }}</h2>
+
+          <ul class="categories">
+             <li class="category-item" ng-class="account.getCategoryClass(category.id)" ng-repeat="category in account.categories">{{category.label}}</li>
+          </ul>
+
           <h2>{{ 'Kommunikation' | translate }}</h2>
 
           <ul class="commnunications">

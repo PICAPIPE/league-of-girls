@@ -13,13 +13,14 @@ class CreateUsersCategoriesTable extends Migration
      */
     public function up()
     {
-      Schema::create('users_games', function (Blueprint $table) {
+      Schema::create('users_categories', function (Blueprint $table) {
 
           $table->increments('id');
           $table->uuid('uuid');
 
           $table->integer('user_id')->unsigned();
           $table->integer('category_id')->unsigned();
+          $table->boolean('active');
 
           $table->timestamps();
       });

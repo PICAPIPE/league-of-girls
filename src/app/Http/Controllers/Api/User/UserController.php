@@ -14,6 +14,7 @@ use ValidationHelper;
 use App\Models\Esport\Game;
 use App\Models\Esport\Communication;
 use App\Models\Esport\Plattform;
+use App\Models\Esport\Category;
 
 use App\Models\User\User;
 use App\Models\User\UserGame;
@@ -21,6 +22,7 @@ use App\Models\User\UserPlattform;
 use App\Models\User\UserCommunication;
 use App\Models\User\UserFriend;
 use App\Models\User\UserRequest;
+use App\Models\User\UserCategory;
 
 use App\Models\Chat\Chat;
 
@@ -57,7 +59,7 @@ class UserController extends ApiStandardController
         'sortBy'        => 'username',
         'sortDirection' => 'ASC',
         'pagination'    => true,
-        'with'          => ['games','communications','links','myfriedsrequests'],
+        'with'          => ['games','communications','links','myfriedsrequests','categories'],
         'wheres'        => [
             'filterGame',
             'filterConnection',
@@ -73,7 +75,7 @@ class UserController extends ApiStandardController
 
       'show' => [
         'except'        => false,
-        'with'          => ['games','communications','plattforms'],
+        'with'          => ['games','communications','plattforms','categories'],
         'postMap'       => [
             'filterDataSingle'
         ]
@@ -131,7 +133,7 @@ class UserController extends ApiStandardController
 
       $data                    = $request->all();
 
-      $result                  = User::where('uuid',$request->user->uuid)->with(['games','plattforms','communications','links','friends','friends.from','openRequests']);
+      $result                  = User::where('uuid',$request->user->uuid)->with(['games','plattforms','communications','links','friends','friends.from','openRequests','categories']);
 
       $fields                  = $request->user->getRequestFields($request);
 
@@ -327,6 +329,24 @@ class UserController extends ApiStandardController
             }
 
             $plattformEntry->save();
+
+        });
+
+      }
+
+      // Plattforms
+
+      if(isset($data['categories']))
+      {
+
+        $categories = $user->categories()->get();
+
+        $categories->each(function($categoryEntry) use ($data){
+
+            $categoryData = collect($data['categories'])->where('category_id',$categoryEntry->category_id)->first();;
+
+            $categoryEntry->active = data_get($categoryData,'active', false);
+            $categoryEntry->save();
 
         });
 
@@ -632,9 +652,11 @@ class UserController extends ApiStandardController
         $input   = $request->input('communications');
         $input2  = $request->input('plattforms');
         $input3  = $request->input('genders');
+        $input4  = $request->input('categories');
 
         $values  = [];
         $values2 = [];
+        $values3 = [];
         $values4 = [];
 
         $modelData = null;
@@ -697,6 +719,8 @@ class UserController extends ApiStandardController
 
           }
 
+        // Gender
+
         if($input3 !== null)
            {
            $values3 = collect(explode(',',$input3));
@@ -709,6 +733,39 @@ class UserController extends ApiStandardController
                 $modelData = $modelData->orWhereIn('gender',$values3->toArray());
                 }
            }
+
+
+        if($input4 !== null)
+           {
+           $values4 = collect(explode(',',$input4));
+
+           if($input === null && $input2 === null && $input3 === null)
+                {
+                $modelData = $md::where(function($query) use ($values4) {
+
+                    $userIds = UserCategory::where(function($queryCategory) use ($values4){
+                        $categories = Category::whereIn('key',$values4)->pluck('id');
+                        $queryCategory->whereIn('category_id',$categories);
+                    })->where('active',true)->pluck('user_id');
+
+                    $query->whereIn('id',$userIds);
+
+                  });
+                }
+           else {
+                $modelData = $modelData->orWhere(function($query) use ($values4) {
+
+                    $userIds = UserCategory::where(function($queryCategory) use ($values4){
+                        $categories = Category::whereIn('key',$values4)->pluck('id');
+                        $queryCategory->whereIn('category_id',$categories);
+                    })->where('active',true)->pluck('user_id');
+
+                    $query->whereIn('id',$userIds);
+
+                });
+                }
+           }
+
 
         if($modelData === null)
            {
