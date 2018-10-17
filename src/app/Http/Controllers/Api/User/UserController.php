@@ -375,6 +375,15 @@ class UserController extends ApiStandardController
   }
 
   /***
+  ** Add a category relation to a user
+  ***/
+
+  public function currentAddCategory(Request $request)
+  {
+      return $this->addRelationEntries($request,'categories','category_id','category');
+  }
+
+  /***
   ** Add a communication relation to a user
   ***/
 

@@ -17,7 +17,7 @@
     <div class="datalist-entry" ng-repeat="entry in datalist.data.data.data" ng-if="datalist.data.statusCode === 200">
         <div class="media">
           <div class="media-body" ng-transclude="main">
-            {{entry.name || entry.id}}
+            {{entry.name || entry.id || entry.label}}
           </div>
           <div class="ml-3" ng-if="datalist.USER.hasPermission(['Admin'])">
             <div class="btn-group" role="group">

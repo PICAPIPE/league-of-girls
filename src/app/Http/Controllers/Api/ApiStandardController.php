@@ -270,7 +270,10 @@ class ApiStandardController extends ApiController
 
           }
 
-          $modelData       = $modelData->makeHidden($hidden);
+          if ($modelData !== null)
+                {
+                $modelData       = $modelData->makeHidden($hidden);
+                }
 
           if($modelData !== null)
             {

@@ -114,7 +114,7 @@ angular.module('settings').config([
               roles: ['Admin']
             },
             {
-              name:      'app.settings.cateogires',
+              name:      'app.settings.categories',
               label:     gettext('Kategorien'),
               url:       '/settings/categories',
               views:     {
@@ -125,7 +125,7 @@ angular.module('settings').config([
               },
               datalist:{
                   'DB':       'Categories',
-                  'template' :'{{$parent.entry.name}}',
+                  'template' :'{{$parent.entry.label}}',
                   'component':'category-create'
               },
               showAtSettings: true,

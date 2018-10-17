@@ -73,63 +73,30 @@ angular.module('core').controller('CategoryCreateCtrl',[
                   console.log('Load fields for crawler form');
                   }
 
-            ctrl.DB.call('Games','all').then(
-              function(result){
-
-                  ctrl.optionsGames = [];
-
-                  var resultGames = result.data.data;
-                  var games       = [];
-
-                  games[games.length] = {'name':'Allgemein','uuid':'-1'};
-
-                  for (var i = 0; i < resultGames.length; i++)
-                         {
-                         games[games.length] = {name:resultGames[i].name,id:resultGames[i].id};
-                         }
-
-                  ctrl.fields = [                    
-                    {
-                       "type": "input",
-                       "key":  "key",
-                       "templateOptions":
-                       {
-                           "type":            "text",
-                           "required":        true,
-                           "label":           ctrl.LANG.getString('Schlüssel'),
-                           "placeholder":     ctrl.LANG.getString('Gib einen eindeutigen Wert für den Schlüssel an.')
-                       }
-                    },
-                    {
-                        "type": "input",
-                        "key":  "name",
-                        "templateOptions":
-                        {
-                            "type":            "text",
-                            "required":        true,
-                            "label":           ctrl.LANG.getString('Name'),
-                            "placeholder":     ctrl.LANG.getString('Gib eine Bezeichnung ein.')
-                        }
-                     }
-                  ];
+            ctrl.fields = [                    
+              {
+                 "type": "input",
+                 "key":  "key",
+                 "templateOptions":
+                 {
+                     "type":            "text",
+                     "required":        true,
+                     "label":           ctrl.LANG.getString('Schlüssel'),
+                     "placeholder":     ctrl.LANG.getString('Gib einen eindeutigen Wert für den Schlüssel an.')
+                 }
               },
-              function(errorResult){
-                  var message = ctrl.LANG.getString('Es leider ein Fehler aufgetreten. Bitte probiere es erneut.');
-
-                  if(angular.isDefined(errorResult.data)         === true &&
-                     angular.isDefined(errorResult.data.message) === true)
-                    {
-                    message = errorResult.data.message;
-                    }
-
-                  ctrl.ALERT.add({
-                      'title':     ctrl.LANG.getString('Fehler beim Öffnen/Erstellen des Crawler aufgetreten.'),
-                      'message':   message,
-                      'autoClose': true
-                  });
-                  $rootScope.$broadcast('$modalClose');
-              }
-            );
+              {
+                  "type": "input",
+                  "key":  "label",
+                  "templateOptions":
+                  {
+                      "type":            "text",
+                      "required":        true,
+                      "label":           ctrl.LANG.getString('Name'),
+                      "placeholder":     ctrl.LANG.getString('Gib eine Bezeichnung ein.')
+                  }
+               }
+            ];
           }
 
           // Init point
@@ -139,7 +106,7 @@ angular.module('core').controller('CategoryCreateCtrl',[
 
                 if (angular.isDefined(ctrl.uuid) === true)
                       {
-                      ctrl.DB.call('Crawler','show',ctrl.uuid).then(
+                      ctrl.DB.call('Categories','show',ctrl.uuid).then(
                           function(result){
 
                               ctrl.fieldData = result.data.data;
@@ -160,7 +127,7 @@ angular.module('core').controller('CategoryCreateCtrl',[
                                 }
 
                               ctrl.ALERT.add({
-                                  'title':     ctrl.LANG.getString('Fehler beim Öffnen des Crawler aufgetreten.'),
+                                  'title':     ctrl.LANG.getString('Fehler beim Öffnen der Kategorie aufgetreten.'),
                                   'message':   message,
                                   'autoClose': true
                               });

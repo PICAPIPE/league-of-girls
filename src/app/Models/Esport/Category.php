@@ -28,10 +28,6 @@ class Category extends BaseModel
       'label'
   ];
 
-  protected $validations = [
-
-  ];
-
   /**
    * The attributes excluded from the model's JSON form.
    *
@@ -66,5 +62,15 @@ class Category extends BaseModel
    * @var array
    */
   protected $dates = [];
+
+  /**
+   * Validations setup
+   *
+   * @var array
+   */
+  protected $validations = [
+      'key'   => 'required',
+      'label' => 'required'
+  ];
 
 }

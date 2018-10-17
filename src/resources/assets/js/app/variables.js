@@ -383,7 +383,7 @@ var DB_SERVICES    = [
              keep:       true,
              getUrl: function(url)
              {
-                 return url + '/views/:id'
+                 return url + '/views/:id';
              }
          },
          {
@@ -394,7 +394,7 @@ var DB_SERVICES    = [
              keep:       false,
              getUrl: function(url)
              {
-                 return url + '/published'
+                 return url + '/published';
              }
          }
        ]

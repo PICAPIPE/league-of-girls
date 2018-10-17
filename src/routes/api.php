@@ -34,6 +34,7 @@ Route::group(['middleware' => ['auth.api']], function(){
     Route::post('/users/current/games',                          'Api\User\UserController@currentAddGame');
     Route::post('/users/current/plattforms',                     'Api\User\UserController@currentAddPlattform');
     Route::post('/users/current/communications',                 'Api\User\UserController@currentAddCommunication');
+    Route::post('/users/current/categories',                     'Api\User\UserController@currentAddCategory');
     Route::post('/users/current/links',                          'Api\User\UserController@currentAddLink');
     Route::get('/users/current/requests',                        'Api\User\UserController@currentConnectionRequest');
     Route::get('/users/current/chats',                           'Api\User\UserController@currentChats');
