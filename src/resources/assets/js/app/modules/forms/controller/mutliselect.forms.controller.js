@@ -16,7 +16,7 @@ angular.module('forms').controller('FormsMultiSelectCtrl',[
 
           ctrl.$onInit = function () 
           {
-              console.error(ctrl.items);
+              // Do init stuff here
           };
 
           // Open the menu items

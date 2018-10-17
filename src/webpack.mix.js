@@ -56,6 +56,16 @@ var icons = [
                     classPrefix:  'log-icon-',
                     baseSelector: '.log-icon'
                   }
+  },
+  {
+    name:         'icons-avatar',
+    filePath:     'resources/assets/images/avatars/',
+    dest:         'public/webfonts/',
+    cssDest:      path.join(__dirname,'resources/assets/sass/components/icons-avatar.scss'),
+    template:     {
+                    classPrefix:  'log-avatar-',
+                    baseSelector: '.log-avatar'
+                  }
   }
 ];
 

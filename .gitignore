@@ -8,6 +8,7 @@
 /src/public/webfonts/*
 /src/public/fonts/*
 /src/public/img/icons/*
+/src/public/img/avatars/*
 /src/storage/*.key
 /src/storage/avatars/*
 /src/storage/debug/*

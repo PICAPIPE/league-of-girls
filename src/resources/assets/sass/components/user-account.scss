@@ -49,6 +49,19 @@ $user-account-header-color:       #FFFFFF;
     position:        relative;
     color:           $user-account-header-color;
 
+    .user-account-avatar-chooser
+    {
+        background:  #1a8a58;
+        width:         40px;
+        height:        40px;
+        border-radius: 100px;
+        color:       #FFF;
+        border:        0;
+        position:      absolute;
+        left:         10px;
+        top:          10px;
+    }
+
     .user-account-avatar
     {
         height:     $user-account-header-avatar-size;

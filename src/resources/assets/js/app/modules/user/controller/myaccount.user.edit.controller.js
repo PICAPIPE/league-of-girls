@@ -844,6 +844,19 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
             );
           };
 
+          // Open Avatar chooser
+          myaccountEdit.chooseAvatar = function(event)
+          {
+             event.preventDefault();
+
+             myaccountEdit.createModal({
+                 'background' : 'rgba(255, 255, 255,0.6)',
+                 'content':     '<avatar-chooser></avatar-chooser>'
+             },function(){
+                 console.log('AVATAR CHOOSER');
+             });
+          };
+
           myaccountEdit.init();
 
           // Watchers
