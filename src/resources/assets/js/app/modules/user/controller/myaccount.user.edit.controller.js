@@ -342,6 +342,10 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                         $state.go('app.user.myaccount');
 
+                        $timeout(function(){
+                            location.reload();
+                        },150);
+
                   },
                   function(errorResult)
                   {
@@ -429,6 +433,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
                   $timeout(function()
                   {
+                      console.error(myaccountEdit.user);
                       myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid+'?time='+ date.getTime();
                       $scope.$apply();
                   },200);
@@ -440,6 +445,21 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           myaccountEdit.init           = function()
           {
+
+              if (myaccountEdit.user.uuid === undefined)
+                    {
+                    // Request data if user is undefined
+                    myaccountEdit.DB.call('CurrentUser','check').then(
+                        function(result)
+                        {
+                          myaccountEdit.user = result.data.data;
+                        },
+                        function(errorResult)
+                        {
+                          console.log(errorResult);
+                        }
+                    );
+                    }
 
               myaccountEdit.DB.call('Games','all').then(
                 function(result)
@@ -850,10 +870,10 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
              event.preventDefault();
 
              myaccountEdit.createModal({
-                 'background' : 'rgba(255, 255, 255,0.6)',
-                 'content':     '<avatar-chooser></avatar-chooser>'
+                 'background' : 'rgba(0, 0, 0,0.8)',
+                 'content':     '<avatar-picker></avatar-picker>'
              },function(){
-                 console.log('AVATAR CHOOSER');
+                 
              });
           };
 
@@ -867,6 +887,20 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           $scope.$watch('myaccountEdit.links',          myaccountEdit.watchLinks,          true);
           $scope.$watch('myaccountEdit.games',          myaccountEdit.watchGames,          true);
           $scope.$watch('myaccountEdit.categories',     myaccountEdit.watchCategories,     true);
+
+          // New avatar choosen
+          $scope.$on('chooseAvatar',function(event,args){
+              myaccountEdit.imagePath      = '';
+              myaccountEdit.user.avatar_id = args.avatar_id;
+              $timeout(function()
+              {
+                $timeout(function()
+                {
+                    myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid+'?time='+ date.getTime() + '&preview='+(args.avatar_id * -1);
+                    $scope.$apply();
+                },200);
+              },200);
+          });          
 
      }
 ]);

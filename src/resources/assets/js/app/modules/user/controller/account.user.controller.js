@@ -92,8 +92,28 @@ angular.module('user').controller('UserAccountCtrl',[
                               }
                           );
                       }
+                    else 
+                      {
+                      $timeout(function(){
+                          if (account.user === null || account.user.uuid === undefined)
+                                {
+                                account.user = UserService.getCurrentUser();
+                                account.DB.call('CurrentUser','check').then(
+                                    function(result)
+                                    {
+                                        account.user        = result.data.data;
+                                        account.imagePath   = '/files/avatars/' + (account.user !== null && account.user !== undefined && account.user.uuid !== undefined ? account.user.uuid : '') + '?time='+ date.getTime();
 
-                    return;
+                                        account.init(true);
+                                    },
+                                    function(errorResult)
+                                    {
+                                        account.closeModal();
+                                    }
+                                );
+                                }
+                      },3000);
+                      }
                 }
 
               account.DB.call('Games','all').then(

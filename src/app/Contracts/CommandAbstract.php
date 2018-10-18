@@ -104,6 +104,16 @@ class CommandAbstract extends Command{
 
               $game_id     = $entry->game;
 
+              // Try to get the game name
+              if ($game_id === 0)
+                    {
+                    $game = Game::where('name',$stream->game)->first();                    
+                    if ($game !== null)
+                          {
+                          $game_id = $game->id;
+                          }
+                    }
+
               if ($streamEntry === null)
                     {
 

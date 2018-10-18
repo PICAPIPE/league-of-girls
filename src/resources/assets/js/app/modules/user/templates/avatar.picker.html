@@ -1,0 +1,11 @@
+<div class="avatarPicker avatarPickerModal">
+        <div class="avatarPickerElement">
+            <h2>{{'Wähle ein Avatar aus'|translate}}</h2>
+            <div class="avatarPickerElementItem" ng-class="ctrl.getClass(avatar)" ng-click="ctrl.chooseAvatar($event,avatar)" ng-repeat="avatar in ctrl.avatars">
+                 <i class="log-avatar log-avatar-{{avatar.icon}}"></i>
+            </div>
+            <div class="clear"></div>
+            <button ng-click="ctrl.choose($event)" class="btn btn-outline-success">{{'Auswahl übernehmen'|translate}}</button>
+        </div>
+</div>
+    
