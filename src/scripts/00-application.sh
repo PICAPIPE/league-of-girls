@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Rebuild sass
-npm rebuild node-sass --force --silent && \
+# npm rebuild node-sass --force --silent && \
 
 # Run laravel stuff
 php artisan down
