@@ -1,5 +1,106 @@
 <div class="news news_overview">
 
+    <div class="margin-bottom text-center" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+        <button ng-click="ctrl.submitNews($event,ctrl.currentGame)" class="btn btn-outline-success"><i class="material-icons">add</i>
+            {{'News einreichen'|translate}}</button>
+    </div>
+
+    <div id="news-filter" ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+        <div class="news-filter-search">
+            <input type="search" ng-model="ctrl.search" class="form-control" placeholder="{{'Suchbegriff eingeben'|translate}}">
+        </div>
+        <div class="news-filter-channel">
+            <span class="news-filter-label">{{'Channel' | translate }}:</span>
+            <select ng-model="ctrl.filters.channel[0]" class="news-filter-select" ng-options="obj.channel as obj.label for obj in ctrl.channelOptions track by obj.channel">
+                <option value="">{{'Alle'|translate}}</option>
+            </select>
+        </div>
+        <div class="news-filter-checks">
+            <div ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+                <span class="featured clickable" title="{{'Nicht nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
+                    ng-if="ctrl.filters.featured === false"><i class="far fa-star"></i></span>
+                <span class="featured clickable" title="{{'Nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
+                    ng-if="ctrl.filters.featured === true"><i class="fas fa-star"></i></i></span>
+                <span class="readlater clickable" title="{{'Auch Beiträge die nicht auf der Merkliste stehen.'|translate}}"
+                    ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === false && ctrl.USER !== undefined && ctrl.USER !== null"><i
+                        class="fas fa-glasses deactivated"></i></span>
+                <span class="readlater clickable" title="{{'Nur Beiträge die auf der Merkliste stehen.'|translate}}"
+                    ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === true && ctrl.USER !== undefined && ctrl.USER !== null"><i
+                        class="fas fa-glasses"></i></i></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-list">
+
+        <div ng-if="ctrl.data.length === 0 && ctrl.mode !== 'featured'">
+            <p>{{'Keine News gefunden.' | translate}}</p>
+        </div>
+
+        <div class="news-item" ng-class="ctrl.getCssClass(news)" ng-repeat="news in ctrl.data">
+            <div class="news-avatar">
+                <img ng-if="news.type == 'twitch'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
+                <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
+                <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
+                <div ng-if="news.type == 'link'" ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
+            </div>
+            <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
+                <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
+            </div>
+            <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'twitch'">
+                <span class="news-element-text" ng-if="news.live === true">{{'Jetzt ansehen!'|translate}} <span class="live-icon"></span></span>
+                <span class="news-element-text" ng-if="news.live === false">{{'War live!'|translate}}</span>
+                <span class="news-logo"><i class="fab fa-twitch"></i></span>
+                <div class="news-element-channel-twitch">
+                    <span class="news-element-channel">{{ news.channel }}</span>
+                </div>
+            </div>
+            <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'youtube'">
+                    <span class="news-element-text" ng-click="ctrl.openStream(news)">{{ news.headline}}</span>
+                <div class="news-element-channel-box">
+                    <div class="news-element-channel-type"><i class="fab fa-youtube"></i></div>
+                    <div class="news-element-channel-name">
+                        <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ 'Öffnen' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'twitter'">
+                    <div class="news-element-text" compile="news.text"></div>
+                <div class="news-element-channel-box">
+                    <div class="news-element-channel-type"><i class="fab fa-twitter"></i></div>
+                    <div class="news-element-channel-name">
+                        <span class="news-element-channel" ng-click="ctrl.openStream(news)">{{ news.channel }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'link'">
+                    <div class="news-element-text" compile="news.headline"></div>
+                    <div class="news-element-channel-box">
+                        <div class="news-element-channel-type"><i class="material-icons">link</i></div>
+                        <div class="news-element-channel-name">
+                            <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
+                        </div>
+                    </div>
+            </div>
+            <news-like news="news"></news-like>
+            <div class="news-triangle"></div>
+            <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
+                <i class="material-icons">star</i>
+            </div>
+        </div>
+    </div>
+
+    <div class="news-load-more" ng-if="ctrl.total !== ctrl.data.length && ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
+        <button class="btn btn-link" ng-click="ctrl.loadMore()">{{ 'Mehr Inhalte laden' | translate}}</button>
+    </div>
+</div>
+</div>
+
+<!-- <div class="news news_overview">
+
   <div class="margin-bottom text-center"  ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
         <button ng-click="ctrl.submitNews($event,ctrl.currentGame)" class="btn btn-outline-success">{{'News einreichen'|translate}}</button>
   </div>
@@ -38,14 +139,13 @@
             <div class="news-avatar">
                 <img ng-if="news.type == 'twitch'"  ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
                 <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
-                <div class="news-triangle"></div>
                 <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
                 <div ng-if="news.type == 'link'"    ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
+                <div class="news-triangle"></div>
                 <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                     <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
                 </div>
                 <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
-                        <!-- <i class="log-icon log-icon-game"></i> -->F
                 </div>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)">
@@ -59,7 +159,6 @@
 
                 <div class="news-element-youtube" ng-if="news.type == 'youtube'">
                      <span class="news-element-text" ng-click="ctrl.openStream(news)">{{ news.headline}}</span>
-                     <span class="news-logo"><i class="fab fa-youtube"></i></span>
                      <div class="news-element-channel-box">
                             <div class="news-element-channel-type"><i class="fab fa-youtube"></i></div>
                             <div class="news-element-channel-name">
@@ -81,7 +180,7 @@
                 <div class="news-element-link" ng-if="news.type == 'link'">
                      <div class="news-element-text" compile="news.headline"></div>
                      <div class="news-element-channel-box">
-                            <div class="news-element-channel-type"><i class="fab fa-link"></i></div>
+                            <div class="news-element-channel-type"><i class="material-icons">link</i></div>
                             <div class="news-element-channel-name">
                                 <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
                             </div>
@@ -98,4 +197,4 @@
       <button class="btn btn-link" ng-click="ctrl.loadMore()">{{ 'Mehr Inhalte laden' | translate}}</button>
   </div>
 
-</div>
+</div> -->

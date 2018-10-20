@@ -32,11 +32,11 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           ctrl.getCssClass = function(news)
           {
-              var className = 'col-xs-12 col-md-6 col-lg-4 ';
+              var className = ' ';
 
               if (ctrl.mode === 'list' || ctrl.mode === 'featured')
                    {
-                   className = 'col-xs-12 col-lg-12 ';
+                   className = ' ';
                    }
 
               if (news.featured === true)
