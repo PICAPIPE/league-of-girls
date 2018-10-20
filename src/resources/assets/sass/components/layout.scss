@@ -3,6 +3,12 @@
     padding-top: 50px;
     font-family: 'Roboto', sans-serif;
 
+    .row-margin-bottom {
+        @include media-breakpoint-down(lg){
+            margin-bottom: 30px;
+        }
+    }
+
 }
 
 .container

@@ -10,6 +10,12 @@
 // Bootstrap
 @import '_vendor.scss';
 
+// Reset
+@import '_reset.scss';
+
+// Inputs and Buttons
+@import '_inputs.scss';
+
 // Components
 @import 'components/icons-standard.scss';
 @import 'components/icons-avatar.scss';
