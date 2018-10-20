@@ -49,15 +49,17 @@
                 <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'twitch'">
-                <span class="news-element-text" ng-if="news.live === true">{{'Jetzt ansehen!'|translate}} <span class="live-icon"></span></span>
-                <span class="news-element-text" ng-if="news.live === false">{{'War live!'|translate}}</span>
+                <div class="news-element-text" ng-click="ctrl.openStream(news)">
+                    <span ng-if="news.live === true">{{'Jetzt ansehen!'|translate}} <span class="live-icon"></span></span>
+                    <span ng-if="news.live === false">{{'War live!'|translate}}</span>
+                </div>
                 <span class="news-logo"><i class="fab fa-twitch"></i></span>
                 <div class="news-element-channel-twitch">
                     <span class="news-element-channel">{{ news.channel }}</span>
                 </div>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'youtube'">
-                    <span class="news-element-text" ng-click="ctrl.openStream(news)">{{ news.headline}}</span>
+                <div class="news-element-text" ng-click="ctrl.openStream(news)"><span>{{ news.headline}}</span></div>
                 <div class="news-element-channel-box">
                     <div class="news-element-channel-type"><i class="fab fa-youtube"></i></div>
                     <div class="news-element-channel-name">
@@ -68,7 +70,7 @@
 
 
             <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'twitter'">
-                    <div class="news-element-text" compile="news.text"></div>
+                <div class="news-element-text" compile="news.text"></div>
                 <div class="news-element-channel-box">
                     <div class="news-element-channel-type"><i class="fab fa-twitter"></i></div>
                     <div class="news-element-channel-name">
@@ -88,9 +90,9 @@
             </div>
             <news-like news="news"></news-like>
             <div class="news-triangle"></div>
-            <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
+<!--             <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
                 <i class="material-icons">star</i>
-            </div>
+            </div> -->
         </div>
     </div>
 
