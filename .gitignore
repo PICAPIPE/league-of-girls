@@ -24,3 +24,5 @@ yarn-error.log
 /src/.env
 .DS_Store
 /**/.DS_Store
+src/public/img/videos/*
+src/resources/assets/sass/components/icons-avatar.scss

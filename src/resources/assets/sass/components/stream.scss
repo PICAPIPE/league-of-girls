@@ -237,7 +237,11 @@ $news-link-bg : rgb(100, 100, 100);
         grid-template-areas: "avatar" "info";
 
         .news-info {
-            grid-template-rows: 48px 1fr;
+            grid-template-areas: "text";
+            grid-template-rows: auto;
+            margin-top: -40px;
+            z-index: 1;
+            align-content: center;
         }
 
         .news-avatar::after{
@@ -279,7 +283,9 @@ $news-link-bg : rgb(100, 100, 100);
 
         &.twitch {
             .news-info {
+                grid-template-rows: 26px 1fr;
                 grid-template-areas: "extra" "text";
+                margin-top: -10px;
             }
             .news-logo {
                 top: unset;
@@ -348,6 +354,12 @@ $news-link-bg : rgb(100, 100, 100);
         }
         .news-avatar {
             background-color: $news-link-bg;
+        }
+        .news-element-channel-type {
+            background-color: $news-link-bg!important;
+            line-height: 26px;
+            font-size: 20px;
+
         }
         .news-element-channel-name {
             background-color: rgba(100, 100, 100, 0.8)!important;
@@ -692,22 +704,22 @@ news-youtube {
 .news-interaction {
     position: absolute;
     z-index: 99999;
-    left: 10px;
-    top: 10px;
-    @include media-breakpoint-up(md) {
-        top: 15px;
-    }
-    .likes {
+    right: 0;
+    top: -5px;
+/*     .likes {
         position: relative;
         bottom: auto;
         left: auto;
         right: auto;
-    }
+    } */
 }
 
 .news{
     .likes-container {
         margin: 0;
         right: 1em;
+    }
+    .news-readlater {
+        right: 2em;
     }
 }

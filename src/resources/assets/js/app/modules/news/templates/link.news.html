@@ -31,13 +31,13 @@
 
             </div>
             <div class="col-xs-12 col-lg-8">
-                <div class="news-interaction" ng-if="ctrl.data.uuid !== undefined">
-                    <news-like class="likes-container" news="ctrl.data"></news-like>
-                </div>
                 <div class="news-readlater" ng-click="ctrl.readlater(ctrl.data,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                     <i title="{{'Von der Merkliste entfernen'|translate}}" class="fas fa-glasses" ng-if="ctrl.data.readlater === true"></i>
                     <i title="{{'Auf die Merkliste setzen'|translate}}"class="fas fa-glasses deactivated" ng-if="ctrl.data.readlater === false"></i>
                 </div>
+                <div class="news-interaction" ng-if="ctrl.data.uuid !== undefined">
+                  <news-like class="likes-container" news="ctrl.data"></news-like>
+              </div>
                 <div class="news_link_inside" compile="ctrl.data.text">
                 </div>
                 <a class="news_link_open" ng-click="ctrl.open(ctrl.data)" ng-if="ctrl.data.url !== '' && ctrl.data.url !== undefined">{{'Auf der Webseite weiterlesen'|translate}}</a>
