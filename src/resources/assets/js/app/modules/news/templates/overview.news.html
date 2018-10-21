@@ -53,7 +53,6 @@
                     <span ng-if="news.live === true">{{'Jetzt ansehen!'|translate}} <span class="live-icon"></span></span>
                     <span ng-if="news.live === false">{{'War live!'|translate}}</span>
                 </div>
-                <span class="news-logo"><i class="fab fa-twitch"></i></span>
                 <div class="news-element-channel-twitch">
                     <span class="news-element-channel">{{ news.channel }}</span>
                 </div>
@@ -80,15 +79,16 @@
             </div>
 
             <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'link'">
-                    <div class="news-element-text" compile="news.headline"></div>
-                    <div class="news-element-channel-box">
-                        <div class="news-element-channel-type"><i class="material-icons">link</i></div>
-                        <div class="news-element-channel-name">
-                            <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
-                        </div>
+                <div class="news-element-text" compile="news.headline"></div>
+                <div class="news-element-channel-box">
+                    <div class="news-element-channel-type"><i class="material-icons">link</i></div>
+                    <div class="news-element-channel-name">
+                        <span ng-click="ctrl.openStream(news)">{{ 'Mehr lesen' | translate }}</span>
                     </div>
+                </div>
             </div>
-            <news-like news="news"></news-like>
+            <news-like class="likes-container" news="news"></news-like>
+            <span ng-if="news.type == 'twitch'" class="news-logo"><i class="fab fa-twitch"></i></span>
             <div class="news-triangle"></div>
 <!--             <div class="featured-badge" ng-if="ctrl.mode !== 'featured' && news.featured === true">
                 <i class="material-icons">star</i>

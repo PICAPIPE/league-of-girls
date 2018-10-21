@@ -19,7 +19,7 @@
           <i title="{{'Von der Merkliste entfernen'|translate}}" class="fas fa-glasses" ng-if="ctrl.data.readlater === true"></i>
           <i title="{{'Auf die Merkliste setzen'|translate}}"class="fas fa-glasses deactivated" ng-if="ctrl.data.readlater === false"></i>
        </span>
-       <news-like news="ctrl.data" ng-if="ctrl.data.uuid !== undefined"></news-like>
+       <news-like class="likes-container" news="ctrl.data" ng-if="ctrl.data.uuid !== undefined"></news-like>
      </div>
      <div class="col-lg-4 col-xs-12" style="display:grid;padding-right: 0;" compile="ctrl.stream"></div>
      <div class="col-lg-8 col-xs-12" compile="ctrl.chat"></div>
