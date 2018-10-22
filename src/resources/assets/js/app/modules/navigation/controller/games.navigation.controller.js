@@ -11,8 +11,11 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
           angular.extend(gamesnavigation, $controller('BaseCtrl', {$scope: $scope}));
 
           gamesnavigation.storageKey = 'log_choosen_game';
+          gamesnavigation.game       = '';
+          gamesnavigation.gameAbort  = false;
 
           gamesnavigation.links      = [];
+
 
           // Get the css class for an element
 
@@ -25,9 +28,28 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
 
           gamesnavigation.choose     = function(e,id)
           {
-              e.preventDefault();
+              if (angular.isDefined(e) === true && e !== null)
+                    {
+                    e.preventDefault();
+                    }
+              
+              gamesnavigation.gameAbort = true;
+              gamesnavigation.game      = gamesnavigation.chooseFromArray(id);
               store.set(gamesnavigation.storageKey,id);
               $rootScope.$broadcast('chooseGame',{id:id});
+          };
+
+          gamesnavigation.chooseFromArray = function(id)
+          {
+              var i = 0;
+              for (i = 0; i < gamesnavigation.links.length; i++)
+                    {
+                    if (gamesnavigation.links[i].id === id)
+                          {
+                          return gamesnavigation.links[i];
+                          }
+                    }
+              return gamesnavigation.links[0];
           };
 
           // Load the navigation items
@@ -66,6 +88,9 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
                               };
                           }
 
+                      gamesnavigation.game      = gamesnavigation.chooseFromArray(storageValue);
+                      gamesnavigation.gameAbort = false;
+
                   },
                   function(errorResult){
                       gamesnavigation.links = [];
@@ -86,6 +111,29 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
           // Load the games
 
           gamesnavigation.init();
+
+          // Watchers 
+
+          $scope.$watch('gamesnavigation.game', function (newValue,oldValue){
+            var value = '';
+            if (angular.isObject(newValue) === true)
+                 {
+                 value = newValue.id;
+                 }
+            else {
+                 value = newValue;
+                 }
+            if (angular.isDefined(value) === false || value === '')
+                 {
+                 return;
+                 }
+            if (gamesnavigation.gameAbort === true)
+                 {
+                 gamesnavigation.gameAbort = false;
+                 return;
+                 }
+            gamesnavigation.choose (null, value);
+          },true);
 
      }
 ]);

@@ -4,8 +4,6 @@
           {{link.label}}
       </li>
    </ul>
-   <select class="navigation_games_select" (change)="gamesnavigation.choose($event,link.id)">
-        <option ng-repeat="link in gamesnavigation.links track by $index">{{ link.label }}</option>
-   </select> 
+   <select ng-model="gamesnavigation.game" ng-options="obj as obj.label for obj in gamesnavigation.links track by obj.id"></select>
 
 </div>
