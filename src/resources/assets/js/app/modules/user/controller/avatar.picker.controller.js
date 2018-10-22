@@ -13,7 +13,9 @@ angular.module('user').controller('AvatarPickerCtrl',[
 
           ctrl.user = Object.assign({},UserService.getCurrentUser());
 
-          ctrl.avatars = [];
+          ctrl.avatars    = [];
+          ctrl.color      = ctrl.user.color;
+          ctrl.background = ctrl.user.background;
 
           ctrl.$onInit = function()
           {
@@ -44,7 +46,7 @@ angular.module('user').controller('AvatarPickerCtrl',[
           // Close the modal
           ctrl.choose = function(event)
           { 
-              $rootScope.$broadcast('chooseAvatar',{avatar_id:ctrl.user.avatar_id});
+              $rootScope.$broadcast('chooseAvatar',{avatar_id:ctrl.user.avatar_id,color:ctrl.color, background:ctrl.background});
               $rootScope.$broadcast('$modalClose');
           };
 

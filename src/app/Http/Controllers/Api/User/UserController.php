@@ -373,6 +373,9 @@ class UserController extends ApiStandardController
           $constraint->aspectRatio();
       })->resizeCanvas(220, 220)->save(Storage::disk($disk)->path($fileNameNew));
 
+      $request->user->avatar_id = 0;
+      $request->user->save();
+
       return $this->respondSuccess();
   }
 

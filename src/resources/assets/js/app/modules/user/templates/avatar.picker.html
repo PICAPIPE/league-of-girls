@@ -5,6 +5,16 @@
                  <i class="log-avatar log-avatar-{{avatar.icon}}"></i>
             </div>
             <div class="clear"></div>
+            <div class="row">
+                <div class="form-group col-xs-12 col-sm-6">
+                    <label>{{'Farbe'|translate}}:</label>
+                    <input class="form-class" type="color" ng-model="ctrl.color" placeholder="{{'Gib einen Farbcode für die Farbe ein.'|translate}}">
+                </div>
+                <div class="form-group col-xs-12 col-sm-6">
+                    <label>{{'Hintergrund'|translate}}:</label>
+                    <input class="form-class" type="color" ng-model="ctrl.background" placeholder="{{'Gib einen Farbcode für den Hintergrund ein.'|translate}}">
+                </div>
+            </div>
             <button ng-click="ctrl.choose($event)" class="btn btn-outline-success">{{'Auswahl übernehmen'|translate}}</button>
         </div>
 </div>

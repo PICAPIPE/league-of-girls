@@ -890,15 +890,14 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           // New avatar choosen
           $scope.$on('chooseAvatar',function(event,args){
-              myaccountEdit.imagePath      = '';
-              myaccountEdit.user.avatar_id = args.avatar_id;
+              myaccountEdit.imagePath       = '';
+              myaccountEdit.user.avatar_id  = args.avatar_id;
+              myaccountEdit.user.color      = args.color;
+              myaccountEdit.user.background = args.background;
               $timeout(function()
-              {
-                $timeout(function()
-                {
-                    myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid+'?time='+ date.getTime() + '&preview='+(args.avatar_id * -1);
-                    $scope.$apply();
-                },200);
+              {                
+                myaccountEdit.imagePath      = '/files/avatars/' + myaccountEdit.user.uuid+'?time='+ date.getTime() + '&preview='+(args.avatar_id * -1) + '&color=' + (args.color !== undefined ? args.color.replace('#','') : '') + '&background=' + (args.background !== undefined ? args.background.replace('#','') : '');
+                $scope.$apply();
               },200);
           });          
 

@@ -21,23 +21,19 @@ class FileController extends Controller
 
         $fileExists         = Storage::disk('avatars')->exists($user.'.png');
         $filePathFallback   = public_path('img/avatars/avatar.png');
+        $user               = User::where('uuid',$user)->first();
 
         $color     = $request->input('color');
         $preview   = $request->input('preview');
-        if($color === null)
-          {
-          $color = 'white';
-          } 
 
         if($user === null)
           {
              abort(404);
           }
 
-        if($fileExists === false)
+        if($fileExists === false || data_get($user,'avatar_id',-1) < 0 || $preview !== null)
           {
-                $user = User::where('uuid',$user)->first();
-                if ($user !== null && $user->avatar_id < 0)
+                if (($user !== null && $user->avatar_id < 0) || $preview !== null)
                      {
 
                      // Preview modus to get a preview image 
@@ -53,8 +49,23 @@ class FileController extends Controller
                           {
                           $fileContent = File::get($fileChoosen);
                           
+                          $background = $user->background;
+                          
+                          if ($color === null || $user->color === '')
+                                {
+                                $color = $user->color;
+                                }
+
+                          if ($request->input('background') !== null)
+                                {
+                                $background = $request->input('background');
+                                }
+
+                          $background = str_replace('#','',$background);
+                          $color      = str_replace('#','',$color);
 
                           $fileContent = str_replace('<svg', '<svg fill="'.$color.'"',$fileContent);
+                          $fileContent = str_replace('<svg', '<svg style="fill:#'.$color.';background:#'.$background.';"',$fileContent);
                           return response($fileContent, 200)->header('Content-Type', 'image/svg+xml');
                           }
 
@@ -63,7 +74,7 @@ class FileController extends Controller
                 return Image::make($filePathFallback)->response('png');
           }
 
-       return Image::make(Storage::disk('avatars')->path($user.'.png'))->resize(300, 300)->response('png');
+       return Image::make(Storage::disk('avatars')->path($user->uuid.'.png'))->resize(300, 300)->response('png');
 
     }
 
