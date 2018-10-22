@@ -1,4 +1,5 @@
 $news-avatar-size: 180px;
+$likes-button-size: 40px;
 $news-border : 1px solid $CI-COLOR3;
 $news-filter-label-color: $CI-COLOR4;
 $news-filter-value-color: $CI-COLOR3;
@@ -177,10 +178,12 @@ $news-link-bg : rgb(100, 100, 100);
         }
 
         .news-element-text {
-            height: 100%;
+            max-height: 95%;
+            align-self: center;
             grid-area: text;
-            font-family: 'Bitter', serif;
+            font-family: Roboto, sans-serif;
             font-size: 14px;
+            line-height: 1.6em;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: normal;
@@ -242,6 +245,13 @@ $news-link-bg : rgb(100, 100, 100);
             margin-top: -40px;
             z-index: 1;
             align-content: center;
+
+            .news-element-text {
+                font-size: 15px;
+                font-weight: 500;
+                line-height: 20px;
+            }
+
         }
 
         .news-avatar::after{
@@ -415,7 +425,7 @@ $news-link-bg : rgb(100, 100, 100);
             grid-area: extra;
             text-align: left;
             cursor: pointer;
-            font-family: Roboto, sans-serif;
+            font-family: 'Bitter', serif;
             font-size: 16px;
             font-weight: 600;
         }
@@ -657,49 +667,88 @@ news-youtube {
     position: absolute;
     bottom: .5em;
     right: .5em;
-    border-radius: 15px;
-    padding: 3px 10px;
+
+    width: $likes-button-size;
+    min-height: $likes-button-size;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: ($likes-button-size/2);
+    background: #fff;
+
     font-weight: 600;
-    margin: 8px;
-    width: 28px;
+    text-align: center;
+    color: #444;
+
     -webkit-transition: width 0.5s ease;
     transition: width 0.5s ease;
     white-space: nowrap;
     overflow: hidden;
-    text-align: center;
     z-index: 999;
-    color: #444;
-    background: #fff;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
-    .likes-total {
-        display: inline-block;
-    }
-    .likes-options {
-        display: none;
-    }
     &:hover {
-        width: 200px;
+        width: 238px;
+
         .likes-total {
-            display: none;
+            display: none!important;
+        }
+
+        .likes-options {
+            display: inline!important;
+            cursor: pointer!important;
+        }
+    }
+
+    
+
+
+    .likes{
+        position: relative;
+        width: 100%;
+        height: 100%;
+    
+        .likes-total {
+            display: inline-block;
         }
         .likes-options {
-            display: inline-block;
-            cursor: pointer;
+            display: none;
+            text-align: right;
+            .like-option {
+                .like-symbol {
+                    img {
+                        width: 25px;
+
+                    }
+                }
+                .like-option-count {
+                    display: inline-block;
+                    margin-right: 10px;
+                }
+            }
         }
+/*         &:hover {
+            .likes-total {
+                display: none;
+            }
+            .likes-options {
+                display: inline;
+                cursor: pointer;
+            }
+        } */
+    
     }
+
 }
 
-.like-option {
-    cursor: pointer;
-    .like-option-count {
+/*     .like-option-count {
         position: relative;
         left: -3px;
         top: -3px;
         font-size: 10px;
         opacity: 0.5;
-    }
-}
+    } */
+
 
 .news-interaction {
     position: absolute;

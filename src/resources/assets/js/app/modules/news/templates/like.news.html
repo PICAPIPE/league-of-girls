@@ -1,6 +1,6 @@
 <div class="likes" ng-click="ctrl.toggle($event)">
     <span class="likes-total">{{ctrl.data.total}}</span>
-    <span class="likes-options">
-        <span class="like-option" ng-repeat="like in ctrl.options" ng-click="ctrl.like($event,like.type)" >{{like.text}} <span class="like-option-count">({{ctrl.data[like.type]}})</span></span>
-    </span>
+    <div class="likes-options">
+        <span class="like-option" ng-repeat="like in ctrl.options" ng-click="ctrl.like($event,like.type)"><span class="like-symbol" compile="like.text"></span> <span class="like-option-count">{{ctrl.data[like.type]}}</span></span>
+    </div>
 </div>

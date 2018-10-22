@@ -19,24 +19,20 @@ angular.module('news').controller('NewsLikeCtrl',[
 
           ctrl.options   = [
               {
-                  type: 'like',
-                  text: String.fromCodePoint(0x1F44D)
-              },
-              {
                 type: 'heart',
-                text: String.fromCodePoint(0x2764)
+                text: '<img src="img/icons/standard/emoji_heart.svg"/>'
               },
               {
                 type: 'hate',
-                text: String.fromCodePoint(0x1F621)
+                text: '<img src="img/icons/standard/emoji_angry.svg"/>'
               },
               {
                 type: 'woot',
-                text: String.fromCodePoint(0x1F633)
+                text: '<img src="img/icons/standard/emoji_woot.svg"/>'
               },
               {
                 type: 'sad',
-                text: String.fromCodePoint(0x1F62D)
+                text: '<img src="img/icons/standard/emoji_cry.svg"/>'
               }
           ];
 
