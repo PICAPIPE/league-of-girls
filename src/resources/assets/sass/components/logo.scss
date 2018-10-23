@@ -30,4 +30,10 @@
         display: none;
     }
 
+    @include media-breakpoint-down(lg) {
+        top: 0px;
+        bottom:auto;
+        right:10px;
+    }
+
 }
