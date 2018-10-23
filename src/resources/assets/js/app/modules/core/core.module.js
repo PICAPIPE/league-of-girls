@@ -283,3 +283,88 @@ angular.module('core').directive('contenteditable',  ['$sce', function($sce) {
         }
       };
     }]);
+
+
+angular.module('core')
+.filter('hashtag', function() {
+  return function(input, uppercase) {
+    var out       = input;
+    var i         = 0;
+
+    var tagsFound     = input.match(new RegExp('\\#[a-zA-Z0-9\\$\\-\\_]{1,}','gmi'));
+    var mentionsFound = input.match(new RegExp('\\@[a-zA-Z0-9\\$\\-\\_]{1,}','gmi'));
+    var imagesFound   = input.match(new RegExp('(src)="(http|https){1}\\:\\/\\/[a-zA-Z0-9\\_\\-\\#\\?\\=]{1,}\\.[a-z]{2,}([a-zA-Z0-9\\_\\-\\#\\?\\=\\&\\.\\/]{1,})"','gmi'));
+    var urlFound      = input.match(new RegExp('(http|https){1}\\:\\/\\/[a-zA-Z0-9\\_\\-\\#\\?\\=]{1,}\\.[a-z]{2,}([a-zA-Z0-9\\_\\-\\#\\?\\=\\&\\.\\/]{1,})','gmi'));
+    var aLinkFound    = input.match(new RegExp('(<a([a-zA-Z0-9\\s\\=\\-\\_\\:\\/\\\\.\\"\\\'\\?\\&]){0,}>([äöüa-zA-Z0-9\\s\\=\\-\\_\\:\/\\\.\\"\\\'\\?\\&]){0,}<\\/a>)','gmi'));
+
+    var imageMap      = [];
+    var aMap          = [];
+
+    // Store found links 
+    if (aLinkFound !== null && aLinkFound !== undefined)
+          {
+          for (i = 0; i < aLinkFound.length; i++)
+            {                 
+            input = input.replace(aLinkFound[i],'%%LINK' + i + '%%');      
+            aMap[aMap.length] = aLinkFound[i];   
+            }
+          }
+
+    // Store found images 
+    if (imagesFound !== null && imagesFound !== undefined)
+          {
+          for (i = 0; i < imagesFound.length; i++)
+            {                 
+            input = input.replace(imagesFound[i],'%%IMAGE' + i + '%%');      
+            imageMap[imageMap.length] = imagesFound[i];   
+            }
+          }
+
+    if (urlFound !== null)
+          {
+          for (i = 0; i < urlFound.length; i++)
+                 {                 
+                 input = input.replace(urlFound[i],'<a class="url" href="'+urlFound[i]+'" target="_blank">' + urlFound[i] + '</span>');              
+                 }
+          }
+
+    // Restore found images 
+    if (imagesFound !== null && imagesFound !== undefined)
+          {
+          for (i = 0; i < imagesFound.length; i++)
+            {                 
+            input = input.replace('%%IMAGE' + i + '%%', imageMap[i]);              
+            }
+          }
+
+    // Restore found links 
+    if (aLinkFound !== null && aLinkFound !== undefined)
+          {
+          for (i = 0; i < aLinkFound.length; i++)
+            {                 
+            input = input.replace('%%LINK' + i + '%%', aMap[i]);              
+            }
+          }
+
+    // Replace mentions
+    if (mentionsFound !== null)
+          {
+          for (i = 0; i < mentionsFound.length; i++)
+                 {                 
+                 input = input.replace(mentionsFound[i],'<span class="mention" ng-click="ctrl.doSearch($event,\''+mentionsFound[i].substr(1)+'\')">' + mentionsFound[i] + '</span>');              
+                 }
+          }
+
+    if (tagsFound !== null)
+          {
+          for (i = 0; i < tagsFound.length; i++)
+                 {                 
+                 input = input.replace(tagsFound[i],'<span class="hashtag" ng-click="ctrl.doSearch($event,\''+tagsFound[i].substr(1)+'\')">' + tagsFound[i] + '</span>');              
+                 }
+          }
+  
+    out = input;
+    
+    return out;
+  };
+})

@@ -17,6 +17,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           ctrl.search          = '';
           ctrl.searchEvent     = null;
+          ctrl.clicked         = false;
           ctrl.streamsUUID     = [];
           ctrl.pageCurrent     = 1;
           ctrl.USER            = UserService.getCurrentUser();
@@ -27,6 +28,22 @@ angular.module('news').controller('NewsOverviewCtrl',[
              featured:    false,
              readlater:   false
           };
+
+          // Trigger a search
+          ctrl.doSearch = function($event,searchTerm)
+          {
+             if (angular.isDefined($event) === true)
+                   {
+                   $event.preventDefault();
+                   }
+
+              ctrl.search = searchTerm;
+              ctrl.clicked = true;
+              $timeout(function(){
+                  ctrl.clicked = false;
+              },150);
+          };
+
 
           // Get the correct css class for the news
 
@@ -94,6 +111,14 @@ angular.module('news').controller('NewsOverviewCtrl',[
           {
 
               var url = '';
+
+              if (ctrl.clicked === true)
+                    {
+                    $timeout(function(){
+                          ctrl.clicked = false;
+                    },150);
+                    return;
+                    }
 
               switch (news.type)
                     {
