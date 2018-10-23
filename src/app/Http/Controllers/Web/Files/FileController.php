@@ -31,14 +31,19 @@ class FileController extends Controller
              abort(404);
           }
 
-        if($fileExists === false || data_get($user,'avatar_id',-1) < 0 || $preview !== null)
+        if($fileExists === false || data_get($user,'avatar_id',-1) <= 0 || $preview !== null)
           {
                 if (File::exists($filePathFallback) === false && (($user !== null && $user->avatar_id < 0) || $preview !== null) === false)
                      {
                      $preview = 1;
                      }
-                if (($user !== null && $user->avatar_id < 0) || $preview !== null)
+                if (($user !== null && $user->avatar_id <= 0) || $preview !== null)
                      {
+
+                     if ($user->avatar_id === 0 && File::exists(storage_path('avatars/'.$user->uuid.'.png')) == false && $preview === null)
+                           {
+                           $preview = 1;
+                           }
 
                      // Preview modus to get a preview image 
                      if ($preview !== null)
@@ -75,8 +80,15 @@ class FileController extends Controller
 
                      
                      }
+
+                if (File::exists(storage_path('avatars/'.$user->uuid.'.png')) === false)
+                     {
+                     $fileContent = File::get(public_path('img/avatars/1.svg'));
+                     $fileContent = str_replace('<svg', '<svg fill="'.$color.'"',$fileContent);
+                     $fileContent = str_replace('<svg', '<svg style="fill:#'.$color.';background:#'.$background.';"',$fileContent);
+                     return response($fileContent, 200)->header('Content-Type', 'image/svg+xml');      
+                     }
                             
-                return Image::make($filePathFallback)->response('png');
           }
 
        return Image::make(Storage::disk('avatars')->path($user->uuid.'.png'))->resize(300, 300)->response('png');
