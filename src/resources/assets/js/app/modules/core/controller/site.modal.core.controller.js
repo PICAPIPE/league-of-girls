@@ -37,6 +37,8 @@ angular.module('core').controller('CoreSiteModalCtrl',[
                   modal.content = '';
               },300);
 
+              $rootScope.$broadcast('$modalIsClosing',{modal:modal});
+
           };
 
           // Listen to Request abortion

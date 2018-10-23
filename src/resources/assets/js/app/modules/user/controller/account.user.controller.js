@@ -26,9 +26,32 @@ angular.module('user').controller('UserAccountCtrl',[
 
           account.$onInit = function () {
 
+              if (angular.isDefined($state.params.uuidUser) === true)
+                    {
+                    account.userId   = $state.params.uuidUser;
+                    account.editable = false;
+                    }
+
               account.user = account.userId === undefined || account.userId === '-1' || account.userId === -1 ? UserService.getCurrentUser():null;
               account.init();
 
+          };
+
+          // Returns the image
+          account.getFriend = function(friend)
+          {
+             return '<img src="/files/avatars/' + friend.from.uuid + '?color=FFF&background=000" alt="' + friend.from.username +'" title="' + friend.from.username +'"/>'; 
+          };
+
+          // Open friend link 
+          account.openFriend = function(event,friend)
+          {
+              if (angular.isDefined(event) === true)
+                    {
+                    event.preventDefault();
+                    }
+              $rootScope.$broadcast('$modalClose',{});
+              $state.go('app.meet.detail',{uuidUser:friend.from.uuid});
           };
 
           // Update user information

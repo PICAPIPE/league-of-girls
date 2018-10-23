@@ -75,7 +75,7 @@ class UserController extends ApiStandardController
 
       'show' => [
         'except'        => false,
-        'with'          => ['games','communications','plattforms','categories'],
+        'with'          => ['games','communications','plattforms','categories','friends'],
         'postMap'       => [
             'filterDataSingle'
         ]

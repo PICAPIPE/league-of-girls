@@ -20,6 +20,15 @@ angular.module('news').config([
                   }
               }
             },
+            {
+              name:      'app.news.detail',
+              url:       '/news/:uuid',
+              views:     {
+                  '!$default.content':{
+                    component: 'newsOverview'
+                  }
+              }
+            },
         ];
 
         // Loop over the state definitions and register them

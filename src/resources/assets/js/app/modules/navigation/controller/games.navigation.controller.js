@@ -16,7 +16,6 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
 
           gamesnavigation.links      = [];
 
-
           // Get the css class for an element
 
           gamesnavigation.getClass   = function(id)
@@ -35,6 +34,7 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
               
               gamesnavigation.gameAbort = true;
               gamesnavigation.game      = gamesnavigation.chooseFromArray(id);
+              $rootScope.$currentGame   = gamesnavigation.game;
               store.set(gamesnavigation.storageKey,id);
               $rootScope.$broadcast('chooseGame',{id:id});
           };
@@ -132,6 +132,7 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
                  gamesnavigation.gameAbort = false;
                  return;
                  }
+            $rootScope.$currentGame = gamesnavigation.game;
             gamesnavigation.choose (null, value);
           },true);
 

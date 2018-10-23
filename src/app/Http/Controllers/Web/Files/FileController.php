@@ -33,6 +33,10 @@ class FileController extends Controller
 
         if($fileExists === false || data_get($user,'avatar_id',-1) < 0 || $preview !== null)
           {
+                if (File::exists($filePathFallback) === false && (($user !== null && $user->avatar_id < 0) || $preview !== null) === false)
+                     {
+                     $preview = 1;
+                     }
                 if (($user !== null && $user->avatar_id < 0) || $preview !== null)
                      {
 
@@ -71,6 +75,7 @@ class FileController extends Controller
 
                      
                      }
+                            
                 return Image::make($filePathFallback)->response('png');
           }
 

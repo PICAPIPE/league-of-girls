@@ -2,15 +2,15 @@
 
        <div class="user-headline">
           <div class="row">
-            <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-name">
+            <div class="col-xs-12 col-sm-6 col-lg-8 user-headline-name">
                 <span class="user-headline-name-element">{{account.user.username}}</span> - <span translate translate-n="account.user.points" translate-plural="{{$count}} Punkte">1 Punkt</span> - 
                 <span class="user-headline-gender">
                     <i ng-if="account.user.gender === 'female'" class="fas fa-venus"      title="{{'Weiblich' | translate}}"></i>
                     <i ng-if="account.user.gender === 'male'"   class="fas fa-mars"       title="{{'Männlich' | translate}}"></i>
-                    <i ng-if="account.user.gender === 'misc'"   class="fas fa-genderless" title="{{'Divers' | translate}}"></i>
+                    <i ng-if="account.user.gender === 'misc' || account.user.gender === undefined || account.user.gender === ''"   class="fas fa-genderless" title="{{'Divers' | translate}}"></i>
                 </span>
             </div>
-            <div class="col-xs-12 col-sm-6 col-lg-6 user-headline-connect">
+            <div class="col-xs-12 col-sm-6 col-lg-4 user-headline-connect">
                 <user-connect user-id="{{account.userId}}"></user-connect>
             </div>
           </div>
@@ -72,6 +72,19 @@
           <ul class="links">
              <li class="link-item active" ng-if="account.checkVisiblilty('links','link_id',link.id)" ng-repeat="link in account.links"><i class="{{link.icon}}" title="{{link.name}}"></i> <span compile="account.renderLink('links','link_id',link.id,link)"></span></li>
              <li class="link-item" ng-if="account.linksAmount === 0">{{ 'Keine Links oder Profile verfügbar.' |translate }}</li>
+          </ul>
+
+          <h2>{{ 'Freunde' | translate }}</h2>
+
+          <p ng-if="account.user.friends.length === 0">{{'Keine Freunde'|translate}}</p>
+
+          <ul class="friends" ng-if="account.user.friends.length > 0">
+
+            <li ng-repeat="friend in account.user.friends" ng-rep>
+                <div class="friend-element" ng-click="account.openFriend($event,friend)" compile="account.getFriend(friend)">
+
+                </div>
+            </li>
           </ul>
 
        </div>

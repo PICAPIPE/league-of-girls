@@ -65,12 +65,12 @@ class UserFriend extends BaseModel
 
   public function user()
   {
-      return $this->hasOne('App\Models\User\User','id','user_id');
+      return $this->hasOne('App\Models\User\User','id','user_id')->select('username','id','uuid');
   }
 
   public function from()
   {
-      return $this->hasOne('App\Models\User\User','id','from_id');
+      return $this->hasOne('App\Models\User\User','id','from_id')->select('username','id','uuid');;
   }
 
 }

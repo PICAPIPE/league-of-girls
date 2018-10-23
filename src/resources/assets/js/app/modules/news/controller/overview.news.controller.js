@@ -120,13 +120,22 @@ angular.module('news').controller('NewsOverviewCtrl',[
                     return;
                     }
 
-              switch (news.type)
+               ctrl.openStreamByUuid(news.type, news.uuid);
+
+          };
+
+          // Create item by id
+
+          ctrl.openStreamByUuid = function(type,uuid)
+          {
+
+              switch (type)
                     {
                     case 'twitch':
 
                             ctrl.createModal({
                                   'background' : 'rgba(75, 54, 124,0.95)',
-                                  'content':     '<news-twitch uuid="'+news.uuid+'"></news-twitch>'
+                                  'content':     '<news-twitch uuid="'+uuid+'"></news-twitch>'
                             },function(){
 
                             });
@@ -135,25 +144,34 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
                             ctrl.createModal({
                                   'background' : 'rgba(255, 0, 0,0.95)',
-                                  'content':     '<news-youtube uuid="'+news.uuid+'"></news-youtube>'
+                                  'content':     '<news-youtube uuid="'+uuid+'"></news-youtube>'
                             },function(){
-
+                              if ($state.current.name === 'app.news.detail')
+                                    {
+                                    $state.go('app.news.overview');
+                                    }
                             });
                             break;
                     case 'twitter':
                             ctrl.createModal({
                                   'background' : 'rgba(42, 159, 239,0.95)',
-                                  'content':     '<news-twitter uuid="'+news.uuid+'"></news-twitter>'
+                                  'content':     '<news-twitter uuid="'+uuid+'"></news-twitter>'
                             },function(){
-
+                               if ($state.current.name === 'app.news.detail')
+                                    {
+                                    $state.go('app.news.overview');
+                                    }
                             });
                             break;
                     default:
                             ctrl.createModal({
                                   'background' : 'rgba(237, 73, 73,0.95)',
-                                  'content':     '<news-link uuid="'+news.uuid+'"></news-link>'
+                                  'content':     '<news-link uuid="'+uuid+'"></news-link>'
                             },function(){
-
+                              if ($state.current.name === 'app.news.detail')
+                                    {
+                                    $state.go('app.news.overview');
+                                    }
                             });
                             break;
                     }
@@ -216,6 +234,12 @@ angular.module('news').controller('NewsOverviewCtrl',[
                         }
               }
             }
+
+            // Newslist is loaded in detail mode
+            if ($state.current.name === 'app.news.detail')
+                  {
+                  return;
+                  }
 
             ctrl.DB.call('Streams',method, params).then(
               function(result)
@@ -351,8 +375,23 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           ctrl.init      = function()
           {
+              var value = {};
               ctrl.pageCurrent = 0;
               ctrl.loadMore(ctrl.pageCurrent);
+
+              // Load single element
+              if ($state.current.name === 'app.news.detail')
+                    {
+                    try {
+                        value = JSON.parse(window.atob($state.params.uuid));
+                        ctrl.openStreamByUuid(value.type, value.uuid);
+                        } 
+                    catch(err)
+                        {
+                        console.log(err);
+                        $state.go('app.news.overview');     
+                        }                    
+                    }
           };
 
           ctrl.loadMore = function()
@@ -425,11 +464,18 @@ angular.module('news').controller('NewsOverviewCtrl',[
 
           $rootScope.$on('userLogged', function(event,args) {
             ctrl.USER = args.user;
-            $timeout(function()
-            {
-              $scope.$apply();
-            });
-        });
+                  $timeout(function()
+                  {
+                  $scope.$apply();
+                  });
+          });
+
+          $rootScope.$on('$modalIsClosing', function(){
+            if ($state.current.name === 'app.news.detail')
+                  {
+                  $state.go('app.news.overview');
+                  }
+          });
 
      }
 ]);

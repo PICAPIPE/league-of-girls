@@ -19,6 +19,15 @@ angular.module('meet').config([
                     component: 'meetOverview'
                   }
               }
+            },
+            {
+              name:      'app.meet.detail',
+              url:       '/meet/:uuidUser',
+              views:     {
+                  '!$default.content':{
+                    component: 'account'
+                  }
+              }
             }
         ];
 
