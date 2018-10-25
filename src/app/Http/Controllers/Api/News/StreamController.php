@@ -223,11 +223,19 @@ class StreamController extends ApiStandardController
 
       if($request->input('game') !== null)
            {
-           $game = Game::where('uuid',$request->input('game'))->first();
+           $game = Game::where('uuid',$request->input('game'))->orWhere('id',$request->input('game'))->first();
            if ($game !== null)
                 {
                 $game_id = $game->id;
                 }
+           }
+      else if(isset($data['game_id']) === true)
+           {
+           $game = Game::where('uuid',$data['game_id'])->orWhere('id',$data['game_id'])->first();
+           if ($game !== null)
+                 {
+                 $game_id = $game->id;
+                 }     
            }
 
       switch($data['type'])
