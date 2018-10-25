@@ -21,6 +21,11 @@ angular.module('news').controller('NewsTwitterCtrl',[
           {
               var styleObject = {};
 
+              if (news.image === '')
+                   {
+                   news.image = 'img/news/news-fallback.png';
+                   }
+
               if (image === true)
                    {
                    styleObject['background']          = 'url(' + news.image + ')';

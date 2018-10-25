@@ -46,6 +46,11 @@ angular.module('news').controller('NewsLinkCtrl',[
           {
               var styleObject = {};
 
+              if (news.image === '')
+                   {
+                   news.image = 'img/news/news-fallback.png';
+                   }
+
               if (image === true)
                    {
                    styleObject['background']          = 'url(' + news.image + ')';

@@ -40,10 +40,11 @@
 
         <div class="news-item" ng-class="ctrl.getCssClass(news)" ng-repeat="news in ctrl.data">
             <div class="news-avatar">
-                <img ng-if="news.type == 'twitch'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
-                <img ng-if="news.type == 'twitter'" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
-                <div ng-if="news.type == 'youtube'" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
-                <div ng-if="news.type == 'link'" ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
+                <img ng-if="news.image === ''" src="img/news/news-fallback.png" ng-click="ctrl.openStream(news)">
+                <img ng-if="news.type == 'twitch' && news.image !== ''" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
+                <img ng-if="news.type == 'twitter' && news.image !== ''" ng-src="{{news.image}}" ng-click="ctrl.openStream(news)">
+                <div ng-if="news.type == 'youtube' && news.image !== ''" ng-style="ctrl.getStyleForYoutube(news)" class="youtube-icon" ng-click="ctrl.openStream(news)"></div>
+                <div ng-if="news.type == 'link' && news.image !== ''" ng-style="ctrl.getStyleForYoutube(news)" class="link-icon" ng-click="ctrl.openStream(news)"></div>
             </div>
             <div class="news-info" ng-click="ctrl.openStream(news)" ng-if="news.type == 'twitch'">
                 <div class="news-element-text" ng-click="ctrl.openStream(news)">
