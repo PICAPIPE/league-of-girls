@@ -297,6 +297,11 @@ angular.module('news').controller('NewsOverviewCtrl',[
           {
                 var styleObject = {};
 
+                if (news.image === '')
+                   {
+                   news.image = 'files/news/news-fallback.png';
+                   }
+
                 styleObject['background']          = 'url(' + news.image + ')';
                 styleObject['background-size']     = 'cover';
                 styleObject['background-position'] = 'center center';
