@@ -23,16 +23,16 @@ angular.module('news').controller('NewsLikeCtrl',[
                 text: '<img src="img/icons/standard/emoji_heart.svg"/>'
               },
               {
-                type: 'hate',
-                text: '<img src="img/icons/standard/emoji_angry.svg"/>'
-              },
-              {
                 type: 'woot',
                 text: '<img src="img/icons/standard/emoji_woot.svg"/>'
-              },
+              },            
               {
                 type: 'sad',
                 text: '<img src="img/icons/standard/emoji_cry.svg"/>'
+              },
+              {
+                type: 'hate',
+                text: '<img src="img/icons/standard/emoji_angry.svg"/>'
               }
           ];
 
