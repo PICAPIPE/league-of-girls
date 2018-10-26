@@ -18,11 +18,11 @@ angular.module('user').controller('FriendsRequestsModalCtrl',[
           modal.skillOptions    = [
               {
                  skill: 'beginner',
-                 label: modal.LANG.getString('Anfänger')
+                 label: modal.LANG.getString('*in')
               },
               {
                  skill: 'amateur',
-                 label: modal.LANG.getString('Amateur')
+                 label: modal.LANG.getString('Amateur*in')
               },
               {
                  skill: 'advanced',

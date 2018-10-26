@@ -38,12 +38,15 @@
 
         <div id="footer" class="footer container">
               <div class="row">
-                  <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8">
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-6">
                       © PICAPIPE GmbH
                       <div class="sponsored-by">
                           <small>{{ _i('Gefördert durch') }}</small> <br>
                           <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
                       </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2 text-right">
+                    <admin-navigation></admin-navigation>
                   </div>
                   <div class="col-xs-12 col-sm-12 col-md-3  col-lg-2 text-right">
                     <pages-list></pages-list>

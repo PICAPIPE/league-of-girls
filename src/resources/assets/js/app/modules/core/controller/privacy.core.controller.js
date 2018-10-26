@@ -9,7 +9,7 @@ angular.module('core').controller('CorePrivacyCtrl',[
           var privacy = this;
           angular.extend(privacy, $controller('BaseCtrl', {$scope: $scope}));
 
-          privacy.headline = 'Impressum';
+          privacy.headline = 'Datenschutz';
 
      }
 ]);

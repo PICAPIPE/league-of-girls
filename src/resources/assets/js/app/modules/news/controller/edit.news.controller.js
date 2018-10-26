@@ -128,7 +128,7 @@ angular.module('news').controller('NewsEditCtrl',[
                                "type":            "textarea",
                                "required":        false,
                                "label":           ctrl.LANG.getString('Text'),
-                               "placeholder":     ctrl.LANG.getString('Bitte gib hier eine Kurzbeschreibung der Nachricht ein.')
+                               "placeholder":     ctrl.LANG.getString('Bitte gib hier eine Kurzbeschreibung des Beitrags ein.')
                            },
                            hideExpression: function($viewValue, $modelValue, scope) {
                                 return scope.model.type !== 'link';
@@ -184,7 +184,7 @@ angular.module('news').controller('NewsEditCtrl',[
                                "type":            "text",
                                "required":        true,
                                "label":           ctrl.LANG.getString('Link'),
-                               "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu deiner Nachricht ein.')
+                               "placeholder":     ctrl.LANG.getString('Bitte gib hier den Link zu des Beitrag ein.')
                            },
                            hideExpression: function($viewValue, $modelValue, scope) {
                               return scope.model.type !== 'link';

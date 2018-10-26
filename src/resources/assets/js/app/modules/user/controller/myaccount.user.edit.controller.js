@@ -143,11 +143,11 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
           myaccountEdit.skillOptions    = [
               {
                  skill: 'beginner',
-                 label: myaccountEdit.LANG.getString('Anfänger')
+                 label: myaccountEdit.LANG.getString('Anfänger*in')
               },
               {
                  skill: 'amateur',
-                 label: myaccountEdit.LANG.getString('Amateur')
+                 label: myaccountEdit.LANG.getString('Amateur*in')
               },
               {
                  skill: 'advanced',

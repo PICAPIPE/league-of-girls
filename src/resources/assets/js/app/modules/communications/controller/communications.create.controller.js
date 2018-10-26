@@ -121,7 +121,7 @@ angular.module('communications').controller('CommunicationsCreateCtrl',[
                 "templateOptions":
                 {
                     "type":            "Aktionslink",
-                    "required":        true,
+                    "required":        false,
                     "label":           ctrl.LANG.getString('Aktionslink'),
                     "placeholder":     ctrl.LANG.getString('Geben Sie den Pfad auf der beim Anklicken auf den Namen aufgerufen werden soll. %username% und %email% stehen als Platzhalter zur Verfügung.')
                 }

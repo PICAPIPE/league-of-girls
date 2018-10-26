@@ -409,7 +409,7 @@ class CommandAbstract extends Command{
 
           if (isset($og['image']) === true)
                {
-               $image = $og['image'];
+               $image = explode(',',$og['image'])[0];
                }
 
           if ($stream === null)

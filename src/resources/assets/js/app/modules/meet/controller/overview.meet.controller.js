@@ -62,11 +62,11 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           ctrl.skillOptions    = [
               {
                  skill: 'beginner',
-                 label: ctrl.LANG.getString('Anfänger')
+                 label: ctrl.LANG.getString('Anfänger*in')
               },
               {
                  skill: 'amateur',
-                 label: ctrl.LANG.getString('Amateur')
+                 label: ctrl.LANG.getString('Amateur*in')
               },
               {
                  skill: 'advanced',
@@ -81,11 +81,11 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           ctrl.categoryOptions    = [
             {
                id: 'beginner',
-               label: ctrl.LANG.getString('Anfänger')
+               label: ctrl.LANG.getString('Anfänger*in')
             },
             {
                id: 'amateur',
-               label: ctrl.LANG.getString('Amateur')
+               label: ctrl.LANG.getString('Amateur*in')
             },
             {
                id: 'advanced',

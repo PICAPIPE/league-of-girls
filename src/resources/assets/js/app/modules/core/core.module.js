@@ -51,6 +51,16 @@ angular.module('core').config([
               }
             },
             {
+                name:      'app.partner',
+                url:       '/partner',
+                views:     {
+                    '!$default.content':{
+                        'templateUrl': 'views/core/partner.html',
+                        'controller':  'CorePartnerCtrl as partner'
+                    }
+                }
+              },
+            {
               name:      'app.error403',
               url:       '/403',
               views:     {

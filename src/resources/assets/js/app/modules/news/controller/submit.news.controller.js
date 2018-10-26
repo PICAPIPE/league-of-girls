@@ -184,7 +184,7 @@ angular.module('news').controller('NewsSubmitCtrl',[
                                "type":            "text",
                                "required":        true,
                                "label":           ctrl.LANG.getString('Link'),
-                               "placeholder":     ctrl.LANG.getString('Bitte gib den Link zu deiner Nachricht ein.')
+                               "placeholder":     ctrl.LANG.getString('Bitte gib hier den Link zu des Beitrag ein.')
                            },
                            hideExpression: function($viewValue, $modelValue, scope) {
                               return scope.model.type !== 'link';

@@ -18,14 +18,14 @@
         </div>
         <div class="news-filter-checks">
             <div ng-if="ctrl.mode !== 'list' && ctrl.mode !== 'featured'">
-                <span class="featured clickable" title="{{'Nicht nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
+                <span class="featured clickable" title="{{'Featured'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
                     ng-if="ctrl.filters.featured === false"><i class="far fa-star"></i></span>
-                <span class="featured clickable" title="{{'Nur Featured Beiträge'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
+                <span class="featured clickable" title="{{'Featured'|translate}}" ng-click="ctrl.setFeatured(!ctrl.filters.featured)"
                     ng-if="ctrl.filters.featured === true"><i class="fas fa-star"></i></i></span>
-                <span class="readlater clickable" title="{{'Auch Beiträge die nicht auf der Merkliste stehen.'|translate}}"
+                <span class="readlater clickable" title="{{'Merkliste'|translate}}"
                     ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === false && ctrl.USER !== undefined && ctrl.USER !== null"><i
                         class="fas fa-glasses deactivated"></i></span>
-                <span class="readlater clickable" title="{{'Nur Beiträge die auf der Merkliste stehen.'|translate}}"
+                <span class="readlater clickable" title="{{'Merkliste'|translate}}"
                     ng-click="ctrl.setReadlater(!ctrl.filters.readlater)" ng-if="ctrl.filters.readlater === true && ctrl.USER !== undefined && ctrl.USER !== null"><i
                         class="fas fa-glasses"></i></i></span>
             </div>
