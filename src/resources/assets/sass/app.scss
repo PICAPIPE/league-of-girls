@@ -13,6 +13,9 @@
 // Reset
 @import '_reset.scss';
 
+// Global css
+@import '_global.scss';
+
 // Inputs and Buttons
 @import '_inputs.scss';
 
@@ -46,3 +49,4 @@
 @import 'components/element.scss';
 @import 'components/settings.scss';
 @import 'components/start.scss';
+@import 'components/partner.scss';
