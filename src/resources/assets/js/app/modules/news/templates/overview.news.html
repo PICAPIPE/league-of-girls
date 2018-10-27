@@ -87,7 +87,9 @@
             </div>
             <news-like class="likes-container" news="news"></news-like>
             <span ng-if="news.type == 'twitch'" class="news-logo"><i class="fab fa-twitch"></i></span>
-            <div class="news-triangle"></div>
+            <div class="news-triangle" ng-class="ctrl.getCssClassForReadlater(news,$event)">
+                
+            </div>
             <div class="news-readlater" ng-class="ctrl.getCssClassForReadlater(news,$event)" ng-click="ctrl.readlater(news,$event)" ng-if="ctrl.USER !== null && ctrl.USER !== undefined">
                 <i class="fas fa-glasses" title="{{'Merkliste'|translate}}"></i>
             </div>
