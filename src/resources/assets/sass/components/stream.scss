@@ -13,7 +13,7 @@ $news-link-bg : rgb(100, 100, 100);
         font-size: inherit;
     }
 
-    .hashtag {
+    .hashtag, .mention {
         opacity: .5;
 
         &:hover {
@@ -91,11 +91,19 @@ $news-link-bg : rgb(100, 100, 100);
     left: 6px;
     cursor: pointer;
     z-index: 999;
-    transition: opacity .5s ease;
+    transition-property: top, left, opacity;
+    transition-duration: .2s;
+    transition-timing-function: ease;
 
     &.inactive {
         visibility: hidden;
         opacity: 0;
+        top: -25px;
+        left: -25px;
+
+        &:hover {
+            opacity: .5;
+        }
     }
 }
 
@@ -111,6 +119,10 @@ $news-link-bg : rgb(100, 100, 100);
 
     &:not(.inactive) {
         border-width: 60px 60px 0 0;
+    }
+
+    .inactive:hover + .news-later{
+            opacity: .5;
     }
 }
 
@@ -138,6 +150,7 @@ $news-link-bg : rgb(100, 100, 100);
     width: 100%;
     min-width: 376px;
     max-width: 500px;
+    overflow: hidden;
     display: grid;
     grid-template-columns: $news-avatar-size 1fr;
     grid-template-rows: $news-avatar-size;
@@ -166,15 +179,17 @@ $news-link-bg : rgb(100, 100, 100);
     }
     &:hover > .news-triangle {
         border-width: 50px 50px 0 0;
-        &.inactive {
-            display: block;
+        &:not(.inactive) {
+            border-width: 60px 60px 0 0;
         }
     }
 
     &:hover > .news-readlater {
         visibility: visible;
         &.inactive {
-            opacity: .5;
+            opacity: .4;
+            top: 4px;
+            left: 4px;
         }
     }
 
