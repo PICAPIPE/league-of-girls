@@ -9,6 +9,15 @@
         margin: 0 10vw;
     }
 
+    @include media-breakpoint-down(sm){
+        grid-row-gap: 1.5em;
+    }
+    
+    @include media-breakpoint-down(xs){
+        grid-template-columns: 1fr;
+        margin: 0 4vw;
+    }
+
     .partner {
         display: grid;
         grid-template-columns: 2fr 3fr;
@@ -25,13 +34,10 @@
         @include media-breakpoint-down(xs){
             grid-template-columns: 1fr;
             grid-template-areas: "logo" "text";
+            padding: 2em;
 
             .partner-infos {
                 display: none;
-            }
-
-            a img {
-                max-width: 80%!important;
             }
         }
 
@@ -57,6 +63,9 @@
             img {
                 height: 100%;
                 max-width: 50%;
+                @include media-breakpoint-down(sm){
+                    max-width: 80%;
+                }
             }
 
         }
