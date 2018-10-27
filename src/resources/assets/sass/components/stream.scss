@@ -101,10 +101,19 @@ $news-link-bg : rgb(100, 100, 100);
         top: -25px;
         left: -25px;
 
+        @media (hover:none), (pointer: coarse) {
+            visibility: visible;
+            opacity: .5;
+            top: 4px;
+            left: 4px;
+        }
+
+
         &:hover {
             opacity: .5;
         }
     }
+
 }
 
 .news-triangle {
@@ -116,6 +125,10 @@ $news-link-bg : rgb(100, 100, 100);
     border-width: 30px 30px 0 0;
     border-color: $CI-COLOR3 transparent transparent transparent;
     transition: border-width .2s ease;
+
+    @media (hover:none), (pointer: coarse) {
+        border-width: 50px 50px 0 0;   
+    }
 
     &:not(.inactive) {
         border-width: 60px 60px 0 0;
