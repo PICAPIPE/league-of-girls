@@ -322,7 +322,7 @@ $news-link-bg : rgb(100, 100, 100);
 
         .news-info {
             grid-template-areas: "text";
-            grid-template-rows: auto;
+            grid-template-rows: 1fr;
             margin-top: -40px;
             z-index: 1;
             align-content: center;
