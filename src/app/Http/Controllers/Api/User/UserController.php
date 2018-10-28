@@ -373,10 +373,16 @@ class UserController extends ApiStandardController
           $constraint->aspectRatio();
       })->resizeCanvas(220, 220)->save(Storage::disk($disk)->path($fileNameNew));
 
-      $request->user->avatar_id = 0;
-      $request->user->save();
+      $user = User::where('uuid',$request->user->uuid)->first();
 
-      return $this->respondSuccess();
+      if ($user !== null)
+           {
+           $user->avatar_id = 1;
+           $user->save();
+           return $this->respondSuccess(['avatar_id' => $user->avatar_id]);
+           }
+
+      return $this->respondBadRequest(_i('Fehler beim Upload des Bildes.'));
   }
 
   /***

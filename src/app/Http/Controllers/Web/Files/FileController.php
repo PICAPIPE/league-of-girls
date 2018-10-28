@@ -31,13 +31,13 @@ class FileController extends Controller
              abort(404);
           }
 
-        if($fileExists === false || data_get($user,'avatar_id',-1) <= 0 || $preview !== null)
+        if($fileExists === false || data_get($user,'avatar_id',-1) < 1 || $preview !== null)
           {
                 if (File::exists($filePathFallback) === false && (($user !== null && $user->avatar_id < 0) || $preview !== null) === false)
                      {
                      $preview = 1;
                      }
-                if (($user !== null && $user->avatar_id <= 0) || $preview !== null)
+                if (($user !== null && $user->avatar_id < 1) || $preview !== null)
                      {
 
                      if ($user->avatar_id === 0 && File::exists(storage_path('avatars/'.$user->uuid.'.png')) == false && $preview === null)

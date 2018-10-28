@@ -415,7 +415,7 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
 
           myaccountEdit.avatarUpdated = function(response)
           {
-
+              console.error(response);
               myaccountEdit.imagePath      = '';
 
               myaccountEdit.ALERT.add({
@@ -425,6 +425,9 @@ angular.module('user').controller('UserMyAccountEditCtrl',[
               });
 
               date          = new Date();
+
+              // Update the avatar id
+              myaccountEdit.user.avatar_id = (response.data.avatar_id || 0);
 
               $timeout(function()
               {
