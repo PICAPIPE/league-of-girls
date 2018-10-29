@@ -28,6 +28,11 @@ angular.module('core').config([
                       'controller':  'CoreStartCtrl as ctrl'
                   }
               },
+              data:{
+                 headerClass:'',
+                 containerClass:'',
+                 layoutClass:''
+              },
               redirectOnLoggged: true
             },
             {

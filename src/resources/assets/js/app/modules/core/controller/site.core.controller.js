@@ -31,6 +31,16 @@ angular.module('core').controller('SiteCtrl',[
               return style;
           };
 
+          // Return the layout class (setup at state)
+          site.getClass = function()
+          {
+             if (angular.isUndefined($state.current.data) === true)
+                  {
+                  return '';
+                  }
+             return $state.current.data.layoutClass || '';
+          };
+
           // Listen to Request abortion
 
           $rootScope.$on('$abort', function (event, next, current) {
