@@ -1,11 +1,108 @@
-.video-bg {
-    width: 100%;
-    height: 70vh;
-    overflow: hidden;
+.container-start {
+    margin: 0;    
+    max-width: 100%;
 
-    video {
+    .navigation_games {
+        position: relative;
+        width: auto;
+        left: unset;
+        top: unset;
+        
+        .navigation_games_list {
+            display: none;
+        }
+
+        .navigation_games_select {
+            display: block;
+        }
+    }
+}
+
+.start {
+    .video-bg {
         width: 100%;
-        height: 100%;
-        object-fit: cover; 
+        height: 40vh;
+        min-height: 440px;
+        overflow: hidden;
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+
+    @include slant(50px, #fff, slant-video);
+    @include slant(50px, $CI-COLOR7, slant-intro);
+
+    h2 {
+        font-size: 26px;
+    }
+
+    .intro {
+        background: $CI-COLOR7;
+        color: #fff;
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        grid-template-areas: "heading heading" "content action";
+        grid-column-gap: 2em;
+        grid-row-gap: 2em;
+        place-content: center;
+        place-items: center;
+        padding: 10em;
+        padding-top: 12em;
+        h1 {
+            grid-area: heading;
+            font-size: 50px;
+        }
+        article {
+            grid-area: content;
+        }
+        .action {
+            grid-area: action;
+            text-align: right;
+
+            button {
+                border-color: #fff;
+                color: #fff;
+                font-size: 20px;
+                padding: .4em 2em;
+                &:hover {
+                    background-color: #fff;
+                    color: $CI-COLOR7;
+                }
+            }
+            a.btn {
+                border: none;
+                padding: 0;
+                padding-right: 1em;
+                font-size: inherit;
+            }
+
+        }
+    }
+    .start-news {
+        padding-top: 12em;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: ". ." "feature news";
+        grid-column-gap: 2em;
+        place-content: center;
+        align-items: start;
+        justify-items: center;
+
+
+        .news-list {
+            grid-template-columns: 1fr;
+        }
+        .start-news-featured {
+            grid-area: feature;
+            justify-self: end;
+        }
+
+        .start-news-aktuell {
+            grid-area: news;
+            justify-self: start;
+        }
     }
 }

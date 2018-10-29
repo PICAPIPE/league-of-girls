@@ -7,3 +7,27 @@ h1 {
         text-align: center;
     }
 }
+
+@mixin slant($size, $color, $class){
+    .slant.#{$class}{
+        .slant-inner {
+            border-color: $color transparent transparent transparent;
+            border-width: $size 100vw 0 0;
+        }
+    }
+    .slant.#{$class} + * {
+        margin-top: ($size * -1);
+    }
+}
+.slant {
+    width: 100%;
+    overflow: hidden;
+    .slant-inner {
+        width: 0px;
+        height: 0px;
+        -webkit-transform: rotate(360deg);
+        border-style: solid;
+        border-width: 50px 100vw 0 0;
+        border-color: $CI-COLOR4 transparent transparent transparent;
+    }
+}
