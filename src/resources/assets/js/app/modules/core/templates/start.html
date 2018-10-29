@@ -14,14 +14,14 @@
                 <!-- <span ng-if="$root.$currentGame.id === ALL; else all-games">Interessiert an e-Sport?</span> -->
         </h1>
         <article>
-            <h3>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
+            <h3 translate>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
             <ul>
-                <li>Du bist Gamerin und möchtest zeigen, was du kannst?</li>
-                <li>Du möchtest professionelle E-Sportlerin werden?</li>
-                <li>Du möchtest dich in der deutschsprachigen E-Sport & Gaming Szene vernetzen?</li>
-                <li>Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?</li>
+                <li translate>Du bist Gamerin und möchtest zeigen, was du kannst?</li>
+                <li translate>Du möchtest professionelle E-Sportlerin werden?</li>
+                <li translate>Du möchtest dich in der deutschsprachigen E-Sport & Gaming Szene vernetzen?</li>
+                <li translate>Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?</li>
             </ul>
-            <p> Dann werde Teil der <strong>League of Girls</strong> Community!</p>
+            <p translate> Dann werde Teil der <strong>League of Girls</strong> Community!</p>
         </article>
         <div class="action">
             <button class="btn btn-outline-success" ui-sref="login.register" ui-sref-active="active">Jetzt mitmachen!</button><br>
@@ -35,7 +35,7 @@
         <div class="slant-inner"></div>
     </div>
     <div class="start-news">
-        <h2>Immer aktuelle News-Beiträge</h2>
+        <h2>{{'Immer aktuelle News-Beiträge'|translate}}</h2>
         <div class="start-news-featured" ng-if="ctrl.featured !== undefined && ctrl.featured.id !== undefined ">
             <h4>{{'Feature'|translate}}</h4>
             <news-overview mode="featured"></news-overview>
