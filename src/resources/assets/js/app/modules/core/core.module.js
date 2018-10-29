@@ -30,7 +30,7 @@ angular.module('core').config([
               },
               data:{
                  headerClass:'',
-                 containerClass:'',
+                 containerClass:'container-start',
                  layoutClass:''
               },
               redirectOnLoggged: true

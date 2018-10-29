@@ -1,7 +1,52 @@
-<div class="video-bg">
-    <video autoplay loop class="video-main" muted>
-        <source src="img/videos/log-animation-v12-2.mp4" type="video/mp4">
-    </video>
+<div class="start">
+    <div class="video-bg">
+        <video autoplay loop class="video-main" muted>
+            <source src="img/videos/log-lol.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="slant slant-video">
+        <div class="slant-inner"></div>
+    </div>
+
+    <div class="intro">
+        <h1>
+            <span>{{ $root.$currentGame.id === 'ALL' ? 'Interessiert an e-Sport?' : 'Interessiert an ' + $root.$currentGame.long + '?' }} </span>
+                <!-- <span ng-if="$root.$currentGame.id === ALL; else all-games">Interessiert an e-Sport?</span> -->
+        </h1>
+        <article>
+            <h3>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
+            <ul>
+                <li>Du bist Gamerin und möchtest zeigen, was du kannst?</li>
+                <li>Du möchtest professionelle E-Sportlerin werden?</li>
+                <li>Du möchtest dich in der deutschsprachigen E-Sport & Gaming Szene vernetzen?</li>
+                <li>Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?</li>
+            </ul>
+            <p> Dann werde Teil der <strong>League of Girls</strong> Community!</p>
+        </article>
+        <div class="action">
+            <button class="btn btn-outline-success" ui-sref="login.register" ui-sref-active="active">Jetzt mitmachen!</button><br>
+            <span translate>oder</span>
+            <a class="btn btn-success btn-lg" ui-sref="login.login" ui-sref-active="active">
+                {{'Einloggen' | translate}}
+            </a>
+        </div>
+    </div>
+    <div class="slant slant-intro">
+        <div class="slant-inner"></div>
+    </div>
+    <div class="start-news">
+        <h2>Immer aktuelle News-Beiträge</h2>
+        <div class="start-news-featured" ng-if="ctrl.featured !== undefined && ctrl.featured.id !== undefined ">
+            <h4>{{'Feature'|translate}}</h4>
+            <news-overview mode="featured"></news-overview>
+        </div>
+        <div class="start-news-aktuell">
+            <h4>{{'Aktuelle News'|translate}}</h4>
+            <news-overview mode="list"></news-overview>
+        </div>
+    </div>
+
+
 </div>
 
 <!-- <h1>League of Girls</h1>
