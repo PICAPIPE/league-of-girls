@@ -75,6 +75,7 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
 
                       gamesnavigation.links[gamesnavigation.links.length] = {
                           label: '*',
+                          long:  gamesnavigation.LANG.getString('Alle'),
                           id:    'ALL',
                           active:(storageValue === 'ALL')
                       };
@@ -83,6 +84,7 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
                          {
                               gamesnavigation.links[gamesnavigation.links.length] = {
                                   label: entries[i].short,
+                                  long:  entries[i].name,
                                   id:    entries[i].uuid,
                                   active:(storageValue === entries[i].uuid)
                               };

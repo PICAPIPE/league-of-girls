@@ -28,6 +28,7 @@ angular.module('core').controller('SiteCtrl',[
                     {
                     style['background'] = '#dcdcdc';
                     }
+                    
               return style;
           };
 
