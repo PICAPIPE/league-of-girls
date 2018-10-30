@@ -35,7 +35,7 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
                    return;
                    }
               video.player.onended = function() {
-                if (video.loop === true)
+              if (video.loop === true || video.loop === 'true')
                      {
                      video.player.currentTime = (video.loopStart !== undefined ? video.loopStart : 0);
                      video.player.play();
@@ -46,7 +46,7 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
           // Watchers
           $scope.$watch('video.settings', function(newValue,oldValue){
             
-            if (angular.isUndefiend(newValue) === true)
+            if (angular.isUndefined(newValue) === true)
                  {
                  return;
                  }
@@ -61,7 +61,7 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
 
             $timeout(function(){
                 video.source = (newValue.source !== undefined ? newValue.source : '');
-                video.loop = (newValue.loop !== undefined ? newValue.loop : false);
+                video.loop = (newValue.loop !== undefined && newValue.loop === 'true' ? newValue.loop : false);
                 video.loopStart = (newValue.loopStart !== undefined ? newValue.loopStart : 0);
                 video.$onInit();
             });
