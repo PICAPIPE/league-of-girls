@@ -24,12 +24,16 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
                 $timeout(function(){
                     video.player = document.getElementById(video.playerId);
                     video.playerActions();
-                },50);
+                },150);
 
           };
 
           video.playerActions = function()
           {
+              if (video.player === null)
+                   {
+                   return;
+                   }
               video.player.onended = function() {
                 if (video.loop === true)
                      {
@@ -41,13 +45,20 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
 
           // Watchers
           $scope.$watch('video.settings', function(newValue,oldValue){
-            video.html = '';
+            
+            if (angular.isUndefiend(newValue) === true)
+                 {
+                 return;
+                 }
 
             // Only source change should trigger reset.
             if (newValue.source === oldValue.source)
                  {
                  return;
                  }
+
+            video.html = '';
+            
             $timeout(function(){
                 video.source = (newValue.source !== undefined ? newValue.source : '');
                 video.loop = (newValue.loop !== undefined ? newValue.loop : false);

@@ -125,6 +125,10 @@ angular.module('navigation').controller('NavigationGamesCtrl',[
             else {
                  value = newValue;
                  }
+
+            console.error(value);
+            console.warn(gamesnavigation.gameAbort);
+            
             if (angular.isDefined(value) === false || value === '')
                  {
                  return;
