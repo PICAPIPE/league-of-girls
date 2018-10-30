@@ -3,11 +3,11 @@ angular.module('pages').component('videoPlayer', {
   controller:   'PagesVideoPlayerCtrl as video',
   scope:        true,
   bindings:     {
-                    source:    '@?', // video source name
-                    loop:      '@?', // boolean
-                    loopStart: '@?', // sec
-                    class:     '@?', // css class
-                    id:        '@?', // id
-                    settings:  '=?', // Einstellungen können übernommen werden.
+                    source:      '@?', // video source name
+                    loop:        '@?', // boolean
+                    loopStart:   '@?', // sec
+                    playerClass: '@?', // css class
+                    id:          '@?', // id
+                    settings:    '=?', // Einstellungen können übernommen werden.
                 }
 });

@@ -18,7 +18,7 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
           video.$onInit = function()
           {
                 video.playerId = (video.id !== undefined ? video.id : 'video_player_') + window.btoa(Math.random(10));
-                video.html = '<video autoplay id="'+ video.playerId +'" class="'+ (video.class ? video.class : 'video_player')  + '" muted><source src="'+ video.source +'" type="video/mp4"></video>'
+                video.html = '<video autoplay id="'+ video.playerId +'" class="'+ (video.playerClass ? video.playerClass : 'video_player')  + '" muted><source src="'+ video.source +'" type="video/mp4"></video>'
 
                 // Bind the player
                 $timeout(function(){
@@ -58,7 +58,7 @@ angular.module('pages').controller('PagesVideoPlayerCtrl',[
                  }
 
             video.html = '';
-            
+
             $timeout(function(){
                 video.source = (newValue.source !== undefined ? newValue.source : '');
                 video.loop = (newValue.loop !== undefined ? newValue.loop : false);
