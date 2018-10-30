@@ -4,6 +4,6 @@
           {{link.label}}
       </li>
    </ul>
-   <select  class="navigation_games_select" ng-model="gamesnavigation.game" ng-options="obj as obj.label for obj in gamesnavigation.links track by obj.id"></select>
+   <select  class="navigation_games_select" ng-change="gamesnavigation.update()" ng-model="gamesnavigation.game" ng-options="obj as obj.label for obj in gamesnavigation.links track by obj.id"></select>
 
 </div>
