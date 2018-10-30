@@ -36,6 +36,26 @@ angular.module('user').controller('UserAccountCtrl',[
               account.init();
 
           };
+          
+          // Define if the button should be hidden
+          account.hideConnectButton = function()
+          {
+              var i = 0;
+              if (account.userId === account.currentUser.uuid || $state.params.uuidUser === account.currentUser.uuid)
+                    {
+                    return (false);
+                    }
+
+              for (i = 0; i < account.currentUser.friends.length; i++)
+                    {
+                    if (account.currentUser.friends[i].from_id === account.user.id)
+                         {
+                         return (false);
+                         }
+                    }
+
+              return (true);
+          };
 
           // Returns the image
           account.getFriend = function(friend)

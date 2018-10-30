@@ -11,7 +11,7 @@
                 </span>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-4 user-headline-connect">
-                <user-connect user-id="{{account.userId}}"></user-connect>
+                <user-connect user-id="{{account.userId}}" ng-if="account.hideConnectButton(account.userId)"></user-connect>
             </div>
           </div>
        </div>
