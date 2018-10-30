@@ -1,0 +1,172 @@
+$user-account-headline-color:     $CI-COLOR7;
+$user-account-headline-size:      2.2em;
+
+$user-account-header-space:       40px;
+$user-account-header-bg:          $CI-COLOR7;
+$user-account-header-avatar-size: 220px;
+$user-account-header-color:       #FFFFFF;
+
+.user-account
+{
+  max-width:  768px;
+  margin:     0 auto;
+  background: #FFF;
+  position:   relative;
+  margin-top: 100px;
+
+}
+
+.user-headline
+{
+
+    color:        $user-account-headline-color;
+    font-size:    $user-account-headline-size;
+    font-family:  'Roboto';
+    font-weight:  lighter;
+    margin-bottom: 40px;
+    position:      absolute;
+    top:           -65px;
+    width:         100%;
+
+    .user-headline-name-element
+    {
+        font-weight: bold;
+        min-width:   10px;
+        max-width:   80%;
+        display:     inline-block;
+    }
+}
+
+.user-account-header
+{
+
+    background:      $user-account-header-bg;
+    height:          200px;
+    padding-left:    ($user-account-header-avatar-size + $user-account-header-space);
+    padding-top:     $user-account-header-space;
+    padding-right:   $user-account-header-space;
+    padding-bottom:  $user-account-header-space;
+    position:        relative;
+    color:           $user-account-header-color;
+
+    .user-account-avatar-chooser
+    {
+        background:  #1a8a58;
+        width:         40px;
+        height:        40px;
+        border-radius: 100px;
+        color:       #FFF;
+        border:        0;
+        position:      absolute;
+        left:          10px;
+        top:           10px;
+        cursor:        pointer;
+    }
+
+    .user-account-avatar
+    {
+        height:     $user-account-header-avatar-size;
+        width:      $user-account-header-avatar-size;
+        position:   absolute;
+        top:        0;
+        left:       0;
+        margin:     -10px;
+        background: darken($user-account-header-bg,20);
+        overflow:   hidden;
+
+        img
+        {
+          width:  100%;
+          height: 100%;
+        }
+
+        input[type="file"]
+        {
+          position:  absolute;
+          left:      0;
+          bottom:    0;
+          margin:    10px;
+          width:     80%;
+        }
+
+    }
+
+}
+
+.user-content
+{
+    padding:    80px 60px;
+    background: #FFF;
+
+
+    h2,h3,h4
+    {
+       font-size:   1.2em;
+       font-weight: bold;
+    }
+
+}
+
+.user-account-edit
+{
+  position:  absolute;
+  right:     10px;
+  top:       10px;
+  color:     #FFF;
+  font-size: 24px;
+
+  a
+  {
+     color:#FFF;
+  }
+
+}
+
+.modalArea-content .user-account
+{
+  -webkit-box-shadow: 9px 10px 5px -8px rgba(0,0,0,0.19);
+  -moz-box-shadow: 9px 10px 5px -8px rgba(0,0,0,0.19);
+  box-shadow: 9px 10px 5px -8px rgba(0,0,0,0.19);
+}
+
+.dsgvo_public,
+.crawler_setup
+{
+    font-size: 12px;
+    position: relative;
+    top: 7px;
+    right: 15px;
+
+    input {
+      margin-right:4px;
+    }
+}
+
+.friends
+{
+    list-style: none;
+    padding:    0;
+    margin:     0;
+    display:    inline-block;
+    li {
+        list-style: none;
+        padding:    0;
+        margin:     0 10px 10px 0;
+        display:    inline-block;
+        cursor:     pointer;
+    }
+}
+
+.friend-element
+{
+    width:         40px;
+    height:        40px;
+    overflow:      hidden;
+    border-radius: 100px;
+    cursor:        pointer;
+    > img {
+        width:  100%;
+        height: 100%;
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,76 @@
+@font-face {
+	font-family: "icons-avatar";
+	src: url("../../../public/webfonts/icons-avatar.eot?22c73d09bcae95e765a5e3d11f1fd3d0?#iefix") format("embedded-opentype"),
+url("../../../public/webfonts/icons-avatar.woff2?22c73d09bcae95e765a5e3d11f1fd3d0") format("woff2"),
+url("../../../public/webfonts/icons-avatar.woff?22c73d09bcae95e765a5e3d11f1fd3d0") format("woff"),
+url("../../../public/webfonts/icons-avatar.ttf?22c73d09bcae95e765a5e3d11f1fd3d0") format("truetype"),
+url("../../../public/webfonts/icons-avatar.svg?22c73d09bcae95e765a5e3d11f1fd3d0#icons-avatar") format("svg");
+}
+
+.log-avatar {
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.log-avatar:before {
+	font-family: icons-avatar !important;
+	font-style: normal;
+	font-weight: normal !important;
+	vertical-align: top;
+}
+
+.log-avatar-1:before {
+	content: "\f101";
+}
+.log-avatar-2:before {
+	content: "\f10a";
+}
+.log-avatar-3:before {
+	content: "\f10b";
+}
+.log-avatar-4:before {
+	content: "\f10c";
+}
+.log-avatar-5:before {
+	content: "\f10d";
+}
+.log-avatar-6:before {
+	content: "\f10e";
+}
+.log-avatar-7:before {
+	content: "\f10f";
+}
+.log-avatar-8:before {
+	content: "\f110";
+}
+.log-avatar-9:before {
+	content: "\f111";
+}
+.log-avatar-10:before {
+	content: "\f102";
+}
+.log-avatar-11:before {
+	content: "\f103";
+}
+.log-avatar-12:before {
+	content: "\f104";
+}
+.log-avatar-13:before {
+	content: "\f105";
+}
+.log-avatar-14:before {
+	content: "\f106";
+}
+.log-avatar-15:before {
+	content: "\f107";
+}
+.log-avatar-16:before {
+	content: "\f108";
+}
+.log-avatar-17:before {
+	content: "\f109";
+}

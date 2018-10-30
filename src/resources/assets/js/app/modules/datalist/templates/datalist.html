@@ -1,0 +1,50 @@
+<div class="datalist">
+    <div class="datalist-search">
+      <div class="input-group input-group-sm mb-3">
+        <input type="text" ng-model="datalist.search" class="form-control" aria-label="{{'Suche' | translate}}" placeholder="{{'Suchbegriff' | translate}}" aria-describedby="inputGroup-sizing-sm">
+      </div>
+    </div>
+    <div class="datalist-entry datalist-error" ng-if="datalist.data.statusCode !== 200">
+        <div class="text-center">
+            {{datalist.data.data.message}}
+        </div>
+    </div>
+    <div class="datalist-entry datalist-error" ng-if="datalist.data.statusCode !== undefined && datalist.data.statusCode === 200 && datalist.data.data.data.length === 0">
+        <div class="text-center">
+            {{ 'Keine Einträge gefunden' | translate }}
+        </div>
+    </div>
+    <div class="datalist-entry" ng-repeat="entry in datalist.data.data.data" ng-if="datalist.data.statusCode === 200">
+        <div class="media">
+          <div class="media-body" ng-transclude="main">
+            {{entry.name || entry.id || entry.label}}
+          </div>
+          <div class="ml-3" ng-if="datalist.USER.hasPermission(['Admin'])">
+            <div class="btn-group" role="group">
+              <div class="btn-group" role="group">
+                <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   {{ 'Aktionen' | translate }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1" ng-transclude="actions">
+                  <a class="dropdown-item" ng-click="datalist.callAction($event,'edit',   entry)">{{ 'Bearbeiten' | translate }}</a>
+                  <a class="dropdown-item" ng-click="datalist.callAction($event,'delete', entry)">{{ 'Löschen' | translate }}</a>
+                  <a class="dropdown-item" ng-click="datalist.callAction($event,'custom', entry, actionItem)" ng-repeat="actionItem in datalist.actionItems">{{ actionItem.label }}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="datalist-pagination" ng-if="datalist.pagination === true">
+      <nav aria-label="{{'Seiten blättern' | translate}}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" ng-disabled="datalist.isDisabled('previous')">
+            <a class="page-link" ng-disabled="datalist.isDisabled('previous')" ng-click="datalist.previous($event)" href="#" tabindex="-1">{{'Vorherige Seite'}}</a>
+          </li>
+          <li class="page-item" ng-disabled="datalist.isDisabled('next')">
+            <a class="page-link" ng-disabled="datalist.isDisabled('next')" ng-click="datalist.next($event)" href="#">{{'Nächste Seite'}}</a>
+          </li>
+        </ul>
+        </nav>
+    </div>
+</div>

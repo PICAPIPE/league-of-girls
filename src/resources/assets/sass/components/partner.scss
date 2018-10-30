@@ -1,0 +1,107 @@
+.partner-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+
+    @include media-breakpoint-down(md){
+        grid-template-columns: 1fr;
+        margin: 0 10vw;
+    }
+
+    @include media-breakpoint-down(sm){
+        grid-row-gap: 1.5em;
+    }
+    
+    @include media-breakpoint-down(xs){
+        grid-template-columns: 1fr;
+        margin: 0 4vw;
+    }
+
+    .partner {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        grid-template-areas:
+            "logo logo"
+            "infos text";
+        grid-row-gap: 3em;
+        grid-column-gap: 2em;
+        grid-template-rows: 100px auto;
+        width: 100%;
+        border: 1px solid $CI-COLOR1;
+        padding: 3em;
+
+        @include media-breakpoint-down(xs){
+            grid-template-columns: 1fr;
+            grid-template-areas: "logo" "infos" "text";
+            grid-row-gap: 2em;
+            padding: 2em;
+        }
+
+        .partner-infos {
+            text-align: right;
+            grid-area: infos;
+
+            h2 {
+                font-family: 'Bitter', serif;
+                font-size: 20px;
+                margin-bottom: 1px;
+                p {
+                    font-size: 16px;
+                    font-family: Roboto, sans-serif;
+                    font-style: italic;
+                    font-weight: 400;
+                    margin-top: 3px;
+                    margin-bottom: 3px;
+                }
+            }
+
+            @include media-breakpoint-down(xs){
+                text-align: center;
+
+                &:before {
+                    content: "";
+                    margin: 0 auto;
+                    padding: 5px;
+                    display: block;
+                    width: 30%;
+                    border-top: 1px solid $CI-COLOR8;
+                }
+    
+                &:after {
+                    content: "";
+                    margin: 0 auto;
+                    padding: 5px;
+                    display: block;
+                    width: 30%;
+                    border-bottom: 1px solid $CI-COLOR8; 
+                }
+            }
+
+        }
+
+        .partner-text {
+            grid-area: text;
+
+        }
+
+        a {
+            grid-area: logo;
+            width: 100%;
+            color: $CI-COLOR7;
+            text-align: center;
+            letter-spacing: .5px;
+            font-weight: 500;
+            
+            img {
+                height: 100%;
+                max-width: 50%;
+                @include media-breakpoint-down(sm){
+                    max-width: 80%;
+                }
+            }
+
+        }
+    }
+
+}

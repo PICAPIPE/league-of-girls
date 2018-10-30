@@ -1,0 +1,42 @@
+<div class="pages pages_viewer" ng-if="page.data !== null && page.data !== undefined">
+
+    <div class="alert alert-secondary" role="alert" ng-if="page.currentUser.permissions.indexOf('Admin') > -1">
+        <div class="row">
+            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-2">
+                <div class="line">
+                    <strong>{{'Name' | translate}}:</strong>
+                    {{page.data.name}}
+                </div>
+                <div class="line">
+                  <strong>{{'Veröffentlicht' | translate}}:</strong>
+                  <span class="clickable" ng-click="page.publish(!page.data.published)" ng-if="page.data.published === true">{{'Ja' | translate}}</span>
+                  <span class="clickable" ng-click="page.publish(!page.data.published)" ng-if="page.data.published === false">{{'Nein' | translate}}</span>
+                </div>
+            </div>
+            <div class="col-xs-8 col-sm-8 col-md-8 col-lg-10 text-right">
+              <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                 {{ 'Erweitert' | translate }}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                <a class="dropdown-item" ng-click="page.reload()">{{ 'Aktualisieren' | translate }}</a>
+                <a class="dropdown-item" ng-click="page.edit()">{{ 'Bearbeiten' | translate }}</a>
+                <a class="dropdown-item" ng-click="page.delete()">{{ 'Löschen' | translate }}</a>
+                <a class="dropdown-item" ng-click="page.insert('bottom')">{{ 'Element hinzufügen' | translate }}</a>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-content">
+
+      <div class="row" ng-if="page.currentUser.permissions.indexOf('Admin') > -1" data-ng-model="page.data.elements" sv-root sv-part="page.data.elements" sv-on-sort="page.onSort($item, $partFrom, $partTo, $indexFrom, $indexTo)">
+          <page-element data="element" class="dragable" ng-class="element.cssClass" ng-repeat="element in page.data.elements" sv-element><page-element>
+      </div>
+
+      <div class="row" ng-if="page.currentUser === null || page.currentUser.permissions.indexOf('Admin') === -1">
+          <page-element ng-if="element.published === true" data="element" ng-class="element.cssClass" ng-repeat="element in page.data.elements"><page-element>
+      </div>
+
+    </div>
+
+</div>

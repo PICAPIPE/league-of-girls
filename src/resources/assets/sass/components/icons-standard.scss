@@ -1,0 +1,82 @@
+@font-face {
+	font-family: "icons-standard";
+	src: url("../../../public/webfonts/icons-standard.eot?965bafb407c444d441e67588632565f8?#iefix") format("embedded-opentype"),
+url("../../../public/webfonts/icons-standard.woff2?965bafb407c444d441e67588632565f8") format("woff2"),
+url("../../../public/webfonts/icons-standard.woff?965bafb407c444d441e67588632565f8") format("woff"),
+url("../../../public/webfonts/icons-standard.ttf?965bafb407c444d441e67588632565f8") format("truetype"),
+url("../../../public/webfonts/icons-standard.svg?965bafb407c444d441e67588632565f8#icons-standard") format("svg");
+}
+
+.log-icon {
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+}
+
+.log-icon:before {
+	font-family: icons-standard !important;
+	font-style: normal;
+	font-weight: normal !important;
+	vertical-align: top;
+}
+
+.log-icon-burgermenu:before {
+	content: "\f101";
+}
+.log-icon-check:before {
+	content: "\f102";
+}
+.log-icon-close:before {
+	content: "\f103";
+}
+.log-icon-edit:before {
+	content: "\f104";
+}
+.log-icon-emoji_angry:before {
+	content: "\f105";
+}
+.log-icon-emoji_cry:before {
+	content: "\f106";
+}
+.log-icon-emoji_heart:before {
+	content: "\f107";
+}
+.log-icon-emoji_woot:before {
+	content: "\f108";
+}
+.log-icon-fav_off:before {
+	content: "\f109";
+}
+.log-icon-fav_on:before {
+	content: "\f10a";
+}
+.log-icon-game:before {
+	content: "\f10b";
+}
+.log-icon-info:before {
+	content: "\f10c";
+}
+.log-icon-link-open:before {
+	content: "\f10d";
+}
+.log-icon-message:before {
+	content: "\f10e";
+}
+.log-icon-no:before {
+	content: "\f10f";
+}
+.log-icon-offline:before {
+	content: "\f110";
+}
+.log-icon-online:before {
+	content: "\f111";
+}
+.log-icon-person:before {
+	content: "\f112";
+}
+.log-icon-speak:before {
+	content: "\f113";
+}

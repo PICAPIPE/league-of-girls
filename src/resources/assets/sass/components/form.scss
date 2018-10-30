@@ -1,0 +1,103 @@
+$form-border-error:        $CI-COLOR3;
+$form-color-error:         $CI-COLOR3;
+
+$input-border-color-error: $CI-COLOR3;
+
+.form-group {
+
+    .control-label {
+
+        padding:      0 20px;
+        margin-bottom:0;
+        font-size:    80%;
+        font-weight:  bold;
+
+    }
+
+    &.has-error {
+
+        color:$form-color-error;
+
+        .input-group {
+
+            border:   $input-border-width solid $input-border-color-error;
+
+        }
+
+    }
+
+}
+
+.input-group {
+
+     border:   $input-border-width solid $input-border-color;
+     overflow: hidden;
+
+     .input-group-addon {
+        position:    relative;
+        width:       60px;
+        display:     grid;
+        align-items: center;
+        text-align:  center;
+        font-size:   80%;
+     }
+
+     @if $enable-rounded {
+       // Manually use the if/else instead of the mixin to account for iOS override
+       border-radius: $input-border-radius;
+     } @else {
+       // Otherwise undo the iOS default
+       border-radius: 0;
+     }
+
+    .form-control {
+
+        border:0;
+
+    }
+}
+
+*[contenteditable]
+{
+   border-bottom:1px dashed $input-border-color;
+}
+
+textarea
+{
+  min-height: 200px;
+}
+
+.forms-multiselect-btn
+{
+   border:     0;
+   background: none;
+   position:   relative;
+   display:    inline-block;
+
+   .forms-multiselect-subelements
+   {
+       position:           absolute;
+       left:               0;
+       background:       #FFF;
+       padding:            5px 10px;
+       -webkit-box-shadow: 4px 4px 22px 0px rgba(0,0,0,0.75);
+       -moz-box-shadow:    4px 4px 22px 0px rgba(0,0,0,0.75);
+       box-shadow:         4px 4px 22px 0px rgba(0,0,0,0.75);
+       z-index:            999;
+       
+
+       .form-check-label
+       {
+           white-space: nowrap;
+           font-weight: normal;
+       }
+   }
+
+   &.closed
+   {
+       .forms-multiselect-subelements
+       {
+           display: none;
+       }
+   }
+}

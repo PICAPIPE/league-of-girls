@@ -1,0 +1,24 @@
+$error-list-item-padding: 0;
+$error-list-item-marign:  0;
+$error-list-item-color:   $CI-COLOR3;
+
+.error-list-container
+{
+    margin-bottom: 15px;
+}
+
+.error-list
+{
+    list-style: none;
+    padding:    0;
+    margin:     0;
+}
+
+.error-list-item
+{
+    list-style: none;
+    padding:    $error-list-item-padding;
+    margin:     $error-list-item-marign;
+    color:      $error-list-item-color;
+
+}

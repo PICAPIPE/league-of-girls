@@ -1,0 +1,22 @@
+<div class="alerts-area">
+   <div class="alerts-container">
+      <div class="alerts-element" ng-init="alerts.init(alertElement,$index)" ng-attr-id="{{ 'alerts-element-' + alertElement.index }}" ng-style="alerts.getStyle(alertElement.index)" ng-class="alerts.getClass(alertElement,alertElement.index)" ng-repeat="alertElement in alerts.list track by $index">
+          <div class="alerts-closing">
+             <button ng-click="alerts.dismiss(alertElement.index,$event)" title="{{'Schließen'|translate}}"><i class="fas fa-times"></i></button>
+          </div>
+          <div class="alerts-inner">
+            <div class="alerts-header" ng-if="alertElement.title !== ''">
+                <strong>{{alertElement.title}}</strong>
+            </div>
+            <div class="alerts-body" compile="alertElement.message"></div>
+            <div class="alerts-footer" ng-if="alertElement.buttons.length > 0">
+
+                <div class="alerts-button" ng-init="alerts.initBtn(btn,alertElement.index)" ng-repeat="btn in alertElement.buttons">
+                    <button ng-class="alerts.getClassesForBtn(btn)" ng-click="alerts.callBtn($event,alertElement,btn)" compile="btn.label"></button>
+                </div>
+
+            </div>
+          </div>
+      </div>
+   </div>
+</div>

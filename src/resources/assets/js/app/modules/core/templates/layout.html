@@ -1,0 +1,37 @@
+<div id="header" class="container" ng-class="layout.getHeaderClass()">
+
+  <!-- HEADER START -->
+
+  <div class="row row-margin-bottom">
+      <div class="col-lg-2 col-xs-12">
+        <a ui-sref="app.start" ui-sref-active="active" >
+            <div class="logo-log"><img class="img-r"src="img/logos/logo-log.svg" alt=""/></div>
+            <span class="beta">BETA</span>
+        </a>
+      </div>
+      <div class="col-lg-4 col-xs-12 offset-lg-2">
+          <!-- main navigationl-->
+          <main-navigation></main-navigation>
+      </div>
+      <div class="col-lg-2 col-xs-12 offset-lg-2">
+          <!-- user panel-->
+          <user-panel></user-panel>
+      </div>
+  </div>
+
+  <!-- HEADER STOP -->
+
+</div>
+
+<div class="container" ng-class="layout.getContainerClass()">
+
+   <!-- ADDIONTAL NAVIGATION START -->
+
+   <games-navigation></games-navigation>
+   <more-navigation></more-navigation>
+
+   <!-- ADDIONTAL NAVIGATION STOP -->
+
+   <ui-view name="content">...</ui-view>
+
+</div>

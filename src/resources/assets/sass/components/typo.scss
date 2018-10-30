@@ -1,0 +1,24 @@
+body
+{
+   color: $CI-COLOR1;
+}
+
+a {
+    cursor: pointer;
+    color:  $CI-COLOR1;
+}
+
+.clickable
+{
+    cursor: pointer;
+}
+
+.dragable
+{
+   cursor: move;
+}
+
+.deactivated
+{
+    opacity: 0.5;
+}

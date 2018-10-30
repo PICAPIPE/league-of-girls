@@ -1,0 +1,25 @@
+<div class="pages pages_create">
+
+  <h1 ng-if="ctrl.pageId !== '' && ctrl.pageId !== undefined">{{'Seite bearbeiten' | translate}}</h1>
+  <h1 ng-if="ctrl.pageId === '' || ctrl.pageId === undefined">{{'Seite erstellen' | translate}}</h1>
+
+  <form class="pages-create-submit-form" ng-submit="ctrl.submit(ctrl.fieldData)" name="page.submit.form">
+    <formly-form model="ctrl.fieldData" fields="ctrl.fields">
+
+        <!-- ERRORS -->
+
+        <div class="errors error-list-container" ng-if="ctrl.errors.length > 0">
+          <ul class="error-list">
+            <li class="error-list-item" ng-repeat="error in ctrl.errors">{{error}}</li>
+          </ul>
+        </div>
+
+        <!-- SUBMIT CONTAINER -->
+
+        <div class="submit_container">
+            <button type="submit" class="btn btn-outline-success float-right" ng-disable="login.loading">{{ 'Speichern' | translate }}</button>
+        </div>
+
+    </formly-form>
+  </form>
+</div>

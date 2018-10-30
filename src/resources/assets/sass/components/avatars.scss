@@ -1,0 +1,51 @@
+$AVATAR-CHOOSER-SIZE: 100px;
+
+.avatarPickerModal
+{
+    color:    #FFF;
+    text-align: center;
+    max-width:  800px;
+    margin:     0 auto;
+    padding-left: 50px;
+
+    @include media-breakpoint-down(sm) {
+        padding:0;
+    }
+}
+
+.avatarPickerElementItem
+{
+    font-size:   100%;
+    display:     grid;
+    height:      $AVATAR-CHOOSER-SIZE;
+    width:       $AVATAR-CHOOSER-SIZE;
+    text-align:  center;
+    align-items: center;
+    background:  rgba(255,255,255,0.2);
+    float:        left;
+    margin-right:  15px;
+    margin-bottom: 15px;
+    color:#FFF;
+
+    @include media-breakpoint-down(xs) {
+        float:      none;
+        text-align: center;
+        margin:     0 auto 15px;
+    }
+
+    &:hover 
+    {
+        background:  rgba(255,255,255,0.4);
+    }
+
+    &.active 
+    {
+        background: $CI-COLOR7;
+    }
+
+    > i 
+    {
+        font-size: $AVATAR-CHOOSER-SIZE*0.75;
+    }
+
+}

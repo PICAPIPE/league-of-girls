@@ -1,0 +1,12 @@
+input[type=search] {
+    border-bottom: 1px solid $CI-COLOR8;
+}
+
+select {
+    font-weight: 600;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding: 5px 10px;
+    border-radius: 1em;
+    border: 2px solid $CI-COLOR1;
+}

@@ -1,0 +1,11 @@
+<span class="forms-multiselect-btn" ng-class="ctrl.getClass()">
+    <span class="clickable" ng-click="ctrl.toggle($event)">{{ctrl.label}}</span>
+    <div class="forms-multiselect-subelements">
+        <div class="form-check" ng-repeat="item in ctrl.items">
+            <input class="form-check-input" type="checkbox" ng-model="item.checked">
+            <label class="form-check-label" >
+              {{item.label}}
+            </label>
+        </div>
+    </div>
+  </span>

@@ -1,0 +1,23 @@
+<div class="dashboard dashboard_overview">
+   <h1>{{'Hallo' | translate }} {{dashboard.user.username}}!</h1>
+   <p class="lead">{{'Schön, dass du dich angemeldet hast!'}}</p>
+
+   <div class="row">
+
+     <!-- News -->
+
+     <div class="col-md-6 col-xs-12">
+        <h2>{{'News' | translate}}</h2>
+        <news-overview mode="list" filter="nomy"></news-overview>
+     </div>
+
+     <!-- Nachrichten -->
+
+     <div class="col-md-6 col-xs-12">
+        <h2>{{'Meine News' | translate}}</h2>
+        <news-overview mode="list" filter="my"></news-overview>
+     </div>
+
+   </div>
+
+</div>

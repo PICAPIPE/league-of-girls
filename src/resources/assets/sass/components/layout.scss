@@ -1,0 +1,47 @@
+#header {
+
+    padding-top: 50px;
+    font-family: 'Roboto', sans-serif;
+
+    .row-margin-bottom {
+        @include media-breakpoint-down(lg){
+            margin-bottom: 30px;
+        }
+    }
+
+}
+
+.container
+{
+      position: relative;
+    //   max-width: 1200px;
+}
+
+.margin-bottom
+{
+  margin-bottom:  15px;
+}
+
+#footer
+{
+
+    margin-top:     20px;
+    padding-top:    20px;
+    padding-bottom: 20px;
+    border-top:     1px solid $CI-COLOR9;
+}
+
+@include media-breakpoint-down(sm) {
+    body
+    {
+       padding: 0 20px;
+    }
+}
+
+.clear {
+    clear: both;
+}
+
+.form-control {
+    padding: 0.375rem 0;
+} 

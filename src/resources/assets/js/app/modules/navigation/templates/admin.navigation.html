@@ -1,0 +1,7 @@
+<div class="pages-list">
+   <ul class="actions-list" >
+      <li class="clickable" ng-repeat="link in adminnavigation.links track by $index" ng-if="adminnavigation.USER.hasPermission(link.roles) === true" ui-sref="{{link.state}}" ui-sref-active="active">
+          {{link.name}}
+      </li>
+   </ul>
+</div>

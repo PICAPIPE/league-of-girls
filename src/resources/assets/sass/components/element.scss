@@ -1,0 +1,32 @@
+$PAGE-ELEMENT-PADDING: 10px;
+
+.page-element
+{
+    position: relative;
+    border:   2px solid transparent;
+    padding:  $PAGE-ELEMENT-PADDING;
+
+    &.show-lines
+    {
+      border: 2px dashed #ddd;
+    }
+
+    &.unpublished
+    {
+       opacity: 0.5;
+    }
+}
+
+.page-element-controls
+{
+  position: absolute;
+  right:    $PAGE-ELEMENT-PADDING;
+  top:      $PAGE-ELEMENT-PADDING;
+  z-index:  9999;
+}
+
+
+.page-content
+{
+  margin:0 -10px;
+}
