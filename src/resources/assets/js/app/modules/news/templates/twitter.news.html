@@ -1,4 +1,45 @@
-<div class="news news_link">
+<div class="news-detail twitter">
+    <div class="action-admin">
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1 && ctrl.data.published === true && ctrl.data.featured !== true"
+        ng-click="ctrl.setValue(ctrl.data.uuid,'featured',!ctrl.data.featured)" class="btn btn-primary">{{'Hervorheben'|translate}}</button>
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1 && ctrl.data.published === true && ctrl.data.featured === true"
+        ng-click="ctrl.setValue(ctrl.data.uuid,'featured',!ctrl.data.featured)" class="btn btn-primary">{{'Nicht
+        mehr hervorheben'|translate}}</button>
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1 && ctrl.data.published === false" ng-click="ctrl.setValue(ctrl.data.uuid,'published',!ctrl.data.published)"
+        class="btn btn-success">{{'Veröffentlichen'|translate}}</button>
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1" ng-click="ctrl.edit(ctrl.data.uuid)" class="btn btn-primary">{{'Bearbeiten'|translate}}</button>
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1 && ctrl.data.published === false" ng-click="ctrl.delete(ctrl.data.uuid)"
+        class="btn btn-danger">{{'Löschen'|translate}}</button>
+      <button ng-if="ctrl.USER.permissions.indexOf('Admin') > -1 && ctrl.data.published === true" ng-click="ctrl.setValue(ctrl.data.uuid,'published',!ctrl.data.published)"
+        class="btn btn-danger">{{'Verstecken'|translate}}</button>
+    </div>
+    <div class="action-user">
+      <news-like class="likes-container" news="ctrl.data"></news-like>
+      <div class="share"><i title="{{'Teilen'|translate}}" class="fas fa-share-alt"></i></div>
+      <div class="news-readlater" ng-click="ctrl.readlater(ctrl.data,$event)" >
+        <i title="{{'Von der Merkliste entfernen'|translate}}" class="fas fa-glasses" ng-if="ctrl.data.readlater === true"></i>
+        <i title="{{'Auf die Merkliste setzen'|translate}}" class="fas fa-glasses deactivated" ng-if="ctrl.data.readlater === false"></i>
+      </div>
+    </div>
+    <div class="news-info">
+        <strong>{{ 'Geteilt von: ' | translate}}</strong>{{ ctrl.data.user.username }}
+        <p class="date">{{ ctrl.MOMENT(ctrl.data.created_at).fromNow()}}</p>
+    </div>
+    <div class="news-content-container">
+      <div class="news-info-extra">
+          <div ng-if="ctrl.data.image != ''" ng-style="ctrl.getStyle(ctrl.data,true)"  class="news-icon"></div>
+      </div>
+      <div class="news-content" compile="ctrl.data.text">
+      </div>
+      
+    </div>
+    <div class="news-chat" compile="ctrl.chat"></div>
+</div>
+
+
+
+
+<!-- <div class="news news_link">
 
    <div class="row">
    <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10">
@@ -46,4 +87,4 @@
      </div>
      <div class="col-lg-6 col-xs-12" compile="ctrl.chat"></div>
    </div>
-</div>
+</div> -->
