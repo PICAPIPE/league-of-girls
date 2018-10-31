@@ -29,8 +29,10 @@
       <div class="news-info-extra">
           <div ng-if="ctrl.data.image != ''" ng-style="ctrl.getStyle(ctrl.data,true)"  class="news-icon"></div>
       </div>
-      <div class="news-content" compile="ctrl.data.text">
-      </div>
+      <div class="news-content">
+        <div compile="ctrl.data.text"></div>
+        <p class="news_link_open"><a ng-click="ctrl.open(ctrl.data)" ng-if="ctrl.data.url !== '' && ctrl.data.url !== undefined">{{'Auf der Webseite weiterlesen'|translate}}</a></p>
+      </div> 
       
     </div>
     <div class="news-chat" compile="ctrl.chat"></div>
