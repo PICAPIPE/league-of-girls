@@ -53,7 +53,7 @@
         padding: 10em;
         padding-top: 12em;
 
-        @include media-breakpoint-down(sm) {
+        @include media-breakpoint-down(md) {
             grid-template-columns: 1fr;
             grid-template-areas: "heading" "content" "action";
         }

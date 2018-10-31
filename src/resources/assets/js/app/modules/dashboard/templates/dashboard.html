@@ -29,8 +29,8 @@
 
     </div>
     <div class="message">
-      <h1>{{'Hallo' | translate }} {{dashboard.user.username}}!</h1>
-      <p class="lead">{{'Schön, dass du dich angemeldet hast!'}}</p>
+      <h1></h1>
+      <p class="lead"></p>
     </div>
   </div>
   <div class="slant slant-video">
@@ -38,27 +38,9 @@
   </div>
 
   <div class="intro">
-    <h1>
-      <span>{{ $root.$currentGame.id === 'ALL' ? 'Interessiert an e-Sport?' : 'Interessiert an ' +
-        $root.$currentGame.long + '?' }} </span>
+    <h1> {{'Hallo' | translate }} {{dashboard.user.username}}!
+      <p>{{'Schön, dass du dich angemeldet hast!'}} </p>
     </h1>
-    <article>
-      <h3 translate>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
-      <ul>
-        <li translate>Du bist Gamerin und möchtest zeigen, was du kannst?</li>
-        <li translate>Du möchtest professionelle E-Sportlerin werden?</li>
-        <li translate>Du möchtest dich in der deutschsprachigen E-Sport & Gaming Szene vernetzen?</li>
-        <li translate>Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?</li>
-      </ul>
-      <p translate> Dann werde Teil der <strong>League of Girls</strong> Community!</p>
-    </article>
-    <div class="action">
-      <button class="btn btn-outline-success" ui-sref="login.register" ui-sref-active="active">Jetzt mitmachen!</button><br>
-      <span translate>oder</span>
-      <a class="btn btn-success btn-lg" ui-sref="login.login" ui-sref-active="active">
-        {{'Einloggen' | translate}}
-      </a>
-    </div>
   </div>
   <div class="slant slant-intro">
     <div class="slant-inner"></div>

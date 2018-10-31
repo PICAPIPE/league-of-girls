@@ -59,8 +59,7 @@
         background: $CI-COLOR7;
         color: #fff;
         display: grid;
-        grid-template-columns: 3fr 2fr;
-        grid-template-areas: "heading heading" "content action";
+        grid-template-columns: 1fr;
         grid-column-gap: 2em;
         grid-row-gap: 2em;
         place-content: center;
@@ -68,43 +67,17 @@
         padding: 10em;
         padding-top: 12em;
 
-        @include media-breakpoint-down(sm) {
-            grid-template-columns: 1fr;
-            grid-template-areas: "heading" "content" "action";
-        }
 
         h1 {
-            grid-area: heading;
             font-size: 40px;
-        }
-        article {
-            grid-area: content;
-        }
-        .action {
-            grid-area: action;
-            text-align: right;
-
-            button {
-                border-color: #fff;
-                color: #fff;
-                font-size: 20px;
-                padding: .4em 2em;
-                &:hover {
-                    background-color: #fff;
-                    color: $CI-COLOR7;
-                }
+            margin-bottom: 0;
+            p {
+                font-size: 25px;
             }
-            a.btn {
-                border: none;
-                padding: 0;
-                padding-right: 1em;
-                font-size: inherit;
-            }
-
         }
     }
     .dashboard-news {
-        padding-top: 12em;
+        padding-top: 8em;
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-template-areas: "heading heading";
@@ -129,6 +102,7 @@
 
         h2 {
             grid-area: heading;
+            text-align: center;
         }
 
         .news-list {
