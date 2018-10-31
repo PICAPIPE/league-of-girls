@@ -1,17 +1,96 @@
-<div class="dashboard dashboard_overview">
+<div class="dashboard">
+  <div class="top">
+    <div class="video-bg" ng-switch="$root.$currentGame.id">
+
+      <!-- Dota2 -->
+      <video-player ng-switch-when="c575adf9-57d2-4c2b-b63d-9c69ae9b1db3" player-class="video-main" muted="true" loop="true"
+        loopStart="4" source="img/videos/log-lol_old.mp4"></video-player>
+
+      <!-- Clash Royale -->
+      <video-player ng-switch-when="4207b837-3124-4505-b061-deb3c7628f14" player-class="video-main" muted="true" loop="true"
+        loopStart="4" source="img/videos/log-clashroyale.mp4"></video-player>
+
+      <!-- CSGO -->
+      <video-player ng-switch-when="c4f13144-6283-4457-84a5-60dec44b620e" player-class="video-main" muted="true" loop="true"
+        loopStart="4" source="img/videos/log-csgo.mp4"></video-player>
+
+      <!-- Fortnite -->
+      <video-player ng-switch-when="40c0f4ed-5e98-4bca-bc71-498d1fd65ca4" player-class="video-main" muted="true" loop="true"
+        loopStart="4" source="img/videos/log-fortnite.mp4"></video-player>
+
+      <!-- FIFA -->
+      <video-player ng-switch-when="48f27281-4f4e-4b86-92ba-9fa334cc395a" player-class="video-main" muted="true" loop="true"
+        loopStart="4" source="img/videos/log-fifa.mp4"></video-player>
+
+      <!-- LOL -->
+      <!-- <video-player ng-switch-when="97c79fd5-0fab-40fc-bf85-b60f6fd315f2" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-lol.mp4"></video-player> -->
+
+      <video-player ng-switch-default player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-lol.mp4"></video-player>
+
+    </div>
+    <div class="message">
+      <h1>{{'Hallo' | translate }} {{dashboard.user.username}}!</h1>
+      <p class="lead">{{'Schön, dass du dich angemeldet hast!'}}</p>
+    </div>
+  </div>
+  <div class="slant slant-video">
+    <div class="slant-inner"></div>
+  </div>
+
+  <div class="intro">
+    <h1>
+      <span>{{ $root.$currentGame.id === 'ALL' ? 'Interessiert an e-Sport?' : 'Interessiert an ' +
+        $root.$currentGame.long + '?' }} </span>
+    </h1>
+    <article>
+      <h3 translate>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
+      <ul>
+        <li translate>Du bist Gamerin und möchtest zeigen, was du kannst?</li>
+        <li translate>Du möchtest professionelle E-Sportlerin werden?</li>
+        <li translate>Du möchtest dich in der deutschsprachigen E-Sport & Gaming Szene vernetzen?</li>
+        <li translate>Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?</li>
+      </ul>
+      <p translate> Dann werde Teil der <strong>League of Girls</strong> Community!</p>
+    </article>
+    <div class="action">
+      <button class="btn btn-outline-success" ui-sref="login.register" ui-sref-active="active">Jetzt mitmachen!</button><br>
+      <span translate>oder</span>
+      <a class="btn btn-success btn-lg" ui-sref="login.login" ui-sref-active="active">
+        {{'Einloggen' | translate}}
+      </a>
+    </div>
+  </div>
+  <div class="slant slant-intro">
+    <div class="slant-inner"></div>
+  </div>
+  <div class="dashboard-news">
+    <h2>{{'Immer aktuelle News-Beiträge'|translate}}</h2>
+    <div class="dashboard-news-aktuell">
+      <h2>{{'News' | translate}}</h2>
+      <news-overview mode="list" filter="nomy"></news-overview>
+    </div>
+    <div class="dashboard-news-mine">
+      <h2>{{'Meine News' | translate}}</h2>
+      <news-overview mode="list" filter="my"></news-overview>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- <div class="dashboard dashboard_overview">
    <h1>{{'Hallo' | translate }} {{dashboard.user.username}}!</h1>
    <p class="lead">{{'Schön, dass du dich angemeldet hast!'}}</p>
 
    <div class="row">
 
-     <!-- News -->
+
 
      <div class="col-md-6 col-xs-12">
         <h2>{{'News' | translate}}</h2>
         <news-overview mode="list" filter="nomy"></news-overview>
      </div>
 
-     <!-- Nachrichten -->
 
      <div class="col-md-6 col-xs-12">
         <h2>{{'Meine News' | translate}}</h2>
@@ -20,4 +99,4 @@
 
    </div>
 
-</div>
+</div> -->
