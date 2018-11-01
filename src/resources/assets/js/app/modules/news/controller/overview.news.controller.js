@@ -165,7 +165,7 @@ angular.module('news').controller('NewsOverviewCtrl',[
                             break;
                     default:
                             ctrl.createModal({
-                                  'background' : 'rgba(237, 73, 73,0.95)',
+                                  'background' : 'rgba(73, 73, 73,0.95)',
                                   'content':     '<news-link uuid="'+uuid+'"></news-link>'
                             },function(){
                               if ($state.current.name === 'app.news.detail')

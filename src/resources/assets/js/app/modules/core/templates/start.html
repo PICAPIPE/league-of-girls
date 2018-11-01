@@ -1,6 +1,27 @@
 <div class="start">
-    <div class="video-bg">
-        <video-player player-class="video-main" muted="true" loop="true" source="img/videos/log-lol.mp4"></video-player>
+    <div class="video-bg" ng-switch="$root.$currentGame.id">
+
+        <!-- Dota2 -->
+        <video-player ng-switch-when="c575adf9-57d2-4c2b-b63d-9c69ae9b1db3" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-lol_old.mp4"></video-player>
+
+        <!-- Clash Royale -->
+        <video-player ng-switch-when="4207b837-3124-4505-b061-deb3c7628f14" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-clashroyale.mp4"></video-player>
+
+        <!-- CSGO -->
+        <video-player ng-switch-when="c4f13144-6283-4457-84a5-60dec44b620e" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-csgo.mp4"></video-player>
+
+        <!-- Fortnite -->
+        <video-player ng-switch-when="40c0f4ed-5e98-4bca-bc71-498d1fd65ca4" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-fortnite.mp4"></video-player>
+
+        <!-- FIFA -->
+        <video-player ng-switch-when="48f27281-4f4e-4b86-92ba-9fa334cc395a" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-fifa.mp4"></video-player>
+
+        <!-- LOL -->
+        <!-- <video-player ng-switch-when="97c79fd5-0fab-40fc-bf85-b60f6fd315f2" player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-lol.mp4"></video-player> -->
+
+        <video-player ng-switch-default player-class="video-main" muted="true" loop="true" loopStart="4" source="img/videos/log-lol.mp4"></video-player>
+
+
     </div>
     <div class="slant slant-video">
         <div class="slant-inner"></div>
@@ -9,7 +30,6 @@
     <div class="intro">
         <h1>
             <span>{{ $root.$currentGame.id === 'ALL' ? 'Interessiert an e-Sport?' : 'Interessiert an ' + $root.$currentGame.long + '?' }} </span>
-                <!-- <span ng-if="$root.$currentGame.id === ALL; else all-games">Interessiert an e-Sport?</span> -->
         </h1>
         <article>
             <h3 translate>Holt euch die aktuellsten News rund um Gaming/E-Sport & folgt den wichtigsten Streamerinnen</h3>
@@ -46,50 +66,3 @@
 
 
 </div>
-
-<!-- <h1>League of Girls</h1>
-
-<div class="row">
-
-
-    <div class="col-xs-12 col-lg-8 margin-bottom" ng-if="ctrl.featured === undefined || ctrl.featured.id === undefined">
-        <div class="no-feature">
-            <h2>{{'Was ist League of Girls?'}}</h2>
-            <p class="lead" translate>
-                League of Girls” rückt Gamerinnen ins Zentrum und gibt Einblicke in die weibliche Gaming Szene. Unser Schwerpunkt liegt dabei auf E-Sport und Streaming, wobei jedoch alle Beiträge rund um Gaming willkommen sind. Werdet Teil der “League of Girls” Community und helft uns dabei, E-Sport stärker in der Gesellschaft zu verankern - female AND male players are welcome!
-            </p>
-            <a class="btn btn-success btn-lg"  ui-sref="login.login" ui-sref-active="active">
-                {{'Anmelden' | translate}}
-            </a>
-            <span translate>oder</span>
-            <a class="btn btn-success btn-lg"  ui-sref="login.register" ui-sref-active="active">
-                {{'jetzt registieren' | translate}}
-            </a>
-        </div>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 margin-bottom" ng-if="ctrl.featured !== undefined && ctrl.featured.id !== undefined ">
-        <h2>{{'Was ist League of Girls?'}}</h2>
-        <p class="lead" translate>
-            League of Girls” rückt Gamerinnen ins Zentrum und gibt Einblicke in die weibliche Gaming Szene. Unser Schwerpunkt liegt dabei auf E-Sport und Streaming, wobei jedoch alle Beiträge rund um Gaming willkommen sind. Werdet Teil der “League of Girls” Community und helft uns dabei, E-Sport stärker in der Gesellschaft zu verankern - female AND male players are welcome!
-        </p>
-        <a class="btn btn-success btn-lg"  ui-sref="login.login" ui-sref-active="active">
-            {{'Anmelden' | translate}}
-        </a>
-        <span translate> oder </span>
-        <a class="btn btn-success btn-lg"  ui-sref="login.register" ui-sref-active="active">
-            {{'jetzt registieren' | translate}}
-        </a>
-    </div>
-
-    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" ng-if="ctrl.featured !== undefined && ctrl.featured.id !== undefined ">
-        <h4>{{'Feature'|translate}}</h4>
-        <news-overview mode="featured"></news-overview>
-    </div>
-
-    <div class="col-xs-12 col-md-6 col-lg-4">
-        <h4>{{'Aktuelle News'|translate}}</h4>
-        <news-overview mode="list"></news-overview>
-    </div>
-</div>
- -->

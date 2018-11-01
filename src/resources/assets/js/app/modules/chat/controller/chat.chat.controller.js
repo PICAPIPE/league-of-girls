@@ -43,9 +43,9 @@ angular.module('chat').controller('ChatCtrl',[
           {
               if (chat.hideTypes.indexOf(chat.mode) > -1)
                    {
-                   return 'col-xs-12 col-lg-12';
+                   return '';
                    }
-              return 'col-xs-12 col-lg-8';
+              return '';
           };
 
           // return if a area should be hide by area

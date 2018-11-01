@@ -56,7 +56,6 @@ angular.module('news').controller('NewsLinkCtrl',[
                    styleObject['background']          = 'url(' + news.image + ')';
                    styleObject['background-size']     = 'cover';
                    styleObject['background-position'] = 'center center';
-                   styleObject['right']               = '10px';
                    styleObject['z-index']             = '999999';
                    }
               else {
@@ -67,10 +66,7 @@ angular.module('news').controller('NewsLinkCtrl',[
               styleObject['width']               = '200px';
               styleObject['height']              = '200px';
 
-              if (window.outerWidth > 768)
-                   {
-                   styleObject['position'] = 'absolute';
-                   }
+
 
               return styleObject;
           };
