@@ -55,7 +55,7 @@
                     <ul class="actions-list">
                       <li><a href="https://github.com/PICAPIPE/league-of-girls/issues" target="_blank">{{ _i('Fehler gefunden?') }}</a></li>
                       <li><a href="/faq">{{ _i('FAQ') }}</a></li>
-                      <li><a href="/partner">{{ _i('Partner') }}</a></li>
+                      <li><a href="/unterstuetzerinnen">{{ _i('Unterstützer*innen') }}</a></li>
                       <li><a href="/imprint">{{ _i('Impressum') }}</a></li>
                       <li><a href="/privacy">{{ _i('Datenschutz') }}</a></li>
                     </ul>
