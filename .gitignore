@@ -9,6 +9,10 @@
 /src/public/fonts/*
 /src/public/img/icons/*
 /src/public/img/avatars/*
+/src/public/img/logos/*
+/src/public/img/videos/*
+/src/resources/assets/sass/components/icons-avatar.scss
+/src/resources/assets/sass/components/icons-standard.scss
 /src/storage/*.key
 /src/storage/avatars/*
 /src/storage/debug/*
@@ -24,6 +28,3 @@ yarn-error.log
 /src/.env
 .DS_Store
 /**/.DS_Store
-src/public/img/videos/*
-src/resources/assets/sass/components/icons-avatar.scss
-src/resources/assets/sass/components/icons-standard.scss
