@@ -47,7 +47,7 @@
           <div class="meet-inside">
             <div class="meet-avatar">
                 <div class="meet-triangle"></div>
-                <img ng-src="/files/avatars/{{user.uuid}}" ng-click="ctrl.openProfile(user.uuid)">
+                <img ng-src="/files/avatars/{{user.uuid}}{{ctrl.checkColor(user.color)}}" ng-click="ctrl.openProfile(user.uuid)">
             </div>
             <div class="meet-info">
                 <div class="meet-name" ng-click="ctrl.openProfile(user.uuid)">{{user.username}}</div>
