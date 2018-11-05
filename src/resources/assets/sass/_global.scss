@@ -31,3 +31,10 @@ h1 {
         border-color: $CI-COLOR4 transparent transparent transparent;
     }
 }
+
+a {
+    &:hover {
+        color: $CI-COLOR7;
+        text-decoration: none;
+    }
+}
