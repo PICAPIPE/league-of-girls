@@ -210,13 +210,15 @@ angular.module('meet').controller('MeetOverviewCtrl',[
           };
 
           // Check if the user has safed a color - otherwise a black color is provided
-          ctrl.checkColor = function(color)
+          ctrl.checkColor = function(color,avatar_id)
           {
-              if (angular.isUndefined(color) === true ||
-                  color                      === '')
+              if ((angular.isUndefined(color) === true ||
+                  color                       === '')  && 
+                  avatar_id                   === 0)
                     {
-                    return 'black';
+                    return '?color=black';
                     }
+              return '';
           };
 
           // Get skill level
