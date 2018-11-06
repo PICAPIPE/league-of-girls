@@ -39,7 +39,7 @@
         <div id="footer" class="footer container">
               <div class="row">
                   <div class="col-xs-12 col-sm-12 col-md-3 col-lg-6">
-                      © PICAPIPE GmbH
+                      <a href="https://picapipe.com">© PICAPIPE GmbH</a>
                       <div class="sponsored-by">
                           <small>{{ _i('Gefördert durch') }}</small> <br>
                           <a href="https://www.netidee.at/" target="_blank"><img src="https://www.netidee.at/themes/Netidee/images/netidee-logo-color.svg" alt="netidee"></a>
@@ -55,7 +55,7 @@
                     <ul class="actions-list">
                       <li><a href="https://github.com/PICAPIPE/league-of-girls/issues" target="_blank">{{ _i('Fehler gefunden?') }}</a></li>
                       <li><a href="/faq">{{ _i('FAQ') }}</a></li>
-                      <li><a href="/partner">{{ _i('Partner') }}</a></li>
+                      <li><a href="/unterstuetzerinnen">{{ _i('Unterstützer*innen') }}</a></li>
                       <li><a href="/imprint">{{ _i('Impressum') }}</a></li>
                       <li><a href="/privacy">{{ _i('Datenschutz') }}</a></li>
                     </ul>
