@@ -55,7 +55,7 @@ class UserController extends ApiStandardController
 
       'index' => [
         'except'        => false,
-        'fields'        => ['username','uuid','id'],
+        'fields'        => ['username','uuid','id','color','background','avatar_id'],
         'sortBy'        => 'username',
         'sortDirection' => 'ASC',
         'pagination'    => true,

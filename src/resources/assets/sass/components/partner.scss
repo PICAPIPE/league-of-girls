@@ -93,9 +93,15 @@
             letter-spacing: .5px;
             font-weight: 500;
             
+            &:hover {
+                color: $CI-COLOR2;
+            }
+
             img {
+                object-fit: contain;
                 height: 100%;
-                max-width: 50%;
+                width: 100%;
+                max-width: 52%;
                 @include media-breakpoint-down(sm){
                     max-width: 80%;
                 }

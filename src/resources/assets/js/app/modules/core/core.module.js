@@ -57,7 +57,7 @@ angular.module('core').config([
             },
             {
                 name:      'app.partner',
-                url:       '/partner',
+                url:       '/unterstuetzerinnen',
                 views:     {
                     '!$default.content':{
                         'templateUrl': 'views/core/partner.html',
