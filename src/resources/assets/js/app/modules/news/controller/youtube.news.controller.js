@@ -15,6 +15,32 @@ angular.module('news').controller('NewsYoutubeCtrl',[
           ctrl.data   = {};
           ctrl.USER   = UserService.getCurrentUser();
 
+          // Save the link to the specific entry into the clipboard.
+          ctrl.share = function()
+          {
+              var value = '';
+              var el = document.createElement('textarea');
+              try {
+                value = $state.href('app.news.detail', {uuid:window.btoa(JSON.stringify({type:ctrl.data.type, uuid:ctrl.data.uuid}))}, {absolute: true});
+                } 
+            catch(err)
+                {
+                console.log(err);  
+                } 
+                
+             el.value = value;
+             document.body.appendChild(el);
+             el.select();
+             document.execCommand('copy');
+             document.body.removeChild(el);
+             
+             ctrl.ALERT.add({
+                'title':     ctrl.LANG.getString('Link in der Zwischenablage!'),
+                'message':   ctrl.LANG.getString('Link zu diesem Beitrag ist in deiner Zwischenablage gespeichert.'),
+                'autoClose': true
+            });
+          };
+
           // Read later 
 
           ctrl.readlater = function(news,event)

@@ -388,7 +388,9 @@ angular.module('news').controller('NewsOverviewCtrl',[
               if ($state.current.name === 'app.news.detail')
                     {
                     try {
+                          console.warn($state.params.uuid);
                         value = JSON.parse(window.atob($state.params.uuid));
+                        console.error(value);
                         ctrl.openStreamByUuid(value.type, value.uuid);
                         } 
                     catch(err)
