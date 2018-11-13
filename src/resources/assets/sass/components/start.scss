@@ -57,6 +57,11 @@
             grid-template-areas: "heading" "content" "action";
         }
 
+        @include media-breakpoint-down(sm) {
+            padding: 3em;
+            padding-top: 12em;
+        }
+
         h1 {
             grid-area: heading;
             font-size: 40px;
