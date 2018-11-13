@@ -846,14 +846,17 @@ news-youtube {
             }
 
             .news-info-extra {
-                .news-icon {
-                    right: unset;
-                    margin-left: 0;
-                    margin-top: 0;
-                }
-
-                div {
-                    width: auto!important;
+                @include media-breakpoint-down(md) {
+                    .news-icon {
+                        right: unset;
+                        margin-left: 0;
+                        margin-top: 0;
+                        
+                    }
+                    
+                    div {
+                        width: auto!important;
+                    }
                 }
             }
         }
