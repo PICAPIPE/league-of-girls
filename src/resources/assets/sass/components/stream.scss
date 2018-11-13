@@ -835,6 +835,7 @@ news-youtube {
 
             @include media-breakpoint-down(md) {
                 width: 100%;
+                height: auto;
                 grid-template-columns: 1fr;
                 grid-template-areas: "info-extra" "content";
             }
@@ -856,6 +857,7 @@ news-youtube {
                     
                     div {
                         width: auto!important;
+                        height: auto!important;
                     }
                 }
             }
