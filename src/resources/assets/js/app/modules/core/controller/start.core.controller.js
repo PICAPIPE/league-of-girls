@@ -13,6 +13,37 @@ angular.module('core').controller('CoreStartCtrl',[
           ctrl.featured   = {};
           ctrl.storageKey = 'log_choosen_game';
 
+
+       ctrl.introText = [
+         {
+           'question': 'Du möchtest E-Sportlerin werden? Du suchst nach Mentor*innen, Insider*innen oder möchtest dich mit Gleichgesinnten austauschen? Du bist schon länger in der deutschsprachigen E-Sport & Gaming Szene, möchtest deine Erfahrungen teilen und neue Leute kennenlernen? Du bist Journalist*in, Forscher*in oder anderweitig am Thema E-Sport interessiert und suchst nach Kontakten in der Szene?',
+           'answer': 'Erstelle dir ein League of Girls Meet Profil und vernetze dich!'
+         },
+         {
+           'question': 'Du bist Gamerin und streamst auch Twitch oder führst einen YouTube Kanal? Du kennst einen spannenden Blog-Beitrag rund um Gender, Diversity, E-Sport & Gaming?',
+           'answer': 'Schlag deinen Twitch Channel, Social Media Kanal oder einen Artikel für unseren News Stream vor!'
+         },
+         {
+           'question': 'Du möchtest dich rund um E-Sport, den wichtigsten Games oder den Beiträgen in unserem News Channel austauschen?',
+           'answer': 'Nutze unsere Chat Funktion!'
+         },
+         {
+           'question': 'Du möchtest dich für mehr Diversität in der E-Sport & Gaming Szene einsetzen?',
+           'answer': 'Werde Teil der League of Girls Community!'
+         },
+       ];
+       
+       
+
+          ctrl.activeText = 0;
+
+          ctrl.nextText = function() {
+            ctrl.activeText = ctrl.activeText+1 < ctrl.introText.length ? ctrl.activeText+1 : 0;
+          }
+          ctrl.prevText = function() {
+            ctrl.activeText = ctrl.activeText-1 >= 0 ? ctrl.activeText-1 : ctrl.introText.length-1;
+          }
+
           // Init function
 
           ctrl.$onInit = function()
