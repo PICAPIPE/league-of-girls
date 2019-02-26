@@ -57,12 +57,39 @@
             grid-template-areas: "heading" "content" "action";
         }
 
+        @include media-breakpoint-down(sm) {
+            padding: 3em;
+            padding-top: 12em;
+        }
+
         h1 {
             grid-area: heading;
             font-size: 40px;
         }
         article {
             grid-area: content;
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            grid-template-areas: "left . right";
+            grid-column-gap: 1em;
+
+            .left {
+                grid-area: left;
+                color: #fff;
+            }
+
+            .right {
+                grid-area: right;
+                color: #fff;
+            }
+            p {
+                margin-top: 1em;
+            }
+
+            @include media-breakpoint-down(sm) {
+                grid-template-columns: 2fr;
+                grid-template-areas: ". ." "left" "right";
+            }
         }
         .action {
             grid-area: action;

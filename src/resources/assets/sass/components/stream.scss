@@ -822,13 +822,6 @@ news-youtube {
 
     @include media-breakpoint-down(md) {
         grid-template-areas: "action-admin action-user" "info info" "content content" "chat chat";
-
-        &.twitter {
-            .news-content-container {
-                width: 100%;
-                height: 30vh;
-            }
-        }
     }
 
     &.twitter{
@@ -840,13 +833,33 @@ news-youtube {
             grid-template-columns: 1fr 3fr;
             grid-template-areas: "info-extra content";
 
-            // @include media-breakpoint-down(md) {
-            //     grid-template-areas: "action-admin action-user" "info info" "content content" "chat chat";
-            // }
-
+            @include media-breakpoint-down(md) {
+                width: 100%;
+                height: auto;
+                grid-template-columns: 1fr;
+                grid-template-areas: "info-extra" "content";
+            }
             .news-content {
                 padding: 20px;
                 width: 100%;
+
+
+            }
+
+            .news-info-extra {
+                @include media-breakpoint-down(md) {
+                    .news-icon {
+                        right: unset;
+                        margin-left: 0;
+                        margin-top: 0;
+                        
+                    }
+                    
+                    div {
+                        width: auto!important;
+                        height: auto!important;
+                    }
+                }
             }
         }
         .news-chat {
@@ -887,7 +900,30 @@ news-youtube {
                 }
             }
         }      
-    } 
+    }
+    
+    &.twitch {
+        .news-content-container {
+            @include media-breakpoint-down(md) {
+                width: 100%;
+                height: auto;
+            }
+
+            // @include media-breakpoint-down(md) {
+            //     grid-template-areas: "action-admin action-user" "info info" "content content" "chat chat";
+            // }
+
+        }
+        .news-chat {
+            .chat-messages {
+                min-height: 25vh;
+                
+                .chat-loading {
+                    display: none;
+                }
+            }
+        }
+    }
 
     .action-admin {
         grid-area: action-admin;
