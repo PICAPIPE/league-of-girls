@@ -229,7 +229,7 @@ class ChatController extends ApiStandardController
             $message = new ChatMessage([
                               'chat_id' => $chat->id,
                               'user_id' => $request->user->id,
-                              'text'    => $request->input('message')
+                              'text'    => strip_tags($request->input('message'))
                            ]);
 
             $result         = $chat->messages()->save($message);
