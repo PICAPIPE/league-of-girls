@@ -28,3 +28,5 @@ yarn-error.log
 /src/.env
 .DS_Store
 /**/.DS_Store
+server.sh
+server-stop.sh
