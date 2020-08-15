@@ -43,5 +43,5 @@ if(env('APP_DEBUG') === true)
 
 Route::group(['middleware' =>['web']], function($request)
     {
-        Route::any('/{an}', ['uses'=>'Web\System\SiteController@site','middleware' => ['auth.safe']])->where('any', '.*')->name('default');
+        Route::any('/{any}', ['uses'=>'Web\System\SiteController@site','middleware' => ['auth.safe']])->where('any', '.*')->name('default');
     });

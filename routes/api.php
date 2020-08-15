@@ -73,7 +73,7 @@ Route::api('categories',      'Api\Esport\CategoryController',     [],true,['aut
 
 Route::group(['middleware' => ['auth.safe']], function(){
   Route::get('pages/published',    ['uses'=>'Api\System\PageController@published']);
-  Route::any('pages/views/{slug}', ['uses'=>'Api\System\PageController@viewPage'])->where('slug', '([A-z\d-\/_.]+)?');
+  Route::any('pages/views/{any}', ['uses'=>'Api\System\PageController@viewPage'])->where('any', '.*')->name('pages');
 });
 Route::api('pages',              'Api\System\PageController',         [],true,['auth.safe']);
 Route::api('elements',           'Api\System\PageElementController',  [],true,['auth.safe']);
