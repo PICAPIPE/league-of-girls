@@ -33,7 +33,7 @@ angular.module('core').controller('CoreStartCtrl',[
                 switch(ctrl.featured.type)
                       {
                       case 'twitch':
-                        ctrl.featured.stream = '<div class="embed-responsive embed-responsive-16by9"><iframe src="http://player.twitch.tv/?channel=' + ctrl.featured.channel + '&muted=false" height="720" width="1280" frameborder="0" scrolling="no" allowfullscreen="false"></iframe></div>';
+                        ctrl.featured.stream = '<div class="embed-responsive embed-responsive-16by9"><iframe src="https://player.twitch.tv/?channel=' + ctrl.featured.channel + '&muted=false" height="720" width="1280" frameborder="0" scrolling="no" allowfullscreen="false"></iframe></div>';
                         break;
                       case 'youtube':
                         ctrl.featured.stream = '<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="'+ ctrl.featured.url + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>';
