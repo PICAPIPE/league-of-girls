@@ -19,11 +19,6 @@ angular.module('navigation').controller('NavigationMainCtrl',[
                 label:                mainnavigation.LANG.getString("Meet"),
                 state:                'app.meet.overview',
                 useFirstLetterAsIcon: true
-            },
-            {
-                label:                mainnavigation.LANG.getString("Chat"),
-                state:                'app.chat.overview',
-                useFirstLetterAsIcon: true
             }
           ];
 
