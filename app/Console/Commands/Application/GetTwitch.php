@@ -84,111 +84,119 @@ class GetTwitch extends Command
 
       $channels = array_unique($channels);
 
-      $url      = 'https://api.twitch.tv/helix/streams?channel='.implode(',',$channels);
-      $headers = [
-        'client-id'     => env('TWITCH_KEY'),
-        'Authorization' => 'Bearer ' . $this->twitchToken,        
-        'Accept'        => 'application/json',
-      ];
+      
+      foreach($channels as $key => $channel){
 
-      // Make the request
+        $url      = 'https://api.twitch.tv/helix/search/channels?query='.$channel;
+        $headers = [
+            'client-id'     => env('TWITCH_KEY'),
+            'Authorization' => 'Bearer ' . $this->twitchToken,        
+            'Accept'        => 'application/json',
+        ];
 
-      $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->get();
+        // Make the request
 
-      if($streamsLiveOlder !== null)
-           {
-           $streamsLiveOlder->each(function($stream){
-              $stream->live = false;
-              $stream->save();
-           });
-           }
+        $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->get();
 
-      $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
+        if($streamsLiveOlder !== null)
+            {
+            $streamsLiveOlder->each(function($stream){
+                $stream->live = false;
+                $stream->save();
+            });
+            }
 
-      $promise = $client->sendAsync($request)->then(function ($response) use ($games, $channels){
+        $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
 
-          $data        = json_decode($response->getBody(true)->getContents());
-          $streams     = collect($data->streams);
+        $promise = $client->sendAsync($request)->then(function ($response) use ($games, $channels, $channel){
 
-          // Set all streams to offline
+            $data        = json_decode($response->getBody(true)->getContents());
+            $streams     = collect($data->streams)->filter(function($item) use($channel){
+                if ($channel !== $item->display_name){
+                    return $item;
+                }
+            });
 
-          $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->get();
+            // Set all streams to offline
 
-          $streamsLive->each(function($stream) {
-             $stream->live = false;
-             $stream->save();
-          });
+            $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->get();
 
-          // Update all active streams
+            $streamsLive->each(function($stream) {
+                $stream->live = false;
+                $stream->save();
+            });
 
-          $streams->each(function($stream) use ($games, $streamsLive){
+            // Update all active streams
 
-              if (in_array($stream->game,$games) === true)
-                   {
+            $streams->each(function($stream) use ($games, $streamsLive){
 
-                   // Check if the game is in the list of allowed games
-                   $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->user_name)->first();
+                if (in_array($stream->game,$games) === true)
+                    {
 
-                   $game        = Game::where('twitch_game',$stream->game_id)->first();
+                    // Check if the game is in the list of allowed games
+                    $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->user_name)->first();
 
-                   if ($streamEntry === null)
-                         {
+                    $game        = Game::where('twitch_game',$stream->game_id)->first();
 
-                         $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->user_name)->get();
+                    if ($streamEntry === null)
+                            {
 
-                         if ($streamEntriesOld !== null)
-                               {
-                               $streamEntriesOld->each(function($streamEntryOld){
-                                    $streamEntryOld->delete();
-                               });
-                               }
+                            $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->user_name)->get();
 
-                         $streamEntry = StreamEntry::create([
-                            'type'      => 'twitch',
-                            'channel'   => $stream->user_name,
-                            'game_id'   => $game->id,
-                            'published' => true
-                         ]);
+                            if ($streamEntriesOld !== null)
+                                {
+                                $streamEntriesOld->each(function($streamEntryOld){
+                                        $streamEntryOld->delete();
+                                });
+                                }
 
-                         // Create a chat
+                            $streamEntry = StreamEntry::create([
+                                'type'      => 'twitch',
+                                'channel'   => $stream->user_name,
+                                'game_id'   => $game->id,
+                                'published' => true
+                            ]);
 
-                         $chat = Chat::create([
-                            'pid_table' => 'streams',
-                            'pid'       => $streamEntry->id,
-                            'public'    => true
-                         ]);
+                            // Create a chat
 
-                         // Create point entry
+                            $chat = Chat::create([
+                                'pid_table' => 'streams',
+                                'pid'       => $streamEntry->id,
+                                'public'    => true
+                            ]);
 
-                         $userLink = UserLink::where(function($query){
-                            $link = Link::where('type','twitch')->first();
-                            $query->where('link_id',$link->id);
-                         })->where('value',$stream->user_name)->first();
+                            // Create point entry
 
-                         if ($userLink !== null)
-                              {
-                              $user = $userLink->user()->first();
+                            $userLink = UserLink::where(function($query){
+                                $link = Link::where('type','twitch')->first();
+                                $query->where('link_id',$link->id);
+                            })->where('value',$stream->user_name)->first();
 
-                              if($user !== null)
-                                  {
-                                  $user->addPoints($streamEntry->id,'streams', env('POINTS_TWITCH',1));
-                                  }
-                              }
-                         }
+                            if ($userLink !== null)
+                                {
+                                $user = $userLink->user()->first();
 
-                   if ($streamEntry !== null)
-                         {
-                         $streamEntry->live      = true;
-                         $streamEntry->published = true;
-                         $streamEntry->image     = str_replace('{height}', 180, str_replace('{width}', 180, $stream->thumbnail_url));
-                         $streamEntry->save();
-                         }
-                   }
+                                if($user !== null)
+                                    {
+                                    $user->addPoints($streamEntry->id,'streams', env('POINTS_TWITCH',1));
+                                    }
+                                }
+                            }
 
-          });
+                    if ($streamEntry !== null)
+                            {
+                            $streamEntry->live      = true;
+                            $streamEntry->published = true;
+                            $streamEntry->image     = str_replace('{height}', 180, str_replace('{width}', 180, $stream->thumbnail_url));
+                            $streamEntry->save();
+                            }
+                    }
 
-      });
-      $promise->wait();
+            });
 
+        });
+        $promise->wait();
+
+      }
     }
 }

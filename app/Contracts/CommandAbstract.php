@@ -113,7 +113,7 @@ class CommandAbstract extends Command{
     {
 
         $client   = new \GuzzleHttp\Client();
-        $url      = 'https://api.twitch.tv/helix/streams?channel='.$entry->channel;
+        $url      = 'https://api.twitch.tv/helix/search/channels?query='.$entry->channel;
 
         $headers = [
             'client-id'     => env('TWITCH_KEY'),
@@ -124,7 +124,7 @@ class CommandAbstract extends Command{
         // Make the request        
         $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
 
-        $old = StreamEntry::whereDate('created_at', Carbon::today())->where('type','twitch')->get();
+        $old = StreamEntry::whereDate('created_at', Carbon::today())->where('type','twitch')->where('channel', $entry->channel)->get();
         $old->each(function($item){
               $item->live = false;
               $item->save();
@@ -139,24 +139,34 @@ class CommandAbstract extends Command{
 
             // Set all streams to offline        
 
-            $streams->each(function($stream) use (&$streamsGet){
-                  $streamsGet[] = $stream->user_name;
+            $streams->each(function($stream) use (&$streamsGet, $entry){
+                  if($entry->channel == $stream->display_name && $stream->is_live === true){
+                        $streamsGet[] = $stream->display_name;
+                  }
+            });
+
+            $streams = $streams->filter(function($stream) use (&$streamsGet, $entry){
+                  if($entry->channel == $stream->display_name && $stream->is_live === true){
+                        return $stream;
+                  }
             });
 
             $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->where('channel',$entry->channel)->first();
 
             if ($streamsLive !== null)
                   {
-                  $streamsLive->live = false;
+                  $streamsLive->live = true;
                   $streamsLive->save();
                   }
 
             // Update all active streams
 
+            if ($streams->count() > 0)
+
             $streams->each(function($stream) use ($streamsLive,$entry){
 
               // Check if the game is in the list of allowed games
-              $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->user_name)->first();
+              $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->display_name)->first();
 
               $game_id     = $entry->game_id;
 
@@ -178,7 +188,7 @@ class CommandAbstract extends Command{
               if ($streamEntry === null)
                     {
 
-                    $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->user_name)->get();
+                    $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->display_name)->get();
 
                     if ($streamEntriesOld !== null)
                           {
@@ -189,7 +199,7 @@ class CommandAbstract extends Command{
 
                     $streamEntry = StreamEntry::create([
                        'type'      => 'twitch',
-                       'channel'   => $stream->user_name,
+                       'channel'   => $stream->display_name,
                        'game_id'   => $game_id,
                        'published' => true,
                        'live'      => true,
