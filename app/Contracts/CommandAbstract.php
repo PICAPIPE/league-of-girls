@@ -23,6 +23,8 @@ use Illuminate\Console\Command;
 
 class CommandAbstract extends Command{
 
+    public $twitchToken;
+
     // Entry point for the crawler
     public function runCommand ($interval)
     {
@@ -45,46 +47,100 @@ class CommandAbstract extends Command{
     // Run all the entries
     public function runCommandEntries($entries)
     {
+
+        $client = new \GuzzleHttp\Client();
+
+        // Get twitch access_token
+        $this->getTwitchToken();
+
+        // Update game entries
+        $games = Game::all();
+
+        $games->each(function($game){
+
+            $client   = new \GuzzleHttp\Client();
+            $url      = 'https://api.twitch.tv/helix/games?name='.$game->name;
+
+            $response = $client->request('GET', $url, [
+                  'headers' => [
+                      'Authorization'     => 'Bearer '.$this->twitchToken,
+                      'client-id' => env('TWITCH_KEY')
+                      ]
+                  ]);
+
+            $body = $response->getBody();
+            $content = json_decode($body->getContents(), true);
+
+            $game->twitch_game = data_get($content['data'][0], 'id');
+            $game->save();
+
+        });
+
         $entries->each(function($entry){
             switch($entry->type)
                   {
                   case 'twitch':
-                    $this->importTwitch($entry);
-                    break;
+                  $this->importTwitch($entry);
+                  break;
                   case 'twitter':
-                    $this->importTwitterTimeline($entry);
-                    break;
+                  $this->importTwitterTimeline($entry);
+                  break;
                   case 'twitter_hashtag':
-                    $this->importTwitterHashtag($entry);
-                    break;
+                  $this->importTwitterHashtag($entry);   
+                  break;
                   case 'youtube':
-                    $this->importYoutubeVideos($entry);
-                    break;
+                  $this->importYoutubeVideos($entry);
+                  break;
                   case 'rss':
-                    $this->importRssFeed($entry);
-                    break;
+                  $this->importRssFeed($entry);
+                  break;
                   }
         });
+    }
+    
+    public function getTwitchToken() {
+      $twitchIDApi = new \GuzzleHttp\Client(['base_uri' => 'https://id.twitch.tv/']);
+      $url      = "oauth2/token?client_id=".env('TWITCH_KEY')."&client_secret=".env('TWITCH_SECRET')."&grant_type=client_credentials";
+      
+      $response = $twitchIDApi->post($url);
+
+      $body = $response->getBody();
+      $content = json_decode($body->getContents(), true);
+      $this->twitchToken = data_get($content, 'access_token', null);
     }
 
     public function importTwitch($entry)
     {
+
         $client   = new \GuzzleHttp\Client();
-        $url      = 'https://api.twitch.tv/kraken/streams?client_id='.env('TWITCH_KEY','').'&channel='.$entry->channel;
+        $url      = 'https://api.twitch.tv/helix/streams?channel='.$entry->channel;
+
+        $headers = [
+            'client-id'     => env('TWITCH_KEY'),
+            'Authorization' => 'Bearer ' . $this->twitchToken,        
+            'Accept'        => 'application/json',
+        ];
 
         // Make the request        
-        $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+        $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
+
+        $old = StreamEntry::whereDate('created_at', Carbon::today())->where('type','twitch')->get();
+        $old->each(function($item){
+              $item->live = false;
+              $item->save();
+        });
 
         $promise = $client->sendAsync($request)->then(function ($response) use ($entry){
 
             $data        = json_decode($response->getBody(true)->getContents());
-            $streams     = collect($data->streams);
+
+            $streams     = collect($data->data);
             $streamsGet  = [];
 
-            // Set all streams to offline            
+            // Set all streams to offline        
 
             $streams->each(function($stream) use (&$streamsGet){
-                  $streamsGet[] = $stream->channel->display_name;
+                  $streamsGet[] = $stream->user_name;
             });
 
             $streamsLive = StreamEntry::whereDate('created_at', Carbon::today())->where('channel',$entry->channel)->first();
@@ -100,24 +156,29 @@ class CommandAbstract extends Command{
             $streams->each(function($stream) use ($streamsLive,$entry){
 
               // Check if the game is in the list of allowed games
-              $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->channel->display_name)->first();
+              $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->user_name)->first();
 
-              $game_id     = $entry->game;
+              $game_id     = $entry->game_id;
 
               // Try to get the game name
-              if ($game_id === 0)
+              if ($game_id === 0 || $game_id === null)
                     {
-                    $game = Game::where('name',$stream->game)->first();                    
+                    $game = Game::where('twitch_game',$stream->game_id)->first();        
+          
                     if ($game !== null)
                           {
                           $game_id = $game->id;
                           }
                     }
 
+              if ($game_id === null){
+                   return;
+              }
+
               if ($streamEntry === null)
                     {
 
-                    $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->channel->display_name)->get();
+                    $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->user_name)->get();
 
                     if ($streamEntriesOld !== null)
                           {
@@ -128,7 +189,7 @@ class CommandAbstract extends Command{
 
                     $streamEntry = StreamEntry::create([
                        'type'      => 'twitch',
-                       'channel'   => $stream->channel->display_name,
+                       'channel'   => $stream->user_name,
                        'game_id'   => $game_id,
                        'published' => true,
                        'live'      => true,
@@ -164,7 +225,7 @@ class CommandAbstract extends Command{
                     {
                     $streamEntry->live      = true;
                     $streamEntry->published = true;
-                    $streamEntry->image     = $stream->channel->logo;
+                    $streamEntry->image     = str_replace('{height}', 180, str_replace('{width}', 180, $stream->thumbnail_url));
                     $streamEntry->save();
 
                     $streamsLiveOlder = StreamEntry::whereDate('created_at','<', Carbon::today())->where('live',true)->where('type','twitch')->where('channel',$entry->channel)->get();

@@ -15,6 +15,9 @@ use App\Models\News\StreamEntry;
 
 class GetTwitch extends Command
 {
+
+    public $twitchToken;
+
     /**
      * The name and signature of the console command.
      *
@@ -39,6 +42,17 @@ class GetTwitch extends Command
         parent::__construct();
     }
 
+    public function getTwitchToken() {
+        $twitchIDApi = new \GuzzleHttp\Client(['base_uri' => 'https://id.twitch.tv/']);
+        $url      = "oauth2/token?client_id=".env('TWITCH_KEY')."&client_secret=".env('TWITCH_SECRET')."&grant_type=client_credentials";
+        
+        $response = $twitchIDApi->post($url);
+  
+        $body = $response->getBody();
+        $content = json_decode($body->getContents(), true);
+        $this->twitchToken = data_get($content, 'access_token', null);
+      }
+
     /**
      * Execute the console command.
      *
@@ -46,6 +60,8 @@ class GetTwitch extends Command
      */
     public function handle()
     {
+
+      $this->getTwitchToken();
 
       $client   = new \GuzzleHttp\Client();
       $games    = Game::all()->pluck('name')->toArray();
@@ -68,7 +84,12 @@ class GetTwitch extends Command
 
       $channels = array_unique($channels);
 
-      $url      = 'https://api.twitch.tv/kraken/streams?client_id='.env('TWITCH_KEY','').'&channel='.implode(',',$channels);
+      $url      = 'https://api.twitch.tv/helix/streams?channel='.implode(',',$channels);
+      $headers = [
+        'client-id'     => env('TWITCH_KEY'),
+        'Authorization' => 'Bearer ' . $this->twitchToken,        
+        'Accept'        => 'application/json',
+      ];
 
       // Make the request
 
@@ -82,7 +103,7 @@ class GetTwitch extends Command
            });
            }
 
-      $request = new \GuzzleHttp\Psr7\Request('GET', $url);
+      $request = new \GuzzleHttp\Psr7\Request('GET', $url, $headers);
 
       $promise = $client->sendAsync($request)->then(function ($response) use ($games, $channels){
 
@@ -106,14 +127,14 @@ class GetTwitch extends Command
                    {
 
                    // Check if the game is in the list of allowed games
-                   $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->channel->display_name)->first();
+                   $streamEntry = StreamEntry::whereDate('created_at', Carbon::today())->where('channel', $stream->user_name)->first();
 
-                   $game        = Game::where('name',$stream->game)->first();
+                   $game        = Game::where('twitch_game',$stream->game_id)->first();
 
                    if ($streamEntry === null)
                          {
 
-                         $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->channel->display_name)->get();
+                         $streamEntriesOld = StreamEntry::whereDate('created_at','<', Carbon::today())->where('channel', $stream->user_name)->get();
 
                          if ($streamEntriesOld !== null)
                                {
@@ -124,7 +145,7 @@ class GetTwitch extends Command
 
                          $streamEntry = StreamEntry::create([
                             'type'      => 'twitch',
-                            'channel'   => $stream->channel->display_name,
+                            'channel'   => $stream->user_name,
                             'game_id'   => $game->id,
                             'published' => true
                          ]);
@@ -142,7 +163,7 @@ class GetTwitch extends Command
                          $userLink = UserLink::where(function($query){
                             $link = Link::where('type','twitch')->first();
                             $query->where('link_id',$link->id);
-                         })->where('value',$stream->channel->display_name)->first();
+                         })->where('value',$stream->user_name)->first();
 
                          if ($userLink !== null)
                               {
@@ -159,7 +180,7 @@ class GetTwitch extends Command
                          {
                          $streamEntry->live      = true;
                          $streamEntry->published = true;
-                         $streamEntry->image     = $stream->channel->logo;
+                         $streamEntry->image     = str_replace('{height}', 180, str_replace('{width}', 180, $stream->thumbnail_url));
                          $streamEntry->save();
                          }
                    }

@@ -137,7 +137,7 @@ angular.module('news').controller('NewsYoutubeCtrl',[
                 {
                       ctrl.data   = result.data.data;
                       ctrl.stream = '<div class="embed-responsive embed-responsive-16by9"><iframe width="560" height="315" src="'+ result.data.data.url + '" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>';
-                      ctrl.chat   = '<chat mode="streams" uuid="' + result.data.data.chat.uuid + '" id="general" profile="false"></chat>';
+                      ctrl.chat   = '';    
                 },
                 function(errorResult)
                 {

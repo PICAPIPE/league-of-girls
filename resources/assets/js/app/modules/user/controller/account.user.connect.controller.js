@@ -186,25 +186,7 @@ angular.module('user').controller('UserConnectCtrl',[
 
           connect.createMessage   = function()
           {
-            connect.DB.call('Chats','get',{'type':'private','uuid':connect.userId}).then(
-              function(result)
-              {
-                  if(angular.isDefined(result.data.chat) === true)
-                    {
-                    $state.go('app.chat.detail',{id:result.data.chat});
-                    $rootScope.$broadcast('$modalClose');
-                    return;
-                    }
-              },
-              function(errorResult)
-              {
-                connect.ALERT.add({
-                    'title':     connect.LANG.getString('Fehler beim Erstellen einer Nachricht.'),
-                    'message':   errorResult.data.message,
-                    'autoClose': true
-                });
-              }
-            );
+            
           };
 
           // Check if the user is connected

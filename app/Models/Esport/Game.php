@@ -29,7 +29,8 @@ class Game extends BaseModel
       'icon',
       'color',
       'background',
-      'published'
+      'published',
+      'twitch_game'
   ];
 
   protected $validations = [
